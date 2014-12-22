@@ -3,6 +3,7 @@ package procfs
 import (
 	"os"
 	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -30,6 +31,7 @@ func TestAllProcs(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	sort.Sort(procs)
 	for i, p := range []*Proc{{PID: 584}, {PID: 26231}} {
 		if want, got := p.PID, procs[i].PID; want != got {
 			t.Errorf("want processes %d, got %d", want, got)
@@ -60,7 +62,8 @@ func TestFileDescriptors(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if want := []uintptr{2, 4, 1, 3, 0}; !reflect.DeepEqual(want, fds) {
+	sort.Sort(byUintptr(fds))
+	if want := []uintptr{0, 1, 2, 3, 4}; !reflect.DeepEqual(want, fds) {
 		t.Errorf("want fds %v, got %v", want, fds)
 	}
 
@@ -112,3 +115,9 @@ func testProcess(pid int) (Proc, error) {
 
 	return fs.NewProc(pid)
 }
+
+type byUintptr []uintptr
+
+func (a byUintptr) Len() int           { return len(a) }
+func (a byUintptr) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a byUintptr) Less(i, j int) bool { return a[i] < a[j] }

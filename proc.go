@@ -17,6 +17,13 @@ type Proc struct {
 	fs FS
 }
 
+// Procs represents a list of Proc structs.
+type Procs []Proc
+
+func (p Procs) Len() int           { return len(p) }
+func (p Procs) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+func (p Procs) Less(i, j int) bool { return p[i].PID < p[j].PID }
+
 // Self returns a process for the current process.
 func Self() (Proc, error) {
 	return NewProc(os.Getpid())
@@ -33,10 +40,10 @@ func NewProc(pid int) (Proc, error) {
 }
 
 // AllProcs returns a list of all currently avaible processes under /proc.
-func AllProcs() ([]Proc, error) {
+func AllProcs() (Procs, error) {
 	fs, err := NewFS(DefaultMountPoint)
 	if err != nil {
-		return []Proc{}, err
+		return Procs{}, err
 	}
 
 	return fs.AllProcs()
@@ -52,19 +59,19 @@ func (fs FS) NewProc(pid int) (Proc, error) {
 }
 
 // AllProcs returns a list of all currently avaible processes.
-func (fs FS) AllProcs() ([]Proc, error) {
+func (fs FS) AllProcs() (Procs, error) {
 	d, err := fs.open("")
 	if err != nil {
-		return []Proc{}, err
+		return Procs{}, err
 	}
 	defer d.Close()
 
 	names, err := d.Readdirnames(-1)
 	if err != nil {
-		return []Proc{}, fmt.Errorf("could not read %s: %s", d.Name(), err)
+		return Procs{}, fmt.Errorf("could not read %s: %s", d.Name(), err)
 	}
 
-	p := []Proc{}
+	p := Procs{}
 	for _, n := range names {
 		pid, err := strconv.ParseInt(n, 10, 64)
 		if err != nil {

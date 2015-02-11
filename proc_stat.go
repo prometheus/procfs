@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"os/exec"
+	"strconv"
+	"strings"
 )
-
-// #include <unistd.h>
-import "C"
 
 // ProcStat provides status information about the process,
 // read from /proc/[pid]/stat.
@@ -152,14 +152,35 @@ func (s ProcStat) StartTime() (float64, error) {
 	if err != nil {
 		return 0, err
 	}
-	return float64(stat.BootTime) + (float64(s.Starttime) / ticks()), nil
+	return float64(stat.BootTime) + (float64(s.Starttime) / clkTck), nil
 }
 
 // CPUTime returns the total CPU user and system time in seconds.
 func (s ProcStat) CPUTime() float64 {
-	return float64(s.UTime+s.STime) / ticks()
+	return float64(s.UTime+s.STime) / clkTck
 }
 
-func ticks() float64 {
-	return float64(C.sysconf(C._SC_CLK_TCK)) // most likely 100
+// clkTck is the CLK_TCK value usually set to 100Hz. While this could be read
+// from uninstd.h without the need to call an external command, the cgo
+// dependency prevents cross-compilation among others. On all tested systems
+// supporting procfs, getconf was available and returned the expected value.
+var clkTck = 100.
+
+func init() {
+	output, err := exec.Command("getconf", "CLK_TCK").Output()
+	if err != nil {
+		clkTckWarning(err)
+		return
+	}
+	t, err := strconv.Atoi(strings.TrimSpace(string(output)))
+	if err != nil {
+		clkTckWarning(err)
+		return
+	}
+	clkTck = float64(t)
+}
+
+func clkTckWarning(err error) {
+	f := "[warning] github.com/prometheus/procfs could not read CLK_TCK, falling back to default value %d: %s\n"
+	fmt.Fprintf(os.Stderr, f, int(clkTck), err)
 }

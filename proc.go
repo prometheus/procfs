@@ -95,6 +95,10 @@ func (p Proc) CmdLine() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	
+	if len(data) < 1 {
+		return []string{}, nil
+	}
 
 	return strings.Split(string(data[:len(data)-1]), string(byte(0))), nil
 }

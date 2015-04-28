@@ -40,28 +40,24 @@ func TestAllProcs(t *testing.T) {
 }
 
 func TestCmdLine(t *testing.T) {
-	p1, err := testProcess(26231)
-	if err != nil {
-		t.Fatal(err)
-	}
-	c1, err := p1.CmdLine()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if want := []string{"vim", "test.go", "+10"}; !reflect.DeepEqual(want, c1) {
-		t.Errorf("want cmdline %v, got %v", want, c1)
-	}
-
-	p2, err := testProcess(26232)
-	if err != nil {
-		t.Fatal(err)
-	}
-	c2, err := p2.CmdLine()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if want := []string{}; !reflect.DeepEqual(want, c2) {
-		t.Errorf("want cmdline %v, got %v", want, c2)
+	for _, tt := range []struct {
+		process int
+		want    []string
+	}{
+		{process: 26231, want: []string{"vim", "test.go", "+10"}},
+		{process: 26232, want: []string{}},
+	} {
+		p1, err := testProcess(tt.process)
+		if err != nil {
+			t.Fatal(err)
+		}
+		c1, err := p1.CmdLine()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(tt.want, c1) {
+			t.Errorf("want cmdline %v, got %v", tt.want, c1)
+		}
 	}
 }
 

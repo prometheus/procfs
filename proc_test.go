@@ -44,12 +44,24 @@ func TestCmdLine(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	c, err := p1.CmdLine()
+	c1, err := p1.CmdLine()
 	if err != nil {
 		t.Fatal(err)
 	}
-	if want := []string{"vim", "test.go", "+10"}; !reflect.DeepEqual(want, c) {
-		t.Errorf("want cmdline %v, got %v", want, c)
+	if want := []string{"vim", "test.go", "+10"}; !reflect.DeepEqual(want, c1) {
+		t.Errorf("want cmdline %v, got %v", want, c1)
+	}
+
+	p2, err := testProcess(26232)
+	if err != nil {
+		t.Fatal(err)
+	}
+	c2, err := p2.CmdLine()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if want := []string{}; !reflect.DeepEqual(want, c2) {
+		t.Errorf("want cmdline %v, got %v", want, c2)
 	}
 }
 

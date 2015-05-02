@@ -61,6 +61,28 @@ func TestCmdLine(t *testing.T) {
 	}
 }
 
+func TestAbsCmdLine(t *testing.T) {
+	for _, tt := range []struct {
+		process int
+		want    string
+	}{
+		{process: 26231, want: "/usr/bin/vim"},
+		{process: 26232, want: ""},
+	} {
+		p, err := testProcess(tt.process)
+		if err != nil {
+			t.Fatal(err)
+		}
+		ac, err := p.AbsCmdLine()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(tt.want, ac) {
+			t.Errorf("want absolute path to cmdline %v, got %v", tt.want, ac)
+		}
+	}
+}
+
 func TestFileDescriptors(t *testing.T) {
 	p1, err := testProcess(26231)
 	if err != nil {

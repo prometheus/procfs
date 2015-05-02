@@ -95,12 +95,23 @@ func (p Proc) CmdLine() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	if len(data) < 1 {
 		return []string{}, nil
 	}
 
 	return strings.Split(string(data[:len(data)-1]), string(byte(0))), nil
+}
+
+// AbsCmdLine returns absolute path to the command line of a process.
+func (p Proc) AbsCmdLine() (string, error) {
+	ac, err := p.readlink("exe")
+
+	if os.IsNotExist(err) {
+		return "", nil
+	}
+
+	return ac, err
 }
 
 // FileDescriptors returns the currently open file descriptors of a process.
@@ -150,4 +161,8 @@ func (p Proc) fileDescriptors() ([]string, error) {
 
 func (p Proc) open(pa string) (*os.File, error) {
 	return p.fs.open(path.Join(strconv.Itoa(p.PID), pa))
+}
+
+func (p Proc) readlink(pa string) (string, error) {
+	return p.fs.readlink(path.Join(strconv.Itoa(p.PID), pa))
 }

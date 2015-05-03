@@ -103,15 +103,15 @@ func (p Proc) CmdLine() ([]string, error) {
 	return strings.Split(string(data[:len(data)-1]), string(byte(0))), nil
 }
 
-// AbsCmdLine returns absolute path to the command line of a process.
-func (p Proc) AbsCmdLine() (string, error) {
-	ac, err := p.readlink("exe")
+// Executable returns the absolute path of the executable command of a process.
+func (p Proc) Executable() (string, error) {
+	exe, err := p.readlink("exe")
 
 	if os.IsNotExist(err) {
 		return "", nil
 	}
 
-	return ac, err
+	return exe, err
 }
 
 // FileDescriptors returns the currently open file descriptors of a process.

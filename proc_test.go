@@ -61,7 +61,7 @@ func TestCmdLine(t *testing.T) {
 	}
 }
 
-func TestAbsCmdLine(t *testing.T) {
+func TestExecutable(t *testing.T) {
 	for _, tt := range []struct {
 		process int
 		want    string
@@ -73,12 +73,12 @@ func TestAbsCmdLine(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		ac, err := p.AbsCmdLine()
+		exe, err := p.Executable()
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !reflect.DeepEqual(tt.want, ac) {
-			t.Errorf("want absolute path to cmdline %v, got %v", tt.want, ac)
+		if !reflect.DeepEqual(tt.want, exe) {
+			t.Errorf("want absolute path to cmdline %v, got %v", tt.want, exe)
 		}
 	}
 }

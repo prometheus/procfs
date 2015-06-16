@@ -141,13 +141,11 @@ func (p Proc) FileDescriptorTargets() ([]string, error) {
 		return nil, err
 	}
 
-	var targets = make([]string, len(names))
+	targets := make([]string, len(names))
 
 	for i, name := range names {
-		var target, err = p.readlink("fd/" + name)
-		if err != nil {
-			targets[i] = ""
-		} else {
+		target, err := p.readlink("fd/" + name)
+		if err == nil {
 			targets[i] = target
 		}
 	}

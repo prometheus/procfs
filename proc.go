@@ -133,6 +133,28 @@ func (p Proc) FileDescriptors() ([]uintptr, error) {
 	return fds, nil
 }
 
+// FileDescriptorTargets returns the targets of all file descriptors of a process.
+// If a file descriptor is not a symlink to a file (like a socket), that value will be the empty string.
+func (p Proc) FileDescriptorTargets() ([]string, error) {
+	names, err := p.fileDescriptors()
+	if err != nil {
+		return nil, err
+	}
+
+	var targets = make([]string, len(names))
+
+	for i, name := range names {
+		var target, err = p.readlink("fd/" + name)
+		if err != nil {
+			targets[i] = ""
+		} else {
+			targets[i] = target
+		}
+	}
+
+	return targets, nil
+}
+
 // FileDescriptorsLen returns the number of currently open file descriptors of
 // a process.
 func (p Proc) FileDescriptorsLen() (int, error) {

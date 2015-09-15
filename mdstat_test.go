@@ -27,7 +27,7 @@ func TestMDStat(t *testing.T) {
 		}
 	}
 
-	if len(mdStates) != len(refs) {
-		t.Errorf("expected number of parsed md-device to be %s, but was %s", len(refs), len(mdStates))
+	if want, have := len(refs), len(mdStates); want != have {
+		t.Errorf("want %d parsed md-devices, have %d", want, have)
 	}
 }

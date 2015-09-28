@@ -8,11 +8,13 @@ import (
 )
 
 func TestSelf(t *testing.T) {
-	p1, err := NewProc(os.Getpid())
+	fs := FS("fixtures")
+
+	p1, err := fs.NewProc(26231)
 	if err != nil {
 		t.Fatal(err)
 	}
-	p2, err := Self()
+	p2, err := fs.Self()
 	if err != nil {
 		t.Fatal(err)
 	}

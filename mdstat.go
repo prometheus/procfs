@@ -3,7 +3,6 @@ package procfs
 import (
 	"fmt"
 	"io/ioutil"
-	"path"
 	"regexp"
 	"strconv"
 	"strings"
@@ -32,7 +31,7 @@ type MDStat struct {
 
 // ParseMDStat parses an mdstat-file and returns a struct with the relevant infos.
 func (fs FS) ParseMDStat() (mdstates []MDStat, err error) {
-	mdStatusFilePath := path.Join(string(fs), "mdstat")
+	mdStatusFilePath := fs.Path("mdstat")
 	content, err := ioutil.ReadFile(mdStatusFilePath)
 	if err != nil {
 		return []MDStat{}, fmt.Errorf("error parsing %s: %s", mdStatusFilePath, err)
@@ -42,15 +41,12 @@ func (fs FS) ParseMDStat() (mdstates []MDStat, err error) {
 	lines := strings.Split(string(content), "\n")
 	for i, l := range lines {
 		if l == "" {
-			// Skip entirely empty lines.
 			continue
 		}
 		if l[0] == ' ' {
-			// Those lines are not the beginning of a md-section.
 			continue
 		}
 		if strings.HasPrefix(l, "Personalities") || strings.HasPrefix(l, "unused") {
-			// We aren't interested in lines with general info.
 			continue
 		}
 

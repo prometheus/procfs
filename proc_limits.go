@@ -3,6 +3,7 @@ package procfs
 import (
 	"bufio"
 	"fmt"
+	"os"
 	"regexp"
 	"strconv"
 )
@@ -65,7 +66,7 @@ var (
 
 // NewLimits returns the current soft limits of the process.
 func (p Proc) NewLimits() (ProcLimits, error) {
-	f, err := p.open("limits")
+	f, err := os.Open(p.path("limits"))
 	if err != nil {
 		return ProcLimits{}, err
 	}

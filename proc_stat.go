@@ -91,7 +91,7 @@ type ProcStat struct {
 
 // NewStat returns the current status information of the process.
 func (p Proc) NewStat() (ProcStat, error) {
-	f, err := p.open("stat")
+	f, err := os.Open(p.path("stat"))
 	if err != nil {
 		return ProcStat{}, err
 	}

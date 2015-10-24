@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
 	"strconv"
 	"strings"
 )
@@ -53,7 +52,7 @@ func AllProcs() (Procs, error) {
 
 // Self returns a process for the current process.
 func (fs FS) Self() (Proc, error) {
-	p, err := fs.readlink("self")
+	p, err := os.Readlink(fs.Path("self"))
 	if err != nil {
 		return Proc{}, err
 	}
@@ -66,7 +65,7 @@ func (fs FS) Self() (Proc, error) {
 
 // NewProc returns a process for the given pid.
 func (fs FS) NewProc(pid int) (Proc, error) {
-	if _, err := fs.stat(strconv.Itoa(pid)); err != nil {
+	if _, err := os.Stat(fs.Path(strconv.Itoa(pid))); err != nil {
 		return Proc{}, err
 	}
 	return Proc{PID: pid, fs: fs}, nil
@@ -74,7 +73,7 @@ func (fs FS) NewProc(pid int) (Proc, error) {
 
 // AllProcs returns a list of all currently avaible processes.
 func (fs FS) AllProcs() (Procs, error) {
-	d, err := fs.open("")
+	d, err := os.Open(fs.Path())
 	if err != nil {
 		return Procs{}, err
 	}
@@ -99,7 +98,7 @@ func (fs FS) AllProcs() (Procs, error) {
 
 // CmdLine returns the command line of a process.
 func (p Proc) CmdLine() ([]string, error) {
-	f, err := p.open("cmdline")
+	f, err := os.Open(p.path("cmdline"))
 	if err != nil {
 		return nil, err
 	}
@@ -119,8 +118,7 @@ func (p Proc) CmdLine() ([]string, error) {
 
 // Executable returns the absolute path of the executable command of a process.
 func (p Proc) Executable() (string, error) {
-	exe, err := p.readlink("exe")
-
+	exe, err := os.Readlink(p.path("exe"))
 	if os.IsNotExist(err) {
 		return "", nil
 	}
@@ -158,7 +156,7 @@ func (p Proc) FileDescriptorTargets() ([]string, error) {
 	targets := make([]string, len(names))
 
 	for i, name := range names {
-		target, err := p.readlink("fd/" + name)
+		target, err := os.Readlink(p.path("fd", name))
 		if err == nil {
 			targets[i] = target
 		}
@@ -179,7 +177,7 @@ func (p Proc) FileDescriptorsLen() (int, error) {
 }
 
 func (p Proc) fileDescriptors() ([]string, error) {
-	d, err := p.open("fd")
+	d, err := os.Open(p.path("fd"))
 	if err != nil {
 		return nil, err
 	}
@@ -193,10 +191,6 @@ func (p Proc) fileDescriptors() ([]string, error) {
 	return names, nil
 }
 
-func (p Proc) open(pa string) (*os.File, error) {
-	return p.fs.open(path.Join(strconv.Itoa(p.PID), pa))
-}
-
-func (p Proc) readlink(pa string) (string, error) {
-	return p.fs.readlink(path.Join(strconv.Itoa(p.PID), pa))
+func (p Proc) path(pa ...string) string {
+	return p.fs.Path(append([]string{strconv.Itoa(p.PID)}, pa...)...)
 }

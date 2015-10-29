@@ -116,6 +116,22 @@ func (p Proc) CmdLine() ([]string, error) {
 	return strings.Split(string(data[:len(data)-1]), string(byte(0))), nil
 }
 
+// Comm returns the command name of a process.
+func (p Proc) Comm() (string, error) {
+	f, err := os.Open(p.path("comm"))
+	if err != nil {
+		return "", err
+	}
+	defer f.Close()
+
+	data, err := ioutil.ReadAll(f)
+	if err != nil {
+		return "", err
+	}
+
+	return strings.TrimSpace(string(data)), nil
+}
+
 // Executable returns the absolute path of the executable command of a process.
 func (p Proc) Executable() (string, error) {
 	exe, err := os.Readlink(p.path("exe"))

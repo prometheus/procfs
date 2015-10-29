@@ -58,6 +58,28 @@ func TestCmdLine(t *testing.T) {
 	}
 }
 
+func TestComm(t *testing.T) {
+	for _, tt := range []struct {
+		process int
+		want    string
+	}{
+		{process: 26231, want: "vim"},
+		{process: 26232, want: "ata_sff"},
+	} {
+		p1, err := FS("fixtures").NewProc(tt.process)
+		if err != nil {
+			t.Fatal(err)
+		}
+		c1, err := p1.Comm()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(tt.want, c1) {
+			t.Errorf("want comm %v, have %v", tt.want, c1)
+		}
+	}
+}
+
 func TestExecutable(t *testing.T) {
 	for _, tt := range []struct {
 		process int

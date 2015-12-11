@@ -140,12 +140,12 @@ func (fs FS) NewMeminfo() (m Meminfo, err error) {
 	defer f.Close()
 
 	st := reflect.TypeOf(m)
-
+	re := regexp.MustCompile(m.regex())
 	s := bufio.NewScanner(f)
+
 	for s.Scan() {
 		line := s.Text()
 
-		re := regexp.MustCompile(m.Regex())
 		submatch := re.FindAllStringSubmatch(line, 1)
 		if submatch == nil {
 			continue
@@ -169,6 +169,6 @@ func (fs FS) NewMeminfo() (m Meminfo, err error) {
 	return m, nil
 }
 
-func (m Meminfo) Regex() string {
-	return "([A-Za-z()]*): *([0-9]*).*$"
+func (m Meminfo) regex() string {
+	return "([A-Za-z()_]*): *([0-9]*).*$"
 }

@@ -25,14 +25,19 @@ func TestMeminfo_regex(t *testing.T) {
 			Value: "0",
 		},
 		{
-			Line:  "Writeback:             0",
+			Line:  "Writeback:             123",
 			Key:   "Writeback",
+			Value: "123",
+		},
+		{
+			Line:  "HugePages_Total:       0",
+			Key:   "HugePages_Total",
 			Value: "0",
 		},
 	}
 
 	m := Meminfo{}
-	re := regexp.MustCompile(m.Regex())
+	re := regexp.MustCompile(m.regex())
 
 	for _, i := range expected {
 		submatch := re.FindAllStringSubmatch(i.Line, 1)

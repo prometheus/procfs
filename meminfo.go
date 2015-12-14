@@ -170,5 +170,5 @@ func (fs FS) NewMeminfo() (m Meminfo, err error) {
 }
 
 func (m Meminfo) regex() string {
-	return "([A-Za-z()_]*): *([0-9]*).*$"
+	return "([A-Za-z0-9()_]*): *([0-9]*).*$"
 }

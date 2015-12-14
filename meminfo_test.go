@@ -34,6 +34,11 @@ func TestMeminfo_regex(t *testing.T) {
 			Key:   "HugePages_Total",
 			Value: "0",
 		},
+		{
+			Line:  "DirectMap2M:    16039936 kB",
+			Key:   "DirectMap2M",
+			Value: "16039936",
+		},
 	}
 
 	m := Meminfo{}
@@ -57,7 +62,6 @@ func TestMeminfo_regex(t *testing.T) {
 }
 
 func TestMeminfo(t *testing.T) {
-
 	expected := Meminfo{
 		MemTotal:          15666184,
 		MemFree:           440324,
@@ -108,7 +112,7 @@ func TestMeminfo(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if reflect.DeepEqual(have, expected) {
+	if !reflect.DeepEqual(have, expected) {
 		t.Errorf("structs are not equal")
 	}
 }

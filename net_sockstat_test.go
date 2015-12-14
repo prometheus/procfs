@@ -25,7 +25,7 @@ func TestNetSockstat(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if reflect.DeepEqual(expected, have) {
+	if !reflect.DeepEqual(expected, have) {
 		t.Errorf("structs are not equal")
 	}
 }

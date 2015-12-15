@@ -2,6 +2,7 @@ package procfs
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"regexp"
 )
@@ -54,34 +55,40 @@ func (fs FS) NewNetTcp() (m NetTcp, err error) {
 	for s.Scan() {
 		line := s.Text()
 
-		matches := re.FindAllStringSubmatch(line, 21)
-		if matches == nil {
-			continue
+		l, err := m.netTcpLine(re, line)
+		if err == nil {
+			m = append(m, l)
 		}
-		r := matches[0]
-
-		l := NetTcpLine{
-			Sl:            r[1],
-			LocalAddress:  r[2] + ":" + r[3],
-			RemoteAddress: r[4] + ":" + r[5],
-			St:            r[6],
-			TxQueue:       r[7],
-			RxQueue:       r[8],
-			Tr:            r[9],
-			TmWhen:        r[10],
-			Retrnsmt:      r[11],
-			Uid:           r[12],
-			Timeout:       r[13],
-			Inode:         r[14],
-			RefCount:      r[15],
-			MemoryAddress: r[16],
-		}
-
-		m = append(m, l)
-
 	}
 
 	return m, nil
+}
+
+func (m NetTcp) netTcpLine(re *regexp.Regexp, line string) (l NetTcpLine, err error) {
+	matches := re.FindAllStringSubmatch(line, 21)
+	if matches == nil {
+		return NetTcpLine{}, fmt.Errorf("Invalid NetTcp Line")
+	}
+	r := matches[0]
+
+	l = NetTcpLine{
+		Sl:            r[1],
+		LocalAddress:  r[2] + ":" + r[3],
+		RemoteAddress: r[4] + ":" + r[5],
+		St:            r[6],
+		TxQueue:       r[7],
+		RxQueue:       r[8],
+		Tr:            r[9],
+		TmWhen:        r[10],
+		Retrnsmt:      r[11],
+		Uid:           r[12],
+		Timeout:       r[13],
+		Inode:         r[14],
+		RefCount:      r[15],
+		MemoryAddress: r[16],
+	}
+
+	return
 }
 
 /*

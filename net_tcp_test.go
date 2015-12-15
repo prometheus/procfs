@@ -6,15 +6,15 @@ import (
 	"testing"
 )
 
-func TestNetTcp_regex(t *testing.T) {
+func TestNetTCP_regex(t *testing.T) {
 
 	var expected = []struct {
 		Line     string
-		Expected NetTcpLine
+		Expected NetTCPLine
 	}{
 		{
 			Line: "   0: 00000000:0016 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 16071 1 0000000000000000 100 0 0 10 0",
-			Expected: NetTcpLine{
+			Expected: NetTCPLine{
 				Sl:            "0",
 				LocalAddress:  "00000000:0016",
 				RemoteAddress: "00000000:0000",
@@ -24,7 +24,7 @@ func TestNetTcp_regex(t *testing.T) {
 				Tr:            "00",
 				TmWhen:        "00000000",
 				Retrnsmt:      "00000000",
-				Uid:           "0",
+				UID:           "0",
 				Timeout:       "0",
 				Inode:         "16071",
 				RefCount:      "1",
@@ -33,22 +33,22 @@ func TestNetTcp_regex(t *testing.T) {
 		},
 	}
 
-	m := NetTcp{}
+	m := NetTCP{}
 	re := regexp.MustCompile(m.regex())
 
 	for _, i := range expected {
-		have, _ := m.netTcpLine(re, i.Line)
+		have, _ := m.netTCPLine(re, i.Line)
 
 		if !reflect.DeepEqual(i.Expected, have) {
-			t.Errorf("NetTcp Regex is invalid")
+			t.Errorf("NetTCP Regex is invalid")
 		}
 	}
 
 }
 
-func TestNetTcp(t *testing.T) {
+func TestNetTCP(t *testing.T) {
 	/*
-		expected := NetTcp{
+		expected := NetTCP{
 			MemTotal:          15666184,
 			MemFree:           440324,
 			Buffers:           1020128,
@@ -93,7 +93,7 @@ func TestNetTcp(t *testing.T) {
 			DirectMap2M:       16039936,
 		}
 
-		have, err := FS("fixtures").NewNetTcp()
+		have, err := FS("fixtures").NewNetTCP()
 		if err != nil {
 			t.Fatal(err)
 		}

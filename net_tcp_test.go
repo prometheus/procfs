@@ -31,6 +31,25 @@ func TestNetTCP_regex(t *testing.T) {
 				MemoryAddress: "0000000000000000",
 			},
 		},
+		{
+			Line: "  8: 260FC90A:01BB AE6857C8:C747 03 00000000:00000000 01:000000DC 00000005     0        0 0 2 0000000000000000",
+			Expected: NetTCPLine{
+				Sl:            "8",
+				LocalAddress:  "260FC90A:01BB",
+				RemoteAddress: "AE6857C8:C747",
+				St:            "03",
+				TxQueue:       "00000000",
+				RxQueue:       "00000000",
+				Tr:            "01",
+				TmWhen:        "000000DC",
+				Retrnsmt:      "00000005",
+				UID:           "0",
+				Timeout:       "0",
+				Inode:         "0",
+				RefCount:      "2",
+				MemoryAddress: "0000000000000000",
+			},
+		},
 	}
 
 	m := NetTCP{}
@@ -47,59 +66,12 @@ func TestNetTCP_regex(t *testing.T) {
 }
 
 func TestNetTCP(t *testing.T) {
-	/*
-		expected := NetTCP{
-			MemTotal:          15666184,
-			MemFree:           440324,
-			Buffers:           1020128,
-			Cached:            12007640,
-			SwapCached:        0,
-			Active:            6761276,
-			Inactive:          6532708,
-			ActiveAnon:        267256,
-			InactiveAnon:      268,
-			ActiveFile:        6494020,
-			InactiveFile:      6532440,
-			Unevictable:       0,
-			Mlocked:           0,
-			SwapTotal:         0,
-			SwapFree:          0,
-			Dirty:             768,
-			Writeback:         0,
-			AnonPages:         266216,
-			Mapped:            44204,
-			Shmem:             1308,
-			Slab:              1807264,
-			SReclaimable:      1738124,
-			SUnreclaim:        69140,
-			KernelStack:       1616,
-			PageTables:        5288,
-			NFSUnstable:       0,
-			Bounce:            0,
-			WritebackTmp:      0,
-			CommitLimit:       7833092,
-			CommittedAS:       530844,
-			VmallocTotal:      34359738367,
-			VmallocUsed:       36596,
-			VmallocChunk:      34359637840,
-			HardwareCorrupted: 0,
-			AnonHugePages:     12288,
-			HugePagesTotal:    0,
-			HugePagesFree:     0,
-			HugePagesRsvd:     0,
-			HugePagesSurp:     0,
-			Hugepagesize:      2048,
-			DirectMap4k:       91136,
-			DirectMap2M:       16039936,
-		}
+	have, err := FS("fixtures").NewNetTCP()
+	if err != nil {
+		t.Fatal(err)
+	}
 
-		have, err := FS("fixtures").NewNetTCP()
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		if !reflect.DeepEqual(have, expected) {
-			t.Errorf("structs are not equal")
-		}
-	*/
+	if len(have) != 19 {
+		t.Errorf("incorrect number of NetTCPLine items.")
+	}
 }

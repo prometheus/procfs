@@ -6,10 +6,12 @@ import (
 )
 
 // ProcFD models the content of /proc/<pid>/fd/<fd>.
-type ProcFD map[string]string
+type ProcFDs map[string]string
 
 // NewFD creates a new ProcFD instance from a given Proc instance.
-func (p Proc) NewFD() (ProcFD, error) {
+func (p Proc) NewFD() (ProcFDs, error) {
+	// TODO: Use fileDescriptors() method.
+
 	fds, err := filepath.Glob(p.path("fd/*"))
 	if err != nil {
 		return nil, err
@@ -19,7 +21,7 @@ func (p Proc) NewFD() (ProcFD, error) {
 		return nil, nil
 	}
 
-	pfds := make(ProcFD)
+	pfds := make(ProcFDs)
 
 	for _, i := range fds {
 		link, err := os.Readlink(i)
@@ -27,7 +29,9 @@ func (p Proc) NewFD() (ProcFD, error) {
 			continue
 		}
 
-		pfds[filepath.Base(i)] = link
+		v := filepath.Base(i)
+
+		pfds[v] = link
 	}
 
 	return pfds, nil

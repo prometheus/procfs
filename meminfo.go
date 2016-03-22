@@ -102,11 +102,11 @@ type Meminfo struct {
 	// successfully allocated.
 	CommittedAS int64 `meminfo:"Committed_AS"`
 	// total size of vmalloc memory area
-	VmallocTotal int64 `meminfo:"VmallocTotal"`
+	VMallocTotal int64 `meminfo:"VmallocTotal"`
 	// amount of vmalloc area which is used
-	VmallocUsed int64 `meminfo:"VmallocUsed"`
+	VMallocUsed int64 `meminfo:"VmallocUsed"`
 	// largest contiguous block of vmalloc area which is free
-	VmallocChunk      int64 `meminfo:"VmallocChunk"`
+	VMallocChunk      int64 `meminfo:"VmallocChunk"`
 	HardwareCorrupted int64 `meminfo:"HardwareCorrupted"`
 	AnonHugePages     int64 `meminfo:"AnonHugePages"`
 	HugePagesTotal    int64 `meminfo:"HugePages_Total"`

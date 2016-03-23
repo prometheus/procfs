@@ -1,78 +1,96 @@
 package procfs
 
-type Diskstats struct {
+import (
+	"bufio"
+	"os"
+	"strconv"
+	"strings"
+)
+
+type DiskstatLine struct {
+	// 1 - major number
+	MajorVersion int64
+	// 2 - minor mumber
+	MinorNumber int64
+	// 3 - device name
+	DeviceName int64
+	// 4 - reads completed successfully
+	ReadsCompleted int64
+	// 5 - reads merged
+	ReadsMerged int64
+	// 6 - sectors read
+	SectorsRead int64
+	// 7 - time spent reading (ms)
+	TimeSpentReading int64
+	// 8 - writes completed
+	WritesCompleted int64
+	// 9 - writes merged
+	WritesMerged int64
+	// 10 - sectors written
+	SectorsWritten int64
+	// 11 - time spent writing (ms)
+	TimeSpentWriting int64
+	// 12 - I/Os currently in progress
+	IOInProgress int64
+	// 13 - time spent doing I/Os (ms)
+	TimeDoingIO int64
+	// 14 - weighted time spent doing I/Os (ms)
+	WeightedTimeDoingIO int64
 }
 
-func NewMeminfo() (Meminfo, error) {
+type Diskstats []DiskstatLine
+
+func NewDiskstats() (Diskstats, error) {
 	fs, err := NewFS(DefaultMountPoint)
 	if err != nil {
-		return Meminfo{}, err
+		return Diskstats{}, err
 	}
 
-	return fs.NewMeminfo()
+	return fs.NewDiskstats()
 }
 
-// NewMeminfo returns an information about current kernel/system statistics.
-func (fs FS) NewMeminfo() (m Meminfo, err error) {
-	f, err := os.Open(fs.Path("meminfo"))
+// NewDiskstats returns an information about current kernel/system statistics.
+func (fs FS) NewDiskstats() (m Diskstats, err error) {
+	f, err := os.Open(fs.Path("diskstats"))
 	if err != nil {
-		return Meminfo{}, err
+		return Diskstats{}, err
 	}
 	defer f.Close()
 
-	st := reflect.TypeOf(m)
-	re := regexp.MustCompile(m.regex())
 	s := bufio.NewScanner(f)
 
 	for s.Scan() {
+		var fieldsInt []int64
+
 		line := s.Text()
 
-		submatch := re.FindAllStringSubmatch(line, 1)
-		if submatch == nil {
-			continue
-		}
+		fields := strings.Fields(line)
+		for i := range fields {
+			var err error
 
-		key := submatch[0][1]
-		val := submatch[0][2]
-
-		for i := 0; i < st.NumField(); i++ {
-			field := st.Field(i)
-			if field.Tag.Get("meminfo") == key {
-				v, err := strconv.ParseInt(val, 10, 64)
-				if err != nil {
-					// no op
-				}
-				reflect.ValueOf(&m).Elem().Field(i).SetInt(v)
+			fieldsInt[i], err = strconv.ParseInt(fields[i], 10, 64)
+			if err != nil {
+				fieldsInt[i] = -1
 			}
 		}
+
+		m = append(m, DiskstatLine{
+			fieldsInt[0],
+			fieldsInt[1],
+			fieldsInt[2],
+			fieldsInt[3],
+			fieldsInt[4],
+			fieldsInt[5],
+			fieldsInt[6],
+			fieldsInt[7],
+			fieldsInt[8],
+			fieldsInt[9],
+			fieldsInt[10],
+			fieldsInt[11],
+			fieldsInt[12],
+			fieldsInt[13],
+		})
 	}
 
 	return m, nil
 }
-
-func (m Meminfo) regex() string {
-	return "([A-Za-z0-9()_]*): *([0-9]*).*$"
-}
-
-/*
-# collect i/o load
-if (open(FILE, "/proc/diskstats")) {
-    while (my $line = <FILE>) {
-        $line =~ s/^\s+|\s+$//g;
-        my @cols = split(/\s+/, $line);
-        splice(@cols, 0, 3);
-        next if (scalar(@cols) != 11);
-        $load{d_io_reads} += $cols[0];
-        $load{d_io_read_sectors} += $cols[2];
-        $load{d_io_read_time} += $cols[3];
-        $load{d_io_writes} += $cols[4];
-        $load{d_io_write_sectors} += $cols[6];
-        $load{d_io_write_time} += $cols[7];
-    }
-    close FILE;
-    $load{d_io_ops} = $load{d_io_reads} + $load{d_io_writes};
-    $load{d_io_sectors} = $load{d_io_read_sectors} + $load{d_io_write_sectors};
-    $load{d_io_time} = $load{d_io_read_time} + $load{d_io_write_time};
-}
-
-*/

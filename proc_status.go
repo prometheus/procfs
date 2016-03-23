@@ -15,22 +15,22 @@ type ProcStatus struct {
 	Pid                      string `proc_status:"Pid"`
 	PPid                     string `proc_status:"PPid"`
 	TracerPid                string `proc_status:"TracerPid"`
-	Uid                      string `proc_status:"Uid"`
-	Gid                      string `proc_status:"Gid"`
+	UID                      string `proc_status:"Uid"`
+	GID                      string `proc_status:"Gid"`
 	FDSize                   string `proc_status:"FDSize"`
 	Groups                   string `proc_status:"Groups"`
-	VmPeak                   string `proc_status:"VmPeak"`
-	VmSize                   string `proc_status:"VmSize"`
-	VmLck                    string `proc_status:"VmLck"`
-	VmPin                    string `proc_status:"VmPin"`
-	VmHWM                    string `proc_status:"VmHWM"`
-	VmRSS                    string `proc_status:"VmRSS"`
-	VmData                   string `proc_status:"VmData"`
-	VmStk                    string `proc_status:"VmStk"`
-	VmExe                    string `proc_status:"VmExe"`
-	VmLib                    string `proc_status:"VmLib"`
-	VmPTE                    string `proc_status:"VmPTE"`
-	VmSwap                   string `proc_status:"VmSwap"`
+	VMPeak                   string `proc_status:"VmPeak"`
+	VMSize                   string `proc_status:"VmSize"`
+	VMLck                    string `proc_status:"VmLck"`
+	VMPin                    string `proc_status:"VmPin"`
+	VMHWM                    string `proc_status:"VmHWM"`
+	VMRSS                    string `proc_status:"VmRSS"`
+	VMData                   string `proc_status:"VmData"`
+	VMStk                    string `proc_status:"VmStk"`
+	VMExe                    string `proc_status:"VmExe"`
+	VMLib                    string `proc_status:"VmLib"`
+	VMPTE                    string `proc_status:"VmPTE"`
+	VMSwap                   string `proc_status:"VmSwap"`
 	Threads                  string `proc_status:"Threads"`
 	SigQ                     string `proc_status:"SigQ"`
 	SigPnd                   string `proc_status:"SigPnd"`

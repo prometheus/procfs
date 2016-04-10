@@ -28,10 +28,8 @@ type Meminfo struct {
 	// get tremendously large (20MB or so)
 	Buffers int64 `meminfo:"Buffers"`
 	Cached  int64 `meminfo:"Cached"`
-	// Memory that once was swapped out, is swapped back in but
-	// still also is in the swapfile (if memory is needed it
-	// doesn't need to be swapped out AGAIN because it is already
-	// in the swapfile. This saves I/O)
+	// SwapCached is the current amount of swap space used as a
+	// cache.
 	SwapCached int64 `meminfo:"SwapCached"`
 	// Memory that has been used more recently and usually not
 	// reclaimed unless absolutely necessary.
@@ -47,8 +45,7 @@ type Meminfo struct {
 	Mlocked      int64 `meminfo:"Mlocked"`
 	// total amount of swap space available
 	SwapTotal int64 `meminfo:"SwapTotal"`
-	// Memory which has been evicted from RAM, and is temporarily
-	// on the disk
+	// SwapFree is the total amount of swap space free.
 	SwapFree int64 `meminfo:"SwapFree"`
 	// Memory which is waiting to get written back to the disk
 	Dirty int64 `meminfo:"Dirty"`
@@ -105,11 +102,11 @@ type Meminfo struct {
 	// successfully allocated.
 	CommittedAS int64 `meminfo:"Committed_AS"`
 	// total size of vmalloc memory area
-	VmallocTotal int64 `meminfo:"VmallocTotal"`
+	VMallocTotal int64 `meminfo:"VmallocTotal"`
 	// amount of vmalloc area which is used
-	VmallocUsed int64 `meminfo:"VmallocUsed"`
+	VMallocUsed int64 `meminfo:"VmallocUsed"`
 	// largest contiguous block of vmalloc area which is free
-	VmallocChunk      int64 `meminfo:"VmallocChunk"`
+	VMallocChunk      int64 `meminfo:"VmallocChunk"`
 	HardwareCorrupted int64 `meminfo:"HardwareCorrupted"`
 	AnonHugePages     int64 `meminfo:"AnonHugePages"`
 	HugePagesTotal    int64 `meminfo:"HugePages_Total"`

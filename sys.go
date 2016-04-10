@@ -25,7 +25,7 @@ func (fs FS) NewSys() (m Sys, err error) {
 		if !info.IsDir() {
 			body, err := ioutil.ReadFile(path)
 			if err != nil {
-				return err
+				return nil
 			}
 
 			m[path] = strings.TrimSpace(string(body))

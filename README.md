@@ -3,8 +3,231 @@
 [![GoDoc](https://godoc.org/github.com/acksin/procfs?status.png)](https://godoc.org/github.com/acksin/procfs)
 [![Build Status](https://travis-ci.org/acksin/procfs.svg?branch=master)](https://travis-ci.org/acksin/procfs)
 
-Golang library to parse the /proc file system on Linux machines.
+Golang library to parse the =/proc= file system on Linux machines.
 
 *WARNING*: This package is a work in progress. Its API may still break
 in backwards-incompatible ways without warnings. Use it at your own
 risk.
+
+
+# Status
+
+ - [ ] /proc/[pid]
+ - [ ] /proc/[pid]/attr
+ - [ ] /proc/[pid]/attr/current (since Linux 2.6.0)
+ - [ ] /proc/[pid]/attr/exec (since Linux 2.6.0)
+ - [ ] /proc/[pid]/attr/fscreate (since Linux 2.6.0)
+ - [ ] /proc/[pid]/attr/prev (since Linux 2.6.0)
+ - [ ] /proc/[pid]/attr/keycreate (since Linux 2.6.18)
+ - [ ] /proc/[pid]/attr/socketcreate (since Linux 2.6.18)
+ - [ ] /proc/[pid]/auxv (since 2.6.0-test7)
+ - [ ] /proc/[pid]/cgroup (since Linux 2.6.24)
+ - [ ] /proc/[pid]/clear_refs (since Linux 2.6.22)
+ - [ ] /proc/[pid]/cmdline
+ - [ ] /proc/[pid]/comm (since Linux 2.6.33)
+ - [ ] /proc/[pid]/coredump_filter (since Linux 2.6.23)
+ - [ ] /proc/[pid]/cpuset (since Linux 2.6.12)
+ - [ ] /proc/[pid]/cwd
+ - [ ] /proc/[pid]/environ
+ - [ ] /proc/[pid]/exe
+ - [ ] /proc/[pid]/fd/
+ - [ ] /proc/[pid]/fdinfo/ (since Linux 2.6.22)
+ - [ ] /proc/[pid]/io (since kernel 2.6.20)
+ - [ ] /proc/[pid]/gid_map (since Linux 3.5)
+ - [ ] /proc/[pid]/limits (since Linux 2.6.24)
+ - [ ] /proc/[pid]/map_files/ (since kernel 3.3)
+ - [ ] /proc/[pid]/maps
+ - [ ] /proc/[pid]/mem
+ - [ ] /proc/[pid]/mountinfo (since Linux 2.6.26)
+ - [ ] /proc/[pid]/mounts (since Linux 2.4.19)
+ - [ ] /proc/[pid]/mountstats (since Linux 2.6.17)
+ - [ ] /proc/[pid]/net " (since Linux 2.6.25)"
+ - [ ] /proc/[pid]/ns/ (since Linux 3.0)
+ - [ ] /proc/[pid]/numa_maps (since Linux 2.6.14)
+ - [ ] /proc/[pid]/oom_adj (since Linux 2.6.11)
+ - [ ] /proc/[pid]/oom_score (since Linux 2.6.11)
+ - [ ] /proc/[pid]/oom_score_adj (since Linux 2.6.36)
+ - [ ] /proc/[pid]/pagemap (since Linux 2.6.25)
+ - [ ] /proc/[pid]/personality (since Linux 2.6.28)
+ - [ ] /proc/[pid]/root
+ - [ ] /proc/[pid]/seccomp (from Linux 2.6.12 to 2.6.22)
+ - [ ] /proc/[pid]/setgroups (since Linux 3.19)
+ - [ ] /proc/[pid]/smaps (since Linux 2.6.14)
+ - [ ] /proc/[pid]/stack (since Linux 2.6.29)
+ - [ ] /proc/[pid]/stat
+ - [ ] /proc/[pid]/statm
+ - [ ] /proc/[pid]/status
+ - [ ] /proc/[pid]/syscall (since Linux 2.6.27)
+ - [ ] /proc/[pid]/task (since Linux 2.6.0-test6)
+ - [ ] /proc/[pid]/timers (since Linux 3.10)
+ - [ ] /proc/[pid]/timerslack_ns (since Linux 4.6)
+ - [ ] /proc/[pid]/uid_map, /proc/[pid]/gid_map (since Linux 3.5)
+ - [ ] /proc/[pid]/wchan (since Linux 2.6.0)
+ - [ ] /proc/apm
+ - [ ] /proc/buddyinfo
+ - [ ] /proc/bus
+ - [ ] /proc/bus/pccard
+ - [ ] /proc/bus/pccard/drivers
+ - [ ] /proc/bus/pci
+ - [ ] /proc/bus/pci/devices
+ - [ ] /proc/cgroups (since Linux 2.6.24)
+ - [ ] /proc/cmdline
+ - [ ] /proc/config.gz (since Linux 2.6)
+ - [ ] /proc/crypto
+ - [ ] /proc/cpuinfo
+ - [ ] /proc/devices
+ - [ ] /proc/diskstats (since Linux 2.5.69)
+ - [ ] /proc/dma
+ - [ ] /proc/driver
+ - [ ] /proc/execdomains
+ - [ ] /proc/fb
+ - [ ] /proc/filesystems
+ - [ ] /proc/fs
+ - [ ] /proc/ide
+ - [ ] /proc/interrupts
+ - [ ] /proc/iomem
+ - [ ] /proc/ioports
+ - [ ] /proc/kallsyms (since Linux 2.5.71)
+ - [ ] /proc/kcore
+ - [ ] /proc/kmsg
+ - [ ] /proc/kpagecount (since Linux 2.6.25)
+ - [ ] /proc/kpageflags (since Linux 2.6.25)
+ - [ ] /proc/ksyms (Linux 1.1.23-2.5.47)
+ - [ ] /proc/loadavg
+ - [ ] /proc/locks
+ - [ ] /proc/malloc (only up to and including Linux 2.2)
+ - [ ] /proc/meminfo
+ - [ ] /proc/modules
+ - [ ] /proc/mounts
+ - [ ] /proc/mtrr
+ - [ ] /proc/net
+ - [ ] /proc/net/arp
+ - [ ] /proc/net/dev
+ - [ ] /proc/net/dev_mcast
+ - [ ] /proc/net/igmp
+ - [ ] /proc/net/rarp
+ - [ ] /proc/net/raw
+ - [ ] /proc/net/snmp
+ - [ ] /proc/net/tcp
+ - [ ] /proc/net/udp
+ - [ ] /proc/net/unix
+ - [ ] /proc/net/netfilter/nfnetlink_queue
+ - [ ] /proc/partitions
+ - [ ] /proc/pci
+ - [ ] /proc/profile (since Linux 2.4)
+ - [ ] /proc/scsi
+ - [ ] /proc/scsi/scsi
+ - [ ] /proc/scsi/[drivername]
+ - [ ] /proc/self
+ - [ ] /proc/slabinfo
+ - [ ] /proc/stat
+ - [ ] /proc/swaps
+ - [ ] /proc/sys
+ - [ ] /proc/sys/abi (since Linux 2.4.10)
+ - [ ] /proc/sys/debug
+ - [ ] /proc/sys/dev
+ - [ ] /proc/sys/fs
+ - [ ] /proc/sys/fs/binfmt_misc
+ - [ ] /proc/sys/fs/dentry-state (since Linux 2.2)
+ - [ ] /proc/sys/fs/dir-notify-enable
+ - [ ] /proc/sys/fs/dquot-max
+ - [ ] /proc/sys/fs/dquot-nr
+ - [ ] /proc/sys/fs/epoll (since Linux 2.6.28)
+ - [ ] /proc/sys/fs/file-max
+ - [ ] /proc/sys/fs/file-nr
+ - [ ] /proc/sys/fs/inode-max (only present until Linux 2.2)
+ - [ ] /proc/sys/fs/inode-nr
+ - [ ] /proc/sys/fs/inode-state
+ - [ ] /proc/sys/fs/inotify (since Linux 2.6.13)
+ - [ ] /proc/sys/fs/lease-break-time
+ - [ ] /proc/sys/fs/leases-enable
+ - [ ] /proc/sys/fs/mqueue (since Linux 2.6.6)
+ - [ ] /proc/sys/fs/nr_open (since Linux 2.6.25)
+ - [ ] /proc/sys/fs/overflowgid and /proc/sys/fs/overflowuid
+ - [ ] /proc/sys/fs/pipe-max-size (since Linux 2.6.35)
+ - [ ] /proc/sys/fs/protected_hardlinks (since Linux 3.6)
+ - [ ] /proc/sys/fs/protected_symlinks (since Linux 3.6)
+ - [ ] /proc/sys/fs/suid_dumpable (since Linux 2.6.13)
+ - [ ] /proc/sys/fs/super-max
+ - [ ] /proc/sys/fs/super-nr
+ - [ ] /proc/sys/kernel
+ - [ ] /proc/sys/kernel/acct
+ - [ ] /proc/sys/kernel/auto_msgmni (Linux 2.6.27 to 3.18)
+ - [ ] /proc/sys/kernel/cap_last_cap (since Linux 3.2)
+ - [ ] /proc/sys/kernel/cap-bound (from Linux 2.2 to 2.6.24)
+ - [ ] /proc/sys/kernel/core_pattern
+ - [ ] /proc/sys/kernel/core_pipe_limit
+ - [ ] /proc/sys/kernel/core_uses_pid
+ - [ ] /proc/sys/kernel/ctrl-alt-del
+ - [ ] /proc/sys/kernel/dmesg_restrict (since Linux 2.6.37)
+ - [ ] /proc/sys/kernel/domainname and /proc/sys/kernel/hostname
+ - [ ] /proc/sys/kernel/hotplug
+ - [ ] /proc/sys/kernel/htab-reclaim
+ - [ ] /proc/sys/kernel/kptr_restrict (since Linux 2.6.38)
+ - [ ] /proc/sys/kernel/l2cr
+ - [ ] /proc/sys/kernel/modprobe
+ - [ ] /proc/sys/kernel/modules_disabled (since Linux 2.6.31)
+ - [ ] /proc/sys/kernel/msgmax (since Linux 2.2)
+ - [ ] /proc/sys/kernel/msgmni (since Linux 2.4)
+ - [ ] /proc/sys/kernel/msgmnb (since Linux 2.2)
+ - [ ] /proc/sys/kernel/ngroups_max (since Linux 2.6.4)
+ - [ ] /proc/sys/kernel/ostype and /proc/sys/kernel/osrelease
+ - [ ] /proc/sys/kernel/overflowgid and /proc/sys/kernel/overflowuid
+ - [ ] /proc/sys/kernel/panic
+ - [ ] /proc/sys/kernel/panic_on_oops (since Linux 2.5.68)
+ - [ ] /proc/sys/kernel/pid_max (since Linux 2.5.34)
+ - [ ] /proc/sys/kernel/powersave-nap (PowerPC only)
+ - [ ] /proc/sys/kernel/printk
+ - [ ] /proc/sys/kernel/pty (since Linux 2.6.4)
+ - [ ] /proc/sys/kernel/pty/max
+ - [ ] /proc/sys/kernel/pty/nr
+ - [ ] /proc/sys/kernel/random
+ - [ ] /proc/sys/kernel/random/uuid (since Linux 2.4)
+ - [ ] /proc/sys/kernel/randomize_va_space (since Linux 2.6.12)
+ - [ ] /proc/sys/kernel/real-root-dev
+ - [ ] /proc/sys/kernel/reboot-cmd (Sparc only)
+ - [ ] /proc/sys/kernel/rtsig-max
+ - [ ] /proc/sys/kernel/rtsig-nr
+ - [ ] /proc/sys/kernel/sched_rr_timeslice_ms (since Linux 3.9)
+ - [ ] /proc/sys/kernel/sched_rt_period_us (Since Linux 2.6.25)
+ - [ ] /proc/sys/kernel/sched_rt_runtime_us (Since Linux 2.6.25)
+ - [ ] /proc/sys/kernel/sem (since Linux 2.4)
+ - [ ] /proc/sys/kernel/sg-big-buff
+ - [ ] /proc/sys/kernel/shm_rmid_forced (since Linux 3.1)
+ - [ ] /proc/sys/kernel/shmall (since Linux 2.2)
+ - [ ] /proc/sys/kernel/shmmax (since Linux 2.2)
+ - [ ] /proc/sys/kernel/shmmni (since Linux 2.4)
+ - [ ] /proc/sys/kernel/sysctl_writes_strict (since Linux 3.16)
+ - [ ] /proc/sys/kernel/sysrq
+ - [ ] /proc/sys/kernel/version
+ - [ ] /proc/sys/kernel/threads-max (since Linux 2.3.11)
+ - [ ] /proc/sys/kernel/yama/ptrace_scope (since Linux 3.5)
+ - [ ] /proc/sys/kernel/zero-paged (PowerPC only)
+ - [ ] /proc/sys/net
+ - [ ] /proc/sys/net/core/bpf_jit_enable
+ - [ ] /proc/sys/net/core/somaxconn
+ - [ ] /proc/sys/proc
+ - [ ] /proc/sys/sunrpc
+ - [ ] /proc/sys/vm
+ - [ ] /proc/sys/vm/compact_memory (since Linux 2.6.35)
+ - [ ] /proc/sys/vm/drop_caches (since Linux 2.6.16)
+ - [ ] /proc/sys/vm/legacy_va_layout (since Linux 2.6.9)
+ - [ ] /proc/sys/vm/memory_failure_early_kill (since Linux 2.6.32)
+ - [ ] /proc/sys/vm/memory_failure_recovery (since Linux 2.6.32)
+ - [ ] /proc/sys/vm/oom_dump_tasks (since Linux 2.6.25)
+ - [ ] /proc/sys/vm/oom_kill_allocating_task (since Linux 2.6.24)
+ - [ ] /proc/sys/vm/overcommit_kbytes (since Linux 3.14)
+ - [ ] /proc/sys/vm/overcommit_memory
+ - [ ] /proc/sys/vm/overcommit_ratio (since Linux 2.6.0)
+ - [ ] /proc/sys/vm/panic_on_oom (since Linux 2.6.18)
+ - [ ] /proc/sys/vm/swappiness
+ - [ ] /proc/sysrq-trigger (since Linux 2.4.21)
+ - [ ] /proc/sysvipc
+ - [ ] /proc/thread-self (since Linux 3.17)
+ - [ ] /proc/timer_list (since Linux 2.6.21)
+ - [ ] /proc/timer_stats (since Linux 2.6.21)
+ - [ ] /proc/tty
+ - [ ] /proc/uptime
+ - [ ] /proc/version
+ - [ ] /proc/vmstat (since Linux 2.6.0)
+ - [ ] /proc/zoneinfo (since Linux 2.6.13)

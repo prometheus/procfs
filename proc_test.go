@@ -29,7 +29,7 @@ func TestAllProcs(t *testing.T) {
 		t.Fatal(err)
 	}
 	sort.Sort(procs)
-	for i, p := range []*Proc{{PID: 584}, {PID: 26231}} {
+	for i, p := range []*Proc{{PID: 584}, {PID: 3116}, {PID: 26231}} {
 		if want, have := p.PID, procs[i].PID; want != have {
 			t.Errorf("want processes %d, have %d", want, have)
 		}

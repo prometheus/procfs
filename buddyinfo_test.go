@@ -14,18 +14,11 @@
 package procfs
 
 import (
-	"os"
 	"testing"
 )
 
 func TestBuddyInfo(t *testing.T) {
-	file, err := os.Open("fixtures/buddyinfo")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer file.Close()
-
-	buddyInfo, err := parseBuddyInfo(file)
+	buddyInfo, err := FS("fixtures/buddyinfo/valid").NewBuddyInfo()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -40,26 +33,14 @@ func TestBuddyInfo(t *testing.T) {
 }
 
 func TestBuddyInfoShort(t *testing.T) {
-	file, err := os.Open("fixtures/buddyinfo.short")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer file.Close()
-
-	_, err = parseBuddyInfo(file)
+	_, err := FS("fixtures/buddyinfo/short").NewBuddyInfo()
 	if err == nil {
 		t.Errorf("expected error, but non occurred")
 	}
 }
 
 func TestBuddyInfoSizeMismatch(t *testing.T) {
-	file, err := os.Open("fixtures/buddyinfo.sizemismatch")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer file.Close()
-
-	_, err = parseBuddyInfo(file)
+	_, err := FS("fixtures/buddyinfo/sizemismatch").NewBuddyInfo()
 	if err == nil {
 		t.Errorf("expected error, but non occurred")
 	}

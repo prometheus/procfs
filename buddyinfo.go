@@ -74,7 +74,7 @@ func parseBuddyInfo(r io.Reader) (BuddyInfo, error) {
 			bucketCount = arraySize
 		} else {
 			if bucketCount != arraySize {
-				return nil, fmt.Errorf("Mismatch in number of buddyinfo buckets, previous count %d, new count %d", bucketCount, arraySize)
+				return nil, fmt.Errorf("mismatch in number of buddyinfo buckets, previous count %d, new count %d", bucketCount, arraySize)
 			}
 		}
 
@@ -92,5 +92,5 @@ func parseBuddyInfo(r io.Reader) (BuddyInfo, error) {
 		buddyInfo[node][zone] = sizes
 	}
 
-	return buddyInfo, nil
+	return buddyInfo, scanner.Err()
 }

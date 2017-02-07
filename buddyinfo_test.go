@@ -35,13 +35,13 @@ func TestBuddyInfo(t *testing.T) {
 func TestBuddyInfoShort(t *testing.T) {
 	_, err := FS("fixtures/buddyinfo/short").NewBuddyInfo()
 	if err == nil {
-		t.Errorf("expected error, but non occurred")
+		t.Errorf("expected error, but none occurred")
 	}
 }
 
 func TestBuddyInfoSizeMismatch(t *testing.T) {
 	_, err := FS("fixtures/buddyinfo/sizemismatch").NewBuddyInfo()
 	if err == nil {
-		t.Errorf("expected error, but non occurred")
+		t.Errorf("expected error, but none occurred")
 	}
 }

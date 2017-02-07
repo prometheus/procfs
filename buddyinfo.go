@@ -23,35 +23,38 @@ import (
 )
 
 // A BuddyInfo is the details parsed from /proc/buddyinfo.
-// It is a accessed by node and zone.
 // The data is comprised of an array of free fragments of each size.
 // The sizes are 2^n*PAGE_SIZE, where n is the array index.
-type BuddyInfo map[string]map[string][]float64
+type BuddyInfo struct {
+	Node  string
+	Zone  string
+	Sizes []float64
+}
 
 // NewBuddyInfo reads the buddyinfo statistics.
-func NewBuddyInfo() (BuddyInfo, error) {
+func NewBuddyInfo() ([]BuddyInfo, error) {
 	fs, err := NewFS(DefaultMountPoint)
 	if err != nil {
-		return BuddyInfo{}, err
+		return nil, err
 	}
 
 	return fs.NewBuddyInfo()
 }
 
 // NewBuddyInfo reads the buddyinfo statistics from the specified `proc` filesystem.
-func (fs FS) NewBuddyInfo() (BuddyInfo, error) {
+func (fs FS) NewBuddyInfo() ([]BuddyInfo, error) {
 	file, err := os.Open(fs.Path("buddyinfo"))
 	if err != nil {
-		return BuddyInfo{}, err
+		return nil, err
 	}
 	defer file.Close()
 
 	return parseBuddyInfo(file)
 }
 
-func parseBuddyInfo(r io.Reader) (BuddyInfo, error) {
+func parseBuddyInfo(r io.Reader) ([]BuddyInfo, error) {
 	var (
-		buddyInfo = BuddyInfo{}
+		buddyInfo = []BuddyInfo{}
 		scanner   = bufio.NewScanner(r)
 	)
 
@@ -86,10 +89,7 @@ func parseBuddyInfo(r io.Reader) (BuddyInfo, error) {
 			}
 		}
 
-		if _, ok := buddyInfo[node]; !ok {
-			buddyInfo[node] = make(map[string][]float64)
-		}
-		buddyInfo[node][zone] = sizes
+		buddyInfo = append(buddyInfo, BuddyInfo{node, zone, sizes})
 	}
 
 	return buddyInfo, scanner.Err()

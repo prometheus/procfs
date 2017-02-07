@@ -23,11 +23,19 @@ func TestBuddyInfo(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if want, got := 4381.0, buddyInfo["0"]["Normal"][0]; want != got {
+	if want, got := "DMA", buddyInfo[0].Zone; want != got {
+		t.Errorf("want Node 0, Zone %s, got %s", want, got)
+	}
+
+	if want, got := "Normal", buddyInfo[2].Zone; want != got {
+		t.Errorf("want Node 0, Zone %s, got %s", want, got)
+	}
+
+	if want, got := 4381.0, buddyInfo[2].Sizes[0]; want != got {
 		t.Errorf("want Node 0, Zone Normal %f, got %f", want, got)
 	}
 
-	if want, got := 572.0, buddyInfo["0"]["DMA32"][1]; want != got {
+	if want, got := 572.0, buddyInfo[1].Sizes[1]; want != got {
 		t.Errorf("want Node 0, Zone DMA32 %f, got %f", want, got)
 	}
 }

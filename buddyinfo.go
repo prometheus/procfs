@@ -25,7 +25,7 @@ import (
 	"strings"
 )
 
-// A BuddyInfo is the details parsed from /proc/[pid]/buddyinfo.
+// A BuddyInfo is the details parsed from /proc/buddyinfo.
 // It is a accessed by node and zone.
 // The data is comprised of an array of free fragments of each size.
 // The sizes are 2^n*PAGE_SIZE, where n is the array index.

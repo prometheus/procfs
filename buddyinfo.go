@@ -43,7 +43,7 @@ func NewBuddyInfo() (BuddyInfo, error) {
 
 // NewBuddyInfo reads the buddyinfo statistics from the specified `proc` filesystem.
 func (fs FS) NewBuddyInfo() (BuddyInfo, error) {
-	file, err := os.Open(fs.Path("net/ip_vs_stats"))
+	file, err := os.Open(fs.Path("buddyinfo"))
 	if err != nil {
 		return BuddyInfo{}, err
 	}

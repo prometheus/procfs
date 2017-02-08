@@ -54,11 +54,10 @@ func (fs FS) NewBuddyInfo() ([]BuddyInfo, error) {
 
 func parseBuddyInfo(r io.Reader) ([]BuddyInfo, error) {
 	var (
-		buddyInfo = []BuddyInfo{}
-		scanner   = bufio.NewScanner(r)
+		buddyInfo   = []BuddyInfo{}
+		scanner     = bufio.NewScanner(r)
+		bucketCount = -1
 	)
-
-	bucketCount := -1
 
 	for scanner.Scan() {
 		var err error

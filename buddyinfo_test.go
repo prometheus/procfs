@@ -14,6 +14,7 @@
 package procfs
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -45,11 +46,19 @@ func TestBuddyInfoShort(t *testing.T) {
 	if err == nil {
 		t.Errorf("expected error, but none occurred")
 	}
+
+	if want, got := "invalid number of fields when parsing buddyinfo", err.Error(); want != got {
+		t.Errorf("wrong error returned, wanted '%s', got '%s'", want, got)
+	}
 }
 
 func TestBuddyInfoSizeMismatch(t *testing.T) {
 	_, err := FS("fixtures/buddyinfo/sizemismatch").NewBuddyInfo()
 	if err == nil {
 		t.Errorf("expected error, but none occurred")
+	}
+
+	if want, got := "mismatch in number of buddyinfo buckets", err.Error(); !strings.HasPrefix(got, want) {
+		t.Errorf("wrong error returned, wanted prefix '%s', got '%s'", want, got)
 	}
 }

@@ -48,7 +48,7 @@ func TestBuddyInfoShort(t *testing.T) {
 	}
 
 	if want, got := "invalid number of fields when parsing buddyinfo", err.Error(); want != got {
-		t.Errorf("wrong error returned, wanted '%s', got '%s'", want, got)
+		t.Errorf("wrong error returned, wanted '%q', got '%q'", want, got)
 	}
 }
 
@@ -59,6 +59,6 @@ func TestBuddyInfoSizeMismatch(t *testing.T) {
 	}
 
 	if want, got := "mismatch in number of buddyinfo buckets", err.Error(); !strings.HasPrefix(got, want) {
-		t.Errorf("wrong error returned, wanted prefix '%s', got '%s'", want, got)
+		t.Errorf("wrong error returned, wanted prefix '%q', got '%q'", want, got)
 	}
 }

@@ -124,6 +124,24 @@ var (
 			ActiveConn:    1,
 			InactConn:     1,
 		},
+		{
+			LocalMark:     "10001000",
+			RemoteAddress: net.ParseIP("192.168.50.26"),
+			RemotePort:    3306,
+			Proto:         "FWM",
+			Weight:        0,
+			ActiveConn:    0,
+			InactConn:     1,
+		},
+		{
+			LocalMark:     "10001000",
+			RemoteAddress: net.ParseIP("192.168.50.21"),
+			RemotePort:    3306,
+			Proto:         "FWM",
+			Weight:        0,
+			ActiveConn:    0,
+			InactConn:     2,
+		},
 	}
 )
 

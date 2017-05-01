@@ -163,6 +163,7 @@ func parseIPVSBackendStatus(file io.Reader) ([]IPVSBackendStatus, error) {
 				continue
 			}
 			proto = fields[0]
+			localMark = ""
 			localAddress, localPort, err = parseIPPort(fields[1])
 			if err != nil {
 				return nil, err
@@ -173,6 +174,8 @@ func parseIPVSBackendStatus(file io.Reader) ([]IPVSBackendStatus, error) {
 			}
 			proto = fields[0]
 			localMark = fields[1]
+			localAddress = nil
+			localPort = 0
 		case fields[0] == "->":
 			if len(fields) < 6 {
 				continue

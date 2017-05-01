@@ -33,6 +33,8 @@ type IPVSBackendStatus struct {
 	LocalAddress net.IP
 	// The local (virtual) port.
 	LocalPort uint16
+	// The local firewall mark
+	LocalMark string
 	// The transport protocol (TCP, UDP).
 	Proto string
 	// The remote (real) IP address.
@@ -142,6 +144,7 @@ func parseIPVSBackendStatus(file io.Reader) ([]IPVSBackendStatus, error) {
 		status       []IPVSBackendStatus
 		scanner      = bufio.NewScanner(file)
 		proto        string
+		localMark    string
 		localAddress net.IP
 		localPort    uint16
 		err          error
@@ -164,6 +167,12 @@ func parseIPVSBackendStatus(file io.Reader) ([]IPVSBackendStatus, error) {
 			if err != nil {
 				return nil, err
 			}
+		case fields[0] == "FWM":
+			if len(fields) < 2 {
+				continue
+			}
+			proto = fields[0]
+			localMark = fields[1]
 		case fields[0] == "->":
 			if len(fields) < 6 {
 				continue
@@ -187,6 +196,7 @@ func parseIPVSBackendStatus(file io.Reader) ([]IPVSBackendStatus, error) {
 			status = append(status, IPVSBackendStatus{
 				LocalAddress:  localAddress,
 				LocalPort:     localPort,
+				LocalMark:     localMark,
 				RemoteAddress: remoteAddress,
 				RemotePort:    remotePort,
 				Proto:         proto,

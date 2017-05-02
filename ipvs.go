@@ -213,22 +213,31 @@ func parseIPVSBackendStatus(file io.Reader) ([]IPVSBackendStatus, error) {
 }
 
 func parseIPPort(s string) (net.IP, uint16, error) {
-	tmp := strings.SplitN(s, ":", 2)
+	var (
+		ip  net.IP
+		err error
+	)
 
-	if len(tmp) != 2 {
-		return nil, 0, fmt.Errorf("invalid IP:Port: %s", s)
+	switch len(s) {
+	case 13:
+		ip, err = hex.DecodeString(s[0:8])
+		if err != nil {
+			return nil, 0, err
+		}
+	case 46:
+		ip = net.ParseIP(s[1:40])
+		if ip == nil {
+			return nil, 0, fmt.Errorf("invalid IPv6 address: %s", s[1:40])
+		}
+	default:
+		return nil, 0, fmt.Errorf("unexpected IP:Port: %s", s)
 	}
 
-	if len(tmp[0]) != 8 && len(tmp[0]) != 32 {
-		return nil, 0, fmt.Errorf("invalid IP: %s", tmp[0])
+	portString := s[len(s)-4:]
+	if len(portString) != 4 {
+		return nil, 0, fmt.Errorf("unexpected port string format: %s", portString)
 	}
-
-	ip, err := hex.DecodeString(tmp[0])
-	if err != nil {
-		return nil, 0, err
-	}
-
-	port, err := strconv.ParseUint(tmp[1], 16, 16)
+	port, err := strconv.ParseUint(portString, 16, 16)
 	if err != nil {
 		return nil, 0, err
 	}

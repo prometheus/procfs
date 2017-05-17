@@ -1,12 +1,28 @@
+// Copyright 2017 Prometheus Team
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// Package procfs provides functions to retrieve system, kernel and process
+// metrics from the pseudo-filesystem proc.
 package procfs
 
 import (
-	"fmt"
-	"io/ioutil"
+	"bufio"
 	"os"
+	"strconv"
+	"strings"
 )
 
-// XfrmStat models the content of /proc/net/xfrm_stat
+// XfrmStat models the contents of /proc/net/xfrm_stat.
 type XfrmStat struct {
 	// All errors which are not matched by other
 	XfrmInError int
@@ -70,7 +86,7 @@ type XfrmStat struct {
 	XfrmAcquireError    int
 }
 
-// NewXfrmStat reads the xfrm_stat info
+// NewXfrmStat reads the xfrm_stat statistics.
 func NewXfrmStat() (XfrmStat, error) {
 	fs, err := NewFS(DefaultMountPoint)
 	if err != nil {
@@ -80,45 +96,89 @@ func NewXfrmStat() (XfrmStat, error) {
 	return fs.NewXfrmStat()
 }
 
-// NewXfrmStat reads the xfrm_stat statistics from the specified `proc` filesystem
+// ParseXfrmStat reads the xfrm_stat statistics from the 'proc' filesystem.
 func (fs FS) NewXfrmStat() (XfrmStat, error) {
-	x := XfrmStat{}
 
 	file, err := os.Open(fs.Path("net/xfrm_stat"))
+
 	if err != nil {
-		return x, err
+		return XfrmStat{}, err
 	}
 	defer file.Close()
 
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		return x, err
+	var (
+		x = XfrmStat{}
+		s = bufio.NewScanner(file)
+	)
+
+	for s.Scan() {
+		fields := strings.Fields(s.Text())
+		name := fields[0]
+		value := fields[1]
+
+		switch name {
+		case "XfrmInError":
+			x.XfrmInError, err = strconv.Atoi(value)
+		case "XfrmInBufferError":
+			x.XfrmInBufferError, err = strconv.Atoi(value)
+		case "XfrmInHdrError":
+			x.XfrmInHdrError, err = strconv.Atoi(value)
+		case "XfrmInNoStates":
+			x.XfrmInNoStates, err = strconv.Atoi(value)
+		case "XfrmInStateProtoError":
+			x.XfrmInStateProtoError, err = strconv.Atoi(value)
+		case "XfrmInStateModeError":
+			x.XfrmInStateModeError, err = strconv.Atoi(value)
+		case "XfrmInStateSeqError":
+			x.XfrmInStateSeqError, err = strconv.Atoi(value)
+		case "XfrmInStateExpired":
+			x.XfrmInStateExpired, err = strconv.Atoi(value)
+		case "XfrmInStateInvalid":
+			x.XfrmInStateInvalid, err = strconv.Atoi(value)
+		case "XfrmInTmplMismatch":
+			x.XfrmInTmplMismatch, err = strconv.Atoi(value)
+		case "XfrmInNoPols":
+			x.XfrmInNoPols, err = strconv.Atoi(value)
+		case "XfrmInPolBlock":
+			x.XfrmInPolBlock, err = strconv.Atoi(value)
+		case "XfrmInPolError":
+			x.XfrmInPolError, err = strconv.Atoi(value)
+		case "XfrmOutError":
+			x.XfrmOutError, err = strconv.Atoi(value)
+		case "XfrmInStateMismatch":
+			x.XfrmInStateMismatch, err = strconv.Atoi(value)
+		case "XfrmOutBundleGenError":
+			x.XfrmOutBundleGenError, err = strconv.Atoi(value)
+		case "XfrmOutBundleCheckError":
+			x.XfrmOutBundleCheckError, err = strconv.Atoi(value)
+		case "XfrmOutNoStates":
+			x.XfrmOutNoStates, err = strconv.Atoi(value)
+		case "XfrmOutStateProtoError":
+			x.XfrmOutStateProtoError, err = strconv.Atoi(value)
+		case "XfrmOutStateModeError":
+			x.XfrmOutStateModeError, err = strconv.Atoi(value)
+		case "XfrmOutStateSeqError":
+			x.XfrmOutStateSeqError, err = strconv.Atoi(value)
+		case "XfrmOutStateExpired":
+			x.XfrmOutStateExpired, err = strconv.Atoi(value)
+		case "XfrmOutPolBlock":
+			x.XfrmOutPolBlock, err = strconv.Atoi(value)
+		case "XfrmOutPolDead":
+			x.XfrmOutPolDead, err = strconv.Atoi(value)
+		case "XfrmOutPolError":
+			x.XfrmOutPolError, err = strconv.Atoi(value)
+		case "XfrmFwdHdrError":
+			x.XfrmFwdHdrError, err = strconv.Atoi(value)
+		case "XfrmOutStateInvalid":
+			x.XfrmOutStateInvalid, err = strconv.Atoi(value)
+		case "XfrmAcquireError":
+			x.XfrmAcquireError, err = strconv.Atoi(value)
+		}
+
+		if err != nil {
+			return XfrmStat{}, err
+		}
 	}
 
-	ioFormat := "XfrmInError %d\nXfrmInBufferError %d\nXfrmInHdrError %d\n" +
-		"XfrmInNoStates %d\nXfrmInStateProtoError %d\nXfrmInStateModeError %d\n" +
-		"XfrmInStateSeqError %d\nXfrmInStateExpired %d\nXfrmInStateMismatch %d\n" +
-		"XfrmInStateInvalid %d\nXfrmInTmplMismatch %d\nXfrmInNoPols %d\n" +
-		"XfrmInPolBlock %d\nXfrmInPolError %d\n" +
-		"XfrmOutError %d\nXfrmOutBundleGenError %d\nXfrmOutBundleCheckError %d\n" +
-		"XfrmOutNoStates %d\nXfrmOutStateProtoError %d\nXfrmOutStateModeError %d\n" +
-		"XfrmOutStateSeqError %d\nXfrmOutStateExpired %d\nXfrmOutPolBlock %d\n" +
-		"XfrmOutPolDead %d\nXfrmOutPolError %d\nXfrmFwdHdrError %d\nXfrmOutStateInvalid %d\n" +
-		"XfrmAcquireError %d\n"
-
-	_, err = fmt.Sscanf(string(data), ioFormat, &x.XfrmInError, &x.XfrmInBufferError,
-		&x.XfrmInHdrError, &x.XfrmInNoStates, &x.XfrmInStateProtoError,
-		&x.XfrmInStateModeError, &x.XfrmInStateSeqError, &x.XfrmInStateExpired,
-		&x.XfrmInStateMismatch, &x.XfrmInStateInvalid, &x.XfrmInTmplMismatch, &x.XfrmInNoPols,
-		&x.XfrmInPolBlock, &x.XfrmInPolError, &x.XfrmOutError, &x.XfrmOutBundleGenError, &x.XfrmOutBundleCheckError,
-		&x.XfrmOutNoStates, &x.XfrmOutStateProtoError, &x.XfrmOutStateModeError,
-		&x.XfrmOutStateSeqError, &x.XfrmOutStateExpired, &x.XfrmOutPolBlock, &x.XfrmOutPolDead,
-		&x.XfrmOutPolError, &x.XfrmFwdHdrError, &x.XfrmOutStateInvalid,
-		&x.XfrmAcquireError)
-
-	if err != nil {
-		return x, err
-	}
-
-	return x, nil
+	return x, s.Err()
 }

@@ -119,65 +119,65 @@ func (fs FS) NewXfrmStat() (XfrmStat, error) {
 		}
 
 		name := fields[0]
-		value := fields[1]
+		value, err := strconv.Atoi(fields[1])
 
 		switch name {
 		case "XfrmInError":
-			x.XfrmInError, err = strconv.Atoi(value)
+			x.XfrmInError = value
 		case "XfrmInBufferError":
-			x.XfrmInBufferError, err = strconv.Atoi(value)
+			x.XfrmInBufferError = value
 		case "XfrmInHdrError":
-			x.XfrmInHdrError, err = strconv.Atoi(value)
+			x.XfrmInHdrError = value
 		case "XfrmInNoStates":
-			x.XfrmInNoStates, err = strconv.Atoi(value)
+			x.XfrmInNoStates = value
 		case "XfrmInStateProtoError":
-			x.XfrmInStateProtoError, err = strconv.Atoi(value)
+			x.XfrmInStateProtoError = value
 		case "XfrmInStateModeError":
-			x.XfrmInStateModeError, err = strconv.Atoi(value)
+			x.XfrmInStateModeError = value
 		case "XfrmInStateSeqError":
-			x.XfrmInStateSeqError, err = strconv.Atoi(value)
+			x.XfrmInStateSeqError = value
 		case "XfrmInStateExpired":
-			x.XfrmInStateExpired, err = strconv.Atoi(value)
+			x.XfrmInStateExpired = value
 		case "XfrmInStateInvalid":
-			x.XfrmInStateInvalid, err = strconv.Atoi(value)
+			x.XfrmInStateInvalid = value
 		case "XfrmInTmplMismatch":
-			x.XfrmInTmplMismatch, err = strconv.Atoi(value)
+			x.XfrmInTmplMismatch = value
 		case "XfrmInNoPols":
-			x.XfrmInNoPols, err = strconv.Atoi(value)
+			x.XfrmInNoPols = value
 		case "XfrmInPolBlock":
-			x.XfrmInPolBlock, err = strconv.Atoi(value)
+			x.XfrmInPolBlock = value
 		case "XfrmInPolError":
-			x.XfrmInPolError, err = strconv.Atoi(value)
+			x.XfrmInPolError = value
 		case "XfrmOutError":
-			x.XfrmOutError, err = strconv.Atoi(value)
+			x.XfrmOutError = value
 		case "XfrmInStateMismatch":
-			x.XfrmInStateMismatch, err = strconv.Atoi(value)
+			x.XfrmInStateMismatch = value
 		case "XfrmOutBundleGenError":
-			x.XfrmOutBundleGenError, err = strconv.Atoi(value)
+			x.XfrmOutBundleGenError = value
 		case "XfrmOutBundleCheckError":
-			x.XfrmOutBundleCheckError, err = strconv.Atoi(value)
+			x.XfrmOutBundleCheckError = value
 		case "XfrmOutNoStates":
-			x.XfrmOutNoStates, err = strconv.Atoi(value)
+			x.XfrmOutNoStates = value
 		case "XfrmOutStateProtoError":
-			x.XfrmOutStateProtoError, err = strconv.Atoi(value)
+			x.XfrmOutStateProtoError = value
 		case "XfrmOutStateModeError":
-			x.XfrmOutStateModeError, err = strconv.Atoi(value)
+			x.XfrmOutStateModeError = value
 		case "XfrmOutStateSeqError":
-			x.XfrmOutStateSeqError, err = strconv.Atoi(value)
+			x.XfrmOutStateSeqError = value
 		case "XfrmOutStateExpired":
-			x.XfrmOutStateExpired, err = strconv.Atoi(value)
+			x.XfrmOutStateExpired = value
 		case "XfrmOutPolBlock":
-			x.XfrmOutPolBlock, err = strconv.Atoi(value)
+			x.XfrmOutPolBlock = value
 		case "XfrmOutPolDead":
-			x.XfrmOutPolDead, err = strconv.Atoi(value)
+			x.XfrmOutPolDead = value
 		case "XfrmOutPolError":
-			x.XfrmOutPolError, err = strconv.Atoi(value)
+			x.XfrmOutPolError = value
 		case "XfrmFwdHdrError":
-			x.XfrmFwdHdrError, err = strconv.Atoi(value)
+			x.XfrmFwdHdrError = value
 		case "XfrmOutStateInvalid":
-			x.XfrmOutStateInvalid, err = strconv.Atoi(value)
+			x.XfrmOutStateInvalid = value
 		case "XfrmAcquireError":
-			x.XfrmAcquireError, err = strconv.Atoi(value)
+			x.XfrmAcquireError = value
 		}
 
 		if err != nil {

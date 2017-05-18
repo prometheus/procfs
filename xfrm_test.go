@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package procfs provides functions to retrieve system, kernel and process
-// metrics from the pseudo-filesystem proc.
 package procfs
 
 import (

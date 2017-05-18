@@ -11,12 +11,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package procfs provides functions to retrieve system, kernel and process
-// metrics from the pseudo-filesystem proc.
 package procfs
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -96,7 +95,7 @@ func NewXfrmStat() (XfrmStat, error) {
 	return fs.NewXfrmStat()
 }
 
-// ParseXfrmStat reads the xfrm_stat statistics from the 'proc' filesystem.
+// NewXfrmStat reads the xfrm_stat statistics from the 'proc' filesystem.
 func (fs FS) NewXfrmStat() (XfrmStat, error) {
 
 	file, err := os.Open(fs.Path("net/xfrm_stat"))
@@ -113,6 +112,12 @@ func (fs FS) NewXfrmStat() (XfrmStat, error) {
 
 	for s.Scan() {
 		fields := strings.Fields(s.Text())
+
+		if len(fields) != 2 {
+			return XfrmStat{}, fmt.Errorf(
+				"Couldnt parse %s line %s", file.Name(), s.Text())
+		}
+
 		name := fields[0]
 		value := fields[1]
 

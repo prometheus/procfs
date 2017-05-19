@@ -97,9 +97,7 @@ func NewXfrmStat() (XfrmStat, error) {
 
 // NewXfrmStat reads the xfrm_stat statistics from the 'proc' filesystem.
 func (fs FS) NewXfrmStat() (XfrmStat, error) {
-
 	file, err := os.Open(fs.Path("net/xfrm_stat"))
-
 	if err != nil {
 		return XfrmStat{}, err
 	}
@@ -115,11 +113,14 @@ func (fs FS) NewXfrmStat() (XfrmStat, error) {
 
 		if len(fields) != 2 {
 			return XfrmStat{}, fmt.Errorf(
-				"Couldnt parse %s line %s", file.Name(), s.Text())
+				"couldnt parse %s line %s", file.Name(), s.Text())
 		}
 
 		name := fields[0]
 		value, err := strconv.Atoi(fields[1])
+		if err != nil {
+			return XfrmStat{}, err
+		}
 
 		switch name {
 		case "XfrmInError":
@@ -180,9 +181,6 @@ func (fs FS) NewXfrmStat() (XfrmStat, error) {
 			x.XfrmAcquireError = value
 		}
 
-		if err != nil {
-			return XfrmStat{}, err
-		}
 	}
 
 	return x, s.Err()

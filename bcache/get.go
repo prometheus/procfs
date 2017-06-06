@@ -258,13 +258,14 @@ func GetStats(uuidPath string) (*Stats, error) {
 	if err != nil {
 		return nil, err
 	}
-	bs.Bdevs = []bdevStats{}
 
-	for _, bdevDir := range bdevDirs {
-		var bds bdevStats
+	bs.Bdevs = make([]bdevStats, len(bdevDirs))
+
+	for ii, bdevDir := range bdevDirs {
+		var bds = &bs.Bdevs[ii]
+
 		bds.Name = filepath.Base(bdevDir)
 
-		// dir <uuidPath>/<bds.Name>
 		par.setSubDir(bds.Name)
 		bds.DirtyData = par.readValue("dirty_data")
 
@@ -287,7 +288,6 @@ func GetStats(uuidPath string) (*Stats, error) {
 		bds.Total.CacheMissCollisions = par.readValue("cache_miss_collisions")
 		bds.Total.CacheMisses = par.readValue("cache_misses")
 		bds.Total.CacheReadaheads = par.readValue("cache_readaheads")
-		bs.Bdevs = append(bs.Bdevs, bds)
 	}
 
 	if par.err != nil {
@@ -301,10 +301,10 @@ func GetStats(uuidPath string) (*Stats, error) {
 	if err != nil {
 		return nil, err
 	}
-	bs.Caches = []cacheStats{}
+	bs.Caches = make([]cacheStats, len(cacheDirs))
 
-	for _, cacheDir := range cacheDirs {
-		var cs cacheStats
+	for ii, cacheDir := range cacheDirs {
+		var cs = &bs.Caches[ii]
 		cs.Name = filepath.Base(cacheDir)
 
 		// dir is <uuidPath>/<cs.Name>
@@ -315,8 +315,6 @@ func GetStats(uuidPath string) (*Stats, error) {
 
 		ps := par.getPriorityStats()
 		cs.Priority = ps
-
-		bs.Caches = append(bs.Caches, cs)
 	}
 
 	if par.err != nil {

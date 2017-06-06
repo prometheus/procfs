@@ -134,8 +134,11 @@ func (p *parser) readValue(fileName string) float64 {
 }
 
 // parsePriorityStats parses lines from the priority_stats file
-func parsePriorityStats(line string, ps *priorityStats) (err error) {
-	var value float64
+func parsePriorityStats(line string, ps *priorityStats) (error) {
+	var (
+		value float64
+		err error
+	)
 	switch {
 	case strings.HasPrefix(line, "Unused:"):
 		fields := strings.Fields(line)

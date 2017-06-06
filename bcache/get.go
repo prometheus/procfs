@@ -25,15 +25,22 @@ import (
 )
 
 // parsePseudoFloat parses the peculiar format produced by bcache's bch_hprint
-func parsePseudoFloat(str string) float64 {
+func parsePseudoFloat(str string) (float64, error) {
 	ss := strings.Split(str, ".")
 
-	intPart, _ := strconv.ParseFloat(ss[0], 64)
+	intPart, err := strconv.ParseFloat(ss[0], 64)
+	if err != nil {
+		return 0, err
+	}
+
 	if len(ss) == 1 {
 		// Pure integers are fine
-		return intPart
+		return intPart, nil
 	}
-	fracPart, _ := strconv.ParseFloat(ss[1], 64)
+	fracPart, err := strconv.ParseFloat(ss[1], 64)
+	if err != nil {
+		return 0, err
+	}
 	// fracPart is a number between 0 and 1023 divided by 100; it is off
 	// by a small amount. Unexpected bumps in time lines may occur because
 	// for bch_hprint .1 != .10 and .10 > .9 (at least up to Linux
@@ -41,14 +48,17 @@ func parsePseudoFloat(str string) float64 {
 
 	// Restore the proper order:
 	fracPart = fracPart / 10.24
-	return intPart + fracPart
+	return intPart + fracPart, nil
 }
 
 // dehumanize converts human-readable byte slice into float64
-func dehumanize(hbytes []byte) float64 {
+func dehumanize(hbytes []byte) (float64, error) {
 	lastByte := hbytes[len(hbytes)-1]
 	mul := float64(1)
-	var mant float64
+	var (
+		mant float64
+		err error
+	)
 	// If beyond range of ASCII digits, it must be a multiplier
 	if lastByte > 57 {
 		// Remove multiplier from slice
@@ -79,13 +89,19 @@ func dehumanize(hbytes []byte) float64 {
 			'Y': YiB,
 		}
 		mul = float64(multipliers[rune(lastByte)])
-		mant = parsePseudoFloat(string(hbytes))
+		mant, err = parsePseudoFloat(string(hbytes))
+		if err != nil {
+			return 0, err
+		}
 	} else {
 		// Not humanized by bch_hprint
-		mant, _ = strconv.ParseFloat(string(hbytes), 64)
+		mant, err = strconv.ParseFloat(string(hbytes), 64)
+		if err != nil {
+			return 0, err
+		}
 	}
 	res := mant * mul
-	return res
+	return res, nil
 }
 
 type parser struct {
@@ -112,7 +128,9 @@ func (p *parser) readValue(fileName string) float64 {
 	}
 	// Remove trailing newline
 	byt = byt[:len(byt)-1]
-	return dehumanize(byt)
+	res, err := dehumanize(byt)
+	p.err = err
+	return res
 }
 
 // parsePriorityStats parses lines from the priority_stats file

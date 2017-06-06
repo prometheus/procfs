@@ -46,8 +46,8 @@ func TestParseStats(t *testing.T) {
 		},
 	}
 	for _, tst := range dehumanizeTests {
-		got := dehumanize(tst.in)
-		if got != tst.out {
+		got, err := dehumanize(tst.in)
+		if err != nil || got != tst.out {
 			t.Errorf("dehumanize: %s, want %f, got %f", tst.in, tst.out, got)
 		}
 	}
@@ -71,8 +71,8 @@ func TestParseStats(t *testing.T) {
 		},
 	}
 	for _, tst := range parsePseudoFloatTests {
-		got := parsePseudoFloat(tst.in)
-		if math.Abs(got - tst.out) > 0.0001 {
+		got, err := parsePseudoFloat(tst.in)
+		if err != nil || math.Abs(got - tst.out) > 0.0001 {
 			t.Errorf("parsePseudoFloat: %s, want %f, got %f", tst.in, tst.out, got)
 		}
 	}

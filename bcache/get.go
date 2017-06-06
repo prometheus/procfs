@@ -25,7 +25,7 @@ import (
 )
 
 // parsePseudoFloat parses the peculiar format produced by bcache's bch_hprint
-func parsePseudoFloat(str string) (float64) {
+func parsePseudoFloat(str string) float64 {
 	ss := strings.Split(str, ".")
 
 	intPart, _ := strconv.ParseFloat(ss[0], 64)
@@ -89,10 +89,10 @@ func dehumanize(hbytes []byte) float64 {
 }
 
 type parser struct {
-	uuidPath string
-	subDir string
+	uuidPath   string
+	subDir     string
 	currentDir string
-	err error
+	err        error
 }
 
 func (p *parser) setSubDir(pathElements ...string) {
@@ -100,7 +100,7 @@ func (p *parser) setSubDir(pathElements ...string) {
 	p.currentDir = path.Join(p.uuidPath, p.subDir)
 }
 
-func (p *parser) readValue(fileName string) (float64) {
+func (p *parser) readValue(fileName string) float64 {
 	if p.err != nil {
 		return 0
 	}
@@ -141,7 +141,7 @@ func parsePriorityStats(line string, ps *priorityStats) (err error) {
 	return nil
 }
 
-func (p *parser) getPriorityStats() (priorityStats) {
+func (p *parser) getPriorityStats() priorityStats {
 	var res priorityStats
 
 	if p.err != nil {
@@ -179,7 +179,7 @@ func GetStats(uuidPath string) (*Stats, error) {
 		bs Stats
 	)
 
-	par := parser{ uuidPath: uuidPath}
+	par := parser{uuidPath: uuidPath}
 
 	// bcache stats
 
@@ -294,7 +294,6 @@ func GetStats(uuidPath string) (*Stats, error) {
 		cs.IOErrors = par.readValue("io_errors")
 		cs.MetadataWritten = par.readValue("metadata_written")
 		cs.Written = par.readValue("written")
-
 
 		ps := par.getPriorityStats()
 		cs.Priority = ps

@@ -195,10 +195,7 @@ func (p *parser) getPriorityStats() priorityStats {
 
 // GetStats collects from sysfs files data tied to one bcache ID.
 func GetStats(uuidPath string) (*Stats, error) {
-	var (
-		// stats = map[string]float64{}
-		bs Stats
-	)
+	var bs Stats
 
 	par := parser{uuidPath: uuidPath}
 

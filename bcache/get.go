@@ -134,7 +134,7 @@ func (p *parser) readValue(fileName string) float64 {
 }
 
 // parsePriorityStats parses lines from the priority_stats file
-func parsePriorityStats(line string, ps *priorityStats) (error) {
+func parsePriorityStats(line string, ps *PriorityStats) (error) {
 	var (
 		value float64
 		err error
@@ -162,8 +162,8 @@ func parsePriorityStats(line string, ps *priorityStats) (error) {
 	return nil
 }
 
-func (p *parser) getPriorityStats() priorityStats {
-	var res priorityStats
+func (p *parser) getPriorityStats() PriorityStats {
+	var res PriorityStats
 
 	if p.err != nil {
 		return res
@@ -259,7 +259,7 @@ func GetStats(uuidPath string) (*Stats, error) {
 		return nil, err
 	}
 
-	bs.Bdevs = make([]bdevStats, len(bdevDirs))
+	bs.Bdevs = make([]BdevStats, len(bdevDirs))
 
 	for ii, bdevDir := range bdevDirs {
 		var bds = &bs.Bdevs[ii]
@@ -301,7 +301,7 @@ func GetStats(uuidPath string) (*Stats, error) {
 	if err != nil {
 		return nil, err
 	}
-	bs.Caches = make([]cacheStats, len(cacheDirs))
+	bs.Caches = make([]CacheStats, len(cacheDirs))
 
 	for ii, cacheDir := range cacheDirs {
 		var cs = &bs.Caches[ii]

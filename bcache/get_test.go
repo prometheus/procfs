@@ -77,15 +77,15 @@ func TestParseStats(t *testing.T) {
 		}
 	}
 
-	// test priorityStats
-	var want = priorityStats{
+	// test PriorityStats
+	var want = PriorityStats{
 		UnusedPercent: 99,
 		MetadataPercent: 5,
 	}
 	var (
 		in string
 		gotErr error
-		got priorityStats
+		got PriorityStats
 	)
 	in = "Metadata:       5%"
 	gotErr = parsePriorityStats(in, &got)

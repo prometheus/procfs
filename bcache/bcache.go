@@ -23,46 +23,49 @@ package bcache
 type Stats struct {
 	// The name of the bcache used to source these statistics.
 	Name   string
-	Bcache bcacheStats
-	Bdevs  []bdevStats
-	Caches []cacheStats
+	Bcache BcacheStats
+	Bdevs  []BdevStats
+	Caches []CacheStats
 }
 
-// bcacheStats contains statistics tied to a bcache ID.
-type bcacheStats struct {
+// BcacheStats contains statistics tied to a bcache ID.
+type BcacheStats struct {
 	AverageKeySize        float64
 	BtreeCacheSize        float64
 	CacheAvailablePercent float64
 	Congested             float64
 	RootUsagePercent      float64
 	TreeDepth             float64
-	Internal              internalStats
+	Internal              InternalStats
 	FiveMin               PeriodStats
 	Total                 PeriodStats
 }
 
-type bdevStats struct {
+// BdevStats contains statistics for one backing device.
+type BdevStats struct {
 	Name      string
 	DirtyData float64
 	FiveMin   PeriodStats
 	Total     PeriodStats
 }
 
-type cacheStats struct {
+// CacheStats contains statistics for one cache device.
+type CacheStats struct {
 	Name            string
 	IOErrors        float64
 	MetadataWritten float64
 	Written         float64
-	Priority        priorityStats
+	Priority        PriorityStats
 }
 
-type priorityStats struct {
+// PriorityStats contains statistics from the priority_stats file.
+type PriorityStats struct {
 	UnusedPercent   float64
 	MetadataPercent float64
 }
 
 // InternalStats contains internal bcache statistics.
-type internalStats struct {
+type InternalStats struct {
 	ActiveJournalEntries                float64
 	BtreeNodes                          float64
 	BtreeReadAverageDurationNanoSeconds float64

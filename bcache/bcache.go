@@ -18,7 +18,7 @@ package bcache
 // Stats contains bcache runtime statistics, parsed from /sys/fs/bcache/.
 //
 // The names and meanings of each statistic were taken from bcache.txt and
-// files in drivers/md/bcache in the Linux kernel source. Counters are float64
+// files in drivers/md/bcache in the Linux kernel source. Counters are uint64
 // (in-kernel counters are mostly unsigned long).
 type Stats struct {
 	// The name of the bcache used to source these statistics.
@@ -30,12 +30,12 @@ type Stats struct {
 
 // BcacheStats contains statistics tied to a bcache ID.
 type BcacheStats struct {
-	AverageKeySize        float64
-	BtreeCacheSize        float64
-	CacheAvailablePercent float64
-	Congested             float64
-	RootUsagePercent      float64
-	TreeDepth             float64
+	AverageKeySize        uint64
+	BtreeCacheSize        uint64
+	CacheAvailablePercent uint64
+	Congested             uint64
+	RootUsagePercent      uint64
+	TreeDepth             uint64
 	Internal              InternalStats
 	FiveMin               PeriodStats
 	Total                 PeriodStats
@@ -44,7 +44,7 @@ type BcacheStats struct {
 // BdevStats contains statistics for one backing device.
 type BdevStats struct {
 	Name      string
-	DirtyData float64
+	DirtyData uint64
 	FiveMin   PeriodStats
 	Total     PeriodStats
 }
@@ -52,33 +52,33 @@ type BdevStats struct {
 // CacheStats contains statistics for one cache device.
 type CacheStats struct {
 	Name            string
-	IOErrors        float64
-	MetadataWritten float64
-	Written         float64
+	IOErrors        uint64
+	MetadataWritten uint64
+	Written         uint64
 	Priority        PriorityStats
 }
 
 // PriorityStats contains statistics from the priority_stats file.
 type PriorityStats struct {
-	UnusedPercent   float64
-	MetadataPercent float64
+	UnusedPercent   uint64
+	MetadataPercent uint64
 }
 
 // InternalStats contains internal bcache statistics.
 type InternalStats struct {
-	ActiveJournalEntries                float64
-	BtreeNodes                          float64
-	BtreeReadAverageDurationNanoSeconds float64
-	CacheReadRaces                      float64
+	ActiveJournalEntries                uint64
+	BtreeNodes                          uint64
+	BtreeReadAverageDurationNanoSeconds uint64
+	CacheReadRaces                      uint64
 }
 
 // PeriodStats contains statistics for a time period (5 min or total).
 type PeriodStats struct {
-	Bypassed            float64
-	CacheBypassHits     float64
-	CacheBypassMisses   float64
-	CacheHits           float64
-	CacheMissCollisions float64
-	CacheMisses         float64
-	CacheReadaheads     float64
+	Bypassed            uint64
+	CacheBypassHits     uint64
+	CacheBypassMisses   uint64
+	CacheHits           uint64
+	CacheMissCollisions uint64
+	CacheMisses         uint64
+	CacheReadaheads     uint64
 }

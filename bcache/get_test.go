@@ -22,32 +22,32 @@ func TestDehumanizeTests(t *testing.T) {
 	// test dehumanize
 	dehumanizeTests := []struct {
 		in      []byte
-		out     float64
+		out     uint64
 		invalid bool
 	}{
 		{
 			in:  []byte("542k"),
-			out: float64(555008),
+			out: 555008,
 		},
 		{
 			in:  []byte("322M"),
-			out: float64(337641472),
+			out: 337641472,
 		},
 		{
 			in:  []byte("1.1k"),
-			out: float64(1124),
+			out: 1124,
 		},
 		{
 			in:  []byte("1.9k"),
-			out: float64(1924),
+			out: 1924,
 		},
 		{
 			in:  []byte("1.10k"),
-			out: float64(2024),
+			out: 2024,
 		},
 		{
 			in:  []byte(""),
-			out: float64(0),
+			out: 0,
 			invalid: true,
 		},
 	}

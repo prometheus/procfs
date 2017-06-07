@@ -52,7 +52,7 @@ func parsePseudoFloat(str string) (float64, error) {
 }
 
 // dehumanize converts human-readable byte slice into float64
-func dehumanize(hbytes []byte) (float64, error) {
+func dehumanize(hbytes []byte) (uint64, error) {
 	ll := len(hbytes)
 	if ll == 0 {
 		return 0, fmt.Errorf("zero-length reply")
@@ -104,7 +104,7 @@ func dehumanize(hbytes []byte) (float64, error) {
 			return 0, err
 		}
 	}
-	res := mant * mul
+	res := uint64(mant * mul)
 	return res, nil
 }
 
@@ -120,7 +120,7 @@ func (p *parser) setSubDir(pathElements ...string) {
 	p.currentDir = path.Join(p.uuidPath, p.subDir)
 }
 
-func (p *parser) readValue(fileName string) float64 {
+func (p *parser) readValue(fileName string) uint64 {
 	if p.err != nil {
 		return 0
 	}
@@ -140,7 +140,7 @@ func (p *parser) readValue(fileName string) float64 {
 // parsePriorityStats parses lines from the priority_stats file
 func parsePriorityStats(line string, ps *PriorityStats) (error) {
 	var (
-		value float64
+		value uint64
 		err error
 	)
 	switch {
@@ -148,7 +148,7 @@ func parsePriorityStats(line string, ps *PriorityStats) (error) {
 		fields := strings.Fields(line)
 		rawValue := fields[len(fields)-1]
 		valueStr := strings.TrimSuffix(rawValue, "%")
-		value, err = strconv.ParseFloat(valueStr, 64)
+		value, err = strconv.ParseUint(valueStr, 10, 64)
 		if err != nil {
 			return err
 		}
@@ -157,7 +157,7 @@ func parsePriorityStats(line string, ps *PriorityStats) (error) {
 		fields := strings.Fields(line)
 		rawValue := fields[len(fields)-1]
 		valueStr := strings.TrimSuffix(rawValue, "%")
-		value, err = strconv.ParseFloat(valueStr, 64)
+		value, err = strconv.ParseUint(valueStr, 10, 64)
 		if err != nil {
 			return err
 		}

@@ -24,7 +24,7 @@ import (
 	"strings"
 )
 
-// parsePseudoFloat parses the peculiar format produced by bcache's bch_hprint
+// ParsePseudoFloat parses the peculiar format produced by bcache's bch_hprint.
 func parsePseudoFloat(str string) (float64, error) {
 	ss := strings.Split(str, ".")
 
@@ -34,7 +34,7 @@ func parsePseudoFloat(str string) (float64, error) {
 	}
 
 	if len(ss) == 1 {
-		// Pure integers are fine
+		// Pure integers are fine.
 		return intPart, nil
 	}
 	fracPart, err := strconv.ParseFloat(ss[1], 64)
@@ -51,7 +51,7 @@ func parsePseudoFloat(str string) (float64, error) {
 	return intPart + fracPart, nil
 }
 
-// dehumanize converts human-readable byte slice into float64
+// Dehumanize converts a human-readable byte slice into a uint64.
 func dehumanize(hbytes []byte) (uint64, error) {
 	ll := len(hbytes)
 	if ll == 0 {
@@ -63,9 +63,10 @@ func dehumanize(hbytes []byte) (uint64, error) {
 		mant float64
 		err error
 	)
-	// If beyond range of ASCII digits, it must be a multiplier
+	// If lastByte is beyond the range of ASCII digits, it must be a
+	// multiplier.
 	if lastByte > 57 {
-		// Remove multiplier from slice
+		// Remove multiplier from slice.
 		hbytes = hbytes[:len(hbytes)-1]
 
 		const (
@@ -130,14 +131,14 @@ func (p *parser) readValue(fileName string) uint64 {
 		p.err = fmt.Errorf("failed to read: %s", path)
 		return 0
 	}
-	// Remove trailing newline
+	// Remove trailing newline.
 	byt = byt[:len(byt)-1]
 	res, err := dehumanize(byt)
 	p.err = err
 	return res
 }
 
-// parsePriorityStats parses lines from the priority_stats file
+// ParsePriorityStats parses lines from the priority_stats file.
 func parsePriorityStats(line string, ps *PriorityStats) (error) {
 	var (
 		value uint64

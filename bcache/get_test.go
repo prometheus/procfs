@@ -19,7 +19,6 @@ import (
 )
 
 func TestDehumanizeTests(t *testing.T) {
-	// test dehumanize
 	dehumanizeTests := []struct {
 		in      []byte
 		out     uint64
@@ -66,7 +65,6 @@ func TestDehumanizeTests(t *testing.T) {
 }
 
 func TestParsePseudoFloatTests(t *testing.T) {
-	// test parsePseudoFloat
 	parsePseudoFloatTests := []struct {
 		in  string
 		out float64
@@ -93,7 +91,6 @@ func TestParsePseudoFloatTests(t *testing.T) {
 }
 
 func TestPriorityStats(t *testing.T) {
-	// test PriorityStats
 	var want = PriorityStats{
 		UnusedPercent: 99,
 		MetadataPercent: 5,

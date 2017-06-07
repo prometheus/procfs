@@ -16,7 +16,7 @@ type CPUStat struct {
 	System    float64
 	Idle      float64
 	Iowait    float64
-	Irq       float64
+	IRQ       float64
 	Softirq   float64
 	Steal     float64
 	Guest     float64
@@ -83,7 +83,7 @@ func parseCPUStat(line string) (CPUStat, int64, error) {
 	count, err := fmt.Sscanf(line, "%s %f %f %f %f %f %f %f %f %f %f",
 		&cpu,
 		&cpuStat.User, &cpuStat.Nice, &cpuStat.System, &cpuStat.Idle,
-		&cpuStat.Iowait, &cpuStat.Irq, &cpuStat.Softirq, &cpuStat.Steal,
+		&cpuStat.Iowait, &cpuStat.IRQ, &cpuStat.Softirq, &cpuStat.Steal,
 		&cpuStat.Guest, &cpuStat.GuestNice)
 
 	if err != nil && err != io.EOF {
@@ -98,7 +98,7 @@ func parseCPUStat(line string) (CPUStat, int64, error) {
 	cpuStat.System /= userHZ
 	cpuStat.Idle /= userHZ
 	cpuStat.Iowait /= userHZ
-	cpuStat.Irq /= userHZ
+	cpuStat.IRQ /= userHZ
 	cpuStat.Softirq /= userHZ
 	cpuStat.Steal /= userHZ
 	cpuStat.Guest /= userHZ
@@ -165,9 +165,9 @@ func (fs FS) NewStat() (Stat, error) {
 			if stat.IRQTotal, err = strconv.ParseUint(parts[1], 10, 64); err != nil {
 				return Stat{}, fmt.Errorf("couldn't parse %s (intr): %s", parts[1], err)
 			}
-			numberedIrqs := parts[2:]
-			stat.IRQ = make([]uint64, len(numberedIrqs))
-			for i, count := range numberedIrqs {
+			numberedIRQs := parts[2:]
+			stat.IRQ = make([]uint64, len(numberedIRQs))
+			for i, count := range numberedIRQs {
 				if stat.IRQ[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Stat{}, fmt.Errorf("couldn't parse %s (intr%d): %s", count, i, err)
 				}
@@ -189,12 +189,12 @@ func (fs FS) NewStat() (Stat, error) {
 				return Stat{}, fmt.Errorf("couldn't parse %s (procs_blocked): %s", parts[1], err)
 			}
 		case parts[0] == "softirq":
-			softIrqStats, total, err := parseSoftirqStat(line)
+			softIRQStats, total, err := parseSoftirqStat(line)
 			if err != nil {
 				return Stat{}, fmt.Errorf("couldn't parse %s (softirq): %s", line, err)
 			}
 			stat.SoftirqTotal = total
-			stat.Softirq = softIrqStats
+			stat.Softirq = softIRQStats
 		case strings.HasPrefix(parts[0], "cpu"):
 			cpuStat, cpuID, err := parseCPUStat(line)
 			if err != nil {

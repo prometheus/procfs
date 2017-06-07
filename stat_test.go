@@ -12,7 +12,7 @@ func TestStat(t *testing.T) {
 	if want, have := float64(301854)/userHZ, s.CPUTotal.User; want != have {
 		t.Errorf("want cpu/user %v, have %v", want, have)
 	}
-	if want, have := float64(31)/userHZ, s.CPU[7].Softirq; want != have {
+	if want, have := float64(31)/userHZ, s.CPU[7].SoftIRQ; want != have {
 		t.Errorf("want cpu7/softirq %v, have %v", want, have)
 	}
 
@@ -50,11 +50,11 @@ func TestStat(t *testing.T) {
 	}
 
 	// softirq
-	if want, have := uint64(5057579), s.SoftirqTotal; want != have {
+	if want, have := uint64(5057579), s.SoftIRQTotal; want != have {
 		t.Errorf("want softirq total %d, have %d", want, have)
 	}
 
-	if want, have := uint64(508444), s.Softirq.Rcu; want != have {
+	if want, have := uint64(508444), s.SoftIRQ.Rcu; want != have {
 		t.Errorf("want softirq RCU %d, have %d", want, have)
 	}
 

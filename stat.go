@@ -17,16 +17,16 @@ type CPUStat struct {
 	Idle      float64
 	Iowait    float64
 	IRQ       float64
-	Softirq   float64
+	SoftIRQ   float64
 	Steal     float64
 	Guest     float64
 	GuestNice float64
 }
 
-// SoftirqStat represent the softirq statistics as exported in the procfs stat file.
+// SoftIRQStat represent the softirq statistics as exported in the procfs stat file.
 // A nice introduction can be found at https://0xax.gitbooks.io/linux-insides/content/interrupts/interrupts-9.html
 // It is possible to get per-cpu stats by reading /proc/softirqs
-type SoftirqStat struct {
+type SoftIRQStat struct {
 	Hi          uint64
 	Timer       uint64
 	NetTx       uint64
@@ -60,9 +60,9 @@ type Stat struct {
 	// Number of processes currently blocked (waiting for IO).
 	ProcessesBlocked uint64
 	// Number of times a softirq was scheduled.
-	SoftirqTotal uint64
+	SoftIRQTotal uint64
 	// Detailed softirq statistics.
-	Softirq SoftirqStat
+	SoftIRQ SoftIRQStat
 }
 
 // NewStat returns kernel/system statistics read from /proc/stat.
@@ -83,7 +83,7 @@ func parseCPUStat(line string) (CPUStat, int64, error) {
 	count, err := fmt.Sscanf(line, "%s %f %f %f %f %f %f %f %f %f %f",
 		&cpu,
 		&cpuStat.User, &cpuStat.Nice, &cpuStat.System, &cpuStat.Idle,
-		&cpuStat.Iowait, &cpuStat.IRQ, &cpuStat.Softirq, &cpuStat.Steal,
+		&cpuStat.Iowait, &cpuStat.IRQ, &cpuStat.SoftIRQ, &cpuStat.Steal,
 		&cpuStat.Guest, &cpuStat.GuestNice)
 
 	if err != nil && err != io.EOF {
@@ -99,7 +99,7 @@ func parseCPUStat(line string) (CPUStat, int64, error) {
 	cpuStat.Idle /= userHZ
 	cpuStat.Iowait /= userHZ
 	cpuStat.IRQ /= userHZ
-	cpuStat.Softirq /= userHZ
+	cpuStat.SoftIRQ /= userHZ
 	cpuStat.Steal /= userHZ
 	cpuStat.Guest /= userHZ
 	cpuStat.GuestNice /= userHZ
@@ -117,23 +117,23 @@ func parseCPUStat(line string) (CPUStat, int64, error) {
 }
 
 // Parse a softirq line.
-func parseSoftirqStat(line string) (SoftirqStat, uint64, error) {
-	softirqStat := SoftirqStat{}
+func parseSoftIRQStat(line string) (SoftIRQStat, uint64, error) {
+	softIRQStat := SoftIRQStat{}
 	var total uint64
 	var prefix string
 
 	_, err := fmt.Sscanf(line, "%s %d %d %d %d %d %d %d %d %d %d %d",
 		&prefix, &total,
-		&softirqStat.Hi, &softirqStat.Timer, &softirqStat.NetTx, &softirqStat.NetRx,
-		&softirqStat.Block, &softirqStat.BlockIoPoll,
-		&softirqStat.Tasklet, &softirqStat.Sched,
-		&softirqStat.Hrtimer, &softirqStat.Rcu)
+		&softIRQStat.Hi, &softIRQStat.Timer, &softIRQStat.NetTx, &softIRQStat.NetRx,
+		&softIRQStat.Block, &softIRQStat.BlockIoPoll,
+		&softIRQStat.Tasklet, &softIRQStat.Sched,
+		&softIRQStat.Hrtimer, &softIRQStat.Rcu)
 
 	if err != nil {
-		return SoftirqStat{}, 0, fmt.Errorf("couldn't parse %s (softirq): %s", line, err)
+		return SoftIRQStat{}, 0, fmt.Errorf("couldn't parse %s (softirq): %s", line, err)
 	}
 
-	return softirqStat, total, nil
+	return softIRQStat, total, nil
 }
 
 // NewStat returns an information about current kernel/system statistics.
@@ -189,12 +189,12 @@ func (fs FS) NewStat() (Stat, error) {
 				return Stat{}, fmt.Errorf("couldn't parse %s (procs_blocked): %s", parts[1], err)
 			}
 		case parts[0] == "softirq":
-			softIRQStats, total, err := parseSoftirqStat(line)
+			softIRQStats, total, err := parseSoftIRQStat(line)
 			if err != nil {
-				return Stat{}, fmt.Errorf("couldn't parse %s (softirq): %s", line, err)
+				return Stat{}, err
 			}
-			stat.SoftirqTotal = total
-			stat.Softirq = softIRQStats
+			stat.SoftIRQTotal = total
+			stat.SoftIRQ = softIRQStats
 		case strings.HasPrefix(parts[0], "cpu"):
 			cpuStat, cpuID, err := parseCPUStat(line)
 			if err != nil {

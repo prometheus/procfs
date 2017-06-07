@@ -18,7 +18,7 @@ import (
 	"math"
 )
 
-func TestParseStats(t *testing.T) {
+func TestDehumanizeTests(t *testing.T) {
 	// test dehumanize
 	dehumanizeTests := []struct {
 		in      []byte
@@ -63,7 +63,9 @@ func TestParseStats(t *testing.T) {
 			t.Errorf("dehumanize: '%s', want %f, got %f", tst.in, tst.out, got)
 		}
 	}
+}
 
+func TestParsePseudoFloatTests(t *testing.T) {
 	// test parsePseudoFloat
 	parsePseudoFloatTests := []struct {
 		in  string
@@ -88,7 +90,9 @@ func TestParseStats(t *testing.T) {
 			t.Errorf("parsePseudoFloat: %s, want %f, got %f", tst.in, tst.out, got)
 		}
 	}
+}
 
+func TestPriorityStats(t *testing.T) {
 	// test PriorityStats
 	var want = PriorityStats{
 		UnusedPercent: 99,

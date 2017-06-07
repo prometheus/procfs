@@ -9,10 +9,6 @@ import (
 	"strings"
 )
 
-const (
-	userHz = 100
-)
-
 // CPUStat shows how much time the cpu spend in various stages.
 type CPUStat struct {
 	User      float64
@@ -46,15 +42,15 @@ type SoftirqStat struct {
 // Stat represents kernel/system statistics.
 type Stat struct {
 	// Boot time in seconds since the Epoch.
-	BootTime int64
+	BootTime uint64
 	// Summed up cpu statistics.
 	CPUTotal CPUStat
 	// Per-CPU statistics.
 	CPU []CPUStat
 	// Number of times interrupts were handled, which contains numbered and unnumbered IRQs.
-	IrqTotal uint64
+	IRQTotal uint64
 	// Number of times a numbered IRQ was triggered.
-	Irq []uint64
+	IRQ []uint64
 	// Number of times a context switch happened.
 	ContextSwitches uint64
 	// Number of times a process was created.
@@ -97,16 +93,16 @@ func parseCPUStat(line string) (CPUStat, int64, error) {
 		return CPUStat{}, -1, fmt.Errorf("couldn't parse %s (cpu): 0 elements parsed", line)
 	}
 
-	cpuStat.User /= userHz
-	cpuStat.Nice /= userHz
-	cpuStat.System /= userHz
-	cpuStat.Idle /= userHz
-	cpuStat.Iowait /= userHz
-	cpuStat.Irq /= userHz
-	cpuStat.Softirq /= userHz
-	cpuStat.Steal /= userHz
-	cpuStat.Guest /= userHz
-	cpuStat.GuestNice /= userHz
+	cpuStat.User /= userHZ
+	cpuStat.Nice /= userHZ
+	cpuStat.System /= userHZ
+	cpuStat.Idle /= userHZ
+	cpuStat.Iowait /= userHZ
+	cpuStat.Irq /= userHZ
+	cpuStat.Softirq /= userHZ
+	cpuStat.Steal /= userHZ
+	cpuStat.Guest /= userHZ
+	cpuStat.GuestNice /= userHZ
 
 	if cpu == "cpu" {
 		return cpuStat, -1, nil
@@ -162,17 +158,17 @@ func (fs FS) NewStat() (Stat, error) {
 		}
 		switch {
 		case parts[0] == "btime":
-			if stat.BootTime, err = strconv.ParseInt(parts[1], 10, 64); err != nil {
+			if stat.BootTime, err = strconv.ParseUint(parts[1], 10, 64); err != nil {
 				return Stat{}, fmt.Errorf("couldn't parse %s (btime): %s", parts[1], err)
 			}
 		case parts[0] == "intr":
-			if stat.IrqTotal, err = strconv.ParseUint(parts[1], 10, 64); err != nil {
+			if stat.IRQTotal, err = strconv.ParseUint(parts[1], 10, 64); err != nil {
 				return Stat{}, fmt.Errorf("couldn't parse %s (intr): %s", parts[1], err)
 			}
 			numberedIrqs := parts[2:]
-			stat.Irq = make([]uint64, len(numberedIrqs))
+			stat.IRQ = make([]uint64, len(numberedIrqs))
 			for i, count := range numberedIrqs {
-				if stat.Irq[i], err = strconv.ParseUint(count, 10, 64); err != nil {
+				if stat.IRQ[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Stat{}, fmt.Errorf("couldn't parse %s (intr%d): %s", count, i, err)
 				}
 			}
@@ -202,7 +198,7 @@ func (fs FS) NewStat() (Stat, error) {
 		case strings.HasPrefix(parts[0], "cpu"):
 			cpuStat, cpuID, err := parseCPUStat(line)
 			if err != nil {
-				return Stat{}, fmt.Errorf("couldn't parse %s (cpu): %s", line, err)
+				return Stat{}, err
 			}
 			if cpuID == -1 {
 				stat.CPUTotal = cpuStat

@@ -21,8 +21,9 @@ import (
 func TestParseStats(t *testing.T) {
 	// test dehumanize
 	dehumanizeTests := []struct {
-		in  []byte
-		out float64
+		in      []byte
+		out     float64
+		invalid bool
 	}{
 		{
 			in:  []byte("542k"),
@@ -44,11 +45,22 @@ func TestParseStats(t *testing.T) {
 			in:  []byte("1.10k"),
 			out: float64(2024),
 		},
+		{
+			in:  []byte(""),
+			out: float64(0),
+			invalid: true,
+		},
 	}
 	for _, tst := range dehumanizeTests {
 		got, err := dehumanize(tst.in)
-		if err != nil || got != tst.out {
-			t.Errorf("dehumanize: %s, want %f, got %f", tst.in, tst.out, got)
+		if tst.invalid && err == nil {
+			t.Error("expected an error, but none occurred")
+		}
+		if !tst.invalid && err != nil {
+			t.Errorf("unexpected error: %v", err)
+		}
+		if got != tst.out {
+			t.Errorf("dehumanize: '%s', want %f, got %f", tst.in, tst.out, got)
 		}
 	}
 

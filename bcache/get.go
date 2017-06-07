@@ -53,7 +53,11 @@ func parsePseudoFloat(str string) (float64, error) {
 
 // dehumanize converts human-readable byte slice into float64
 func dehumanize(hbytes []byte) (float64, error) {
-	lastByte := hbytes[len(hbytes)-1]
+	ll := len(hbytes)
+	if ll == 0 {
+		return 0, fmt.Errorf("zero-length reply")
+	}
+	lastByte := hbytes[ll-1]
 	mul := float64(1)
 	var (
 		mant float64

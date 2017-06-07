@@ -9,18 +9,18 @@ func TestStat(t *testing.T) {
 	}
 
 	// cpu
-	if want, have := float64(301854)/userHz, s.CPUTotal.User; want != have {
+	if want, have := float64(301854)/userHZ, s.CPUTotal.User; want != have {
 		t.Errorf("want cpu/user %v, have %v", want, have)
 	}
-	if want, have := float64(31)/userHz, s.CPU[7].Softirq; want != have {
+	if want, have := float64(31)/userHZ, s.CPU[7].Softirq; want != have {
 		t.Errorf("want cpu7/softirq %v, have %v", want, have)
 	}
 
 	// intr
-	if want, have := uint64(8885917), s.IrqTotal; want != have {
+	if want, have := uint64(8885917), s.IRQTotal; want != have {
 		t.Errorf("want irq/total %d, have %d", want, have)
 	}
-	if want, have := uint64(1), s.Irq[8]; want != have {
+	if want, have := uint64(1), s.IRQ[8]; want != have {
 		t.Errorf("want irq8 %d, have %d", want, have)
 	}
 
@@ -30,7 +30,7 @@ func TestStat(t *testing.T) {
 	}
 
 	// btime
-	if want, have := int64(1418183276), s.BootTime; want != have {
+	if want, have := uint64(1418183276), s.BootTime; want != have {
 		t.Errorf("want boot time (btime) %d, have %d", want, have)
 	}
 

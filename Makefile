@@ -8,11 +8,15 @@ lint:
 	go get github.com/golang/lint/golint
 	golint *.go
 
-test: sysfs/fixtures/.unpacked
+test:
+	rm -rf sysfs/fixtures; \
+	cd sysfs/fixtures.src; \
+	find . \( -type f -o -type l \) -exec sh -c ' \
+		np=../fixtures/$$(echo {} | sed "s/_@colon@_/:/g"); \
+		nd=../fixtures/$$(dirname $$np); \
+		mkdir -p $$nd; \
+		cp -a {} $${np};' \
+	\;
 	go test -v ./...
-
-sysfs/fixtures/.unpacked: sysfs/fixtures.tar.gz
-	cd sysfs && tar xzf fixtures.tar.gz
-	touch $@
 
 .PHONY: fmt lint test ci

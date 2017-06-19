@@ -8,10 +8,8 @@ lint:
 	go get github.com/golang/lint/golint
 	golint *.go
 
-test: sysfs/fixtures/.copied
-	go test -v ./...
-
-sysfs/fixtures/.copied:
+test:
+	rm -rf sysfs/fixtures; \
 	cd sysfs/fixtures.src; \
 	find . \( -type f -o -type l \) -exec sh -c ' \
 		np=../fixtures/$$(echo {} | sed "s/_@colon@_/:/g"); \
@@ -19,6 +17,6 @@ sysfs/fixtures/.copied:
 		mkdir -p $$nd; \
 		cp -a {} $${np};' \
 	\;
-	touch $@
+	go test -v ./...
 
 .PHONY: fmt lint test ci

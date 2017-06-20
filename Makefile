@@ -8,11 +8,8 @@ lint:
 	go get github.com/golang/lint/golint
 	golint *.go
 
-test: sysfs/fixtures/.unpacked
+test:
+	cd sysfs && rm -rf fixtures && tar xzf fixtures.tar.gz
 	go test -v ./...
-
-sysfs/fixtures/.unpacked: sysfs/fixtures.tar.gz
-	cd sysfs && tar xzf fixtures.tar.gz
-	touch $@
 
 .PHONY: fmt lint test ci

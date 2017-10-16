@@ -15,4 +15,8 @@ sysfs/fixtures/.unpacked: sysfs/fixtures.ttar
 	./ttar -C sysfs -x -f sysfs/fixtures.ttar
 	touch $@
 
-.PHONY: fmt lint test ci
+check_license:
+	@echo ">> checking license header"
+	@./scripts/check_license.sh
+
+.PHONY: check_license fmt lint test ci

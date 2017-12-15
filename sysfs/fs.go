@@ -109,7 +109,8 @@ func (fs FS) BcacheStats() ([]*bcache.Stats, error) {
 
 // ISCSIStats getting iscsi runtime information 
 func (fs FS) ISCSIStats() ([]*iscsi.Stats, error) {
-	matches, err := filepath.Glob(fs.Path("kernel/config/target/iscsi/iqn*"))
+	// matches, err := filepath.Glob(fs.Path("kernel/config/target/iscsi/iqn*"))
+	matches, err := filepath.Glob(fs.Path( iscsi.TARGET_PATH + "/iqn*"))
 	if err != nil {
 		return nil, err
 	}

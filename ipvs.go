@@ -151,7 +151,7 @@ func parseIPVSBackendStatus(file io.Reader) ([]IPVSBackendStatus, error) {
 	)
 
 	for scanner.Scan() {
-		fields := strings.Fields(string(scanner.Text()))
+		fields := strings.Fields(scanner.Text())
 		if len(fields) == 0 {
 			continue
 		}

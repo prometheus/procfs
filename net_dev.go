@@ -78,7 +78,7 @@ func newNetDev(file string) (NetDev, error) {
 		nd[line.Name] = *line
 	}
 
-	return nd, nil
+	return nd, s.Err()
 }
 
 // parseLine parses a single line from the /proc/net/dev file. Header lines

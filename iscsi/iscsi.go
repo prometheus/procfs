@@ -152,7 +152,7 @@ func getLunLinkTarget(lun_path string) (backstore_type string,
     }
     for _, file := range files {
         // log.Debugf("lio: lun dir list file ->%s<-",file.Name())
-        fileInfo, _:= os.Lstat(lun_path +  "/" + file.Name())
+        // fileInfo, _:= os.Lstat(lun_path +  "/" + file.Name())
         if fileInfo.Mode() & os.ModeSymlink != 0 {
             target, err := os.Readlink( lun_path +  "/" + fileInfo.Name())
             if err != nil {
@@ -168,7 +168,7 @@ func getLunLinkTarget(lun_path string) (backstore_type string,
                 type_number = tmp[2]
             }
             //  log.Debugf("lio: object_name->%s-<, type->%s, type_number->%s<- ", 
-                object_name, backstore_type, type_number)
+            //  object_name, backstore_type, type_number)
             return backstore_type, object_name, type_number, nil
         }
     }
@@ -225,7 +225,7 @@ func (fileio FILEIO) GetFileioUdev(fileio_number string,
     fileio.Object_name  = object_name
     
     // log.Debugf("lio: Fileio udev_path ->%s<-", filepath.Join(TARGET_CORE,
-        fileio.Name, fileio.Object_name, "udev_path"))
+    // fileio.Name, fileio.Object_name, "udev_path"))
     udev_path := filepath.Join(TARGET_CORE, fileio.Name, fileio.Object_name, "udev_path")
 
     if _, err := os.Stat(udev_path); os.IsNotExist(err) {
@@ -248,7 +248,7 @@ func (iblock IBLOCK) GetIblockUdev(iblock_number string,
     iblock.Object_name  = object_name
     
     // log.Debugf("lio: IBlock udev_path ->%s<-", filepath.Join(TARGET_CORE,
-    iblock.Name, iblock.Object_name, "udev_path"))
+    // iblock.Name, iblock.Object_name, "udev_path"))
     udev_path := filepath.Join(TARGET_CORE, iblock.Name, iblock.Object_name, "udev_path")
 
     if _, err := os.Stat(udev_path); os.IsNotExist(err) {
@@ -283,7 +283,7 @@ func (rbd RBD) GetRBDMatch(rbd_number string, pool_image string) (r *RBD, err er
         system_pool_path := filepath.Join(system_rbd_path, "pool")
         if _, err := os.Stat(system_pool_path); os.IsNotExist(err) {
             // log.Errorf("lio: rbd%d pool file %s is missing!",
-            system_rbd_number, system_pool_path )
+            // system_rbd_number, system_pool_path )
             continue
         }
         b_system_pool, err := ioutil.ReadFile(system_pool_path)
@@ -297,7 +297,7 @@ func (rbd RBD) GetRBDMatch(rbd_number string, pool_image string) (r *RBD, err er
         system_image_path := filepath.Join(system_rbd_path, "name")
         if _, err := os.Stat(system_image_path); os.IsNotExist(err) {
             // log.Errorf("lio: rbd%d image file %s is missing!",
-            system_rbd_number, system_image_path )
+            // system_rbd_number, system_image_path )
             continue
         }
         b_system_image, err := ioutil.ReadFile(system_image_path)

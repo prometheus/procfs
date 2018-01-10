@@ -152,7 +152,7 @@ func getLunLinkTarget(lun_path string) (backstore_type string,
     }
     for _, file := range files {
         // log.Debugf("lio: lun dir list file ->%s<-",file.Name())
-        // fileInfo, _:= os.Lstat(lun_path +  "/" + file.Name())
+        fileInfo, _:= os.Lstat(lun_path +  "/" + file.Name())
         if fileInfo.Mode() & os.ModeSymlink != 0 {
             target, err := os.Readlink( lun_path +  "/" + fileInfo.Name())
             if err != nil {

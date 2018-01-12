@@ -233,7 +233,7 @@ func parseV4Stats(v []uint64) (V4Stats, error) {
 
 func parseV4Ops(v []uint64) (V4Ops, error) {
 	values := int(v[0])
-	if len(v[1:]) != values {
+	if len(v[1:]) != values || values < 39 {
 		return V4Ops{}, fmt.Errorf("invalid V4Ops line %q", v)
 	}
 

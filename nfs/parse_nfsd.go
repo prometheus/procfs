@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/prometheus/procfs/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // NewNFSdRPCStats returns stats read from /proc/net/rpc/nfsd

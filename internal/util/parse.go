@@ -1,5 +1,7 @@
 package util
 
+import "strconv"
+
 // ParseUint32s parses a slice of strings into a slice of uint32s.
 func ParseUint32s(ss []string) ([]uint32, error) {
 	us := make([]uint32, 0, len(ss))

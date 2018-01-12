@@ -1,15 +1,16 @@
-// /proc/net/rpc/nfsd parsing documented by https://www.svennd.be/nfsd-stats-explained-procnetrpcnfsd/
-package nfs
+// Package nfsd implements parsing of /proc/net/rpc/nfsd.
+// Fields are documented in https://www.svennd.be/nfsd-stats-explained-procnetrpcnfsd/
+package nfsd
 
-// rc line: Reply Cache
-type NFSdReplyCache struct {
+// ReplyCache models the "rc" line.
+type ReplyCache struct {
 	Hits    uint64
 	Misses  uint64
 	NoCache uint64
 }
 
-// fh line: File Handles
-type NFSdFileHandles struct {
+// FileHandles models the "fh" line.
+type FileHandles struct {
 	Stale        uint64
 	TotalLookups uint64
 	AnonLookups  uint64
@@ -17,35 +18,35 @@ type NFSdFileHandles struct {
 	NoDirNoCache uint64
 }
 
-// io line: Input Output
-type NFSdInputOutput struct {
+// InputOutput models the "io" line.
+type InputOutput struct {
 	Read  uint64
 	Write uint64
 }
 
-// th line: Threads
-type NFSdThreads struct {
+// Threads models the "th" line.
+type Threads struct {
 	Threads uint64
 	FullCnt uint64
 }
 
-// ra line: Read Ahead Cache
-type NFSdReadAheadCache struct {
+// ReadAheadCache models the "ra" line.
+type ReadAheadCache struct {
 	CacheSize      uint64
-	CacheHistogram [10]uint64
+	CacheHistogram []uint64
 	NotFound       uint64
 }
 
-// net line: Network
-type NFSdNetwork struct {
+// Network models the "net" line.
+type Network struct {
 	NetCount   uint64
 	UDPCount   uint64
 	TCPCount   uint64
 	TCPConnect uint64
 }
 
-// rpc line:
-type NFSdRPC struct {
+// RPC models the "rpc" line.
+type RPC struct {
 	RPCCount uint64
 	BadCnt   uint64
 	BadFmt   uint64
@@ -53,9 +54,8 @@ type NFSdRPC struct {
 	BadcInt  uint64
 }
 
-// proc2 line: NFSv2 Stats
-type NFSdv2Stats struct {
-	Values   uint64 // Should be 18.
+// V2Stats models the "proc2" line.
+type V2Stats struct {
 	Null     uint64
 	GetAttr  uint64
 	SetAttr  uint64
@@ -76,9 +76,8 @@ type NFSdv2Stats struct {
 	FsStat   uint64
 }
 
-// proc3 line: NFSv3 Stats
-type NFSdv3Stats struct {
-	Values      uint64 // Should be 22.
+// V3Stats models the "proc3" line.
+type V3Stats struct {
 	Null        uint64
 	GetAttr     uint64
 	SetAttr     uint64
@@ -103,20 +102,19 @@ type NFSdv3Stats struct {
 	Commit      uint64
 }
 
-// proc4 line: NFSv4 Stats
-type NFSdv4Stats struct {
-	Values   uint64 // Should be 2.
+// V4Stats models the "proc4" line.
+type V4Stats struct {
 	Null     uint64
 	Compound uint64
 }
 
-// proc4ops line: NFSv4 operations
+// V4Ops models the "proc4ops" line: NFSv4 operations
 // Variable list, see:
 // v4.0 https://tools.ietf.org/html/rfc3010 (38 operations)
 // v4.1 https://tools.ietf.org/html/rfc5661 (58 operations)
 // v4.2 https://tools.ietf.org/html/draft-ietf-nfsv4-minorversion2-41 (71 operations)
-type NFSdv4Ops struct {
-	Values       uint64 // Variable depending on v4.x sub-version.
+type V4Ops struct {
+	//Values       uint64 // Variable depending on v4.x sub-version. TODO: Will this always at least include the fields in this struct?
 	Op0Unused    uint64
 	Op1Unused    uint64
 	Op2Future    uint64
@@ -157,18 +155,17 @@ type NFSdv4Ops struct {
 	RelLockOwner uint64
 }
 
-// All stats from /proc/net/rpc/nfsd
-type NFSdRPCStats struct {
-	NFSdReplyCache     NFSdReplyCache
-	NFSdFileHandles    NFSdFileHandles
-	NFSdInputOutput    NFSdInputOutput
-	NFSdThreads        NFSdThreads
-	NFSdReadAheadCache NFSdReadAheadCache
-	NFSdNetwork        NFSdNetwork
-	NFSdRPC            NFSdRPC
-	NFSdv2Stats        NFSdv2Stats
-	NFSdv3Stats        NFSdv3Stats
-	NFSdv4Stats        NFSdv4Stats
-	NFSdv4Ops          NFSdv4Ops
-	NFSdRPCStats       NFSdRPCStats
+// RPCStats models all stats from /proc/net/rpc/nfsd.
+type RPCStats struct {
+	ReplyCache     ReplyCache
+	FileHandles    FileHandles
+	InputOutput    InputOutput
+	Threads        Threads
+	ReadAheadCache ReadAheadCache
+	Network        Network
+	RPC            RPC
+	V2Stats        V2Stats
+	V3Stats        V3Stats
+	V4Stats        V4Stats
+	V4Ops          V4Ops
 }

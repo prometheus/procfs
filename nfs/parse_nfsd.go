@@ -5,6 +5,8 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+
+	"github.com/prometheus/procfs/util"
 )
 
 // NewNFSdRPCStats returns stats read from /proc/net/rpc/nfsd
@@ -30,9 +32,9 @@ func (fs FS) NewNFSdRPCStats() (NFSdRPCStats, error) {
 		label := parts[0]
 
 		if label == "th" {
-			values = procfs.ParseUint64s(parts[1:3])
+			values = util.ParseUint64s(parts[1:3])
 		} else {
-			values = procfs.ParseUint64s(parts[1:])
+			values = util.ParseUint64s(parts[1:])
 		}
 
 		switch metricLine := parts[0]; metricLine {

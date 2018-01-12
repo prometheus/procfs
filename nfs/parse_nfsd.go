@@ -8,7 +8,7 @@ import (
 )
 
 // NewNFSdRPCStats returns stats read from /proc/net/rpc/nfsd
-func (fs FS) NewNFSdRPCStats() (NFSdRPCStats, err) {
+func (fs FS) NewNFSdRPCStats() (NFSdRPCStats, error) {
 	var values []uint64
 
 	f, err := os.Open(fs.Path("net/rpc/nfsd"))
@@ -17,7 +17,7 @@ func (fs FS) NewNFSdRPCStats() (NFSdRPCStats, err) {
 	}
 	defer f.Close()
 
-	NFSdRPCStats := NFSdRPCStats{}
+	stats := NFSdRPCStats{}
 
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
@@ -37,16 +37,27 @@ func (fs FS) NewNFSdRPCStats() (NFSdRPCStats, err) {
 
 		switch metricLine := parts[0]; metricLine {
 		case "rc":
-			replyCache, err := parseNFSdReplyCache(parts[1:])
+			stats.NFSdReplyCache, err = parseNFSdReplyCache(values)
 		case "fh":
+			stats.NFSdFileHandles, err = parseNFSdFileHandles(values)
 		case "io":
+			stats.NFSdInputOutput, err = parseNFSdInputOutput(values)
 		case "th":
+			stats.NFSdThreads, err = parseNFSdThreads(values)
 		case "ra":
+			stats.NFSdReadAheadCache, err = parseNFSdReadAheadCache(values)
+		case "net":
+			stats.NFSdNetwork, err = parseNFSdNetwork(values)
 		case "rpc":
+			stats.NFSdRPC, err = parseNFSdRPC(values)
 		case "proc2":
+			stats.NFSdv2Stats, err = parseNFSdv2Stats(values)
 		case "proc3":
+			stats.NFSdv3Stats, err = parseNFSdv3Stats(values)
 		case "proc4":
+			stats.NFSdv4Stats, err = parseNFSdv4Stats(values)
 		case "proc4ops":
+			stats.NFSdRPCStats, err = parseNFSdRPCStats(values)
 		default:
 			return nil, fmt.Errorf("invalid NFSd metric line %q", metricLine)
 		}
@@ -59,7 +70,7 @@ func (fs FS) NewNFSdRPCStats() (NFSdRPCStats, err) {
 		return Stat{}, fmt.Errorf("couldn't parse %s: %s", f.Name(), err)
 	}
 
-	return NFSdRPCStats, nil
+	return stats, nil
 }
 
 func parseNFSdReplyCache(v []uint64) (NFSdReplyCache, err) {

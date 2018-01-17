@@ -18,7 +18,6 @@ import (
 	"os"
 	"path/filepath"
 
-	// "github.com/prometheus/common/log"
 	"github.com/prometheus/procfs/iscsi"
 	"github.com/prometheus/procfs/bcache"
 	"github.com/prometheus/procfs/xfs"
@@ -111,19 +110,17 @@ func (fs FS) BcacheStats() ([]*bcache.Stats, error) {
 
 // ISCSIStats getting iscsi runtime information 
 func (fs FS) ISCSIStats() ([]*iscsi.Stats, error) {
-    // log.Debugf("lio: iscsi path look up %s", iscsi.TARGET_PATH + "/iqn*")
 	matches, err := filepath.Glob(iscsi.TARGET_PATH + "/iqn*")
 	if err != nil {
 		return nil, err
 	}
 
     stats := make([]*iscsi.Stats, 0, len(matches))
-    for _, iqn_path := range matches { 
+    for _, iqnPath := range matches { 
         name := filepath.Base(iqn_path)
-        // log.Debugf("lio: path name %s", name)
 
         // stats
-        s, err := iscsi.GetStats(iqn_path)
+        s, err := iscsi.GetStats(iqnPath)
 		if err != nil {
 			return nil, err
 		}

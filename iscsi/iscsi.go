@@ -1,4 +1,4 @@
-// Copyright 2017 Alex Lau (AvengerMoJo) <alau@suse.com>
+// Copyright 2017 The Prometheus Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,316 +23,298 @@ import (
     "path/filepath"
     "strconv" 
     "strings" 
-
-    // "github.com/prometheus/common/log"
 )
 
-const TARGET_PATH = "/sys/kernel/config/target/iscsi"
-const TARGET_CORE = "/sys/kernel/config/target/core"
+// TARGETPATH is static sys path for iscsi target 
+const TARGETPATH = "/sys/kernel/config/target/iscsi"
+// TARGETCORE static sys path for backstore 
+const TARGETCORE = "/sys/kernel/config/target/core"
 
+// TPGT struct for sys target portal group tag info
 type TPGT struct {
-    Name        string
-    Tpgt_path   string
-    Is_enable   bool
-    Luns        []LUN
+    Name        string  // name of the tpgt group
+    TpgtPath    string  // file path of tpgt 
+    IsEnable    bool    // is the tpgt enable
+    Luns        []LUN   // the Luns that tpgt has 
 }
 
+// LUN struct for sys logical unit number info
 type LUN struct {
-    Name        string
-    Lun_path    string
-    Backstore   string
-    Object_name string
-    Type_number string
+    Name        string  // name of the lun
+    LunPath     string  // file path of the lun
+    Backstore   string  // backstore of the lun
+    ObjectName  string  // place holder for object 
+    TypeNumber  string  // place holder for number of the device
 }
 
+// FILEIO struct for backstore info
 type FILEIO struct { 
-    Name        string
-    Fnumber     string
-    Object_name string
-    Filename    string
+    Name        string  // name of the fileio 
+    Fnumber     string  // number related to the backstore
+    ObjectName  string  // place holder for object in iscsi object
+    Filename    string  // link to the actual file being export
 }
 
+// IBLOCK struct for backstore info
 type IBLOCK struct {
-    Name        string
-    Bnumber     string
-    Object_name string
-    Iblock      string
+    Name        string  // name of the iblock
+    Bnumber     string  // number related to the backstore 
+    ObjectName  string  // place holder for object in iscsi object
+    Iblock      string  // link to the actual block being export 
 }
 
+// RBD struct for backstore info
 type RBD struct {
-    Name    string
-    Rnumber string
-    Pool    string
-    Image   string
+    Name    string  // name of the rbd 
+    Rnumber string  // number related to the backstore 
+    Pool    string  // place holder for the rbd pool
+    Image   string  // place holder for the rbd image
 }
 
+// RDMCP struct for backstore info
 type RDMCP struct {
-    Name        string
-    Object_name string
+    Name        string  // name of the rdm_cp 
+    ObjectName  string  // place holder for object name 
 }
 
+// Stats struct for all targets info
 type Stats struct {
     Name    string
     Tpgt    []TPGT
 }
 
-// main iscsi status information 
+// GetStats is the main iscsi status information func
 // building the path and prepare info for enable iscsi 
-func GetStats(iqn_path string) (*Stats, error) {
+func GetStats(iqnPath string) (*Stats, error) {
     var istats Stats
 
-    // log.Debugf("lio: GetStats path :%s", iqn_path)
-    istats.Name = filepath.Base(iqn_path)
-    // log.Debugf("lio: GetStats name :%s", istats.Name)
-
-    matches, err := filepath.Glob(filepath.Join(iqn_path, "tpgt*"))
+    istats.Name = filepath.Base(iqnPath)
+    matches, err := filepath.Glob(filepath.Join(iqnPath, "tpgt*"))
     if err != nil {
-        return nil, fmt.Errorf("lio: get TPGT error %v\n", err )
+        return nil, fmt.Errorf("lio: get TPGT error %v", err )
     }
     istats.Tpgt = make([]TPGT, len(matches))
 
-    for ii, tpgt_path := range matches {
-        // log.Debugf("lio: GetStats tpgt_path :%s", tpgt_path)
-        istats.Tpgt[ii].Name = filepath.Base(tpgt_path)
-        istats.Tpgt[ii].Tpgt_path = tpgt_path
-        istats.Tpgt[ii].Is_enable, _ = isPathEnable(tpgt_path)
-        if (istats.Tpgt[ii].Is_enable) {
-                matches_luns_path, _ := getLun(tpgt_path)
-                istats.Tpgt[ii].Luns = make([]LUN, len(matches_luns_path))
+    for ii, tpgtPath := range matches {
+        istats.Tpgt[ii].Name = filepath.Base(tpgtPath)
+        istats.Tpgt[ii].TpgtPath = tpgtPath
+        istats.Tpgt[ii].IsEnable, _ = isPathEnable(tpgtPath)
+        if (istats.Tpgt[ii].IsEnable) {
+                matchesLunsPath, _ := getLun(tpgtPath)
+                istats.Tpgt[ii].Luns = make([]LUN, len(matchesLunsPath))
 
-                for ll, lun_path := range matches_luns_path {
-                    backstore, object_name, type_number, err := getLunLinkTarget(lun_path)
+                for ll, lunPath := range matchesLunsPath {
+                    backstore, objectName, typeNumber, err := getLunLinkTarget(lunPath)
                     if err != nil {
-                        // log.Errorf("lio: get TPGT Lun error %v\n", err )
                         continue
                     }
-                    istats.Tpgt[ii].Luns[ll].Name       = filepath.Base(lun_path)
-                    istats.Tpgt[ii].Luns[ll].Lun_path   = lun_path
+                    istats.Tpgt[ii].Luns[ll].Name       = filepath.Base(lunPath)
+                    istats.Tpgt[ii].Luns[ll].LunPath    = lunPath
                     istats.Tpgt[ii].Luns[ll].Backstore  = backstore
-                    istats.Tpgt[ii].Luns[ll].Object_name= object_name
-                    istats.Tpgt[ii].Luns[ll].Type_number= type_number
+                    istats.Tpgt[ii].Luns[ll].ObjectName = objectName
+                    istats.Tpgt[ii].Luns[ll].TypeNumber = typeNumber
                 }
         }
     }
     return &istats, nil
 }
 
-// utility function 
+// isPathEnable is a utility function 
 // check if the file "enable" contain enable message
 func isPathEnable(path string) (bool, error) {
     var isEnable bool
     isEnable = false
     tmp, err := ioutil.ReadFile(filepath.Join(path, "enable"))
-    // log.Debugf("lio: is Path %s enable?", tmp)
     if err != nil {
-        return false, fmt.Errorf("is Path Enable error %v\n", err)
+        return false, fmt.Errorf("is Path Enable error %v", err)
     }
-    tmp_num, err := strconv.Atoi(strings.TrimSpace(string(tmp)))
-    // log.Debugf("lio: isPathEnable number %d", tmp_num)
-    if (tmp_num > 0) {
+    tmpNum, err := strconv.Atoi(strings.TrimSpace(string(tmp)))
+    if (tmpNum > 0) {
         isEnable = true
     }
     return isEnable, nil
 }
 
-func getLun(tpgt_path string) (matches []string, err error) {
-    // log.Debugf("lio: getLun path %s", tpgt_path)
-    matches, err = filepath.Glob(filepath.Join(tpgt_path, "lun/lun*"))
+func getLun(tpgtPath string) (matches []string, err error) {
+    matches, err = filepath.Glob(filepath.Join(tpgtPath, "lun/lun*"))
     if err != nil {
-        return nil, fmt.Errorf("getLun error  %v\n", err )
+        return nil, fmt.Errorf("getLun error  %v", err )
     }
     return matches, nil
 }
 
-func getLunLinkTarget(lun_path string) (backstore_type string,
-    object_name string, type_number string, err error) {
-    files, err := ioutil.ReadDir(lun_path)
+func getLunLinkTarget(lunPath string) (backstoreType string,
+    objectName string, typeNumber string, err error) {
+    files, err := ioutil.ReadDir(lunPath)
     if err != nil {
-        return "", "", "", fmt.Errorf("lio getLunLinkTarget error  %v\n", err )
+        return "", "", "", fmt.Errorf("lio getLunLinkTarget error  %v", err )
     }
     for _, file := range files {
-        // log.Debugf("lio: lun dir list file ->%s<-",file.Name())
-        fileInfo, _:= os.Lstat(lun_path +  "/" + file.Name())
+        fileInfo, _:= os.Lstat(lunPath +  "/" + file.Name())
         if fileInfo.Mode() & os.ModeSymlink != 0 {
-            target, err := os.Readlink( lun_path +  "/" + fileInfo.Name())
+            target, err := os.Readlink( lunPath +  "/" + fileInfo.Name())
             if err != nil {
-                return "", "", "", fmt.Errorf("Readlink err %v\n", err)
+                return "", "", "", fmt.Errorf("Readlink err %v", err)
             }
-            p1, object_name := filepath.Split(target)
-            _, type_with_number := filepath.Split(filepath.Clean(p1))
+            p1, objectName := filepath.Split(target)
+            _, typeWithNumber := filepath.Split(filepath.Clean(p1))
 
-            tmp := strings.Split(type_with_number, "_")
-            backstore_type, type_number := tmp[0], tmp[1]
+            tmp := strings.Split(typeWithNumber, "_")
+            backstoreType, typeNumber := tmp[0], tmp[1]
             if len(tmp) == 3 {
-                backstore_type = fmt.Sprintf("%s_%s", tmp[0], tmp[1])
-                type_number = tmp[2]
+                backstoreType = fmt.Sprintf("%s_%s", tmp[0], tmp[1])
+                typeNumber = tmp[2]
             }
-            //  log.Debugf("lio: object_name->%s-<, type->%s, type_number->%s<- ", 
-            //  object_name, backstore_type, type_number)
-            return backstore_type, object_name, type_number, nil
+            return backstoreType, objectName, typeNumber, nil
         }
     }
     return "", "", "", errors.New("lio getLunLinkTarget: Lun Link does not exist")
 }
 
+// ReadWriteOPS read and return the stat of read and write in megabytes, 
+// and total commands that send to the target
 func ReadWriteOPS(iqn string, tpgt string, lun string) (readmb uint64,
     writemb uint64, iops uint64, err error){
 
-    readmb_path := filepath.Join(TARGET_PATH, iqn, tpgt, "lun", lun,
+    readmbPath := filepath.Join(TARGETPATH, iqn, tpgt, "lun", lun,
         "statistics/scsi_tgt_port/read_mbytes")
-    // log.Debugf("lio: Read File path: %s\n", readmb_path)
 
-    if _, err := os.Stat(readmb_path); os.IsNotExist(err) {
-        return 0, 0, 0, fmt.Errorf("lio: file %s is missing!", readmb_path)
+    if _, err := os.Stat(readmbPath); os.IsNotExist(err) {
+        return 0, 0, 0, fmt.Errorf("lio: file %s is missing", readmbPath)
     }
-    readmb, err = readUintFromFile(readmb_path) 
+    readmb, err = readUintFromFile(readmbPath) 
     if err != nil {
-        return 0, 0, 0, fmt.Errorf("lio: read_mbytes error %s!", err)
+        return 0, 0, 0, fmt.Errorf("lio: read_mbytes error %s", err)
     }
 
-    writemb_path := filepath.Join(TARGET_PATH, iqn, tpgt, "lun", lun,
+    writembPath := filepath.Join(TARGETPATH, iqn, tpgt, "lun", lun,
         "statistics/scsi_tgt_port/write_mbytes")
-    // log.Debugf("lio: Write File path: %s\n", readmb_path)
 
-    if _, err := os.Stat(writemb_path); os.IsNotExist(err) {
-        return 0, 0, 0, fmt.Errorf("lio: file %s is missing!", readmb_path)
+    if _, err := os.Stat(writembPath); os.IsNotExist(err) {
+        return 0, 0, 0, fmt.Errorf("lio: file %s is missing", readmbPath)
     }
-    writemb, err = readUintFromFile(writemb_path) 
+    writemb, err = readUintFromFile(writembPath) 
     if err != nil {
-        return 0, 0, 0, fmt.Errorf("lio: write_mbytes error %s!", err)
+        return 0, 0, 0, fmt.Errorf("lio: write_mbytes error %s", err)
     }
 
-    iops_path := filepath.Join(TARGET_PATH, iqn, tpgt, "lun", lun,
+    iopsPath := filepath.Join(TARGETPATH, iqn, tpgt, "lun", lun,
         "statistics/scsi_tgt_port/in_cmds")
-    // log.Debugf("lio: Write File path: %s\n", iops_path)
 
-    if _, err := os.Stat(iops_path); os.IsNotExist(err) {
-        return 0, 0, 0, fmt.Errorf("lio: file %s is missing!", iops_path)
+    if _, err := os.Stat(iopsPath); os.IsNotExist(err) {
+        return 0, 0, 0, fmt.Errorf("lio: file %s is missing", iopsPath)
     }
-    iops, err = readUintFromFile(iops_path) 
+    iops, err = readUintFromFile(iopsPath) 
     if err != nil {
-        return 0, 0, 0, fmt.Errorf("lio: in_cmds error %s!", err)
+        return 0, 0, 0, fmt.Errorf("lio: in_cmds error %s", err)
     }
 
     return readmb, writemb, iops, nil
 }
 
-func (fileio FILEIO) GetFileioUdev(fileio_number string, 
-    object_name string) (fio *FILEIO, err error) {
+// GetFileioUdev is getting the actual info to build up 
+// the FILEIO data and match with the enable target 
+func (fileio FILEIO) GetFileioUdev(fileioNumber string, 
+    objectName string) (fio *FILEIO, err error) {
 
-    fileio.Name         = "fileio_" + fileio_number
-    fileio.Fnumber      = fileio_number
-    fileio.Object_name  = object_name
+    fileio.Name         = "fileio_" + fileioNumber
+    fileio.Fnumber      = fileioNumber
+    fileio.Object_name  = objectName
     
-    // log.Debugf("lio: Fileio udev_path ->%s<-", filepath.Join(TARGET_CORE,
-    // fileio.Name, fileio.Object_name, "udev_path"))
-    udev_path := filepath.Join(TARGET_CORE, fileio.Name, fileio.Object_name, "udev_path")
+    udevPath := filepath.Join(TARGETCORE, fileio.Name, fileio.Object_name, "udev_path")
 
-    if _, err := os.Stat(udev_path); os.IsNotExist(err) {
-        return nil, fmt.Errorf("lio: fileio_%s is missing file name ...!", fileio.Fnumber)
+    if _, err := os.Stat(udevPath); os.IsNotExist(err) {
+        return nil, fmt.Errorf("lio: fileio_%s is missing file name", fileio.Fnumber)
     }
-    filename, err := ioutil.ReadFile(udev_path)
+    filename, err := ioutil.ReadFile(udevPath)
     if err != nil {
-        return nil, fmt.Errorf("lio: Cannot read filename from udev link! :%s", udev_path)
+        return nil, fmt.Errorf("lio: Cannot read filename from udev link :%s", udevPath)
     }
     fileio.Filename = strings.TrimSpace(string(filename))
     
     return &fileio, nil
 }
 
-func (iblock IBLOCK) GetIblockUdev(iblock_number string,
-    object_name string) (ib *IBLOCK, err error) {
+// GetIblockUdev is getting the actual info to build up 
+// the IBLOCK data and match with the enable target 
+func (iblock IBLOCK) GetIblockUdev(iblockNumber string,
+    objectName string) (ib *IBLOCK, err error) {
 
-    iblock.Name         = "iblock_" + iblock_number
-    iblock.Bnumber      = iblock_number
-    iblock.Object_name  = object_name
+    iblock.Name         = "iblock_" + iblockNumber
+    iblock.Bnumber      = iblockNumber
+    iblock.ObjectName   = objectName
     
-    // log.Debugf("lio: IBlock udev_path ->%s<-", filepath.Join(TARGET_CORE,
-    // iblock.Name, iblock.Object_name, "udev_path"))
-    udev_path := filepath.Join(TARGET_CORE, iblock.Name, iblock.Object_name, "udev_path")
+    udevPath := filepath.Join(TARGETCORE, iblock.Name, iblock.ObjectName, "udev_path")
 
-    if _, err := os.Stat(udev_path); os.IsNotExist(err) {
-        return nil, fmt.Errorf("lio: iblock_%s is missing file name ...!",
-        iblock.Bnumber)
+    if _, err := os.Stat(udevPath); os.IsNotExist(err) {
+        return nil, fmt.Errorf("lio: iblock_%s is missing file name", iblock.Bnumber)
     }
-    filename, err := ioutil.ReadFile(udev_path)
+    filename, err := ioutil.ReadFile(udevPath)
     if err != nil {
-        return nil, fmt.Errorf("lio: Cannot read iblock from udev link! :%s", udev_path)
+        return nil, fmt.Errorf("lio: Cannot read iblock from udev link :%s", udevPath)
     }
     iblock.Iblock = strings.TrimSpace(string(filename))
     
     return &iblock, nil
 }
 
-func (rbd RBD) GetRBDMatch(rbd_number string, pool_image string) (r *RBD, err error) {
+// GetRBDMatch is getting the actual info to build up 
+// the RBD data and match with the enable target 
+func (rbd RBD) GetRBDMatch(rbdNumber string, poolImage string) (r *RBD, err error) {
 
-    rbd.Name    = "rbd_" + rbd_number
-    rbd.Rnumber = rbd_number
-    // log.Debugf("lio: RBD info Name ->%s<-", rbd.Name)
-    // log.Debugf("lio: RBD info Rnumber ->%s<-", rbd.Rnumber)
-    // log.Debugf("lio: RBD info Pool-Image->%s<-", pool_image)
+    rbd.Name    = "rbd_" + rbdNumber
+    rbd.Rnumber = rbdNumber
 
-    system_rbds, err := filepath.Glob("/sys/devices/rbd/[0-9]*")
+    systemRbds, err := filepath.Glob("/sys/devices/rbd/[0-9]*")
     if err != nil {
-        return nil, fmt.Errorf("lio: Cannot find any rbd block!")
+        return nil, fmt.Errorf("lio: Cannot find any rbd block")
     }
 
-    for system_rbd_number, system_rbd_path := range system_rbds { 
-        var system_pool, system_image string = "", "" 
-        // log.Debugf("lio: rbd_path ->%s<-", system_rbd_path)
-        system_pool_path := filepath.Join(system_rbd_path, "pool")
-        if _, err := os.Stat(system_pool_path); os.IsNotExist(err) {
-            // log.Errorf("lio: rbd%d pool file %s is missing!",
-            // system_rbd_number, system_pool_path )
+    for systemRbdNumber, systemRbdPath := range systemRbds { 
+        var systemPool, systemImage string = "", "" 
+        systemPoolPath := filepath.Join(systemRbdPath, "pool")
+        if _, err := os.Stat(systemPoolPath); os.IsNotExist(err) {
             continue
         }
-        b_system_pool, err := ioutil.ReadFile(system_pool_path)
+        bSystemPool, err := ioutil.ReadFile(systemPoolPath)
         if err != nil {
-            // log.Errorf("lio: Cannot read pool name from %s!", system_pool_path)
             continue
         } else { 
-            system_pool = strings.TrimSpace(string(b_system_pool))
+            system_pool = strings.TrimSpace(string(bSystemPool))
         }
 
-        system_image_path := filepath.Join(system_rbd_path, "name")
-        if _, err := os.Stat(system_image_path); os.IsNotExist(err) {
-            // log.Errorf("lio: rbd%d image file %s is missing!",
-            // system_rbd_number, system_image_path )
+        systemImagePath := filepath.Join(systemRbdPath, "name")
+        if _, err := os.Stat(systemImagePath); os.IsNotExist(err) {
             continue
         }
-        b_system_image, err := ioutil.ReadFile(system_image_path)
+        bSystemImage, err := ioutil.ReadFile(systemImagePath)
         if err != nil {
-            // log.Errorf("lio: Cannot read image name from %s!", system_image_path)
             continue
         } else { 
-            system_image = strings.TrimSpace(string(b_system_image))
+            system_image = strings.TrimSpace(string(bSystemImage))
         }
-        // log.Debugf("lio: System rbd_%d :", system_rbd_number)
-        // log.Debugf("lio: Matching label->rbd%s", rbd.Rnumber)
-        // log.Debugf("lio: System pool --->%s<--- image --->%s<---", system_pool, system_image)
-        // log.Debugf("lio: Matching pool-image->%s", pool_image)
 
-        if matchRBD(fmt.Sprintf("%d", system_rbd_number), rbd.Rnumber) &&
-        matchPoolImage(system_pool, system_image, pool_image) {
-            rbd.Pool = system_pool
-            rbd.Image= system_image
+        if matchRBD(fmt.Sprintf("%d", systemRbdNumber), rbd.Rnumber) &&
+        matchPoolImage(systemPool, systemImage, poolImage) {
+            rbd.Pool = systemPool
+            rbd.Image= systemImage
             return &rbd, nil 
         }
     }
     return nil, nil
 }
 
-func (rdmcp RDMCP) GetRDMCPPath(rdmcp_number string, object_name string) (r *RDMCP, err error) {
-    rdmcp.Name          = "rd_mcp_" + rdmcp_number
-    rdmcp.Object_name   = object_name
+// GetRDMCPPath is getting the actual info to build up RDMCP data 
+func (rdmcp RDMCP) GetRDMCPPath(rdmcpNumber string, objectName string) (r *RDMCP, err error) {
+    rdmcp.Name          = "rd_mcp_" + rdmcpNumber
+    rdmcp.ObjectName   = objectName
 
-    rdmcp_path := filepath.Join(TARGET_CORE, rdmcp.Name, rdmcp.Object_name)
-    // log.Debugf("lio: RDMCP path ->%s<-", rdmcp_path)
+    rdmcpPath := filepath.Join(TARGETCORE, rdmcp.Name, rdmcp.ObjectName)
 
-    if _, err := os.Stat(rdmcp_path); os.IsNotExist(err) {
-        return nil, fmt.Errorf("lio: %s does not exist!", rdmcp_path)
+    if _, err := os.Stat(rdmcpPath); os.IsNotExist(err) {
+        return nil, fmt.Errorf("lio: %s does not exist", rdmcpPath)
     }
-    isEnable, err := isPathEnable(rdmcp_path)
+    isEnable, err := isPathEnable(rdmcpPath)
     if err != nil {
         return nil, fmt.Errorf("lio: error %v", err)
     }
@@ -354,19 +336,18 @@ func readUintFromFile(path string) (uint64, error) {
     return value, nil
 }
 
-func matchRBD(rbd_number string, rbd_name string) (isEqual bool) {
+func matchRBD(rbdNumber string, rbdName string) (isEqual bool) {
     isEqual = false
-    if strings.Compare(rbd_name, rbd_number) == 0 { 
+    if strings.Compare(rbdName, rbdNumber) == 0 { 
         isEqual = true
     }
     return isEqual 
 }
 
-func matchPoolImage(pool string, image string, match_pool_image string) (isEqual bool) { 
+func matchPoolImage(pool string, image string, matchPoolImage string) (isEqual bool) { 
     isEqual = false
-    var pool_image = fmt.Sprintf("%s-%s", pool, image)
-    // log.Debugf("lio: compare ->%s<- with ->%s<- ", pool_image, match_pool_image)
-    if strings.Compare(pool_image, match_pool_image) == 0 { 
+    var poolImage = fmt.Sprintf("%s-%s", pool, image)
+    if strings.Compare(poolImage, matchPoolImage) == 0 { 
         isEqual = true
     }
     return isEqual 

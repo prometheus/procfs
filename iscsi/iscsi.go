@@ -23,12 +23,19 @@ import (
     "path/filepath"
     "strconv" 
     "strings" 
+    "sync" 
+)
+
+// for default sysfs mount point 
+var (
+    sysPath string = "/sys"
+    once sync.Once
 )
 
 // TARGETPATH is static sys path for iscsi target 
-const TARGETPATH = "/sys/kernel/config/target/iscsi"
+const TARGETPATH = "/kernel/config/target/iscsi"
 // TARGETCORE static sys path for backstore 
-const TARGETCORE = "/sys/kernel/config/target/core"
+const TARGETCORE = "/kernel/config/target/core"
 
 // TPGT struct for sys target portal group tag info
 type TPGT struct {
@@ -81,6 +88,14 @@ type RDMCP struct {
 type Stats struct {
     Name    string
     Tpgt    []TPGT
+}
+
+// SetPath create a static sysfs mount point for test
+// case that sysfs start with a different mount point
+func SetPath(mountPoint string) {
+    once.Do(func() {
+        sysPath = mountPoint
+    })
 }
 
 // GetStats is the main iscsi status information func
@@ -176,7 +191,7 @@ func getLunLinkTarget(lunPath string) (backstoreType string,
 func ReadWriteOPS(iqn string, tpgt string, lun string) (readmb uint64,
     writemb uint64, iops uint64, err error){
 
-    readmbPath := filepath.Join(TARGETPATH, iqn, tpgt, "lun", lun,
+    readmbPath := filepath.Join(sysPath, TARGETPATH, iqn, tpgt, "lun", lun,
         "statistics/scsi_tgt_port/read_mbytes")
 
     if _, err := os.Stat(readmbPath); os.IsNotExist(err) {
@@ -187,7 +202,7 @@ func ReadWriteOPS(iqn string, tpgt string, lun string) (readmb uint64,
         return 0, 0, 0, fmt.Errorf("lio: read_mbytes error %s", err)
     }
 
-    writembPath := filepath.Join(TARGETPATH, iqn, tpgt, "lun", lun,
+    writembPath := filepath.Join(sysPath, TARGETPATH, iqn, tpgt, "lun", lun,
         "statistics/scsi_tgt_port/write_mbytes")
 
     if _, err := os.Stat(writembPath); os.IsNotExist(err) {
@@ -198,7 +213,7 @@ func ReadWriteOPS(iqn string, tpgt string, lun string) (readmb uint64,
         return 0, 0, 0, fmt.Errorf("lio: write_mbytes error %s", err)
     }
 
-    iopsPath := filepath.Join(TARGETPATH, iqn, tpgt, "lun", lun,
+    iopsPath := filepath.Join(sysPath, TARGETPATH, iqn, tpgt, "lun", lun,
         "statistics/scsi_tgt_port/in_cmds")
 
     if _, err := os.Stat(iopsPath); os.IsNotExist(err) {
@@ -219,9 +234,9 @@ func (fileio FILEIO) GetFileioUdev(fileioNumber string,
 
     fileio.Name         = "fileio_" + fileioNumber
     fileio.Fnumber      = fileioNumber
-    fileio.Object_name  = objectName
-    
-    udevPath := filepath.Join(TARGETCORE, fileio.Name, fileio.Object_name, "udev_path")
+    fileio.ObjectName   = objectName
+   
+    udevPath := filepath.Join(sysPath, TARGETCORE, fileio.Name, fileio.ObjectName, "udev_path")
 
     if _, err := os.Stat(udevPath); os.IsNotExist(err) {
         return nil, fmt.Errorf("lio: fileio_%s is missing file name", fileio.Fnumber)
@@ -244,7 +259,7 @@ func (iblock IBLOCK) GetIblockUdev(iblockNumber string,
     iblock.Bnumber      = iblockNumber
     iblock.ObjectName   = objectName
     
-    udevPath := filepath.Join(TARGETCORE, iblock.Name, iblock.ObjectName, "udev_path")
+    udevPath := filepath.Join(sysPath, TARGETCORE, iblock.Name, iblock.ObjectName, "udev_path")
 
     if _, err := os.Stat(udevPath); os.IsNotExist(err) {
         return nil, fmt.Errorf("lio: iblock_%s is missing file name", iblock.Bnumber)
@@ -265,7 +280,7 @@ func (rbd RBD) GetRBDMatch(rbdNumber string, poolImage string) (r *RBD, err erro
     rbd.Name    = "rbd_" + rbdNumber
     rbd.Rnumber = rbdNumber
 
-    systemRbds, err := filepath.Glob("/sys/devices/rbd/[0-9]*")
+    systemRbds, err := filepath.Glob(sysPath + "/devices/rbd/[0-9]*")
     if err != nil {
         return nil, fmt.Errorf("lio: Cannot find any rbd block")
     }
@@ -280,7 +295,7 @@ func (rbd RBD) GetRBDMatch(rbdNumber string, poolImage string) (r *RBD, err erro
         if err != nil {
             continue
         } else { 
-            system_pool = strings.TrimSpace(string(bSystemPool))
+            systemPool = strings.TrimSpace(string(bSystemPool))
         }
 
         systemImagePath := filepath.Join(systemRbdPath, "name")
@@ -291,7 +306,7 @@ func (rbd RBD) GetRBDMatch(rbdNumber string, poolImage string) (r *RBD, err erro
         if err != nil {
             continue
         } else { 
-            system_image = strings.TrimSpace(string(bSystemImage))
+            systemImage = strings.TrimSpace(string(bSystemImage))
         }
 
         if matchRBD(fmt.Sprintf("%d", systemRbdNumber), rbd.Rnumber) &&
@@ -307,9 +322,9 @@ func (rbd RBD) GetRBDMatch(rbdNumber string, poolImage string) (r *RBD, err erro
 // GetRDMCPPath is getting the actual info to build up RDMCP data 
 func (rdmcp RDMCP) GetRDMCPPath(rdmcpNumber string, objectName string) (r *RDMCP, err error) {
     rdmcp.Name          = "rd_mcp_" + rdmcpNumber
-    rdmcp.ObjectName   = objectName
+    rdmcp.ObjectName    = objectName
 
-    rdmcpPath := filepath.Join(TARGETCORE, rdmcp.Name, rdmcp.ObjectName)
+    rdmcpPath := filepath.Join(sysPath, TARGETCORE, rdmcp.Name, rdmcp.ObjectName)
 
     if _, err := os.Stat(rdmcpPath); os.IsNotExist(err) {
         return nil, fmt.Errorf("lio: %s does not exist", rdmcpPath)

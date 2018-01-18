@@ -110,14 +110,14 @@ func (fs FS) BcacheStats() ([]*bcache.Stats, error) {
 
 // ISCSIStats getting iscsi runtime information 
 func (fs FS) ISCSIStats() ([]*iscsi.Stats, error) {
-	matches, err := filepath.Glob(iscsi.TARGET_PATH + "/iqn*")
+	matches, err := filepath.Glob(fs.Path(iscsi.TARGETPATH, "/iqn*"))
 	if err != nil {
 		return nil, err
 	}
 
     stats := make([]*iscsi.Stats, 0, len(matches))
     for _, iqnPath := range matches { 
-        name := filepath.Base(iqn_path)
+        name := filepath.Base(iqnPath)
 
         // stats
         s, err := iscsi.GetStats(iqnPath)

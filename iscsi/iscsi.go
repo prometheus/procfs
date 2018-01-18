@@ -144,6 +144,9 @@ func isPathEnable(path string) (bool, error) {
         return false, fmt.Errorf("is Path Enable error %v", err)
     }
     tmpNum, err := strconv.Atoi(strings.TrimSpace(string(tmp)))
+    if err != nil {
+        return false, fmt.Errorf("Atoi fail %v", err)
+    }
     if (tmpNum > 0) {
         isEnable = true
     }

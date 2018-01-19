@@ -74,7 +74,7 @@ func ParseRPCStats(r io.Reader) (*RPCStats, error) {
 		case "proc4ops":
 			stats.V4Ops, err = parseV4Ops(values)
 		default:
-			return nil, fmt.Errorf("invalid NFSd metric line %q", metricLine)
+			return nil, fmt.Errorf("unknown NFSd metric line %q", metricLine)
 		}
 		if err != nil {
 			return nil, fmt.Errorf("errors parsing NFSd metric line: %s", err)

@@ -26,6 +26,9 @@ func ParseRPCStats(r io.Reader) (*RPCStats, error) {
 		var values []uint64
 		var err error
 		if label == "th" {
+			if len(parts) < 3 {
+				return nil, fmt.Errorf("invalid NFSd th metric line %q", line)
+			}
 			values, err = util.ParseUint64s(parts[1:3])
 		} else {
 			values, err = util.ParseUint64s(parts[1:])

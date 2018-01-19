@@ -115,8 +115,8 @@ func TestFSIscsiStats(t *testing.T) {
 	tests := []struct {
 		name string
 	}{
-		{name: "iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.abcd1abcd2ab"},
 		{name: "iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.8888bbbbddd0"},
+		{name: "iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.abcd1abcd2ab"},
 		{name: "iqn.2016-11.org.linux-iscsi.igw.x86:dev.rbd0"},
 		{name: "iqn.2016-11.org.linux-iscsi.igw.x86:sn.ramdemo"},
 	}

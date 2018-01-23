@@ -178,23 +178,19 @@ proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150
 	}
 
 	for _, tt := range tests {
-		stats, err := nfsd.ParseRPCStats(strings.NewReader(tt.content))
+		t.Run(tt.name, func(t *testing.T) {
+			stats, err := nfsd.ParseRPCStats(strings.NewReader(tt.content))
 
-		if tt.invalid && err == nil {
-			t.Error("expected an error, but none occurred")
-			continue
-		}
-		if !tt.invalid && err != nil {
-			t.Errorf("unexpected error: %v", err)
-			continue
-		}
+			if tt.invalid && err == nil {
+				t.Fatal("expected an error, but none occurred")
+			}
+			if !tt.invalid && err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
 
-		if tt.invalid {
-			continue
-		}
-
-		if want, have := tt.stats, stats; !reflect.DeepEqual(want, have) {
-			t.Errorf("unexpected NFS stats:\nwant:\n%v\nhave:\n%v", want, have)
-		}
+			if want, have := tt.stats, stats; !reflect.DeepEqual(want, have) {
+				t.Fatalf("unexpected NFS stats:\nwant:\n%v\nhave:\n%v", want, have)
+			}
+		})
 	}
 }

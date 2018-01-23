@@ -23,6 +23,19 @@ func (p Procs) Len() int           { return len(p) }
 func (p Procs) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
 func (p Procs) Less(i, j int) bool { return p[i].PID < p[j].PID }
 
+// States returns a map of string, representing the state for each process
+func (p Procs) States() (map[Proc]string, error) {
+	procsState := make(map[Proc]string)
+	for _, proc := range p {
+		s, err := proc.NewStat()
+		if err != nil {
+			return nil, err
+		}
+		procsState[proc] = s.State
+	}
+	return procsState, nil
+}
+
 // Self returns a process for the current process read via /proc/self.
 func Self() (Proc, error) {
 	fs, err := NewFS(DefaultMountPoint)

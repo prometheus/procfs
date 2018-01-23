@@ -16,8 +16,7 @@ package iscsi
 import (
 	"reflect"
 	"testing"
-
-	"github.com/prometheus/procfs/sysfs"
+    "path/filepath"
 )
 
 func TestGetStats(t *testing.T) {
@@ -111,14 +110,21 @@ func TestGetStats(t *testing.T) {
 		},
 	}
 
-	fs, err := sysfs.NewFS("../sysfs/fixtures")
+    SetPath("../sysfs/fixtures")
+    matches, err := filepath.Glob(filepath.Join(sysPath, TARGETPATH, "/iqn*"))
 	if err != nil {
 		t.Errorf("unexpected test fixtures")
 	}
-	fstats, err := fs.ISCSIStats()
-	if err != nil {
-		t.Errorf("unexpected test fixtures stats")
-	}
+    fstats := make([]*Stats, 0, len(matches))
+    for _, iqnPath := range matches {
+        name := filepath.Base(iqnPath)
+        s, err := GetStats(iqnPath)
+        if err != nil {
+			t.Errorf("unexpected iSCSI stats:%s", iqnPath)
+        }
+        s.Name = name
+        fstats = append(fstats, s)
+    }
 
 	for i, stat := range fstats {
 		if want, have := tests[i].stat, stat; !reflect.DeepEqual(want, have) {

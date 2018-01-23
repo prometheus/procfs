@@ -6,6 +6,31 @@ import (
 	"testing"
 )
 
+func TestProcsStates(t *testing.T) {
+	procs, err := FS("fixtures").AllProcs()
+	if err != nil {
+		t.Fatal(err)
+	}
+	states, err := procs.States()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, p := range procs {
+		_, ok := states[p]
+		if !ok {
+			t.Errorf("Can't find %v pid", p.PID)
+		}
+		s, err := p.NewStat()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if s.State != states[p] {
+			t.Errorf("State for pid %v differ. Want %v, have %v", p.PID, s.State, states[p])
+		}
+	}
+}
+
 func TestSelf(t *testing.T) {
 	fs := FS("fixtures")
 

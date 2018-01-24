@@ -168,8 +168,8 @@ type V4Ops struct {
 	RelLockOwner uint64
 }
 
-// RPCStats models all stats from /proc/net/rpc/nfsd.
-type RPCStats struct {
+// ServerRPCStats models all stats from /proc/net/rpc/nfsd.
+type ServerRPCStats struct {
 	ReplyCache     ReplyCache
 	FileHandles    FileHandles
 	InputOutput    InputOutput

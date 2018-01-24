@@ -21,11 +21,11 @@ import (
 	"github.com/prometheus/procfs/nfs"
 )
 
-func TestNewNFSdRPCStats(t *testing.T) {
+func TestNewNFSdServerRPCStats(t *testing.T) {
 	tests := []struct {
 		name    string
 		content string
-		stats   *nfs.RPCStats
+		stats   *nfs.ServerRPCStats
 		invalid bool
 	}{
 		{
@@ -46,7 +46,7 @@ proc3 22 2 112 0 2719 111 0 0 0 0 0 0 0 0 0 0 0 27 216 0 2 1 0
 proc4 2 2 10853
 proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150 1272 0 0 0 1236 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 `,
-			stats: &nfs.RPCStats{
+			stats: &nfs.ServerRPCStats{
 				ReplyCache: nfs.ReplyCache{
 					Hits:    0,
 					Misses:  6,
@@ -179,7 +179,7 @@ proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			stats, err := nfs.ParseRPCStats(strings.NewReader(tt.content))
+			stats, err := nfs.ParseServerRPCStats(strings.NewReader(tt.content))
 
 			if tt.invalid && err == nil {
 				t.Fatal("expected an error, but none occurred")

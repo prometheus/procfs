@@ -78,7 +78,7 @@ proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150
 					TCPCount:   18628,
 					TCPConnect: 6,
 				},
-				RPC: nfs.RPC{
+				ServerRPC: nfs.ServerRPC{
 					RPCCount: 18628,
 					BadCnt:   0,
 					BadFmt:   0,
@@ -129,7 +129,7 @@ proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150
 					PathConf:    1,
 					Commit:      0,
 				},
-				V4Stats: nfs.V4Stats{
+				ServerV4Stats: nfs.ServerV4Stats{
 					Null:     2,
 					Compound: 10853,
 				},

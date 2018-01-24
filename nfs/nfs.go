@@ -13,7 +13,7 @@
 
 // Package nfsd implements parsing of /proc/net/rpc/nfsd.
 // Fields are documented in https://www.svennd.be/nfsd-stats-explained-procnetrpcnfsd/
-package nfsd
+package nfs
 
 // ReplyCache models the "rc" line.
 type ReplyCache struct {

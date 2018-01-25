@@ -11,82 +11,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package nfsd
+package nfs
 
 import (
-	"bufio"
 	"fmt"
-	"io"
-	"strings"
-
-	"github.com/prometheus/procfs/internal/util"
 )
-
-// ParseRPCStats returns stats read from /proc/net/rpc/nfsd
-func ParseRPCStats(r io.Reader) (*RPCStats, error) {
-	stats := &RPCStats{}
-
-	scanner := bufio.NewScanner(r)
-	for scanner.Scan() {
-		line := scanner.Text()
-		parts := strings.Fields(scanner.Text())
-		// require at least <key> <value>
-		if len(parts) < 2 {
-			return nil, fmt.Errorf("invalid NFSd metric line %q", line)
-		}
-		label := parts[0]
-
-		var values []uint64
-		var err error
-		if label == "th" {
-			if len(parts) < 3 {
-				return nil, fmt.Errorf("invalid NFSd th metric line %q", line)
-			}
-			values, err = util.ParseUint64s(parts[1:3])
-		} else {
-			values, err = util.ParseUint64s(parts[1:])
-		}
-		if err != nil {
-			return nil, fmt.Errorf("error parsing NFSd metric line: %s", err)
-		}
-
-		switch metricLine := parts[0]; metricLine {
-		case "rc":
-			stats.ReplyCache, err = parseReplyCache(values)
-		case "fh":
-			stats.FileHandles, err = parseFileHandles(values)
-		case "io":
-			stats.InputOutput, err = parseInputOutput(values)
-		case "th":
-			stats.Threads, err = parseThreads(values)
-		case "ra":
-			stats.ReadAheadCache, err = parseReadAheadCache(values)
-		case "net":
-			stats.Network, err = parseNetwork(values)
-		case "rpc":
-			stats.RPC, err = parseRPC(values)
-		case "proc2":
-			stats.V2Stats, err = parseV2Stats(values)
-		case "proc3":
-			stats.V3Stats, err = parseV3Stats(values)
-		case "proc4":
-			stats.V4Stats, err = parseV4Stats(values)
-		case "proc4ops":
-			stats.V4Ops, err = parseV4Ops(values)
-		default:
-			return nil, fmt.Errorf("unknown NFSd metric line %q", metricLine)
-		}
-		if err != nil {
-			return nil, fmt.Errorf("errors parsing NFSd metric line: %s", err)
-		}
-	}
-
-	if err := scanner.Err(); err != nil {
-		return nil, fmt.Errorf("error scanning NFSd file: %s", err)
-	}
-
-	return stats, nil
-}
 
 func parseReplyCache(v []uint64) (ReplyCache, error) {
 	if len(v) != 3 {
@@ -161,17 +90,29 @@ func parseNetwork(v []uint64) (Network, error) {
 	}, nil
 }
 
-func parseRPC(v []uint64) (RPC, error) {
+func parseServerRPC(v []uint64) (ServerRPC, error) {
 	if len(v) != 5 {
-		return RPC{}, fmt.Errorf("invalid RPC line %q", v)
+		return ServerRPC{}, fmt.Errorf("invalid RPC line %q", v)
 	}
 
-	return RPC{
+	return ServerRPC{
 		RPCCount: v[0],
 		BadCnt:   v[1],
 		BadFmt:   v[2],
 		BadAuth:  v[3],
 		BadcInt:  v[4],
+	}, nil
+}
+
+func parseClientRPC(v []uint64) (ClientRPC, error) {
+	if len(v) != 3 {
+		return ClientRPC{}, fmt.Errorf("invalid RPC line %q", v)
+	}
+
+	return ClientRPC{
+		RPCCount:        v[0],
+		Retransmissions: v[1],
+		AuthRefreshes:   v[2],
 	}, nil
 }
 
@@ -235,13 +176,82 @@ func parseV3Stats(v []uint64) (V3Stats, error) {
 	}, nil
 }
 
-func parseV4Stats(v []uint64) (V4Stats, error) {
+func parseClientV4Stats(v []uint64) (ClientV4Stats, error) {
 	values := int(v[0])
-	if len(v[1:]) != values || values != 2 {
-		return V4Stats{}, fmt.Errorf("invalid V4Stats line %q", v)
+	if len(v[1:]) != values || values < 59 {
+		return ClientV4Stats{}, fmt.Errorf("invalid V4Stats line %q", v)
 	}
 
-	return V4Stats{
+	return ClientV4Stats{
+		Null:               v[1],
+		Read:               v[2],
+		Write:              v[3],
+		Commit:             v[4],
+		Open:               v[5],
+		OpenConfirm:        v[6],
+		OpenNoattr:         v[7],
+		OpenDowngrade:      v[8],
+		Close:              v[9],
+		Setattr:            v[10],
+		FsInfo:             v[11],
+		Renew:              v[12],
+		SetClientId:        v[13],
+		SetClientIdConfirm: v[14],
+		Lock:               v[15],
+		Lockt:              v[16],
+		Locku:              v[17],
+		Access:             v[18],
+		Getattr:            v[19],
+		Lookup:             v[20],
+		LookupRoot:         v[21],
+		Remove:             v[22],
+		Rename:             v[23],
+		Link:               v[24],
+		Symlink:            v[25],
+		Create:             v[26],
+		Pathconf:           v[27],
+		StatFs:             v[28],
+		ReadLink:           v[29],
+		ReadDir:            v[30],
+		ServerCaps:         v[31],
+		DelegReturn:        v[32],
+		GetAcl:             v[33],
+		SetAcl:             v[34],
+		FsLocations:        v[35],
+		ReleaseLockowner:   v[36],
+		Secinfo:            v[37],
+		FsidPresent:        v[38],
+		ExchangeId:         v[39],
+		CreateSession:      v[40],
+		DestroySession:     v[41],
+		Sequence:           v[42],
+		GetLeaseTime:       v[43],
+		ReclaimComplete:    v[44],
+		LayoutGet:          v[45],
+		GetDeviceInfo:      v[46],
+		LayoutCommit:       v[47],
+		LayoutReturn:       v[48],
+		SecinfoNoName:      v[49],
+		TestStateId:        v[50],
+		FreeStateId:        v[51],
+		GetDeviceList:      v[52],
+		BindConnToSession:  v[53],
+		DestroyClientId:    v[54],
+		Seek:               v[55],
+		Allocate:           v[56],
+		DeAllocate:         v[57],
+		LayoutStats:        v[58],
+		Clone:              v[59],
+	}, nil
+}
+
+func parseServerV4Stats(v []uint64) (ServerV4Stats, error) {
+	values := int(v[0])
+	if len(v[1:]) != values || values != 2 {
+		return ServerV4Stats{}, fmt.Errorf("invalid V4Stats line %q", v)
+	}
+
+	return ServerV4Stats{
 		Null:     v[1],
 		Compound: v[2],
 	}, nil

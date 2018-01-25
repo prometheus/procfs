@@ -13,7 +13,7 @@
 
 // Package nfsd implements parsing of /proc/net/rpc/nfsd.
 // Fields are documented in https://www.svennd.be/nfsd-stats-explained-procnetrpcnfsd/
-package nfsd
+package nfs
 
 // ReplyCache models the "rc" line.
 type ReplyCache struct {
@@ -58,8 +58,15 @@ type Network struct {
 	TCPConnect uint64
 }
 
-// RPC models the "rpc" line.
-type RPC struct {
+// ClientRPC models the nfs "rpc" line.
+type ClientRPC struct {
+	RPCCount        uint64
+	Retransmissions uint64
+	AuthRefreshes   uint64
+}
+
+// ServerRPC models the nfsd "rpc" line.
+type ServerRPC struct {
 	RPCCount uint64
 	BadCnt   uint64
 	BadFmt   uint64
@@ -115,8 +122,71 @@ type V3Stats struct {
 	Commit      uint64
 }
 
-// V4Stats models the "proc4" line.
-type V4Stats struct {
+// ClientV4Stats models the nfs "proc4" line.
+type ClientV4Stats struct {
+	Null               uint64
+	Read               uint64
+	Write              uint64
+	Commit             uint64
+	Open               uint64
+	OpenConfirm        uint64
+	OpenNoattr         uint64
+	OpenDowngrade      uint64
+	Close              uint64
+	Setattr            uint64
+	FsInfo             uint64
+	Renew              uint64
+	SetClientId        uint64
+	SetClientIdConfirm uint64
+	Lock               uint64
+	Lockt              uint64
+	Locku              uint64
+	Access             uint64
+	Getattr            uint64
+	Lookup             uint64
+	LookupRoot         uint64
+	Remove             uint64
+	Rename             uint64
+	Link               uint64
+	Symlink            uint64
+	Create             uint64
+	Pathconf           uint64
+	StatFs             uint64
+	ReadLink           uint64
+	ReadDir            uint64
+	ServerCaps         uint64
+	DelegReturn        uint64
+	GetAcl             uint64
+	SetAcl             uint64
+	FsLocations        uint64
+	ReleaseLockowner   uint64
+	Secinfo            uint64
+	FsidPresent        uint64
+	ExchangeId         uint64
+	CreateSession      uint64
+	DestroySession     uint64
+	Sequence           uint64
+	GetLeaseTime       uint64
+	ReclaimComplete    uint64
+	LayoutGet          uint64
+	GetDeviceInfo      uint64
+	LayoutCommit       uint64
+	LayoutReturn       uint64
+	SecinfoNoName      uint64
+	TestStateId        uint64
+	FreeStateId        uint64
+	GetDeviceList      uint64
+	BindConnToSession  uint64
+	DestroyClientId    uint64
+	Seek               uint64
+	Allocate           uint64
+	DeAllocate         uint64
+	LayoutStats        uint64
+	Clone              uint64
+}
+
+// ServerV4Stats models the nfsd "proc4" line.
+type ServerV4Stats struct {
 	Null     uint64
 	Compound uint64
 }
@@ -168,17 +238,26 @@ type V4Ops struct {
 	RelLockOwner uint64
 }
 
-// RPCStats models all stats from /proc/net/rpc/nfsd.
-type RPCStats struct {
+// RPCStats models all stats from /proc/net/rpc/nfs.
+type ClientRPCStats struct {
+	Network       Network
+	ClientRPC     ClientRPC
+	V2Stats       V2Stats
+	V3Stats       V3Stats
+	ClientV4Stats ClientV4Stats
+}
+
+// ServerRPCStats models all stats from /proc/net/rpc/nfsd.
+type ServerRPCStats struct {
 	ReplyCache     ReplyCache
 	FileHandles    FileHandles
 	InputOutput    InputOutput
 	Threads        Threads
 	ReadAheadCache ReadAheadCache
 	Network        Network
-	RPC            RPC
+	ServerRPC      ServerRPC
 	V2Stats        V2Stats
 	V3Stats        V3Stats
-	V4Stats        V4Stats
+	ServerV4Stats  ServerV4Stats
 	V4Ops          V4Ops
 }

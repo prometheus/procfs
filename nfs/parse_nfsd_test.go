@@ -11,21 +11,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package nfsd_test
+package nfs_test
 
 import (
 	"reflect"
 	"strings"
 	"testing"
 
-	"github.com/prometheus/procfs/nfsd"
+	"github.com/prometheus/procfs/nfs"
 )
 
-func TestNewNFSdRPCStats(t *testing.T) {
+func TestNewNFSdServerRPCStats(t *testing.T) {
 	tests := []struct {
 		name    string
 		content string
-		stats   *nfsd.RPCStats
+		stats   *nfs.ServerRPCStats
 		invalid bool
 	}{
 		{
@@ -46,46 +46,46 @@ proc3 22 2 112 0 2719 111 0 0 0 0 0 0 0 0 0 0 0 27 216 0 2 1 0
 proc4 2 2 10853
 proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150 1272 0 0 0 1236 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 `,
-			stats: &nfsd.RPCStats{
-				ReplyCache: nfsd.ReplyCache{
+			stats: &nfs.ServerRPCStats{
+				ReplyCache: nfs.ReplyCache{
 					Hits:    0,
 					Misses:  6,
 					NoCache: 18622,
 				},
-				FileHandles: nfsd.FileHandles{
+				FileHandles: nfs.FileHandles{
 					Stale:        0,
 					TotalLookups: 0,
 					AnonLookups:  0,
 					DirNoCache:   0,
 					NoDirNoCache: 0,
 				},
-				InputOutput: nfsd.InputOutput{
+				InputOutput: nfs.InputOutput{
 					Read:  157286400,
 					Write: 0,
 				},
-				Threads: nfsd.Threads{
+				Threads: nfs.Threads{
 					Threads: 8,
 					FullCnt: 0,
 				},
-				ReadAheadCache: nfsd.ReadAheadCache{
+				ReadAheadCache: nfs.ReadAheadCache{
 					CacheSize:      32,
 					CacheHistogram: []uint64{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					NotFound:       0,
 				},
-				Network: nfsd.Network{
+				Network: nfs.Network{
 					NetCount:   18628,
 					UDPCount:   0,
 					TCPCount:   18628,
 					TCPConnect: 6,
 				},
-				RPC: nfsd.RPC{
+				ServerRPC: nfs.ServerRPC{
 					RPCCount: 18628,
 					BadCnt:   0,
 					BadFmt:   0,
 					BadAuth:  0,
 					BadcInt:  0,
 				},
-				V2Stats: nfsd.V2Stats{
+				V2Stats: nfs.V2Stats{
 					Null:     2,
 					GetAttr:  69,
 					SetAttr:  0,
@@ -105,7 +105,7 @@ proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150
 					ReadDir:  99,
 					FsStat:   2,
 				},
-				V3Stats: nfsd.V3Stats{
+				V3Stats: nfs.V3Stats{
 					Null:        2,
 					GetAttr:     112,
 					SetAttr:     0,
@@ -129,11 +129,11 @@ proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150
 					PathConf:    1,
 					Commit:      0,
 				},
-				V4Stats: nfsd.V4Stats{
+				ServerV4Stats: nfs.ServerV4Stats{
 					Null:     2,
 					Compound: 10853,
 				},
-				V4Ops: nfsd.V4Ops{
+				V4Ops: nfs.V4Ops{
 					Op0Unused:    0,
 					Op1Unused:    0,
 					Op2Future:    0,
@@ -179,7 +179,7 @@ proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			stats, err := nfsd.ParseRPCStats(strings.NewReader(tt.content))
+			stats, err := nfs.ParseServerRPCStats(strings.NewReader(tt.content))
 
 			if tt.invalid && err == nil {
 				t.Fatal("expected an error, but none occurred")

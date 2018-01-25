@@ -14,12 +14,11 @@
 package iscsi
 
 import (
-//	"reflect"
+	"reflect"
 	"testing"
 
-    "github.com/prometheus/procfs/sysfs"
-    "github.com/prometheus/procfs/iscsi"
-    "github.com/kr/pretty"
+	"github.com/prometheus/procfs/iscsi"
+	"github.com/prometheus/procfs/sysfs"
 )
 
 func TestGetStats(t *testing.T) {
@@ -113,53 +112,43 @@ func TestGetStats(t *testing.T) {
 		},
 	}
 
-    readTests := []struct {
-        read uint64
-        write uint64
-        iops uint64
-    }{
-        { 10325, 40325, 204950 },
-        { 20095, 71235, 104950 },
-        { 10195, 30195, 301950 },
-        { 1504 , 4733 , 1234   }, 
-    }
+	readTests := []struct {
+		read  uint64
+		write uint64
+		iops  uint64
+	}{
+		{10325, 40325, 204950},
+		{20095, 71235, 104950},
+		{10195, 30195, 301950},
+		{1504, 4733, 1234},
+	}
 
-    sysfsStat, err := sysfs.FS("../sysfs/fixtures").ISCSIStats()
+	sysfsStat, err := sysfs.FS("../sysfs/fixtures").ISCSIStats()
 	if err != nil {
 		t.Errorf("unexpected test fixtures")
 	}
 
 	for i, stat := range sysfsStat {
-		want, have := tests[i].stat, stat;
-        diff := pretty.Diff(want, have)
-        if diff != nil {
-			t.Errorf("unexpected iSCSI stats:\ndiff:\n%v", diff)
-			t.Errorf("\nwant:\n%v\nhave:\n%v", want, have)
-        } else {
-            readMB, writeMB, iops, err := iscsi.ReadWriteOPS(stat.Name,
-            stat.Tpgt[0].Name, stat.Tpgt[0].Luns[0].Name )
-            if err != nil { 
-			    t.Errorf("unexpected iSCSI ReadWriteOPS path %s %s %s",
-                stat.Name, stat.Tpgt[0].Name, stat.Tpgt[0].Luns[0].Name)
-			    t.Errorf("%v", err);
-            }
-            // datawant, datahave := readTests[i], { readMB, writeMB, iops };
-
-            diff = pretty.Diff(readTests[i].read, readMB)
-            if diff != nil {
-                t.Errorf("unexpected iSCSI read data :\ndiff:\n%v", diff)
-                t.Errorf("\nwant:\n%v\nhave:\n%v", readTests[i].read, readMB)
-            }
-            diff = pretty.Diff(readTests[i].write, writeMB)
-            if diff != nil {
-                t.Errorf("unexpected iSCSI write data :\ndiff:\n%v", diff)
-                t.Errorf("\nwant:\n%v\nhave:\n%v", readTests[i].write, writeMB)
-            }
-            diff = pretty.Diff(readTests[i].iops, iops)
-            if diff != nil {
-                t.Errorf("unexpected iSCSI data :\ndiff:\n%v", diff)
-                t.Errorf("\nwant:\n%v\nhave:\n%v", readTests[i].iops, iops)
-            }
-        }
+		want, have := tests[i].stat, stat
+		if !reflect.DeepEqual(want, have) {
+			t.Errorf("unexpected iSCSI stats:\nwant:\n%v\nhave:\n%v", want, have)
+		} else {
+			readMB, writeMB, iops, err := iscsi.ReadWriteOPS(stat.Name,
+				stat.Tpgt[0].Name, stat.Tpgt[0].Luns[0].Name)
+			if err != nil {
+				t.Errorf("unexpected iSCSI ReadWriteOPS path %s %s %s",
+					stat.Name, stat.Tpgt[0].Name, stat.Tpgt[0].Luns[0].Name)
+				t.Errorf("%v", err)
+			}
+			if !reflect.DeepEqual(readTests[i].read, readMB) {
+				t.Errorf("unexpected iSCSI read data :\nwant:\n%v\nhave:\n%v", readTests[i].read, readMB)
+			}
+			if !reflect.DeepEqual(readTests[i].write, writeMB) {
+				t.Errorf("unexpected iSCSI write data :\nwant:\n%v\nhave:\n%v", readTests[i].write, writeMB)
+			}
+			if !reflect.DeepEqual(readTests[i].iops, iops) {
+				t.Errorf("unexpected iSCSI iops data :\nwant:\n%v\nhave:\n%v", readTests[i].iops, iops)
+			}
+		}
 	}
 }

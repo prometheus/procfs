@@ -27,7 +27,7 @@ import (
 
 // for default sysfs mount point
 var (
-	sysPath string = "/sys"
+	sysPath = "/sys"
 	once    sync.Once
 )
 

@@ -43,6 +43,7 @@ func TestCmdLine(t *testing.T) {
 	}{
 		{process: 26231, want: []string{"vim", "test.go", "+10"}},
 		{process: 26232, want: []string{}},
+		{process: 26233, want: []string{"com.github.uiautomator"}},
 	} {
 		p1, err := FS("fixtures").NewProc(tt.process)
 		if err != nil {

@@ -182,6 +182,9 @@ func parseClientV4Stats(v []uint64) (ClientV4Stats, error) {
 		return ClientV4Stats{}, fmt.Errorf("invalid ClientV4Stats line %q", v)
 	}
 
+	// This function currently supports mapping 59 NFS v4 client stats.  Older
+	// kernels may emit fewer stats, so we must detect this and pad out the
+	// values to match the expected slice size.
 	if values < 59 {
 		newValues := make([]uint64, 60)
 		copy(newValues, v)

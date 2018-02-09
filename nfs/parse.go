@@ -178,8 +178,14 @@ func parseV3Stats(v []uint64) (V3Stats, error) {
 
 func parseClientV4Stats(v []uint64) (ClientV4Stats, error) {
 	values := int(v[0])
-	if len(v[1:]) != values || values < 59 {
-		return ClientV4Stats{}, fmt.Errorf("invalid V4Stats line %q", v)
+	if len(v[1:]) != values {
+		return ClientV4Stats{}, fmt.Errorf("invalid ClientV4Stats line %q", v)
+	}
+
+	if values < 59 {
+		newValues := make([]uint64, 60)
+		copy(newValues, v)
+		v = newValues
 	}
 
 	return ClientV4Stats{

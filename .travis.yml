@@ -9,4 +9,4 @@ go:
 go_import_path: github.com/prometheus/procfs
 
 script:
-- make style vet test staticcheck
+- make style check_license vet test staticcheck

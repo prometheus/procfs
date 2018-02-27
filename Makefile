@@ -35,6 +35,10 @@ style:
 	@echo ">> checking code style"
 	@! $(GOFMT) -d $(shell find . -path ./vendor -prune -o -name '*.go' -print) | grep '^'
 
+check_license:
+	@echo ">> checking license header"
+	@./scripts/check_license.sh
+
 test: sysfs/fixtures/.unpacked
 	@echo ">> running all tests"
 	@$(GO) test -race $(shell $(GO) list ./... | grep -v /vendor/ | grep -v examples)
@@ -58,7 +62,7 @@ sysfs/fixtures/.unpacked: sysfs/fixtures.ttar
 $(FIRST_GOPATH)/bin/staticcheck:
 	@GOOS= GOARCH= $(GO) get -u honnef.co/go/tools/cmd/staticcheck
 
-.PHONY: all style format test vet staticcheck
+.PHONY: all style check_license format test vet staticcheck
 
 # Declaring the binaries at their default locations as PHONY targets is a hack
 # to ensure the latest version is downloaded on every make execution.

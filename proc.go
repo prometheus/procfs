@@ -1,6 +1,7 @@
 package procfs
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -113,7 +114,7 @@ func (p Proc) CmdLine() ([]string, error) {
 		return []string{}, nil
 	}
 
-	return strings.Split(string(data[:len(data)-1]), string(byte(0))), nil
+	return strings.Split(string(bytes.TrimRight(data, string("\x00"))), string(byte(0))), nil
 }
 
 // Comm returns the command name of a process.

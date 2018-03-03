@@ -22,33 +22,33 @@ import (
 )
 
 type interfaceNetClass struct {
-	Name             string `json:"name"`               // Interface name
-	AddrAssignType   uint64 `json:"addr_assign_type"`   // /sys/class/net/<iface>/addr_assign_type
-	AddrLen          uint64 `json:"addr_len"`           // /sys/class/net/<iface>/addr_len
-	Address          string `json:"address"`            // /sys/class/net/<iface>/address
-	Broadcast        string `json:"broadcast"`          // /sys/class/net/<iface>/broadcast
-	Carrier          uint64 `json:"carrier"`            // /sys/class/net/<iface>/carrier
-	CarrierChanges   uint64 `json:"carrier_changes"`    // /sys/class/net/<iface>/carrier_changes
-	CarrierUpCount   uint64 `json:"carrier_up_count"`   // /sys/class/net/<iface>/carrier_up_count
-	CarrierDownCount uint64 `json:"carrier_down_count"` // /sys/class/net/<iface>/carrier_down_count
-	DevId            uint64 `json:"dev_id"`             // /sys/class/net/<iface>/dev_id
-	Dormant          uint64 `json:"dormant"`            // /sys/class/net/<iface>/dormant
-	Duplex           string `json:"duplex"`             // /sys/class/net/<iface>/duplex
-	Flags            uint64 `json:"flags"`              // /sys/class/net/<iface>/flags
-	IfAlias          string `json:"ifalias"`            // /sys/class/net/<iface>/ifalias
-	IfIndex          uint64 `json:"ifindex"`            // /sys/class/net/<iface>/ifindex
-	IfLink           uint64 `json:"iflink"`             // /sys/class/net/<iface>/iflink
-	LinkMode         uint64 `json:"link_mode"`          // /sys/class/net/<iface>/link_mode
-	Mtu              uint64 `json:"mtu"`                // /sys/class/net/<iface>/link_mode
-	NameAssignType   string `json:"name_assign_type"`   // /sys/class/net/<iface>/name_assign_type
-	NetDevGroup      uint64 `json:"netdev_group"`       // /sys/class/net/<iface>/netdev_group
-	OperState        string `json:"operstate"`          // /sys/class/net/<iface>/operstate
-	PhysPortId       string `json:"phys_port_id"`       // /sys/class/net/<iface>/phys_port_id
-	PhysPortName     string `json:"phys_port_name"`     // /sys/class/net/<iface>/phys_port_name
-	PhysSwitchId     uint64 `json:"phys_switch_id"`     // /sys/class/net/<iface>/phys_switch_id
-	Speed            uint64 `json:"speed"`              // /sys/class/net/<iface>/speed
-	TxQueueLen       uint64 `json:"tx_queue_len"`       // /sys/class/net/<iface>/tx_queue_len
-	Type             uint64 `json:"type"`               // /sys/class/net/<iface>/type
+	Name             string `fileName:"name"`               // Interface name
+	AddrAssignType   uint64 `fileName:"addr_assign_type"`   // /sys/class/net/<iface>/addr_assign_type
+	AddrLen          uint64 `fileName:"addr_len"`           // /sys/class/net/<iface>/addr_len
+	Address          string `fileName:"address"`            // /sys/class/net/<iface>/address
+	Broadcast        string `fileName:"broadcast"`          // /sys/class/net/<iface>/broadcast
+	Carrier          uint64 `fileName:"carrier"`            // /sys/class/net/<iface>/carrier
+	CarrierChanges   uint64 `fileName:"carrier_changes"`    // /sys/class/net/<iface>/carrier_changes
+	CarrierUpCount   uint64 `fileName:"carrier_up_count"`   // /sys/class/net/<iface>/carrier_up_count
+	CarrierDownCount uint64 `fileName:"carrier_down_count"` // /sys/class/net/<iface>/carrier_down_count
+	DevId            uint64 `fileName:"dev_id"`             // /sys/class/net/<iface>/dev_id
+	Dormant          uint64 `fileName:"dormant"`            // /sys/class/net/<iface>/dormant
+	Duplex           string `fileName:"duplex"`             // /sys/class/net/<iface>/duplex
+	Flags            uint64 `fileName:"flags"`              // /sys/class/net/<iface>/flags
+	IfAlias          string `fileName:"ifalias"`            // /sys/class/net/<iface>/ifalias
+	IfIndex          uint64 `fileName:"ifindex"`            // /sys/class/net/<iface>/ifindex
+	IfLink           uint64 `fileName:"iflink"`             // /sys/class/net/<iface>/iflink
+	LinkMode         uint64 `fileName:"link_mode"`          // /sys/class/net/<iface>/link_mode
+	Mtu              uint64 `fileName:"mtu"`                // /sys/class/net/<iface>/link_mode
+	NameAssignType   string `fileName:"name_assign_type"`   // /sys/class/net/<iface>/name_assign_type
+	NetDevGroup      uint64 `fileName:"netdev_group"`       // /sys/class/net/<iface>/netdev_group
+	OperState        string `fileName:"operstate"`          // /sys/class/net/<iface>/operstate
+	PhysPortId       string `fileName:"phys_port_id"`       // /sys/class/net/<iface>/phys_port_id
+	PhysPortName     string `fileName:"phys_port_name"`     // /sys/class/net/<iface>/phys_port_name
+	PhysSwitchId     uint64 `fileName:"phys_switch_id"`     // /sys/class/net/<iface>/phys_switch_id
+	Speed            uint64 `fileName:"speed"`              // /sys/class/net/<iface>/speed
+	TxQueueLen       uint64 `fileName:"tx_queue_len"`       // /sys/class/net/<iface>/tx_queue_len
+	Type             uint64 `fileName:"type"`               // /sys/class/net/<iface>/type
 }
 
 type NetClass map[string]interfaceNetClass
@@ -73,17 +73,16 @@ func newNetClass(path string) (NetClass, error) {
 		return NetClass{}, fmt.Errorf("cannot access %s dir %s", path, err)
 	}
 
-	netclass := NetClass{}
+	netClass := NetClass{}
 	for _, deviceDir := range devices {
-		interfaceClass, err := netclass.parseInterfaceNetClass(path + "/" + deviceDir.Name())
+		interfaceClass, err := netClass.parseInterfaceNetClass(path + "/" + deviceDir.Name())
 		if err != nil {
-			//log?
 			continue
 		}
 		interfaceClass.Name = deviceDir.Name()
-		netclass[deviceDir.Name()] = *interfaceClass
+		netClass[deviceDir.Name()] = *interfaceClass
 	}
-	return netclass, nil
+	return netClass, nil
 }
 
 func (nc NetClass) parseInterfaceNetClass(devicePath string) (*interfaceNetClass, error) {
@@ -99,9 +98,7 @@ func (nc NetClass) parseInterfaceNetClass(devicePath string) (*interfaceNetClass
 		}
 		fieldValue := interfaceElem.FieldByName(fieldName)
 
-
-
-		fileContents, err := ioutil.ReadFile(devicePath + "/" + fieldType.Tag.Get("json"))
+		fileContents, err := ioutil.ReadFile(devicePath + "/" + fieldType.Tag.Get("fileName"))
 		if err != nil {
 			continue
 		}

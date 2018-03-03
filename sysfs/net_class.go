@@ -14,11 +14,11 @@
 package sysfs
 
 import (
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 	"reflect"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 type interfaceNetClass struct {

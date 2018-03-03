@@ -14,8 +14,8 @@
 package sysfs
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
 func TestNewNetClass(t *testing.T) {

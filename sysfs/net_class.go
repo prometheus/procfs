@@ -21,8 +21,10 @@ import (
 	"strings"
 )
 
-type interfaceNetClass struct {
-	Name             string `fileName:"name"`               // Interface name
+// NetClassInterface contains info from files in /sys/class/net/<interface>
+// for single interface
+type NetClassInterface struct {
+	Name             string // Interface name
 	AddrAssignType   uint64 `fileName:"addr_assign_type"`   // /sys/class/net/<iface>/addr_assign_type
 	AddrLen          uint64 `fileName:"addr_len"`           // /sys/class/net/<iface>/addr_len
 	Address          string `fileName:"address"`            // /sys/class/net/<iface>/address
@@ -31,7 +33,7 @@ type interfaceNetClass struct {
 	CarrierChanges   uint64 `fileName:"carrier_changes"`    // /sys/class/net/<iface>/carrier_changes
 	CarrierUpCount   uint64 `fileName:"carrier_up_count"`   // /sys/class/net/<iface>/carrier_up_count
 	CarrierDownCount uint64 `fileName:"carrier_down_count"` // /sys/class/net/<iface>/carrier_down_count
-	DevId            uint64 `fileName:"dev_id"`             // /sys/class/net/<iface>/dev_id
+	DevID            uint64 `fileName:"dev_id"`             // /sys/class/net/<iface>/dev_id
 	Dormant          uint64 `fileName:"dormant"`            // /sys/class/net/<iface>/dormant
 	Duplex           string `fileName:"duplex"`             // /sys/class/net/<iface>/duplex
 	Flags            uint64 `fileName:"flags"`              // /sys/class/net/<iface>/flags
@@ -39,21 +41,23 @@ type interfaceNetClass struct {
 	IfIndex          uint64 `fileName:"ifindex"`            // /sys/class/net/<iface>/ifindex
 	IfLink           uint64 `fileName:"iflink"`             // /sys/class/net/<iface>/iflink
 	LinkMode         uint64 `fileName:"link_mode"`          // /sys/class/net/<iface>/link_mode
-	Mtu              uint64 `fileName:"mtu"`                // /sys/class/net/<iface>/link_mode
+	MTU              uint64 `fileName:"mtu"`                // /sys/class/net/<iface>/mtu
 	NameAssignType   uint64 `fileName:"name_assign_type"`   // /sys/class/net/<iface>/name_assign_type
 	NetDevGroup      uint64 `fileName:"netdev_group"`       // /sys/class/net/<iface>/netdev_group
 	OperState        string `fileName:"operstate"`          // /sys/class/net/<iface>/operstate
-	PhysPortId       string `fileName:"phys_port_id"`       // /sys/class/net/<iface>/phys_port_id
+	PhysPortID       string `fileName:"phys_port_id"`       // /sys/class/net/<iface>/phys_port_id
 	PhysPortName     string `fileName:"phys_port_name"`     // /sys/class/net/<iface>/phys_port_name
-	PhysSwitchId     string `fileName:"phys_switch_id"`     // /sys/class/net/<iface>/phys_switch_id
+	PhysSwitchID     string `fileName:"phys_switch_id"`     // /sys/class/net/<iface>/phys_switch_id
 	Speed            uint64 `fileName:"speed"`              // /sys/class/net/<iface>/speed
 	TxQueueLen       uint64 `fileName:"tx_queue_len"`       // /sys/class/net/<iface>/tx_queue_len
 	Type             uint64 `fileName:"type"`               // /sys/class/net/<iface>/type
 }
 
-type NetClass map[string]interfaceNetClass
+// NetClass is collection of info for every interface in /sys/class/net. The map keys
+// are interface names.
+type NetClass map[string]NetClassInterface
 
-// NewNetDev returns kernel/system statistics read from /proc/net/dev.
+// NewNetClass returns info for all net interfaces read from /sys/class/net/<interface>.
 func NewNetClass() (NetClass, error) {
 	fs, err := NewFS(DefaultMountPoint)
 	if err != nil {
@@ -63,10 +67,12 @@ func NewNetClass() (NetClass, error) {
 	return fs.NewNetClass()
 }
 
+// NewNetClass returns info for all net interfaces read from /sys/class/net/<interface>.
 func (fs FS) NewNetClass() (NetClass, error) {
 	return newNetClass(fs.Path("class/net"))
 }
 
+// NewNetClass returns info for all net interfaces read from /sys/class/net/<interface>.
 func newNetClass(path string) (NetClass, error) {
 	devices, err := ioutil.ReadDir(path)
 	if err != nil {
@@ -85,18 +91,20 @@ func newNetClass(path string) (NetClass, error) {
 	return netClass, nil
 }
 
-func (nc NetClass) parseInterfaceNetClass(devicePath string) (*interfaceNetClass, error) {
-	fields := []string{"AddrAssignType", "AddrLen", "Address", "Broadcast", "Carrier", "CarrierChanges", "CarrierUpCount", "CarrierDownCount", "DevId", "Dormant", "Duplex", "Flags", "IfAlias", "IfIndex", "IfLink", "LinkMode", "Mtu", "NameAssignType", "NetDevGroup", "OperState", "PhysPortId", "PhysPortName", "PhysSwitchId", "Speed", "TxQueueLen", "Type"}
-	interfaceClass := interfaceNetClass{}
+// parseInterfaceNetClass scans predefined files in /sys/class/net/<interface>
+// directory and gets their contents.
+func (nc NetClass) parseInterfaceNetClass(devicePath string) (*NetClassInterface, error) {
+	interfaceClass := NetClassInterface{}
 	interfaceElem := reflect.ValueOf(&interfaceClass).Elem()
 	interfaceType := reflect.TypeOf(interfaceClass)
 
-	for _, fieldName := range fields {
-		fieldType, found := interfaceType.FieldByName(fieldName)
-		if !found {
+	for i := 0; i < interfaceElem.NumField(); i++ {
+		fieldType := interfaceType.Field(i)
+		fieldValue := interfaceElem.Field(i)
+
+		if fieldType.Tag.Get("fileName") == "" {
 			continue
 		}
-		fieldValue := interfaceElem.FieldByName(fieldName)
 
 		fileContents, err := ioutil.ReadFile(devicePath + "/" + fieldType.Tag.Get("fileName"))
 		if err != nil {

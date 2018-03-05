@@ -30,7 +30,7 @@ func TestNewNetClass(t *testing.T) {
 	}
 
 	netClass := map[string]interfaceNetClass{
-		"eth0": {Name: "eth0", AddrAssignType: 3, AddrLen: 6, Address: "01:01:01:01:01:01", Broadcast: "ff:ff:ff:ff:ff:ff", Carrier: 1, CarrierChanges: 2, CarrierUpCount: 1, CarrierDownCount: 1, DevId: 32, Dormant: 1, Duplex: "full", Flags: 4867, IfAlias: "", IfIndex: 2, IfLink: 2, LinkMode: 1, Mtu: 1500, NameAssignType: "2", NetDevGroup: 0, OperState: "up", PhysPortId: "", PhysPortName: "", PhysSwitchId: 0, Speed: 1000, TxQueueLen: 1000, Type: 1},
+		"eth0": {Name: "eth0", AddrAssignType: 3, AddrLen: 6, Address: "01:01:01:01:01:01", Broadcast: "ff:ff:ff:ff:ff:ff", Carrier: 1, CarrierChanges: 2, CarrierUpCount: 1, CarrierDownCount: 1, DevId: 32, Dormant: 1, Duplex: "full", Flags: 4867, IfAlias: "", IfIndex: 2, IfLink: 2, LinkMode: 1, Mtu: 1500, NameAssignType: 2, NetDevGroup: 0, OperState: "up", PhysPortId: "", PhysPortName: "", PhysSwitchId: "", Speed: 1000, TxQueueLen: 1000, Type: 1},
 	}
 
 	if want, have := len(netClass), len(nc); want != have {

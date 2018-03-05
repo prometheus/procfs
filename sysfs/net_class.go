@@ -40,12 +40,12 @@ type interfaceNetClass struct {
 	IfLink           uint64 `fileName:"iflink"`             // /sys/class/net/<iface>/iflink
 	LinkMode         uint64 `fileName:"link_mode"`          // /sys/class/net/<iface>/link_mode
 	Mtu              uint64 `fileName:"mtu"`                // /sys/class/net/<iface>/link_mode
-	NameAssignType   string `fileName:"name_assign_type"`   // /sys/class/net/<iface>/name_assign_type
+	NameAssignType   uint64 `fileName:"name_assign_type"`   // /sys/class/net/<iface>/name_assign_type
 	NetDevGroup      uint64 `fileName:"netdev_group"`       // /sys/class/net/<iface>/netdev_group
 	OperState        string `fileName:"operstate"`          // /sys/class/net/<iface>/operstate
 	PhysPortId       string `fileName:"phys_port_id"`       // /sys/class/net/<iface>/phys_port_id
 	PhysPortName     string `fileName:"phys_port_name"`     // /sys/class/net/<iface>/phys_port_name
-	PhysSwitchId     uint64 `fileName:"phys_switch_id"`     // /sys/class/net/<iface>/phys_switch_id
+	PhysSwitchId     string `fileName:"phys_switch_id"`     // /sys/class/net/<iface>/phys_switch_id
 	Speed            uint64 `fileName:"speed"`              // /sys/class/net/<iface>/speed
 	TxQueueLen       uint64 `fileName:"tx_queue_len"`       // /sys/class/net/<iface>/tx_queue_len
 	Type             uint64 `fileName:"type"`               // /sys/class/net/<iface>/type

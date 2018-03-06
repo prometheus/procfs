@@ -21,9 +21,9 @@ import (
 	"strings"
 )
 
-// NetClassInterface contains info from files in /sys/class/net/<interface>
-// for single interface
-type NetClassInterface struct {
+// NetClassIface contains info from files in /sys/class/net/<iface>
+// for single interface (iface).
+type NetClassIface struct {
 	Name             string // Interface name
 	AddrAssignType   uint64 `fileName:"addr_assign_type"`   // /sys/class/net/<iface>/addr_assign_type
 	AddrLen          uint64 `fileName:"addr_len"`           // /sys/class/net/<iface>/addr_len
@@ -53,11 +53,11 @@ type NetClassInterface struct {
 	Type             uint64 `fileName:"type"`               // /sys/class/net/<iface>/type
 }
 
-// NetClass is collection of info for every interface in /sys/class/net. The map keys
-// are interface names.
-type NetClass map[string]NetClassInterface
+// NetClass is collection of info for every interface (iface) in /sys/class/net. The map keys
+// are interface (iface) names.
+type NetClass map[string]NetClassIface
 
-// NewNetClass returns info for all net interfaces read from /sys/class/net/<interface>.
+// NewNetClass returns info for all net interfaces (iface) read from /sys/class/net/<iface>.
 func NewNetClass() (NetClass, error) {
 	fs, err := NewFS(DefaultMountPoint)
 	if err != nil {
@@ -67,13 +67,10 @@ func NewNetClass() (NetClass, error) {
 	return fs.NewNetClass()
 }
 
-// NewNetClass returns info for all net interfaces read from /sys/class/net/<interface>.
+// NewNetClass returns info for all net interfaces (iface) read from /sys/class/net/<iface>.
 func (fs FS) NewNetClass() (NetClass, error) {
-	return newNetClass(fs.Path("class/net"))
-}
+	path := fs.Path("class/net")
 
-// NewNetClass returns info for all net interfaces read from /sys/class/net/<interface>.
-func newNetClass(path string) (NetClass, error) {
 	devices, err := ioutil.ReadDir(path)
 	if err != nil {
 		return NetClass{}, fmt.Errorf("cannot access %s dir %s", path, err)
@@ -81,7 +78,7 @@ func newNetClass(path string) (NetClass, error) {
 
 	netClass := NetClass{}
 	for _, deviceDir := range devices {
-		interfaceClass, err := netClass.parseInterfaceNetClass(path + "/" + deviceDir.Name())
+		interfaceClass, err := netClass.parseNetClassIface(path + "/" + deviceDir.Name())
 		if err != nil {
 			continue
 		}
@@ -91,10 +88,10 @@ func newNetClass(path string) (NetClass, error) {
 	return netClass, nil
 }
 
-// parseInterfaceNetClass scans predefined files in /sys/class/net/<interface>
+// parseNetClassIface scans predefined files in /sys/class/net/<iface>
 // directory and gets their contents.
-func (nc NetClass) parseInterfaceNetClass(devicePath string) (*NetClassInterface, error) {
-	interfaceClass := NetClassInterface{}
+func (nc NetClass) parseNetClassIface(devicePath string) (*NetClassIface, error) {
+	interfaceClass := NetClassIface{}
 	interfaceElem := reflect.ValueOf(&interfaceClass).Elem()
 	interfaceType := reflect.TypeOf(interfaceClass)
 
@@ -112,7 +109,8 @@ func (nc NetClass) parseInterfaceNetClass(devicePath string) (*NetClassInterface
 		}
 		value := strings.TrimSpace(string(fileContents))
 
-		if fieldValue.Kind() == reflect.Uint64 {
+		switch fieldValue.Kind() {
+		case reflect.Uint64:
 			if strings.HasPrefix(value, "0x") {
 				intValue, err := strconv.ParseUint(value[2:], 16, 64)
 				if err != nil {
@@ -126,8 +124,10 @@ func (nc NetClass) parseInterfaceNetClass(devicePath string) (*NetClassInterface
 				}
 				fieldValue.SetUint(intValue)
 			}
-		} else if fieldValue.Kind() == reflect.String {
+		case reflect.String:
 			fieldValue.SetString(value)
+		default:
+			return nil, fmt.Errorf("unhandled type %q", fieldValue.Kind())
 		}
 	}
 

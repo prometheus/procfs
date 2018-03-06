@@ -30,7 +30,35 @@ func TestNewNetClass(t *testing.T) {
 	}
 
 	netClass := NetClass{
-		"eth0": {Name: "eth0", AddrAssignType: 3, AddrLen: 6, Address: "01:01:01:01:01:01", Broadcast: "ff:ff:ff:ff:ff:ff", Carrier: 1, CarrierChanges: 2, CarrierUpCount: 1, CarrierDownCount: 1, DevID: 32, Dormant: 1, Duplex: "full", Flags: 4867, IfAlias: "", IfIndex: 2, IfLink: 2, LinkMode: 1, MTU: 1500, NameAssignType: 2, NetDevGroup: 0, OperState: "up", PhysPortID: "", PhysPortName: "", PhysSwitchID: "", Speed: 1000, TxQueueLen: 1000, Type: 1},
+		"eth0": {
+			Address:          "01:01:01:01:01:01",
+			AddrAssignType:   3,
+			AddrLen:          6,
+			Broadcast:        "ff:ff:ff:ff:ff:ff",
+			Carrier:          1,
+			CarrierChanges:   2,
+			CarrierDownCount: 1,
+			CarrierUpCount:   1,
+			DevID:            32,
+			Dormant:          1,
+			Duplex:           "full",
+			Flags:            4867,
+			IfAlias:          "",
+			IfIndex:          2,
+			IfLink:           2,
+			LinkMode:         1,
+			MTU:              1500,
+			Name:             "eth0",
+			NameAssignType:   2,
+			NetDevGroup:      0,
+			OperState:        "up",
+			PhysPortID:       "",
+			PhysPortName:     "",
+			PhysSwitchID:     "",
+			Speed:            1000,
+			TxQueueLen:       1000,
+			Type:             1,
+		},
 	}
 
 	if !reflect.DeepEqual(netClass, nc) {

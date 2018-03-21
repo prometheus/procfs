@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package nfsd implements parsing of /proc/net/rpc/nfsd.
+// Package nfs implements parsing of /proc/net/rpc/nfsd.
 // Fields are documented in https://www.svennd.be/nfsd-stats-explained-procnetrpcnfsd/
 package nfs
 
@@ -238,7 +238,7 @@ type V4Ops struct {
 	RelLockOwner uint64
 }
 
-// RPCStats models all stats from /proc/net/rpc/nfs.
+// ClientRPCStats models all stats from /proc/net/rpc/nfs.
 type ClientRPCStats struct {
 	Network       Network
 	ClientRPC     ClientRPC

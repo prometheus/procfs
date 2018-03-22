@@ -720,6 +720,7 @@ Lines: 1
 extent_alloc 2 0 0 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+<<<<<<< HEAD
 Directory: fixtures/class/net/eth0/
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -916,6 +917,7 @@ Path: fixtures/kernel/config/target/core/iblock_0/block_lio_rbd1/enable
 Lines: 1
 1
 Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/kernel/config/target/core/iblock_0/block_lio_rbd1/udev_path
 Lines: 1
 /dev/rbd1

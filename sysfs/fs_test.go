@@ -106,3 +106,32 @@ func TestFSBcacheStats(t *testing.T) {
 		}
 	}
 }
+
+func TestFSIscsiStats(t *testing.T) {
+	stats, err := FS("fixtures").ISCSIStats()
+	if err != nil {
+		t.Fatalf("failed to parse iscsi stats: %v", err)
+	}
+	tests := []struct {
+		name string
+	}{
+		{name: "iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.8888bbbbddd0"},
+		{name: "iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.abcd1abcd2ab"},
+		{name: "iqn.2016-11.org.linux-iscsi.igw.x86:dev.rbd0"},
+		{name: "iqn.2016-11.org.linux-iscsi.igw.x86:sn.ramdemo"},
+	}
+	const expect = 4
+
+	if l := len(stats); l != expect {
+		t.Fatalf("unexpected number of iscsi stats: %d", l)
+	}
+	if l := len(tests); l != expect {
+		t.Fatalf("unexpected number of iscsi : %d", l)
+	}
+
+	for i, tt := range tests {
+		if want, got := tt.name, stats[i].Name; want != got {
+			t.Errorf("unexpected stats name:\nwant: %q\nhave: %q", want, got)
+		}
+	}
+}

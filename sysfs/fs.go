@@ -19,6 +19,7 @@ import (
 	"path/filepath"
 
 	"github.com/prometheus/procfs/bcache"
+	"github.com/prometheus/procfs/iscsi"
 	"github.com/prometheus/procfs/xfs"
 )
 
@@ -96,6 +97,31 @@ func (fs FS) BcacheStats() ([]*bcache.Stats, error) {
 
 		// stats
 		s, err := bcache.GetStats(uuidPath)
+		if err != nil {
+			return nil, err
+		}
+
+		s.Name = name
+		stats = append(stats, s)
+	}
+
+	return stats, nil
+}
+
+// ISCSIStats getting iscsi runtime information
+func (fs FS) ISCSIStats() ([]*iscsi.Stats, error) {
+	iscsi.SetPath(fs.Path())
+	matches, err := filepath.Glob(fs.Path(iscsi.TARGETPATH, "/iqn*"))
+	if err != nil {
+		return nil, err
+	}
+
+	stats := make([]*iscsi.Stats, 0, len(matches))
+	for _, iqnPath := range matches {
+		name := filepath.Base(iqnPath)
+
+		// stats
+		s, err := iscsi.GetStats(iqnPath)
 		if err != nil {
 			return nil, err
 		}

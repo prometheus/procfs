@@ -29,35 +29,56 @@ func TestNewNetClass(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	var (
+		AddrAssignType   int64 = 3
+		AddrLen          int64 = 6
+		Carrier          int64 = 1
+		CarrierChanges   int64 = 2
+		CarrierDownCount int64 = 1
+		CarrierUpCount   int64 = 1
+		DevID            int64 = 32
+		Dormant          int64 = 1
+		Flags            int64 = 4867
+		IfIndex          int64 = 2
+		IfLink           int64 = 2
+		LinkMode         int64 = 1
+		MTU              int64 = 1500
+		NameAssignType   int64 = 2
+		NetDevGroup      int64 = 0
+		Speed            int64 = 1000
+		TxQueueLen       int64 = 1000
+		Type             int64 = 1
+	)
+
 	netClass := NetClass{
 		"eth0": {
 			Address:          "01:01:01:01:01:01",
-			AddrAssignType:   3,
-			AddrLen:          6,
+			AddrAssignType:   &AddrAssignType,
+			AddrLen:          &AddrLen,
 			Broadcast:        "ff:ff:ff:ff:ff:ff",
-			Carrier:          1,
-			CarrierChanges:   2,
-			CarrierDownCount: 1,
-			CarrierUpCount:   1,
-			DevID:            32,
-			Dormant:          1,
+			Carrier:          &Carrier,
+			CarrierChanges:   &CarrierChanges,
+			CarrierDownCount: &CarrierDownCount,
+			CarrierUpCount:   &CarrierUpCount,
+			DevID:            &DevID,
+			Dormant:          &Dormant,
 			Duplex:           "full",
-			Flags:            4867,
+			Flags:            &Flags,
 			IfAlias:          "",
-			IfIndex:          2,
-			IfLink:           2,
-			LinkMode:         1,
-			MTU:              1500,
+			IfIndex:          &IfIndex,
+			IfLink:           &IfLink,
+			LinkMode:         &LinkMode,
+			MTU:              &MTU,
 			Name:             "eth0",
-			NameAssignType:   2,
-			NetDevGroup:      0,
+			NameAssignType:   &NameAssignType,
+			NetDevGroup:      &NetDevGroup,
 			OperState:        "up",
 			PhysPortID:       "",
 			PhysPortName:     "",
 			PhysSwitchID:     "",
-			Speed:            1000,
-			TxQueueLen:       1000,
-			Type:             1,
+			Speed:            &Speed,
+			TxQueueLen:       &TxQueueLen,
+			Type:             &Type,
 		},
 	}
 

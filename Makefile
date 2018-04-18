@@ -56,6 +56,7 @@ staticcheck: $(STATICCHECK)
 	@$(STATICCHECK) -ignore "$(STATICCHECK_IGNORE)" $(pkgs)
 
 %/.unpacked: %.ttar
+	@echo ">> extracting fixtures"
 	./ttar -C $(dir $*) -x -f $*.ttar
 	touch $@
 

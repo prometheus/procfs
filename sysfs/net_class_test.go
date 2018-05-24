@@ -30,55 +30,55 @@ func TestNewNetClass(t *testing.T) {
 	}
 
 	var (
-		AddrAssignType   int64 = 3
-		AddrLen          int64 = 6
-		Carrier          int64 = 1
-		CarrierChanges   int64 = 2
-		CarrierDownCount int64 = 1
-		CarrierUpCount   int64 = 1
-		DevID            int64 = 32
-		Dormant          int64 = 1
-		Flags            int64 = 4867
-		IfIndex          int64 = 2
-		IfLink           int64 = 2
-		LinkMode         int64 = 1
-		MTU              int64 = 1500
-		NameAssignType   int64 = 2
-		NetDevGroup      int64 = 0
-		Speed            int64 = 1000
-		TxQueueLen       int64 = 1000
-		Type             int64 = 1
+		addrAssignType   int64 = 3
+		addrLen          int64 = 6
+		carrier          int64 = 1
+		carrierChanges   int64 = 2
+		carrierDownCount int64 = 1
+		carrierUpCount   int64 = 1
+		devID            int64 = 32
+		dormant          int64 = 1
+		flags            int64 = 4867
+		ifIndex          int64 = 2
+		ifLink           int64 = 2
+		linkMode         int64 = 1
+		mtu              int64 = 1500
+		nameAssignType   int64 = 2
+		netDevGroup      int64 = 0
+		speed            int64 = 1000
+		txQueueLen       int64 = 1000
+		netType          int64 = 1
 	)
 
 	netClass := NetClass{
 		"eth0": {
 			Address:          "01:01:01:01:01:01",
-			AddrAssignType:   &AddrAssignType,
-			AddrLen:          &AddrLen,
+			AddrAssignType:   &addrAssignType,
+			AddrLen:          &addrLen,
 			Broadcast:        "ff:ff:ff:ff:ff:ff",
-			Carrier:          &Carrier,
-			CarrierChanges:   &CarrierChanges,
-			CarrierDownCount: &CarrierDownCount,
-			CarrierUpCount:   &CarrierUpCount,
-			DevID:            &DevID,
-			Dormant:          &Dormant,
+			Carrier:          &carrier,
+			CarrierChanges:   &carrierChanges,
+			CarrierDownCount: &carrierDownCount,
+			CarrierUpCount:   &carrierUpCount,
+			DevID:            &devID,
+			Dormant:          &dormant,
 			Duplex:           "full",
-			Flags:            &Flags,
+			Flags:            &flags,
 			IfAlias:          "",
-			IfIndex:          &IfIndex,
-			IfLink:           &IfLink,
-			LinkMode:         &LinkMode,
-			MTU:              &MTU,
+			IfIndex:          &ifIndex,
+			IfLink:           &ifLink,
+			LinkMode:         &linkMode,
+			MTU:              &mtu,
 			Name:             "eth0",
-			NameAssignType:   &NameAssignType,
-			NetDevGroup:      &NetDevGroup,
+			NameAssignType:   &nameAssignType,
+			NetDevGroup:      &netDevGroup,
 			OperState:        "up",
 			PhysPortID:       "",
 			PhysPortName:     "",
 			PhysSwitchID:     "",
-			Speed:            &Speed,
-			TxQueueLen:       &TxQueueLen,
-			Type:             &Type,
+			Speed:            &speed,
+			TxQueueLen:       &txQueueLen,
+			Type:             &netType,
 		},
 	}
 

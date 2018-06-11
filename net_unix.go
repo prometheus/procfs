@@ -118,7 +118,7 @@ func NewNetUnixByPath(path string) (*NetUnix, error) {
 		nu.Rows = append(nu.Rows, item)
 	}
 
-	return nu, nil
+	return nu, scanner.Err()
 }
 
 func (u *NetUnix) parseLine(line string, hasInode bool) (*NetUnixLine, error) {

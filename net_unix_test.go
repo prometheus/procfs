@@ -35,7 +35,7 @@ func TestNewNetUnix(t *testing.T) {
 			Flags:     1 << 16,
 			Type:      1,
 			State:     1,
-			Inode:     "3442596",
+			Inode:     3442596,
 			Path:      "/var/run/postgresql/.s.PGSQL.5432",
 		},
 		&NetUnixLine{
@@ -44,7 +44,7 @@ func TestNewNetUnix(t *testing.T) {
 			Flags:     1 << 16,
 			Type:      5,
 			State:     1,
-			Inode:     "10061",
+			Inode:     10061,
 			Path:      "/run/udev/control",
 		},
 		&NetUnixLine{
@@ -53,7 +53,7 @@ func TestNewNetUnix(t *testing.T) {
 			Flags:     0,
 			Type:      2,
 			State:     1,
-			Inode:     "12392",
+			Inode:     12392,
 			Path:      "/dev/log",
 		},
 		&NetUnixLine{
@@ -62,7 +62,7 @@ func TestNewNetUnix(t *testing.T) {
 			Flags:     0,
 			Type:      1,
 			State:     3,
-			Inode:     "4787297",
+			Inode:     4787297,
 			Path:      "/var/run/postgresql/.s.PGSQL.5432",
 		},
 	}

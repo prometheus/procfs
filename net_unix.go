@@ -66,7 +66,7 @@ type NetUnixLine struct {
 	Flags     NetUnixFlags
 	Type      NetUnixType
 	State     NetUnixState
-	Inode     string
+	Inode     uint64
 	Path      string
 }
 
@@ -143,6 +143,14 @@ func (u *NetUnix) parseLine(line string, hasInode bool) (*NetUnixLine, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Parse Unix domain state(%s) failed: %s", fields[netUnixStateIdx], err)
 	}
+	var inode uint64
+	if hasInode {
+		inodeStr := fields[len(fields)-2]
+		inode, err = u.parseInode(inodeStr)
+		if err != nil {
+			return nil, fmt.Errorf("Parse Unix domain inode(%s) failed: %s", inodeStr, err)
+		}
+	}
 
 	nuLine := &NetUnixLine{
 		KernelPtr: kernelPtr,
@@ -151,10 +159,9 @@ func (u *NetUnix) parseLine(line string, hasInode bool) (*NetUnixLine, error) {
 		Flags:     flags,
 		State:     state,
 		Path:      fields[len(fields)-1],
+		Inode:     inode,
 	}
-	if hasInode {
-		nuLine.Inode = fields[len(fields)-2]
-	}
+
 	return nuLine, nil
 }
 
@@ -195,6 +202,10 @@ func (u NetUnix) parseState(hexStr string) (NetUnixState, error) {
 		return 0, err
 	}
 	return NetUnixState(st), nil
+}
+
+func (u NetUnix) parseInode(inodeStr string) (uint64, error) {
+	return strconv.ParseUint(inodeStr, 10, 64)
 }
 
 func (t NetUnixType) String() string {

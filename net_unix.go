@@ -23,7 +23,7 @@ import (
 
 // For the proc file format details,
 // see https://elixir.bootlin.com/linux/v4.17/source/net/unix/af_unix.c#L2815
-// and https://elixir.bootlin.com/linux/latest/source/include/uapi/linux/net.h#L48
+// and https://elixir.bootlin.com/linux/latest/source/include/uapi/linux/net.h#L48.
 
 const (
 	netUnixKernelPtrIdx = 0
@@ -46,16 +46,16 @@ const (
 	netUnixStateDisconnected = 4
 )
 
-// NetUnixType is the type of the type field
+// NetUnixType is the type of the type field.
 type NetUnixType uint64
 
-// NetUnixFlags is the type of the flags field
+// NetUnixFlags is the type of the flags field.
 type NetUnixFlags uint64
 
-// NetUnixState is the type of the state field
+// NetUnixState is the type of the state field.
 type NetUnixState uint64
 
-// NetUnixLine represents a line of /proc/net/unix
+// NetUnixLine represents a line of /proc/net/unix.
 type NetUnixLine struct {
 	KernelPtr string
 	RefCount  uint64
@@ -67,7 +67,7 @@ type NetUnixLine struct {
 	Path      string
 }
 
-// NetUnix holds the data read from /proc/net/unix
+// NetUnix holds the data read from /proc/net/unix.
 type NetUnix struct {
 	Rows []*NetUnixLine
 }
@@ -88,7 +88,7 @@ func (fs FS) NewNetUnix() (*NetUnix, error) {
 }
 
 // NewNetUnixByPath returns data read from /proc/net/unix by file path.
-// It might returns an error with partiail parsed data, if an error occur after some data parsed
+// It might returns an error with partial parsed data, if an error occur after some data parsed.
 func NewNetUnixByPath(path string) (*NetUnix, error) {
 	f, err := os.Open(path)
 	if err != nil {
@@ -99,10 +99,10 @@ func NewNetUnixByPath(path string) (*NetUnix, error) {
 		Rows: make([]*NetUnixLine, 0, 32),
 	}
 	scanner := bufio.NewScanner(f)
-	// omit the header line
+	// Omit the header line.
 	scanner.Scan()
 	header := scanner.Text()
-	// it only contains Inode field in kernel version older than 3.2
+	// It only contains Inode field in kernel version older than 3.2 .
 	hasInode := strings.Contains(header, "Inode")
 	for scanner.Scan() {
 		line := scanner.Text()

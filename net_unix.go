@@ -105,7 +105,9 @@ func NewNetUnixByPath(path string) (*NetUnix, error) {
 	// Omit the header line.
 	scanner.Scan()
 	header := scanner.Text()
-	// It only contains Inode field in kernel version older than 3.2 .
+	// From the man page of proc(5), it dose not contain an Inode field,
+	// but in actually it exists.
+	// This code works for both cases.
 	hasInode := strings.Contains(header, "Inode")
 	for scanner.Scan() {
 		line := scanner.Text()

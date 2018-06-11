@@ -15,6 +15,7 @@ package procfs
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -45,6 +46,8 @@ const (
 	netUnixStateConnected    = 3
 	netUnixStateDisconnected = 4
 )
+
+var errInvalidKernelPtrFmt = errors.New("Invalid Num(kernal the kernel table slot number) format")
 
 // NetUnixType is the type of the type field.
 type NetUnixType uint64
@@ -118,6 +121,10 @@ func NewNetUnixByPath(path string) (*NetUnix, error) {
 
 func (u *NetUnix) parseLine(line string, hasInode bool) (*NetUnixLine, error) {
 	fields := strings.Fields(line)
+	kernelPtr, err := u.parseKernelPtr(fields[netUnixKernelPtrIdx])
+	if err != nil {
+		return nil, fmt.Errorf("Parse Unix domain num(%s) failed: %s", fields[netUnixKernelPtrIdx], err)
+	}
 	users, err := u.parseUsers(fields[netUnixRefCountIdx])
 	if err != nil {
 		return nil, fmt.Errorf("Parse Unix domain ref count(%s) failed: %s", fields[netUnixRefCountIdx], err)
@@ -136,7 +143,7 @@ func (u *NetUnix) parseLine(line string, hasInode bool) (*NetUnixLine, error) {
 	}
 
 	nuLine := &NetUnixLine{
-		KernelPtr: u.parseKernelPtr(fields[netUnixKernelPtrIdx]),
+		KernelPtr: kernelPtr,
 		RefCount:  users,
 		Type:      typ,
 		Flags:     flags,
@@ -149,12 +156,11 @@ func (u *NetUnix) parseLine(line string, hasInode bool) (*NetUnixLine, error) {
 	return nuLine, nil
 }
 
-func (u NetUnix) parseKernelPtr(str string) string {
-	length := len(str)
-	if length > 1 && str[length-1] == ':' {
-		return str[:length-1]
+func (u NetUnix) parseKernelPtr(str string) (string, error) {
+	if !strings.HasSuffix(str, ":") {
+		return "", errInvalidKernelPtrFmt
 	}
-	return str
+	return str[:len(str)-1], nil
 }
 
 func (u NetUnix) parseUsers(hexStr string) (uint64, error) {

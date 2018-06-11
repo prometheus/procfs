@@ -27,11 +27,16 @@ import (
 // and https://elixir.bootlin.com/linux/latest/source/include/uapi/linux/net.h#L48.
 
 const (
-	netUnixKernelPtrIdx = 0
-	netUnixRefCountIdx  = 1
-	netUnixFlagsIdx     = 3
-	netUnixTypeIdx      = 4
-	netUnixStateIdx     = 5
+	netUnixKernelPtrIdx = iota
+	netUnixRefCountIdx
+	_
+	netUnixFlagsIdx
+	netUnixTypeIdx
+	netUnixStateIdx
+	netUnixInodeIdx
+
+	// Inode and Path are optional.
+	netUnixStaticFieldsCnt = 6
 )
 
 const (
@@ -109,9 +114,14 @@ func NewNetUnixByPath(path string) (*NetUnix, error) {
 	// but in actually it exists.
 	// This code works for both cases.
 	hasInode := strings.Contains(header, "Inode")
+
+	minFieldsCnt := netUnixStaticFieldsCnt
+	if hasInode {
+		minFieldsCnt++
+	}
 	for scanner.Scan() {
 		line := scanner.Text()
-		item, err := nu.parseLine(line, hasInode)
+		item, err := nu.parseLine(line, hasInode, minFieldsCnt)
 		if err != nil {
 			return nu, err
 		}
@@ -121,8 +131,14 @@ func NewNetUnixByPath(path string) (*NetUnix, error) {
 	return nu, scanner.Err()
 }
 
-func (u *NetUnix) parseLine(line string, hasInode bool) (*NetUnixLine, error) {
+func (u *NetUnix) parseLine(line string, hasInode bool, minFieldsCnt int) (*NetUnixLine, error) {
 	fields := strings.Fields(line)
+	fieldsLen := len(fields)
+	if fieldsLen < minFieldsCnt {
+		return nil, fmt.Errorf(
+			"Parse Unix domain failed: expect at least %d fields but got %d",
+			minFieldsCnt, fieldsLen)
+	}
 	kernelPtr, err := u.parseKernelPtr(fields[netUnixKernelPtrIdx])
 	if err != nil {
 		return nil, fmt.Errorf("Parse Unix domain num(%s) failed: %s", fields[netUnixKernelPtrIdx], err)
@@ -145,7 +161,7 @@ func (u *NetUnix) parseLine(line string, hasInode bool) (*NetUnixLine, error) {
 	}
 	var inode uint64
 	if hasInode {
-		inodeStr := fields[len(fields)-2]
+		inodeStr := fields[netUnixInodeIdx]
 		inode, err = u.parseInode(inodeStr)
 		if err != nil {
 			return nil, fmt.Errorf("Parse Unix domain inode(%s) failed: %s", inodeStr, err)
@@ -158,8 +174,16 @@ func (u *NetUnix) parseLine(line string, hasInode bool) (*NetUnixLine, error) {
 		Type:      typ,
 		Flags:     flags,
 		State:     state,
-		Path:      fields[len(fields)-1],
 		Inode:     inode,
+	}
+
+	// Path field is optional.
+	if fieldsLen > minFieldsCnt {
+		pathIdx := netUnixInodeIdx + 1
+		if !hasInode {
+			pathIdx--
+		}
+		nuLine.Path = fields[pathIdx]
 	}
 
 	return nuLine, nil

@@ -65,6 +65,14 @@ func TestNewNetUnix(t *testing.T) {
 			Inode:     4787297,
 			Path:      "/var/run/postgresql/.s.PGSQL.5432",
 		},
+		&NetUnixLine{
+			KernelPtr: "0000000000000000",
+			RefCount:  3,
+			Flags:     0,
+			Type:      1,
+			State:     3,
+			Inode:     5091797,
+		},
 	}
 
 	if want, have := len(lines), len(nu.Rows); want != have {
@@ -147,6 +155,13 @@ func TestNewNetUnixWithoutInode(t *testing.T) {
 			Type:      1,
 			State:     3,
 			Path:      "/var/run/postgresql/.s.PGSQL.5432",
+		},
+		&NetUnixLine{
+			KernelPtr: "0000000000000000",
+			RefCount:  3,
+			Flags:     0,
+			Type:      1,
+			State:     3,
 		},
 	}
 

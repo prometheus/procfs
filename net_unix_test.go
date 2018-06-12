@@ -14,6 +14,7 @@
 package procfs
 
 import (
+	"os"
 	"testing"
 )
 
@@ -118,7 +119,6 @@ func TestNewNetUnixWithoutInode(t *testing.T) {
 		t.Fatal(err)
 	}
 	nu, err := NewNetUnixByPath(fs.proc.Path("net/unix_without_inode"))
-
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -17,6 +17,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -103,10 +104,16 @@ func NewNetUnixByPath(path string) (*NetUnix, error) {
 		return nil, err
 	}
 	defer f.Close()
+	return NewNetUnixByReader(f)
+}
+
+// NewNetUnixByReader returns data read from /proc/net/unix by a reader.
+// It might returns an error with partial parsed data, if an error occur after some data parsed.
+func NewNetUnixByReader(reader io.Reader) (*NetUnix, error) {
 	nu := &NetUnix{
 		Rows: make([]*NetUnixLine, 0, 32),
 	}
-	scanner := bufio.NewScanner(f)
+	scanner := bufio.NewScanner(reader)
 	// Omit the header line.
 	scanner.Scan()
 	header := scanner.Text()

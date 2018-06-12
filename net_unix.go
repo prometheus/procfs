@@ -110,7 +110,7 @@ func NewNetUnixByPath(path string) (*NetUnix, error) {
 	// Omit the header line.
 	scanner.Scan()
 	header := scanner.Text()
-	// From the man page of proc(5), it dose not contain an Inode field,
+	// From the man page of proc(5), it does not contain an Inode field,
 	// but in actually it exists.
 	// This code works for both cases.
 	hasInode := strings.Contains(header, "Inode")
@@ -247,7 +247,7 @@ func (t NetUnixType) String() string {
 func (f NetUnixFlags) String() string {
 	switch f {
 	case netUnixFlagListen:
-		return "accepton"
+		return "listen"
 	default:
 		return "default"
 	}

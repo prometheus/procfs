@@ -88,7 +88,7 @@ func TestNewNetUnix(t *testing.T) {
 		}
 	}
 
-	wantedFlags := "accepton"
+	wantedFlags := "listen"
 	flags := lines[0].Flags.String()
 	if wantedFlags != flags {
 		t.Errorf("unexpected flag str: want %s, got %s", wantedFlags, flags)

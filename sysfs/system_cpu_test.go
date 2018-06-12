@@ -32,15 +32,27 @@ func TestNewSystemCpufreq(t *testing.T) {
 	systemCpufreq := SystemCpufreq{
 		// Ubuntu 16.04 (4.15.0-20-generic), has `scaling_cur_freq` file.
 		"0": {
-			CurrentFrequency: 1219917,
-			MinimumFrequency: 800000,
-			MaximumFrequency: 2400000,
+			CurrentFrequency:   1219917,
+			MinimumFrequency:   800000,
+			MaximumFrequency:   2400000,
+			TransitionLatency:  0,
+			AvailableGovernors: "performance powersave",
+			Driver:             "intel_pstate",
+			Govenor:            "powersave",
+			RelatedCpus:        "0",
+			SetSpeed:           "<unsupported>",
 		},
 		// RHEL 7.3 (3.10.0-514.26.2.el7), missing `scaling_cur_freq` file.
 		"1": {
-			CurrentFrequency: 1200195,
-			MinimumFrequency: 1200000,
-			MaximumFrequency: 3300000,
+			CurrentFrequency:   1200195,
+			MinimumFrequency:   1200000,
+			MaximumFrequency:   3300000,
+			TransitionLatency:  4294967295,
+			AvailableGovernors: "performance powersave",
+			Driver:             "intel_pstate",
+			Govenor:            "powersave",
+			RelatedCpus:        "1",
+			SetSpeed:           "<unsupported>",
 		},
 	}
 

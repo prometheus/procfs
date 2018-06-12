@@ -13,7 +13,11 @@
 
 package util
 
-import "strconv"
+import (
+	"io/ioutil"
+	"strconv"
+	"strings"
+)
 
 // ParseUint32s parses a slice of strings into a slice of uint32s.
 func ParseUint32s(ss []string) ([]uint32, error) {
@@ -43,4 +47,16 @@ func ParseUint64s(ss []string) ([]uint64, error) {
 	}
 
 	return us, nil
+}
+
+func ReadUintFromFile(path string) (uint64, error) {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return 0, err
+	}
+	value, err := strconv.ParseUint(strings.TrimSpace(string(data)), 10, 64)
+	if err != nil {
+		return 0, err
+	}
+	return value, nil
 }

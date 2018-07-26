@@ -22,8 +22,8 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
-// SystemCpuCpufreq contains stats from devices/system/cpu/cpu[0-9]*/cpufreq/...
-type SystemCpuCpufreq struct {
+// SystemCPUCpufreq contains stats from devices/system/cpu/cpu[0-9]*/cpufreq/...
+type SystemCPUCpufreq struct {
 	CurrentFrequency   uint64
 	MinimumFrequency   uint64
 	MaximumFrequency   uint64
@@ -35,8 +35,8 @@ type SystemCpuCpufreq struct {
 	SetSpeed           string
 }
 
-// SystemCpufreq is a collection of SystemCpuCpufreq for every CPU.
-type SystemCpufreq map[string]SystemCpuCpufreq
+// SystemCpufreq is a collection of SystemCPUCpufreq for every CPU.
+type SystemCpufreq map[string]SystemCPUCpufreq
 
 // TODO: Add topology support.
 
@@ -64,7 +64,7 @@ func (fs FS) NewSystemCpufreq() (SystemCpufreq, error) {
 		cpuName := filepath.Base(cpu)
 		cpuNum := strings.TrimPrefix(cpuName, "cpu")
 
-		cpufreq := SystemCpuCpufreq{}
+		cpufreq := SystemCPUCpufreq{}
 		cpuCpufreqPath := filepath.Join(cpu, "cpufreq")
 		if _, err := os.Stat(cpuCpufreqPath); os.IsNotExist(err) {
 			continue
@@ -87,49 +87,49 @@ func (fs FS) NewSystemCpufreq() (SystemCpufreq, error) {
 	return systemCpufreq, nil
 }
 
-func parseCpufreqCpuinfo(prefix string, cpuPath string) (SystemCpuCpufreq, error) {
+func parseCpufreqCpuinfo(prefix string, cpuPath string) (SystemCPUCpufreq, error) {
 	current, err := util.ReadUintFromFile(filepath.Join(cpuPath, prefix+"_cur_freq"))
 	if err != nil {
-		return SystemCpuCpufreq{}, err
+		return SystemCPUCpufreq{}, err
 	}
 	maximum, err := util.ReadUintFromFile(filepath.Join(cpuPath, prefix+"_max_freq"))
 	if err != nil {
-		return SystemCpuCpufreq{}, err
+		return SystemCPUCpufreq{}, err
 	}
 	minimum, err := util.ReadUintFromFile(filepath.Join(cpuPath, prefix+"_min_freq"))
 	if err != nil {
-		return SystemCpuCpufreq{}, err
+		return SystemCPUCpufreq{}, err
 	}
 	transitionLatency, err := util.ReadUintFromFile(filepath.Join(cpuPath, "cpuinfo_transition_latency"))
 	if err != nil {
-		return SystemCpuCpufreq{}, err
+		return SystemCPUCpufreq{}, err
 	}
 	fileContents, err := util.SysReadFile(filepath.Join(cpuPath, "scaling_available_governors"))
 	if err != nil {
-		return SystemCpuCpufreq{}, err
+		return SystemCPUCpufreq{}, err
 	}
 	availableGovernors := strings.TrimSpace(string(fileContents))
 	fileContents, err = util.SysReadFile(filepath.Join(cpuPath, "scaling_driver"))
 	if err != nil {
-		return SystemCpuCpufreq{}, err
+		return SystemCPUCpufreq{}, err
 	}
 	driver := strings.TrimSpace(string(fileContents))
 	fileContents, err = util.SysReadFile(filepath.Join(cpuPath, "scaling_governor"))
 	if err != nil {
-		return SystemCpuCpufreq{}, err
+		return SystemCPUCpufreq{}, err
 	}
 	governor := strings.TrimSpace(string(fileContents))
 	fileContents, err = util.SysReadFile(filepath.Join(cpuPath, "related_cpus"))
 	if err != nil {
-		return SystemCpuCpufreq{}, err
+		return SystemCPUCpufreq{}, err
 	}
 	relatedCpus := strings.TrimSpace(string(fileContents))
 	fileContents, err = util.SysReadFile(filepath.Join(cpuPath, "scaling_setspeed"))
 	if err != nil {
-		return SystemCpuCpufreq{}, err
+		return SystemCPUCpufreq{}, err
 	}
 	setSpeed := strings.TrimSpace(string(fileContents))
-	return SystemCpuCpufreq{
+	return SystemCPUCpufreq{
 		CurrentFrequency:   current,
 		MaximumFrequency:   maximum,
 		MinimumFrequency:   minimum,

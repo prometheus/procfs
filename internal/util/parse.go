@@ -51,6 +51,7 @@ func ParseUint64s(ss []string) ([]uint64, error) {
 	return us, nil
 }
 
+// ReadUintFromFile reads a file and attempts to parse a uint64 from it.
 func ReadUintFromFile(path string) (uint64, error) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -63,7 +64,7 @@ func ReadUintFromFile(path string) (uint64, error) {
 	return value, nil
 }
 
-// sysReadFile is a simplified ioutil.ReadFile that invokes syscall.Read directly.
+// SysReadFile is a simplified ioutil.ReadFile that invokes syscall.Read directly.
 // https://github.com/prometheus/node_exporter/pull/728/files
 func SysReadFile(file string) ([]byte, error) {
 	f, err := os.Open(file)

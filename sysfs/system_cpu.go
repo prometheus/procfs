@@ -68,20 +68,23 @@ func (fs FS) NewSystemCpufreq() (SystemCpufreq, error) {
 		cpuCpufreqPath := filepath.Join(cpu, "cpufreq")
 		if _, err := os.Stat(cpuCpufreqPath); os.IsNotExist(err) {
 			continue
-		} else {
-			if _, err = os.Stat(filepath.Join(cpuCpufreqPath, "scaling_cur_freq")); err == nil {
-				cpufreq, err = parseCpufreqCpuinfo("scaling", cpuCpufreqPath)
-			} else if _, err = os.Stat(filepath.Join(cpuCpufreqPath, "cpuinfo_cur_freq")); err == nil {
-				// Older kernels have metrics named `cpuinfo_...`.
-				cpufreq, err = parseCpufreqCpuinfo("cpuinfo", cpuCpufreqPath)
-			} else {
-				return SystemCpufreq{}, fmt.Errorf("CPU %v is missing cpufreq", cpu)
-			}
-			if err != nil {
-				return SystemCpufreq{}, err
-			}
-			systemCpufreq[cpuNum] = cpufreq
 		}
+		if err != nil {
+			return SystemCpufreq{}, err
+		}
+
+		if _, err = os.Stat(filepath.Join(cpuCpufreqPath, "scaling_cur_freq")); err == nil {
+			cpufreq, err = parseCpufreqCpuinfo("scaling", cpuCpufreqPath)
+		} else if _, err = os.Stat(filepath.Join(cpuCpufreqPath, "cpuinfo_cur_freq")); err == nil {
+			// Older kernels have metrics named `cpuinfo_...`.
+			cpufreq, err = parseCpufreqCpuinfo("cpuinfo", cpuCpufreqPath)
+		} else {
+			return SystemCpufreq{}, fmt.Errorf("CPU %v is missing cpufreq", cpu)
+		}
+		if err != nil {
+			return SystemCpufreq{}, err
+		}
+		systemCpufreq[cpuNum] = cpufreq
 	}
 
 	return systemCpufreq, nil

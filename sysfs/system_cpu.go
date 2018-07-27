@@ -47,7 +47,7 @@ type SystemCpufreq []SystemCPUCpufreq
 func NewSystemCpufreq() (SystemCpufreq, error) {
 	fs, err := NewFS(DefaultMountPoint)
 	if err != nil {
-		return nil, err
+		return SystemCpufreq{}, err
 	}
 
 	return fs.NewSystemCpufreq()
@@ -96,64 +96,51 @@ func (fs FS) NewSystemCpufreq() (SystemCpufreq, error) {
 func (s SystemCpufreq) parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreq, error) {
 	systemCPUCpufreqClass := SystemCPUCpufreq{}
 
-	current, err := util.ReadUintFromFile(filepath.Join(cpuPath, prefix+"_cur_freq"))
-	if err != nil {
-		return &systemCPUCpufreqClass, err
+	uintFiles := [4]string{
+		prefix + "_cur_freq",
+		prefix + "_max_freq",
+		prefix + "_min_freq",
+		"cpuinfo_transition_latency",
 	}
-	systemCPUCpufreqClass.CurrentFrequency = current
+	var uintOut [4]uint64
 
-	maximum, err := util.ReadUintFromFile(filepath.Join(cpuPath, prefix+"_max_freq"))
-	if err != nil {
-		return &systemCPUCpufreqClass, err
-	}
-	systemCPUCpufreqClass.MaximumFrequency = maximum
+	for i, f := range uintFiles {
+		v, err := util.ReadUintFromFile(filepath.Join(cpuPath, f))
+		if err != nil {
+			return &systemCPUCpufreqClass, err
+		}
 
-	minimum, err := util.ReadUintFromFile(filepath.Join(cpuPath, prefix+"_min_freq"))
-	if err != nil {
-		return &systemCPUCpufreqClass, err
+		uintOut[i] = v
 	}
-	systemCPUCpufreqClass.MinimumFrequency = minimum
 
-	transitionLatency, err := util.ReadUintFromFile(filepath.Join(cpuPath, "cpuinfo_transition_latency"))
-	if err != nil {
-		return &systemCPUCpufreqClass, err
-	}
-	systemCPUCpufreqClass.TransitionLatency = transitionLatency
+	systemCPUCpufreqClass.CurrentFrequency = uintOut[0]
+	systemCPUCpufreqClass.MaximumFrequency = uintOut[1]
+	systemCPUCpufreqClass.MinimumFrequency = uintOut[2]
+	systemCPUCpufreqClass.TransitionLatency = uintOut[3]
 
-	fileContents, err := util.SysReadFile(filepath.Join(cpuPath, "scaling_available_governors"))
-	if err != nil {
-		return &systemCPUCpufreqClass, err
+	stringFiles := [5]string{
+		"scaling_available_governors",
+		"scaling_driver",
+		"scaling_governor",
+		"related_cpus",
+		"scaling_setspeed",
 	}
-	availableGovernors := strings.TrimSpace(string(fileContents))
-	systemCPUCpufreqClass.AvailableGovernors = availableGovernors
+	var stringOut [5]string
 
-	fileContents, err = util.SysReadFile(filepath.Join(cpuPath, "scaling_driver"))
-	if err != nil {
-		return &systemCPUCpufreqClass, err
-	}
-	driver := strings.TrimSpace(string(fileContents))
-	systemCPUCpufreqClass.Driver = driver
+	for i, f := range stringFiles {
+		fileContents, err := util.SysReadFile(filepath.Join(cpuPath, f))
+		if err != nil {
+			return &systemCPUCpufreqClass, err
+		}
 
-	fileContents, err = util.SysReadFile(filepath.Join(cpuPath, "scaling_governor"))
-	if err != nil {
-		return &systemCPUCpufreqClass, err
+		stringOut[i] = strings.TrimSpace(string(fileContents))
 	}
-	governor := strings.TrimSpace(string(fileContents))
-	systemCPUCpufreqClass.Govenor = governor
 
-	fileContents, err = util.SysReadFile(filepath.Join(cpuPath, "related_cpus"))
-	if err != nil {
-		return &systemCPUCpufreqClass, err
-	}
-	relatedCpus := strings.TrimSpace(string(fileContents))
-	systemCPUCpufreqClass.RelatedCpus = relatedCpus
-
-	fileContents, err = util.SysReadFile(filepath.Join(cpuPath, "scaling_setspeed"))
-	if err != nil {
-		return &systemCPUCpufreqClass, err
-	}
-	setSpeed := strings.TrimSpace(string(fileContents))
-	systemCPUCpufreqClass.SetSpeed = setSpeed
+	systemCPUCpufreqClass.AvailableGovernors = stringOut[0]
+	systemCPUCpufreqClass.Driver = stringOut[1]
+	systemCPUCpufreqClass.Govenor = stringOut[2]
+	systemCPUCpufreqClass.RelatedCpus = stringOut[3]
+	systemCPUCpufreqClass.SetSpeed = stringOut[4]
 
 	return &systemCPUCpufreqClass, nil
 }

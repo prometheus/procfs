@@ -37,7 +37,7 @@ type SystemCPUCpufreq struct {
 }
 
 // SystemCpufreq is a collection of SystemCPUCpufreq for every CPU.
-type SystemCpufreq map[string]SystemCPUCpufreq
+type SystemCpufreq []SystemCPUCpufreq
 
 // TODO: Add topology support.
 
@@ -87,7 +87,7 @@ func (fs FS) NewSystemCpufreq() (SystemCpufreq, error) {
 			return SystemCpufreq{}, err
 		}
 		cpufreq.Name = cpuNum
-		systemCpufreq[cpuNum] = *cpufreq
+		systemCpufreq = append(systemCpufreq, *cpufreq)
 	}
 
 	return systemCpufreq, nil

@@ -17,6 +17,7 @@ package procfs
 
 import (
 	"bufio"
+	"fmt"
 	"net"
 	"os"
 	"strings"
@@ -45,6 +46,7 @@ func GatherARPEntries() ([]ARPEntry, error) {
 		return nil, err
 	}
 	defer file.Close()
+
 	scanner := bufio.NewScanner(file)
 	entries := make([]ARPEntry, 0)
 
@@ -57,7 +59,14 @@ func GatherARPEntries() ([]ARPEntry, error) {
 	return entries, nil
 }
 
-func parseARPEntry(columns []string) ARPEntry {
+func parseARPEntry(columns []string) (ARPEntry, error) {
+	width := len(columns)
+	expectedWidth := 6
+
+	if width < expectedWidth {
+		return ARPEntry{}, fmt.Errorf("%s columns were detected, but %s were expected", width, expectedWidth)
+	}
+
 	ip := net.ParseIP(columns[0])
 	mac := net.HardwareAddr(columns[3])
 

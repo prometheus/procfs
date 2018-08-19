@@ -18,6 +18,7 @@ package procfs
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"net"
 	"os"
 	"strings"
@@ -32,21 +33,19 @@ type ARPEntry struct {
 	Device string
 }
 
-// GatherARPEntries retrieves all the ARP entries, parse the relevant columns,
-// and then return a slice of ARPEntry's.
-func GatherARPEntries() ([]ARPEntry, error) {
-	fs, err := NewFS(DefaultMountPoint)
-
-	if err != nil {
-		return nil, err
-	}
-
+func (fs FS) GatherARPEntries() ([]ARPEntry, error) {
 	file, err := os.Open(fs.Path("net/arp"))
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
+	return parseARPEntries(file)
+}
+
+// GatherARPEntries retrieves all the ARP entries, parse the relevant columns,
+// and then return a slice of ARPEntry's.
+func parseARPEntries(file io.Reader) ([]ARPEntry, error) {
 	scanner := bufio.NewScanner(file)
 	entries := make([]ARPEntry, 0)
 
@@ -54,7 +53,7 @@ func GatherARPEntries() ([]ARPEntry, error) {
 		columns := strings.Fields(scanner.Text())
 		entry, err := parseARPEntry(columns)
 		if err != nil {
-			fmt.Errorf("Failed to parse ARP entry: %s", err)
+			return []ARPEntry{}, fmt.Errorf("Failed to parse ARP entry: %s", err)
 		}
 
 		entries = append(entries, entry)
@@ -68,7 +67,7 @@ func parseARPEntry(columns []string) (ARPEntry, error) {
 	expectedWidth := 6
 
 	if width != expectedWidth {
-		return ARPEntry{}, fmt.Errorf("%s columns were detected, but %s were expected", width, expectedWidth)
+		return ARPEntry{}, fmt.Errorf("%d columns were detected, but %d were expected", width, expectedWidth)
 	}
 
 	ip := net.ParseIP(columns[0])

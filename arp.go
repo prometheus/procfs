@@ -67,7 +67,7 @@ func parseARPEntry(columns []string) (ARPEntry, error) {
 	width := len(columns)
 	expectedWidth := 6
 
-	if width < expectedWidth {
+	if width != expectedWidth {
 		return ARPEntry{}, fmt.Errorf("%s columns were detected, but %s were expected", width, expectedWidth)
 	}
 

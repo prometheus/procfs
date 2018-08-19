@@ -80,5 +80,5 @@ func parseARPEntry(columns []string) (ARPEntry, error) {
 		Device: columns[5],
 	}
 
-	return entry
+	return entry, nil
 }

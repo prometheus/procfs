@@ -52,7 +52,11 @@ func GatherARPEntries() ([]ARPEntry, error) {
 
 	for scanner.Scan() {
 		columns := strings.Fields(scanner.Text())
-		entry := parseARPEntry(columns)
+		entry, err := parseARPEntry(columns)
+		if err != nil {
+			fmt.Errorf("Failed to parse ARP entry: %s", err)
+		}
+
 		entries = append(entries, entry)
 	}
 

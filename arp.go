@@ -52,7 +52,7 @@ func parseARPEntries(file io.Reader) ([]ARPEntry, error) {
 	for scanner.Scan() {
 		columns := strings.Fields(scanner.Text())
 
-		if columns[0] != "IP Address" {
+		if columns[0] != "IP" {
 			entry, err := parseARPEntry(columns)
 			if err != nil {
 				return []ARPEntry{}, fmt.Errorf("Failed to parse ARP entry: %s", err)

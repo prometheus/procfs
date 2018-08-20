@@ -14,6 +14,7 @@
 package procfs
 
 import (
+	"net"
 	"testing"
 )
 
@@ -25,5 +26,13 @@ func TestARP(t *testing.T) {
 
 	if want, got := "192.168.224.1", arpFile[0].IPAddr.String(); want != got {
 		t.Errorf("want 192.168.224.1, got %s", got)
+	}
+
+	if want, got := net.HardwareAddr("00:50:56:c0:00:08").String(), arpFile[0].HWAddr.String(); want != got {
+		t.Errorf("want 00:50:56:c0:00:08, got %s", got)
+	}
+
+	if want, got := "ens33", arpFile[0].Device; want != got {
+		t.Errorf("want ens33, got %s", got)
 	}
 }

@@ -23,7 +23,7 @@ func TestARP(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if want, got := "192.168.224.254", arpFile[0].IPAddr.String(); want != got {
-		t.Errorf("want 192.168.224.254, got %s", got)
+	if want, got := "192.168.224.1", arpFile[0].IPAddr.String(); want != got {
+		t.Errorf("want 192.168.224.1, got %s", got)
 	}
 }

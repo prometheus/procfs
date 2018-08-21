@@ -15,10 +15,13 @@ package sysfs
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/prometheus/procfs/bcache"
+	"github.com/prometheus/procfs/cpu"
 	"github.com/prometheus/procfs/xfs"
 )
 
@@ -105,4 +108,31 @@ func (fs FS) BcacheStats() ([]*bcache.Stats, error) {
 	}
 
 	return stats, nil
+}
+
+// BcacheStats retrieves a map of vulnerability names to their mitigations.
+func (fs FS) CPUVulnerabilities() ([]cpu.Vulnerability, error) {
+	matches, err := filepath.Glob(fs.Path("devices/system/cpu/vulnerabilities/*"))
+	if err != nil {
+		return nil, err
+	}
+
+	vulnerabilities := make([]cpu.Vulnerability, 0, len(matches))
+	for _, match := range matches {
+		name := filepath.Base(match)
+
+		value, err := ioutil.ReadFile(match)
+		if err != nil {
+			return nil, err
+		}
+
+		v, err := cpu.ParseVulnerability(name, strings.TrimSpace(string(value)))
+		if err != nil {
+			return nil, err
+		}
+
+		vulnerabilities = append(vulnerabilities, v)
+	}
+
+	return vulnerabilities, nil
 }

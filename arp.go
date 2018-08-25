@@ -75,7 +75,6 @@ func parseARPEntries(file io.Reader) ([]ARPEntry, error) {
 }
 
 func parseARPEntry(columns []string) (ARPEntry, error) {
-
 	ip := net.ParseIP(columns[0])
 	mac := net.HardwareAddr(columns[3])
 

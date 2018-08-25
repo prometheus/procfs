@@ -24,6 +24,8 @@ import (
 	"strings"
 )
 
+// ARPEntry contains a single row of the columnar data represented in
+// /proc/net/arp.
 type ARPEntry struct {
 	// IP address
 	IPAddr net.IP

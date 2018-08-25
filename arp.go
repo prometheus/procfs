@@ -64,7 +64,7 @@ func parseARPEntries(file io.Reader) ([]ARPEntry, error) {
 		}
 	}
 
-	return entries, nil
+	return entries, scanner.Err()
 }
 
 func parseARPEntry(columns []string) (ARPEntry, error) {

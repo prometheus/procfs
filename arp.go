@@ -57,7 +57,7 @@ func parseARPEntries(file io.Reader) ([]ARPEntry, error) {
 		if columns[0] != "IP" {
 			entry, err := parseARPEntry(columns)
 			if err != nil {
-				return []ARPEntry{}, fmt.Errorf("Failed to parse ARP entry: %s", err)
+				return []ARPEntry{}, fmt.Errorf("failed to parse ARP entry: %s", err)
 			}
 
 			entries = append(entries, entry)

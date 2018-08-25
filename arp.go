@@ -35,6 +35,8 @@ type ARPEntry struct {
 	Device string
 }
 
+// GatherARPEntries retrieves all the ARP entries, parse the relevant columns,
+// and then return a slice of ARPEntry's.
 func (fs FS) GatherARPEntries() ([]ARPEntry, error) {
 	file, err := os.Open(fs.Path("net/arp"))
 	if err != nil {
@@ -45,8 +47,6 @@ func (fs FS) GatherARPEntries() ([]ARPEntry, error) {
 	return parseARPEntries(file)
 }
 
-// GatherARPEntries retrieves all the ARP entries, parse the relevant columns,
-// and then return a slice of ARPEntry's.
 func parseARPEntries(file io.Reader) ([]ARPEntry, error) {
 	scanner := bufio.NewScanner(file)
 	entries := make([]ARPEntry, 0)

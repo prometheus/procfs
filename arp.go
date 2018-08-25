@@ -53,14 +53,21 @@ func parseARPEntries(file io.Reader) ([]ARPEntry, error) {
 
 	for scanner.Scan() {
 		columns := strings.Fields(scanner.Text())
+		width := len(columns)
+		expectedDataWidth := 6
+		expectedHeaderWidth := 9
 
-		if columns[0] != "IP" {
+		if width == expectedHeaderWidth {
+			break
+		} else if width == expectedDataWidth {
 			entry, err := parseARPEntry(columns)
 			if err != nil {
 				return []ARPEntry{}, fmt.Errorf("failed to parse ARP entry: %s", err)
 			}
 
 			entries = append(entries, entry)
+		} else {
+			return []ARPEntry{}, fmt.Errorf("%d columns were detected, but %d were expected", width, expectedDataWidth)
 		}
 	}
 
@@ -68,12 +75,6 @@ func parseARPEntries(file io.Reader) ([]ARPEntry, error) {
 }
 
 func parseARPEntry(columns []string) (ARPEntry, error) {
-	width := len(columns)
-	expectedWidth := 6
-
-	if width != expectedWidth {
-		return ARPEntry{}, fmt.Errorf("%d columns were detected, but %d were expected", width, expectedWidth)
-	}
 
 	ip := net.ParseIP(columns[0])
 	mac := net.HardwareAddr(columns[3])

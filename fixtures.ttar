@@ -195,6 +195,50 @@ Mode: 644
 Directory: fixtures/584
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/584/fd
+Mode: 775
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/584/fd/0
+Lines: 0
+Mode: 664
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/584/fd/1
+Lines: 0
+Mode: 664
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/584/fd/2
+Lines: 0
+Mode: 664
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/584/fd/3
+Lines: 0
+Mode: 664
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/584/fd/4
+Lines: 0
+Mode: 664
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/584/limits
+Lines: 17
+Limit                     Soft Limit           Hard Limit           Units     
+Max cpu time              unlimited            unlimited            seconds   
+Max file size             unlimited            unlimited            bytes     
+Max data size             unlimited            unlimited            bytes     
+Max stack size            8388608              unlimited            bytes     
+Max core file size        0                    unlimited            bytes     
+Max resident set          unlimited            unlimited            bytes     
+Max processes             30310                30310                processes 
+Max open files            1024                 4096                 files     
+Max locked memory         16777216             16777216             bytes     
+Max address space         unlimited            unlimited            bytes     
+Max file locks            unlimited            unlimited            locks     
+Max pending signals       30310                30310                signals   
+Max msgqueue size         819200               819200               bytes     
+Max nice priority         0                    0                    
+Max realtime priority     0                    0                    
+Max realtime timeout      unlimited            unlimited            us        
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/584/stat
 Lines: 2
 1020 ((a b ) ( c d) ) R 28378 1020 28378 34842 1020 4218880 286 0 0 0 0 0 0 0 20 0 1 0 10839175 10395648 155 18446744073709551615 4194304 4238788 140736466511168 140736466511168 140609271124624 0 0 0 0 0 0 0 17 5 0 0 0 0 0 6336016 6337300 25579520 140736466515030 140736466515061 140736466515061 140736466518002 0

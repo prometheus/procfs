@@ -134,11 +134,10 @@ func (p Proc) NewStat() (ProcStat, error) {
 	for scanner.Scan() {
 		if bytes.Contains(scanner.Bytes(), []byte("Max open files")) {
 			mof, err = strconv.Atoi(strings.Fields(scanner.Text())[3])
+			if err := scanner.Err(); err != nil {
+				return ProcStat{}, err
+			}
 		}
-	}
-
-	if err := scanner.Err(); err != nil {
-		return ProcStat{}, err
 	}
 
 	// count files in fd directory

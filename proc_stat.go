@@ -14,10 +14,13 @@
 package procfs
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
+	"strings"
 )
 
 // Originally, this USER_HZ value was dynamically retrieved via a sysconf call
@@ -98,12 +101,17 @@ type ProcStat struct {
 	VSize int
 	// Resident set size in pages.
 	RSS int
+	// Max open files
+	MaxOpenFiles int
+	// Current open files
+	CurrentOpenFiles int
 
 	fs FS
 }
 
 // NewStat returns the current status information of the process.
 func (p Proc) NewStat() (ProcStat, error) {
+	// read stat file
 	f, err := os.Open(p.path("stat"))
 	if err != nil {
 		return ProcStat{}, err
@@ -115,10 +123,35 @@ func (p Proc) NewStat() (ProcStat, error) {
 		return ProcStat{}, err
 	}
 
+	// read limits file
+	maxOpenFiles, err := os.Open(p.path("limits"))
+	if err != nil {
+		return ProcStat{}, err
+	}
+	defer maxOpenFiles.Close()
+	var mof int
+	scanner := bufio.NewScanner(maxOpenFiles)
+	for scanner.Scan() {
+		if bytes.Contains(scanner.Bytes(), []byte("Max open files")) {
+			mof, err = strconv.Atoi(strings.Fields(scanner.Text())[3])
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return ProcStat{}, err
+	}
+
+	// count files in fd directory
+	currentOpenFiles, err := ioutil.ReadDir(p.path("fd"))
+	if err != nil {
+		return ProcStat{}, err
+	}
+	cof := len(currentOpenFiles)
+
 	var (
 		ignore int
 
-		s = ProcStat{PID: p.PID, fs: p.fs}
+		s = ProcStat{PID: p.PID, fs: p.fs, MaxOpenFiles: mof, CurrentOpenFiles: cof}
 		l = bytes.Index(data, []byte("("))
 		r = bytes.LastIndex(data, []byte(")"))
 	)

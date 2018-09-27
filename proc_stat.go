@@ -98,6 +98,10 @@ type ProcStat struct {
 	VSize int
 	// Resident set size in pages.
 	RSS int
+	// Max open files
+	MaxOpenFiles int64
+	// Current open files
+	CurrentOpenFiles int
 
 	fs FS
 }
@@ -115,10 +119,21 @@ func (p Proc) NewStat() (ProcStat, error) {
 		return ProcStat{}, err
 	}
 
+	limits, err := p.NewLimits()
+	if err != nil {
+		return ProcStat{}, err
+	}
+	mof := limits.OpenFiles
+
+	cof, err := p.FileDescriptorsLen()
+	if err != nil {
+		return ProcStat{}, err
+	}
+
 	var (
 		ignore int
 
-		s = ProcStat{PID: p.PID, fs: p.fs}
+		s = ProcStat{PID: p.PID, fs: p.fs, MaxOpenFiles: mof, CurrentOpenFiles: cof}
 		l = bytes.Index(data, []byte("("))
 		r = bytes.LastIndex(data, []byte(")"))
 	)

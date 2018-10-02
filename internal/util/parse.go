@@ -57,11 +57,7 @@ func ReadUintFromFile(path string) (uint64, error) {
 	if err != nil {
 		return 0, err
 	}
-	value, err := strconv.ParseUint(strings.TrimSpace(string(data)), 10, 64)
-	if err != nil {
-		return 0, err
-	}
-	return value, nil
+	return strconv.ParseUint(strings.TrimSpace(string(data)), 10, 64)
 }
 
 // SysReadFile is a simplified ioutil.ReadFile that invokes syscall.Read directly.

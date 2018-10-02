@@ -29,7 +29,7 @@ func TestNewSystemCpufreq(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	systemCpufreq := []SystemCPUCpufreq{
+	systemCpufreq := []SystemCPUCpufreqStats{
 		// Ubuntu 16.04 (4.15.0-20-generic), has `scaling_cur_freq` file.
 		{
 			Name:               "0",

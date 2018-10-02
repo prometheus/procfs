@@ -22,8 +22,8 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
-// SystemCPUCpufreq contains stats from devices/system/cpu/cpu[0-9]*/cpufreq/...
-type SystemCPUCpufreq struct {
+// SystemCPUCpufreqStats contains stats from devices/system/cpu/cpu[0-9]*/cpufreq/...
+type SystemCPUCpufreqStats struct {
 	Name               string
 	CurrentFrequency   uint64
 	MinimumFrequency   uint64
@@ -41,25 +41,25 @@ type SystemCPUCpufreq struct {
 // TODO: Add thermal_throttle support.
 
 // NewSystemCpufreq returns CPU frequency metrics for all CPUs.
-func NewSystemCpufreq() ([]SystemCPUCpufreq, error) {
+func NewSystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 	fs, err := NewFS(DefaultMountPoint)
 	if err != nil {
-		return []SystemCPUCpufreq{}, err
+		return []SystemCPUCpufreqStats{}, err
 	}
 
 	return fs.NewSystemCpufreq()
 }
 
 // NewSystemCpufreq returns CPU frequency metrics for all CPUs.
-func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreq, error) {
-	var cpufreq = &SystemCPUCpufreq{}
+func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreqStats, error) {
+	var cpufreq = &SystemCPUCpufreqStats{}
 
 	cpus, err := filepath.Glob(fs.Path("devices/system/cpu/cpu[0-9]*"))
 	if err != nil {
-		return []SystemCPUCpufreq{}, err
+		return []SystemCPUCpufreqStats{}, err
 	}
 
-	systemCpufreq := []SystemCPUCpufreq{}
+	systemCpufreq := []SystemCPUCpufreqStats{}
 	for _, cpu := range cpus {
 		cpuName := filepath.Base(cpu)
 		cpuNum := strings.TrimPrefix(cpuName, "cpu")
@@ -69,7 +69,7 @@ func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreq, error) {
 			continue
 		}
 		if err != nil {
-			return []SystemCPUCpufreq{}, err
+			return []SystemCPUCpufreqStats{}, err
 		}
 
 		if _, err = os.Stat(filepath.Join(cpuCpufreqPath, "scaling_cur_freq")); err == nil {
@@ -78,10 +78,10 @@ func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreq, error) {
 			// Older kernels have metrics named `cpuinfo_...`.
 			cpufreq, err = parseCpufreqCpuinfo("cpuinfo", cpuCpufreqPath)
 		} else {
-			return []SystemCPUCpufreq{}, fmt.Errorf("CPU %v is missing cpufreq", cpu)
+			return []SystemCPUCpufreqStats{}, fmt.Errorf("CPU %v is missing cpufreq", cpu)
 		}
 		if err != nil {
-			return []SystemCPUCpufreq{}, err
+			return []SystemCPUCpufreqStats{}, err
 		}
 		cpufreq.Name = cpuNum
 		systemCpufreq = append(systemCpufreq, *cpufreq)
@@ -90,7 +90,7 @@ func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreq, error) {
 	return systemCpufreq, nil
 }
 
-func parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreq, error) {
+func parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreqStats, error) {
 	uintFiles := []string{
 		prefix + "_cur_freq",
 		prefix + "_max_freq",
@@ -102,7 +102,7 @@ func parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreq, erro
 	for i, f := range uintFiles {
 		v, err := util.ReadUintFromFile(filepath.Join(cpuPath, f))
 		if err != nil {
-			return &SystemCPUCpufreq{}, err
+			return &SystemCPUCpufreqStats{}, err
 		}
 
 		uintOut[i] = v
@@ -121,11 +121,11 @@ func parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreq, erro
 	for i, f := range stringFiles {
 		stringOut[i], err = util.SysReadFile(filepath.Join(cpuPath, f))
 		if err != nil {
-			return &SystemCPUCpufreq{}, err
+			return &SystemCPUCpufreqStats{}, err
 		}
 	}
 
-	return &SystemCPUCpufreq{
+	return &SystemCPUCpufreqStats{
 		CurrentFrequency:   uintOut[0],
 		MaximumFrequency:   uintOut[1],
 		MinimumFrequency:   uintOut[2],

@@ -36,33 +36,30 @@ type SystemCPUCpufreq struct {
 	SetSpeed           string
 }
 
-// SystemCpufreq is a collection of SystemCPUCpufreq for every CPU.
-type SystemCpufreq []SystemCPUCpufreq
-
 // TODO: Add topology support.
 
 // TODO: Add thermal_throttle support.
 
 // NewSystemCpufreq returns CPU frequency metrics for all CPUs.
-func NewSystemCpufreq() (SystemCpufreq, error) {
+func NewSystemCpufreq() ([]SystemCPUCpufreq, error) {
 	fs, err := NewFS(DefaultMountPoint)
 	if err != nil {
-		return SystemCpufreq{}, err
+		return []SystemCPUCpufreq{}, err
 	}
 
 	return fs.NewSystemCpufreq()
 }
 
 // NewSystemCpufreq returns CPU frequency metrics for all CPUs.
-func (fs FS) NewSystemCpufreq() (SystemCpufreq, error) {
+func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreq, error) {
 	var cpufreq = &SystemCPUCpufreq{}
 
 	cpus, err := filepath.Glob(fs.Path("devices/system/cpu/cpu[0-9]*"))
 	if err != nil {
-		return SystemCpufreq{}, err
+		return []SystemCPUCpufreq{}, err
 	}
 
-	systemCpufreq := SystemCpufreq{}
+	systemCpufreq := []SystemCPUCpufreq{}
 	for _, cpu := range cpus {
 		cpuName := filepath.Base(cpu)
 		cpuNum := strings.TrimPrefix(cpuName, "cpu")
@@ -72,19 +69,19 @@ func (fs FS) NewSystemCpufreq() (SystemCpufreq, error) {
 			continue
 		}
 		if err != nil {
-			return SystemCpufreq{}, err
+			return []SystemCPUCpufreq{}, err
 		}
 
 		if _, err = os.Stat(filepath.Join(cpuCpufreqPath, "scaling_cur_freq")); err == nil {
-			cpufreq, err = systemCpufreq.parseCpufreqCpuinfo("scaling", cpuCpufreqPath)
+			cpufreq, err = parseCpufreqCpuinfo("scaling", cpuCpufreqPath)
 		} else if _, err = os.Stat(filepath.Join(cpuCpufreqPath, "cpuinfo_cur_freq")); err == nil {
 			// Older kernels have metrics named `cpuinfo_...`.
-			cpufreq, err = systemCpufreq.parseCpufreqCpuinfo("cpuinfo", cpuCpufreqPath)
+			cpufreq, err = parseCpufreqCpuinfo("cpuinfo", cpuCpufreqPath)
 		} else {
-			return SystemCpufreq{}, fmt.Errorf("CPU %v is missing cpufreq", cpu)
+			return []SystemCPUCpufreq{}, fmt.Errorf("CPU %v is missing cpufreq", cpu)
 		}
 		if err != nil {
-			return SystemCpufreq{}, err
+			return []SystemCPUCpufreq{}, err
 		}
 		cpufreq.Name = cpuNum
 		systemCpufreq = append(systemCpufreq, *cpufreq)
@@ -93,9 +90,7 @@ func (fs FS) NewSystemCpufreq() (SystemCpufreq, error) {
 	return systemCpufreq, nil
 }
 
-func (s SystemCpufreq) parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreq, error) {
-	systemCPUCpufreqClass := SystemCPUCpufreq{}
-
+func parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreq, error) {
 	uintFiles := [4]string{
 		prefix + "_cur_freq",
 		prefix + "_max_freq",
@@ -107,16 +102,11 @@ func (s SystemCpufreq) parseCpufreqCpuinfo(prefix string, cpuPath string) (*Syst
 	for i, f := range uintFiles {
 		v, err := util.ReadUintFromFile(filepath.Join(cpuPath, f))
 		if err != nil {
-			return &systemCPUCpufreqClass, err
+			return &SystemCPUCpufreq{}, err
 		}
 
 		uintOut[i] = v
 	}
-
-	systemCPUCpufreqClass.CurrentFrequency = uintOut[0]
-	systemCPUCpufreqClass.MaximumFrequency = uintOut[1]
-	systemCPUCpufreqClass.MinimumFrequency = uintOut[2]
-	systemCPUCpufreqClass.TransitionLatency = uintOut[3]
 
 	stringFiles := [5]string{
 		"scaling_available_governors",
@@ -130,17 +120,21 @@ func (s SystemCpufreq) parseCpufreqCpuinfo(prefix string, cpuPath string) (*Syst
 	for i, f := range stringFiles {
 		fileContents, err := util.SysReadFile(filepath.Join(cpuPath, f))
 		if err != nil {
-			return &systemCPUCpufreqClass, err
+			return &SystemCPUCpufreq{}, err
 		}
 
 		stringOut[i] = strings.TrimSpace(string(fileContents))
 	}
 
-	systemCPUCpufreqClass.AvailableGovernors = stringOut[0]
-	systemCPUCpufreqClass.Driver = stringOut[1]
-	systemCPUCpufreqClass.Govenor = stringOut[2]
-	systemCPUCpufreqClass.RelatedCpus = stringOut[3]
-	systemCPUCpufreqClass.SetSpeed = stringOut[4]
-
-	return &systemCPUCpufreqClass, nil
+	return &SystemCPUCpufreq{
+		CurrentFrequency: uintOut[0],
+		MaximumFrequency: uintOut[1],
+		MinimumFrequency: uintOut[2],
+		TransitionLatency: uintOut[3],
+		AvailableGovernors: stringOut[0],
+		Driver: stringOut[1],
+		Govenor: stringOut[2],
+		RelatedCpus: stringOut[3],
+		SetSpeed: stringOut[4],
+	}, nil
 }

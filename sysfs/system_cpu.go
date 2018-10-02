@@ -126,14 +126,14 @@ func parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreq, erro
 	}
 
 	return &SystemCPUCpufreq{
-		CurrentFrequency: uintOut[0],
-		MaximumFrequency: uintOut[1],
-		MinimumFrequency: uintOut[2],
-		TransitionLatency: uintOut[3],
+		CurrentFrequency:   uintOut[0],
+		MaximumFrequency:   uintOut[1],
+		MinimumFrequency:   uintOut[2],
+		TransitionLatency:  uintOut[3],
 		AvailableGovernors: stringOut[0],
-		Driver: stringOut[1],
-		Govenor: stringOut[2],
-		RelatedCpus: stringOut[3],
-		SetSpeed: stringOut[4],
+		Driver:             stringOut[1],
+		Govenor:            stringOut[2],
+		RelatedCpus:        stringOut[3],
+		SetSpeed:           stringOut[4],
 	}, nil
 }

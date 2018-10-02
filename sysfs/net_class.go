@@ -110,7 +110,7 @@ func (nc NetClass) parseNetClassIface(devicePath string) (*NetClassIface, error)
 			panic(fmt.Errorf("field %s does not have a filename tag", fieldType.Name))
 		}
 
-		fileContents, err := util.SysReadFile(devicePath + "/" + fieldType.Tag.Get("fileName"))
+		value, err := util.SysReadFile(devicePath + "/" + fieldType.Tag.Get("fileName"))
 
 		if err != nil {
 			if os.IsNotExist(err) || err.Error() == "operation not supported" || err.Error() == "invalid argument" {
@@ -118,7 +118,6 @@ func (nc NetClass) parseNetClassIface(devicePath string) (*NetClassIface, error)
 			}
 			return nil, fmt.Errorf("could not access file %s: %s", fieldType.Tag.Get("fileName"), err)
 		}
-		value := strings.TrimSpace(string(fileContents))
 
 		switch fieldValue.Kind() {
 		case reflect.String:

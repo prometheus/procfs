@@ -116,14 +116,13 @@ func parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreq, erro
 		"scaling_setspeed",
 	}
 	var stringOut [5]string
+	var err error
 
 	for i, f := range stringFiles {
-		fileContents, err := util.SysReadFile(filepath.Join(cpuPath, f))
+		stringOut[i], err = util.SysReadFile(filepath.Join(cpuPath, f))
 		if err != nil {
 			return &SystemCPUCpufreq{}, err
 		}
-
-		stringOut[i] = strings.TrimSpace(string(fileContents))
 	}
 
 	return &SystemCPUCpufreq{

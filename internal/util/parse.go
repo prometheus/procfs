@@ -14,6 +14,7 @@
 package util
 
 import (
+	"bytes"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -62,10 +63,10 @@ func ReadUintFromFile(path string) (uint64, error) {
 
 // SysReadFile is a simplified ioutil.ReadFile that invokes syscall.Read directly.
 // https://github.com/prometheus/node_exporter/pull/728/files
-func SysReadFile(file string) ([]byte, error) {
+func SysReadFile(file string) (string, error) {
 	f, err := os.Open(file)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	defer f.Close()
 
@@ -77,8 +78,8 @@ func SysReadFile(file string) ([]byte, error) {
 	b := make([]byte, 128)
 	n, err := syscall.Read(int(f.Fd()), b)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	return b[:n], nil
+	return string(bytes.TrimSpace(b[:n])), nil
 }

@@ -91,13 +91,13 @@ func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreq, error) {
 }
 
 func parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreq, error) {
-	uintFiles := [4]string{
+	uintFiles := []string{
 		prefix + "_cur_freq",
 		prefix + "_max_freq",
 		prefix + "_min_freq",
 		"cpuinfo_transition_latency",
 	}
-	var uintOut [4]uint64
+	uintOut := make([]uint64, len(uintFiles))
 
 	for i, f := range uintFiles {
 		v, err := util.ReadUintFromFile(filepath.Join(cpuPath, f))
@@ -108,14 +108,14 @@ func parseCpufreqCpuinfo(prefix string, cpuPath string) (*SystemCPUCpufreq, erro
 		uintOut[i] = v
 	}
 
-	stringFiles := [5]string{
+	stringFiles := []string{
 		"scaling_available_governors",
 		"scaling_driver",
 		"scaling_governor",
 		"related_cpus",
 		"scaling_setspeed",
 	}
-	var stringOut [5]string
+	stringOut := make([]string, len(stringFiles))
 	var err error
 
 	for i, f := range stringFiles {

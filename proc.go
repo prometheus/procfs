@@ -279,3 +279,18 @@ func (p Proc) fileDescriptors() ([]string, error) {
 func (p Proc) path(pa ...string) string {
 	return p.fs.Path(append([]string{strconv.Itoa(p.PID)}, pa...)...)
 }
+
+func (p Proc) fileDescriptorInfo(fd string) ([]byte, error) {
+	f, err := os.Open(p.path("fdinfo", fd))
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	fdinfo, err := ioutil.ReadAll(f)
+	if err != nil {
+		return nil, fmt.Errorf("could not read %s: %s", f.Name(), err)
+	}
+
+	return fdinfo, nil
+}

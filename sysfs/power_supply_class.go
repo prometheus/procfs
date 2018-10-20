@@ -1,3 +1,18 @@
+// Copyright 2018 The Prometheus Authors
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// +build !windows
+
 package sysfs
 
 import (
@@ -11,6 +26,7 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
+// PowerSupply contains info from files in /sys/class/power_supply for a single power supply
 type PowerSupply struct {
 	Name                     string // Power Supply Name
 	Authentic                *int64 `fileName:"authentic"`                   // /sys/class/power_suppy/<Name>/authentic
@@ -82,8 +98,11 @@ type PowerSupply struct {
 	VoltageOCV               *int64 `fileName:"voltage_ocv"`                 // /sys/class/power_suppy/<Name>/voltage_ocv
 }
 
+// PowerSupplyClass is a collection of every power supply in /sys/class/power_supply/.
+// The map keys are the names of the power supplies.
 type PowerSupplyClass map[string]PowerSupply
 
+// NewPowerSupplyClass returns info for all power supplies read from /sys/class/power_supply/.
 func NewPowerSupplyClass() (PowerSupplyClass, error) {
 	fs, err := NewFS(DefaultMountPoint)
 	if err != nil {
@@ -93,6 +112,7 @@ func NewPowerSupplyClass() (PowerSupplyClass, error) {
 	return fs.NewPowerSupplyClass()
 }
 
+// NewPowerSupplyClass returns info for all power supplies read from /sys/class/power_supply/.
 func (fs FS) NewPowerSupplyClass() (PowerSupplyClass, error) {
 	path := fs.Path("class/power_supply")
 

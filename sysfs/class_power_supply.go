@@ -26,7 +26,7 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
-// PowerSupply contains info from files in /sys/class/power_supply for a single power supply
+// PowerSupply contains info from files in /sys/class/power_supply for a single power supply.
 type PowerSupply struct {
 	Name                     string // Power Supply Name
 	Authentic                *int64 `fileName:"authentic"`                   // /sys/class/power_suppy/<Name>/authentic

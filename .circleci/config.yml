@@ -1,5 +1,5 @@
 ---
-version: 2
+version: 2.1
 
 shared-linux: &shared-linux
   working_directory: /go/src/github.com/prometheus/procfs
@@ -14,25 +14,25 @@ shared-windows: &shared-windows
   - run: make style check_license vet staticcheck
 
 jobs:
-  test-linux-1.10:
+  test-linux-1-10:
     <<: *shared-linux
     environment:
       GOOS: linux
     docker:
     - image: circleci/golang:1.10
-  test-linux-1.11:
+  test-linux-1-11:
     <<: *shared-linux
     environment:
       GOOS: linux
     docker:
     - image: circleci/golang:1.11
-  test-windows-1.10:
+  test-windows-1-10:
     <<: *shared-windows
     environment:
       GOOS: windows
     docker:
     - image: circleci/golang:1.10
-  test-windows-1.11:
+  test-windows-1-11:
     <<: *shared-windows
     environment:
       GOOS: windows
@@ -43,7 +43,7 @@ workflows:
   version: 2
   node_exporter:
     jobs:
-    - test-linux-1.10
-    - test-linux-1.11
-    - test-windows-1.10
-    - test-windows-1.11
+    - test-linux-1-10
+    - test-linux-1-11
+    - test-windows-1-10
+    - test-windows-1-11

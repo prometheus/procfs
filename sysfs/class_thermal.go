@@ -16,6 +16,7 @@
 package sysfs
 
 import (
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -29,8 +30,8 @@ type ClassThermalZoneStats struct {
 	Name    string  // The name of the zone from the directory structure.
 	Type    string  // The type of thermal zone.
 	Temp    uint64  // Temperature in millidegree Celsius.
-	Mode    *string // Optional: One of the predefined values in [enabled, disabled].
 	Policy  string  // One of the various thermal governors used for a particular zone.
+	Mode    *bool   // Optional: One of the predefined values in [enabled, disabled].
 	Passive *uint64 // Optional: millidegrees Celsius. (0 for disabled, > 1000 for enabled+value)
 }
 
@@ -72,10 +73,27 @@ func parseClassThermalZone(zone string) (ClassThermalZoneStats, error) {
 	}
 
 	// Optional attributes.
+	mode, err := util.SysReadFile(filepath.Join(zone, "mode"))
+	if err != nil && !os.IsNotExist(err) && !os.IsPermission(err) {
+		return ClassThermalZoneStats{}, err
+	}
+	zoneMode := util.ParseBool(mode)
+
+	var zonePassive *uint64
+	passive, err := util.ReadUintFromFile(filepath.Join(zone, "passive"))
+	if os.IsNotExist(err) || os.IsPermission(err) {
+		zonePassive = nil
+	} else if err != nil {
+		return ClassThermalZoneStats{}, err
+	} else {
+		zonePassive = &passive
+	}
 
 	return ClassThermalZoneStats{
-		Type:   zoneType,
-		Policy: zonePolicy,
-		Temp:   zoneTemp,
+		Type:    zoneType,
+		Policy:  zonePolicy,
+		Temp:    zoneTemp,
+		Mode:    zoneMode,
+		Passive: zonePassive,
 	}, nil
 }

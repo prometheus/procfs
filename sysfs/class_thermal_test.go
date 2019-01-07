@@ -18,6 +18,8 @@ package sysfs
 import (
 	"reflect"
 	"testing"
+
+	"github.com/prometheus/procfs/internal/util"
 )
 
 func TestClassThermalZoneStats(t *testing.T) {
@@ -31,12 +33,25 @@ func TestClassThermalZoneStats(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	enabled := util.ParseBool("enabled")
+	passive := uint64(0)
+
 	classThermalZoneStats := []ClassThermalZoneStats{
 		{
-			Name:   "0",
-			Type:   "bcm2835_thermal",
-			Policy: "step_wise",
-			Temp:   49925,
+			Name:    "0",
+			Type:    "bcm2835_thermal",
+			Policy:  "step_wise",
+			Temp:    49925,
+			Mode:    nil,
+			Passive: nil,
+		},
+		{
+			Name:    "1",
+			Type:    "acpitz",
+			Policy:  "step_wise",
+			Temp:    44000,
+			Mode:    enabled,
+			Passive: &passive,
 		},
 	}
 

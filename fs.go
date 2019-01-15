@@ -18,6 +18,7 @@ import (
 	"os"
 	"path"
 
+	"github.com/prometheus/procfs/cifs"
 	"github.com/prometheus/procfs/nfs"
 	"github.com/prometheus/procfs/xfs"
 )
@@ -79,4 +80,15 @@ func (fs FS) NFSdServerRPCStats() (*nfs.ServerRPCStats, error) {
 	defer f.Close()
 
 	return nfs.ParseServerRPCStats(f)
+}
+
+// CIFSClientStats retrieves CIFS client statistics for SMB1 and SMB2
+func (fs FS) CIFSClientStats() (*cifs.ClientStats, error) {
+	f, err := os.Open(fs.Path("fs/cifs/Stats"))
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	return cifs.ParseClientStats(f)
 }

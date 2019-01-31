@@ -35,7 +35,7 @@ type SystemCPUCpufreqStats struct {
 	ScalingMaximumFrequency  *uint64
 	AvailableGovernors       string
 	Driver                   string
-	Govenor                  string
+	Governor                 string
 	RelatedCpus              string
 	SetSpeed                 string
 }
@@ -138,7 +138,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 		ScalingMinimumFrequency:  uintOut[6],
 		AvailableGovernors:       stringOut[0],
 		Driver:                   stringOut[1],
-		Govenor:                  stringOut[2],
+		Governor:                 stringOut[2],
 		RelatedCpus:              stringOut[3],
 		SetSpeed:                 stringOut[4],
 	}, nil

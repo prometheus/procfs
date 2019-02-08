@@ -62,7 +62,7 @@ func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 
 	cpus, err := filepath.Glob(fs.Path("devices/system/cpu/cpu[0-9]*"))
 	if err != nil {
-		return []SystemCPUCpufreqStats{}, err
+		return nil, err
 	}
 
 	systemCpufreq := make([]SystemCPUCpufreqStats, len(cpus))
@@ -74,9 +74,12 @@ func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 			continue
 		}
 		if err != nil {
-			return []SystemCPUCpufreqStats{}, err
+			return nil, err
 		}
 
+		// Execute the parsing of each CPU in parallel.
+		// This is done because the kernel intentionally delays access to each CPU by
+		// 50 milliseconds to avoid DDoSing possibly expensive functions.
 		i := i // https://golang.org/doc/faq#closures_and_goroutines
 		g.Go(func() error {
 			cpufreq, err := parseCpufreqCpuinfo(cpuCpufreqPath)
@@ -89,7 +92,7 @@ func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 	}
 
 	if err = g.Wait(); err != nil {
-		return []SystemCPUCpufreqStats{}, err
+		return nil, err
 	}
 
 	return systemCpufreq, nil

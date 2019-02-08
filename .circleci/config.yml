@@ -13,6 +13,7 @@ commands:
     - run: make style check_license vet staticcheck
   no-style-test:
     steps:
+    - run: go get -t ./...
     - run: make check_license vet staticcheck
 
 jobs:

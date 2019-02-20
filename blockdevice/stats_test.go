@@ -11,31 +11,51 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// +build !windows
-
-package sysfs
+package blockdevice
 
 import (
 	"testing"
 )
 
 const (
-	failMsgFormat        = "%v, expected %v, actual %v"
-	expectedNumOfDevices = 2
+	failMsgFormat  = "%v, expected %v, actual %v"
+	procfsFixtures = "../fixtures/proc"
+	sysfsFixtures  = "../fixtures/sys"
 )
 
-func TestBlockDevice(t *testing.T) {
-	devices, err := FS(sysTestFixtures).AllBlockDevices()
+func TestDiskstats(t *testing.T) {
+	diskstats, err := ReadProcDiskstats(procfsFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
+	expectedNumOfDevices := 49
+	if len(diskstats) != expectedNumOfDevices {
+		t.Errorf(failMsgFormat, "Incorrect number of devices", expectedNumOfDevices, len(diskstats))
+	}
+	if diskstats[0].DeviceName != "ram0" {
+		t.Errorf(failMsgFormat, "Incorrect device name", "ram0", diskstats[0].DeviceName)
+	}
+	if diskstats[24].WriteIOs != 28444756 {
+		t.Errorf(failMsgFormat, "Incorrect writes completed", 28444756, diskstats[24].WriteIOs)
+	}
+	if diskstats[48].DiscardTicks != 11130 {
+		t.Errorf(failMsgFormat, "Incorrect discard time", 11130, diskstats[48].DiscardTicks)
+	}
+}
+
+func TestBlockDevice(t *testing.T) {
+	devices, err := ListSysBlockDevices(sysfsFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+	expectedNumOfDevices := 2
 	if len(devices) != expectedNumOfDevices {
 		t.Fatalf(failMsgFormat, "Incorrect number of devices", expectedNumOfDevices, len(devices))
 	}
-	if devices[0].DeviceName != "dm-0" {
-		t.Errorf(failMsgFormat, "Incorrect device name", "dm-0", devices[0].DeviceName)
+	if devices[0] != "dm-0" {
+		t.Errorf(failMsgFormat, "Incorrect device name", "dm-0", devices[0])
 	}
-	device0stats, err := devices[0].NewBlockDeviceStat()
+	device0stats, err := ReadBlockDeviceStat(sysfsFixtures, devices[0])
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -45,7 +65,7 @@ func TestBlockDevice(t *testing.T) {
 	if device0stats.WeightedIOTicks != 6088971 {
 		t.Errorf(failMsgFormat, "Incorrect time in queue", 6088971, device0stats.WeightedIOTicks)
 	}
-	device1stats, err := devices[1].NewBlockDeviceStat()
+	device1stats, err := ReadBlockDeviceStat(sysfsFixtures, devices[1])
 	if err != nil {
 		t.Fatal(err)
 	}

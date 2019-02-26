@@ -35,11 +35,17 @@ func TestDiskstats(t *testing.T) {
 	if diskstats[0].DeviceName != "ram0" {
 		t.Errorf(failMsgFormat, "Incorrect device name", "ram0", diskstats[0].DeviceName)
 	}
+	if diskstats[1].IoStatsCount != 14 {
+		t.Errorf(failMsgFormat, "Incorrect number of stats read", 14, diskstats[0].IoStatsCount)
+	}
 	if diskstats[24].WriteIOs != 28444756 {
 		t.Errorf(failMsgFormat, "Incorrect writes completed", 28444756, diskstats[24].WriteIOs)
 	}
 	if diskstats[48].DiscardTicks != 11130 {
 		t.Errorf(failMsgFormat, "Incorrect discard time", 11130, diskstats[48].DiscardTicks)
+	}
+	if diskstats[48].IoStatsCount != 18 {
+		t.Errorf(failMsgFormat, "Incorrect number of stats read", 18, diskstats[48].IoStatsCount)
 	}
 }
 
@@ -55,9 +61,12 @@ func TestBlockDevice(t *testing.T) {
 	if devices[0] != "dm-0" {
 		t.Errorf(failMsgFormat, "Incorrect device name", "dm-0", devices[0])
 	}
-	device0stats, err := ReadBlockDeviceStat(sysfsFixtures, devices[0])
+	device0stats, count, err := ReadSysBlockDeviceStat(sysfsFixtures, devices[0])
 	if err != nil {
 		t.Fatal(err)
+	}
+	if count != 11 {
+		t.Errorf(failMsgFormat, "Incorrect number of stats read", 11, count)
 	}
 	if device0stats.ReadIOs != 6447303 {
 		t.Errorf(failMsgFormat, "Incorrect read I/Os", 6447303, device0stats.ReadIOs)
@@ -65,7 +74,10 @@ func TestBlockDevice(t *testing.T) {
 	if device0stats.WeightedIOTicks != 6088971 {
 		t.Errorf(failMsgFormat, "Incorrect time in queue", 6088971, device0stats.WeightedIOTicks)
 	}
-	device1stats, err := ReadBlockDeviceStat(sysfsFixtures, devices[1])
+	device1stats, count, err := ReadSysBlockDeviceStat(sysfsFixtures, devices[1])
+	if count != 15 {
+		t.Errorf(failMsgFormat, "Incorrect number of stats read", 15, count)
+	}
 	if err != nil {
 		t.Fatal(err)
 	}

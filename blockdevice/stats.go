@@ -34,8 +34,6 @@ type Info struct {
 // https://www.kernel.org/doc/Documentation/iostats.txt,
 // https://www.kernel.org/doc/Documentation/block/stat.txt,
 // and https://www.kernel.org/doc/Documentation/ABI/testing/procfs-diskstats
-// The 4 discard fields were added in Linux kernel 4.18 and will not be available
-// on all systems.  If these fields are not read, they should be set to MaxUint64
 type IoStats struct {
 	// ReadIOs is the number of reads completed successfully.
 	ReadIOs uint64
@@ -76,6 +74,10 @@ type IoStats struct {
 type Diskstats struct {
 	Info
 	IoStats
+	// IoStatsCount contains the number of io stats read.  For kernel versions
+	// 4.18+, there should be 18 fields read.  For earlier kernel versions this
+	// will be 14 because the discard values are not available.
+	IoStatsCount int
 }
 
 const (
@@ -98,7 +100,7 @@ func ReadProcDiskstats(procfs string) ([]Diskstats, error) {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		d := &Diskstats{}
-		count, err := fmt.Sscanf(scanner.Text(), procDiskstatsFormat,
+		d.IoStatsCount, err = fmt.Sscanf(scanner.Text(), procDiskstatsFormat,
 			&d.MajorNumber,
 			&d.MinorNumber,
 			&d.DeviceName,
@@ -116,11 +118,14 @@ func ReadProcDiskstats(procfs string) ([]Diskstats, error) {
 			&d.DiscardIOs,
 			&d.DiscardMerges,
 			&d.DiscardSectors,
-			&d.DiscardTicks)
+			&d.DiscardTicks,
+		)
+		// The io.EOF error can be safely ignored because it just means we read fewer than
+		// the full 18 fields.
 		if err != nil && err != io.EOF {
 			return diskstats, err
 		}
-		if count == 14 || count == 18 {
+		if d.IoStatsCount == 14 || d.IoStatsCount == 18 {
 			diskstats = append(diskstats, *d)
 		}
 	}
@@ -143,12 +148,14 @@ func ListSysBlockDevices(sysfs string) ([]string, error) {
 	return devices, nil
 }
 
-// ReadBlockDeviceStat returns stats for the block device read from /sys/block/<device>/stat.
-func ReadBlockDeviceStat(sysfs string, device string) (IoStats, error) {
+// ReadSysBlockDeviceStat returns stats for the block device read from /sys/block/<device>/stat.
+// The number of stats read will be 15 if the discard stats are available (kernel 4.18+)
+// and 11 if they are not available.
+func ReadSysBlockDeviceStat(sysfs string, device string) (IoStats, int, error) {
 	stat := IoStats{}
 	bytes, err := ioutil.ReadFile(path.Join(sysfs, sysBlockPath, device, "stat"))
 	if err != nil {
-		return stat, err
+		return stat, 0, err
 	}
 	count, err := fmt.Sscanf(strings.TrimSpace(string(bytes)), sysBlockStatFormat,
 		&stat.ReadIOs,
@@ -167,8 +174,9 @@ func ReadBlockDeviceStat(sysfs string, device string) (IoStats, error) {
 		&stat.DiscardSectors,
 		&stat.DiscardTicks,
 	)
-	if count == 11 || count == 15 {
-		return stat, nil
+	// An io.EOF error is ignored because it just means we read fewer than the full 15 fields.
+	if err == io.EOF {
+		return stat, count, nil
 	}
-	return IoStats{}, err
+	return stat, count, err
 }

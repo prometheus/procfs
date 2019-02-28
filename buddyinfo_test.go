@@ -19,7 +19,7 @@ import (
 )
 
 func TestBuddyInfo(t *testing.T) {
-	buddyInfo, err := FS("fixtures/buddyinfo/valid").NewBuddyInfo()
+	buddyInfo, err := FS("fixtures/proc/buddyinfo/valid").NewBuddyInfo()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -42,7 +42,7 @@ func TestBuddyInfo(t *testing.T) {
 }
 
 func TestBuddyInfoShort(t *testing.T) {
-	_, err := FS("fixtures/buddyinfo/short").NewBuddyInfo()
+	_, err := FS("fixtures/proc/buddyinfo/short").NewBuddyInfo()
 	if err == nil {
 		t.Errorf("expected error, but none occurred")
 	}
@@ -53,7 +53,7 @@ func TestBuddyInfoShort(t *testing.T) {
 }
 
 func TestBuddyInfoSizeMismatch(t *testing.T) {
-	_, err := FS("fixtures/buddyinfo/sizemismatch").NewBuddyInfo()
+	_, err := FS("fixtures/proc/buddyinfo/sizemismatch").NewBuddyInfo()
 	if err == nil {
 		t.Errorf("expected error, but none occurred")
 	}

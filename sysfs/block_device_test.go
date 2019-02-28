@@ -25,7 +25,7 @@ const (
 )
 
 func TestBlockDevice(t *testing.T) {
-	devices, err := FS("fixtures").AllBlockDevices()
+	devices, err := FS(sysTestFixtures).AllBlockDevices()
 	if err != nil {
 		t.Fatal(err)
 	}

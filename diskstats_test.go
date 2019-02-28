@@ -23,7 +23,7 @@ const (
 )
 
 func TestDiskstats(t *testing.T) {
-	diskstats, err := FS("fixtures").NewDiskstats()
+	diskstats, err := FS(procTestFixtures).NewDiskstats()
 	if err != nil {
 		t.Fatal(err)
 	}

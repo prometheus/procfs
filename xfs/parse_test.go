@@ -425,7 +425,7 @@ func TestParseStats(t *testing.T) {
 			stats, err = xfs.ParseStats(strings.NewReader(tt.s))
 		}
 		if tt.fs {
-			stats, err = procfs.FS("../fixtures").XFSStats()
+			stats, err = procfs.FS("../fixtures/proc").XFSStats()
 		}
 
 		if tt.invalid && err == nil {

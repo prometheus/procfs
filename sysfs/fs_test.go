@@ -15,6 +15,10 @@ package sysfs
 
 import "testing"
 
+const (
+	sysTestFixtures = "../fixtures/sys"
+)
+
 func TestNewFS(t *testing.T) {
 	if _, err := NewFS("foobar"); err == nil {
 		t.Error("want NewFS to fail for non-existing mount point")
@@ -26,7 +30,7 @@ func TestNewFS(t *testing.T) {
 }
 
 func TestFSXFSStats(t *testing.T) {
-	stats, err := FS("fixtures").XFSStats()
+	stats, err := FS(sysTestFixtures).XFSStats()
 	if err != nil {
 		t.Fatalf("failed to parse XFS stats: %v", err)
 	}
@@ -66,7 +70,7 @@ func TestFSXFSStats(t *testing.T) {
 }
 
 func TestFSBcacheStats(t *testing.T) {
-	stats, err := FS("fixtures").BcacheStats()
+	stats, err := FS(sysTestFixtures).BcacheStats()
 	if err != nil {
 		t.Fatalf("failed to parse bcache stats: %v", err)
 	}

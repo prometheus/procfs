@@ -15,6 +15,10 @@ package procfs
 
 import "testing"
 
+const (
+	procTestFixtures = "fixtures/proc"
+)
+
 func TestNewFS(t *testing.T) {
 	if _, err := NewFS("foobar"); err == nil {
 		t.Error("want NewFS to fail for non-existing mount point")
@@ -26,7 +30,7 @@ func TestNewFS(t *testing.T) {
 }
 
 func TestFSXFSStats(t *testing.T) {
-	stats, err := FS("fixtures").XFSStats()
+	stats, err := FS(procTestFixtures).XFSStats()
 	if err != nil {
 		t.Fatalf("failed to parse XFS stats: %v", err)
 	}

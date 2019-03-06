@@ -21,7 +21,7 @@ import (
 )
 
 func TestNewNetClass(t *testing.T) {
-	fs, err := NewFS("fixtures")
+	fs, err := NewFS(sysTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}

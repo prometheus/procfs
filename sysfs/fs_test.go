@@ -27,4 +27,8 @@ func TestNewFS(t *testing.T) {
 	if _, err := NewFS("doc.go"); err == nil {
 		t.Error("want NewFS to fail if mount point is not a directory")
 	}
+
+	if _, err := NewFS(sysTestFixtures); err != nil {
+		t.Error("want NewFS to succeed if mount point exists")
+	}
 }

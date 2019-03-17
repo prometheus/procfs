@@ -22,5 +22,5 @@ import (
 // SysReadFile is here implemented as a noop for builds that do not support
 // the read syscall. For example Windows, or Linux on Google App Engine.
 func SysReadFile(file string) (string, error) {
-	return "", fmt.Errorf("Not supported on this platform")
+	return "", fmt.Errorf("not supported on this platform")
 }

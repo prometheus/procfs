@@ -11,14 +11,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package xfs_test
+package xfs
 
 import (
 	"reflect"
 	"strings"
 	"testing"
-
-	"github.com/prometheus/procfs/xfs"
 )
 
 func TestParseStats(t *testing.T) {
@@ -26,7 +24,7 @@ func TestParseStats(t *testing.T) {
 		name    string
 		s       string
 		fs      bool
-		stats   *xfs.Stats
+		stats   *Stats
 		invalid bool
 	}{
 		{
@@ -35,7 +33,7 @@ func TestParseStats(t *testing.T) {
 		{
 			name:  "short or empty lines and unknown labels ignored",
 			s:     "one\n\ntwo 1 2 3\n",
-			stats: &xfs.Stats{},
+			stats: &Stats{},
 		},
 		{
 			name:    "bad uint32",
@@ -55,8 +53,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "extent_alloc OK",
 			s:    "extent_alloc 1 2 3 4",
-			stats: &xfs.Stats{
-				ExtentAllocation: xfs.ExtentAllocationStats{
+			stats: &Stats{
+				ExtentAllocation: ExtentAllocationStats{
 					ExtentsAllocated: 1,
 					BlocksAllocated:  2,
 					ExtentsFreed:     3,
@@ -72,8 +70,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "abt OK",
 			s:    "abt 1 2 3 4",
-			stats: &xfs.Stats{
-				AllocationBTree: xfs.BTreeStats{
+			stats: &Stats{
+				AllocationBTree: BTreeStats{
 					Lookups:         1,
 					Compares:        2,
 					RecordsInserted: 3,
@@ -89,8 +87,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "blk_map OK",
 			s:    "blk_map 1 2 3 4 5 6 7",
-			stats: &xfs.Stats{
-				BlockMapping: xfs.BlockMappingStats{
+			stats: &Stats{
+				BlockMapping: BlockMappingStats{
 					Reads:                1,
 					Writes:               2,
 					Unmaps:               3,
@@ -109,8 +107,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "bmbt OK",
 			s:    "bmbt 1 2 3 4",
-			stats: &xfs.Stats{
-				BlockMapBTree: xfs.BTreeStats{
+			stats: &Stats{
+				BlockMapBTree: BTreeStats{
 					Lookups:         1,
 					Compares:        2,
 					RecordsInserted: 3,
@@ -126,8 +124,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "dir OK",
 			s:    "dir 1 2 3 4",
-			stats: &xfs.Stats{
-				DirectoryOperation: xfs.DirectoryOperationStats{
+			stats: &Stats{
+				DirectoryOperation: DirectoryOperationStats{
 					Lookups:  1,
 					Creates:  2,
 					Removes:  3,
@@ -143,8 +141,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "trans OK",
 			s:    "trans 1 2 3",
-			stats: &xfs.Stats{
-				Transaction: xfs.TransactionStats{
+			stats: &Stats{
+				Transaction: TransactionStats{
 					Sync:  1,
 					Async: 2,
 					Empty: 3,
@@ -159,8 +157,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "ig OK",
 			s:    "ig 1 2 3 4 5 6 7",
-			stats: &xfs.Stats{
-				InodeOperation: xfs.InodeOperationStats{
+			stats: &Stats{
+				InodeOperation: InodeOperationStats{
 					Attempts:        1,
 					Found:           2,
 					Recycle:         3,
@@ -179,8 +177,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "log OK",
 			s:    "log 1 2 3 4 5",
-			stats: &xfs.Stats{
-				LogOperation: xfs.LogOperationStats{
+			stats: &Stats{
+				LogOperation: LogOperationStats{
 					Writes:            1,
 					Blocks:            2,
 					NoInternalBuffers: 3,
@@ -197,8 +195,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "rw OK",
 			s:    "rw 1 2",
-			stats: &xfs.Stats{
-				ReadWrite: xfs.ReadWriteStats{
+			stats: &Stats{
+				ReadWrite: ReadWriteStats{
 					Read:  1,
 					Write: 2,
 				},
@@ -212,8 +210,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "attr OK",
 			s:    "attr 1 2 3 4",
-			stats: &xfs.Stats{
-				AttributeOperation: xfs.AttributeOperationStats{
+			stats: &Stats{
+				AttributeOperation: AttributeOperationStats{
 					Get:    1,
 					Set:    2,
 					Remove: 3,
@@ -229,8 +227,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "icluster OK",
 			s:    "icluster 1 2 3",
-			stats: &xfs.Stats{
-				InodeClustering: xfs.InodeClusteringStats{
+			stats: &Stats{
+				InodeClustering: InodeClusteringStats{
 					Iflush:     1,
 					Flush:      2,
 					FlushInode: 3,
@@ -245,8 +243,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "vnodes (missing free) OK",
 			s:    "vnodes 1 2 3 4 5 6 7",
-			stats: &xfs.Stats{
-				Vnode: xfs.VnodeStats{
+			stats: &Stats{
+				Vnode: VnodeStats{
 					Active:   1,
 					Allocate: 2,
 					Get:      3,
@@ -260,8 +258,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "vnodes (with free) OK",
 			s:    "vnodes 1 2 3 4 5 6 7 8",
-			stats: &xfs.Stats{
-				Vnode: xfs.VnodeStats{
+			stats: &Stats{
+				Vnode: VnodeStats{
 					Active:   1,
 					Allocate: 2,
 					Get:      3,
@@ -281,8 +279,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "buf OK",
 			s:    "buf 1 2 3 4 5 6 7 8 9",
-			stats: &xfs.Stats{
-				Buffer: xfs.BufferStats{
+			stats: &Stats{
+				Buffer: BufferStats{
 					Get:             1,
 					Create:          2,
 					GetLocked:       3,
@@ -303,8 +301,8 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "xpc OK",
 			s:    "xpc 1 2 3",
-			stats: &xfs.Stats{
-				ExtendedPrecision: xfs.ExtendedPrecisionStats{
+			stats: &Stats{
+				ExtendedPrecision: ExtendedPrecisionStats{
 					FlushBytes: 1,
 					WriteBytes: 2,
 					ReadBytes:  3,
@@ -314,20 +312,20 @@ func TestParseStats(t *testing.T) {
 		{
 			name: "fixtures OK",
 			fs:   true,
-			stats: &xfs.Stats{
-				ExtentAllocation: xfs.ExtentAllocationStats{
+			stats: &Stats{
+				ExtentAllocation: ExtentAllocationStats{
 					ExtentsAllocated: 92447,
 					BlocksAllocated:  97589,
 					ExtentsFreed:     92448,
 					BlocksFreed:      93751,
 				},
-				AllocationBTree: xfs.BTreeStats{
+				AllocationBTree: BTreeStats{
 					Lookups:         0,
 					Compares:        0,
 					RecordsInserted: 0,
 					RecordsDeleted:  0,
 				},
-				BlockMapping: xfs.BlockMappingStats{
+				BlockMapping: BlockMappingStats{
 					Reads:                1767055,
 					Writes:               188820,
 					Unmaps:               184891,
@@ -336,24 +334,24 @@ func TestParseStats(t *testing.T) {
 					ExtentListLookups:    2140766,
 					ExtentListCompares:   0,
 				},
-				BlockMapBTree: xfs.BTreeStats{
+				BlockMapBTree: BTreeStats{
 					Lookups:         0,
 					Compares:        0,
 					RecordsInserted: 0,
 					RecordsDeleted:  0,
 				},
-				DirectoryOperation: xfs.DirectoryOperationStats{
+				DirectoryOperation: DirectoryOperationStats{
 					Lookups:  185039,
 					Creates:  92447,
 					Removes:  92444,
 					Getdents: 136422,
 				},
-				Transaction: xfs.TransactionStats{
+				Transaction: TransactionStats{
 					Sync:  706,
 					Async: 944304,
 					Empty: 0,
 				},
-				InodeOperation: xfs.InodeOperationStats{
+				InodeOperation: InodeOperationStats{
 					Attempts:        185045,
 					Found:           58807,
 					Recycle:         0,
@@ -362,29 +360,29 @@ func TestParseStats(t *testing.T) {
 					Reclaims:        33637,
 					AttributeChange: 22,
 				},
-				LogOperation: xfs.LogOperationStats{
+				LogOperation: LogOperationStats{
 					Writes:            2883,
 					Blocks:            113448,
 					NoInternalBuffers: 9,
 					Force:             17360,
 					ForceSleep:        739,
 				},
-				ReadWrite: xfs.ReadWriteStats{
+				ReadWrite: ReadWriteStats{
 					Read:  107739,
 					Write: 94045,
 				},
-				AttributeOperation: xfs.AttributeOperationStats{
+				AttributeOperation: AttributeOperationStats{
 					Get:    4,
 					Set:    0,
 					Remove: 0,
 					List:   0,
 				},
-				InodeClustering: xfs.InodeClusteringStats{
+				InodeClustering: InodeClusteringStats{
 					Iflush:     8677,
 					Flush:      7849,
 					FlushInode: 135802,
 				},
-				Vnode: xfs.VnodeStats{
+				Vnode: VnodeStats{
 					Active:   92601,
 					Allocate: 0,
 					Get:      0,
@@ -394,7 +392,7 @@ func TestParseStats(t *testing.T) {
 					Remove:   92444,
 					Free:     0,
 				},
-				Buffer: xfs.BufferStats{
+				Buffer: BufferStats{
 					Get:             2666287,
 					Create:          7122,
 					GetLocked:       2659202,
@@ -405,7 +403,7 @@ func TestParseStats(t *testing.T) {
 					PageFound:       10297,
 					GetRead:         7085,
 				},
-				ExtendedPrecision: xfs.ExtendedPrecisionStats{
+				ExtendedPrecision: ExtendedPrecisionStats{
 					FlushBytes: 399724544,
 					WriteBytes: 92823103,
 					ReadBytes:  86219234,
@@ -416,15 +414,15 @@ func TestParseStats(t *testing.T) {
 
 	for _, tt := range tests {
 		var (
-			stats *xfs.Stats
+			stats *Stats
 			err   error
 		)
 
 		if tt.s != "" {
-			stats, err = xfs.ParseStats(strings.NewReader(tt.s))
+			stats, err = ParseStats(strings.NewReader(tt.s))
 		}
 		if tt.fs {
-			stats, err = xfs.ReadProcStat("../fixtures/proc")
+			stats, err = ReadProcStat("../fixtures/proc")
 		}
 
 		if tt.invalid && err == nil {

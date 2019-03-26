@@ -12,16 +12,14 @@
 // limitations under the License.
 
 // Package xfs provides access to statistics exposed by the XFS filesystem.
-package xfs_test
+package xfs
 
 import (
 	"testing"
-
-	"github.com/prometheus/procfs/xfs"
 )
 
 func TestReadProcStat(t *testing.T) {
-	stats, err := xfs.ReadProcStat("../fixtures/proc")
+	stats, err := ReadProcStat("../fixtures/proc")
 	if err != nil {
 		t.Fatalf("failed to parse XFS stats: %v", err)
 	}
@@ -34,7 +32,7 @@ func TestReadProcStat(t *testing.T) {
 }
 
 func TestReadSysStats(t *testing.T) {
-	stats, err := xfs.ReadSysStats("../fixtures/sys")
+	stats, err := ReadSysStats("../fixtures/sys")
 	if err != nil {
 		t.Fatalf("failed to parse XFS stats: %v", err)
 	}

@@ -30,11 +30,11 @@ type Info struct {
 	DeviceName  string
 }
 
-// IoStats models the iostats data described in the kernel documentation
+// IOStats models the iostats data described in the kernel documentation
 // https://www.kernel.org/doc/Documentation/iostats.txt,
 // https://www.kernel.org/doc/Documentation/block/stat.txt,
 // and https://www.kernel.org/doc/Documentation/ABI/testing/procfs-diskstats
-type IoStats struct {
+type IOStats struct {
 	// ReadIOs is the number of reads completed successfully.
 	ReadIOs uint64
 	// ReadMerges is the number of reads merged.  Reads and writes
@@ -73,7 +73,7 @@ type IoStats struct {
 // Diskstats combines the device Info and IOStats
 type Diskstats struct {
 	Info
-	IoStats
+	IOStats
 	// IoStatsCount contains the number of io stats read.  For kernel versions
 	// 4.18+, there should be 18 fields read.  For earlier kernel versions this
 	// will be 14 because the discard values are not available.
@@ -129,12 +129,11 @@ func ReadProcDiskstats(procfs string) ([]Diskstats, error) {
 			diskstats = append(diskstats, *d)
 		}
 	}
-	return diskstats, nil
+	return diskstats, scanner.Err()
 }
 
 // ListSysBlockDevices lists the device names from /sys/block/<dev>
 func ListSysBlockDevices(sysfs string) ([]string, error) {
-	fmt.Println(path.Join(sysfs, sysBlockPath))
 	deviceDirs, err := ioutil.ReadDir(path.Join(sysfs, sysBlockPath))
 	if err != nil {
 		return nil, err
@@ -151,8 +150,8 @@ func ListSysBlockDevices(sysfs string) ([]string, error) {
 // ReadSysBlockDeviceStat returns stats for the block device read from /sys/block/<device>/stat.
 // The number of stats read will be 15 if the discard stats are available (kernel 4.18+)
 // and 11 if they are not available.
-func ReadSysBlockDeviceStat(sysfs string, device string) (IoStats, int, error) {
-	stat := IoStats{}
+func ReadSysBlockDeviceStat(sysfs string, device string) (IOStats, int, error) {
+	stat := IOStats{}
 	bytes, err := ioutil.ReadFile(path.Join(sysfs, sysBlockPath, device, "stat"))
 	if err != nil {
 		return stat, 0, err

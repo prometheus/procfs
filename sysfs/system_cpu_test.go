@@ -13,11 +13,13 @@
 
 // +build !windows
 
-package sysfs
+package sysfs_test
 
 import (
 	"reflect"
 	"testing"
+
+	"github.com/prometheus/procfs/sysfs"
 )
 
 func makeUint64(v uint64) *uint64 {
@@ -25,17 +27,12 @@ func makeUint64(v uint64) *uint64 {
 }
 
 func TestNewSystemCpufreq(t *testing.T) {
-	fs, err := NewFS(sysTestFixtures)
+	c, err := sysfs.ReadSystemCpufreq(sysTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	c, err := fs.NewSystemCpufreq()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	systemCpufreq := []SystemCPUCpufreqStats{
+	systemCpufreq := []sysfs.SystemCPUCpufreqStats{
 		// Has missing `cpuinfo_cur_freq` file.
 		{
 			Name:                     "0",

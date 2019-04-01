@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"reflect"
 	"strconv"
 	"strings"
@@ -102,19 +103,10 @@ type PowerSupply struct {
 // The map keys are the names of the power supplies.
 type PowerSupplyClass map[string]PowerSupply
 
-// NewPowerSupplyClass returns info for all power supplies read from /sys/class/power_supply/.
-func NewPowerSupplyClass() (PowerSupplyClass, error) {
-	fs, err := NewFS(DefaultMountPoint)
-	if err != nil {
-		return nil, err
-	}
-
-	return fs.NewPowerSupplyClass()
-}
-
-// NewPowerSupplyClass returns info for all power supplies read from /sys/class/power_supply/.
-func (fs FS) NewPowerSupplyClass() (PowerSupplyClass, error) {
-	path := fs.Path("class/power_supply")
+// ReadPowerSupplyClass returns info for all power supplies read from the given
+// sys fs mount point.
+func ReadPowerSupplyClass(mountPoint ...string) (PowerSupplyClass, error) {
+	path := path.Join(optionalMountPoint(mountPoint), "class/power_supply")
 
 	powerSupplyDirs, err := ioutil.ReadDir(path)
 	if err != nil {

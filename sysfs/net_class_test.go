@@ -13,20 +13,17 @@
 
 // +build !windows
 
-package sysfs
+package sysfs_test
 
 import (
 	"reflect"
 	"testing"
+
+	"github.com/prometheus/procfs/sysfs"
 )
 
 func TestNewNetClassDevices(t *testing.T) {
-	fs, err := NewFS(sysTestFixtures)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	devices, err := fs.NetClassDevices()
+	devices, err := sysfs.ReadNetClassDevices(sysTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -40,12 +37,7 @@ func TestNewNetClassDevices(t *testing.T) {
 }
 
 func TestNewNetClass(t *testing.T) {
-	fs, err := NewFS(sysTestFixtures)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	nc, err := fs.NewNetClass()
+	nc, err := sysfs.ReadNetClass(sysTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -71,7 +63,7 @@ func TestNewNetClass(t *testing.T) {
 		netType          int64 = 1
 	)
 
-	netClass := NetClass{
+	netClass := sysfs.NetClass{
 		"eth0": {
 			Address:          "01:01:01:01:01:01",
 			AddrAssignType:   &addrAssignType,

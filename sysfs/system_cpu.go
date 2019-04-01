@@ -17,6 +17,7 @@ package sysfs
 
 import (
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 
@@ -46,21 +47,11 @@ type SystemCPUCpufreqStats struct {
 
 // TODO: Add thermal_throttle support.
 
-// NewSystemCpufreq returns CPU frequency metrics for all CPUs.
-func NewSystemCpufreq() ([]SystemCPUCpufreqStats, error) {
-	fs, err := NewFS(DefaultMountPoint)
-	if err != nil {
-		return []SystemCPUCpufreqStats{}, err
-	}
-
-	return fs.NewSystemCpufreq()
-}
-
-// NewSystemCpufreq returns CPU frequency metrics for all CPUs.
-func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreqStats, error) {
+// ReadSystemCpufreq returns CPU frequency metrics for all CPUs.
+func ReadSystemCpufreq(mountPoint ...string) ([]SystemCPUCpufreqStats, error) {
 	var g errgroup.Group
 
-	cpus, err := filepath.Glob(fs.Path("devices/system/cpu/cpu[0-9]*"))
+	cpus, err := filepath.Glob(path.Join(optionalMountPoint(mountPoint), "devices/system/cpu/cpu[0-9]*"))
 	if err != nil {
 		return nil, err
 	}

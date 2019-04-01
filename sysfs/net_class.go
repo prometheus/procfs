@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 	"reflect"
 	"strconv"
@@ -65,20 +66,11 @@ type NetClassIface struct {
 // are interface (iface) names.
 type NetClass map[string]NetClassIface
 
-// NewNetClass returns info for all net interfaces (iface) read from /sys/class/net/<iface>.
-func NewNetClass() (NetClass, error) {
-	fs, err := NewFS(DefaultMountPoint)
-	if err != nil {
-		return nil, err
-	}
-
-	return fs.NewNetClass()
-}
-
-// NetClassDevices scans /sys/class/net for devices and returns them as a list of names.
-func (fs FS) NetClassDevices() ([]string, error) {
+// ReadNetClassDevices scans /sys/class/net for devices using the given
+// sys mount point and returns them as a list of names.
+func ReadNetClassDevices(mountPoint string) ([]string, error) {
 	var res []string
-	path := fs.Path(netclassPath)
+	path := path.Join(mountPoint, netclassPath)
 
 	devices, err := ioutil.ReadDir(path)
 	if err != nil {
@@ -95,14 +87,14 @@ func (fs FS) NetClassDevices() ([]string, error) {
 	return res, nil
 }
 
-// NewNetClass returns info for all net interfaces (iface) read from /sys/class/net/<iface>.
-func (fs FS) NewNetClass() (NetClass, error) {
-	devices, err := fs.NetClassDevices()
+// ReadNetClass returns info for all net interfaces (iface) read from /sys/class/net/<iface>.
+func ReadNetClass(mountPoint ...string) (NetClass, error) {
+	devices, err := ReadNetClassDevices(optionalMountPoint(mountPoint))
 	if err != nil {
 		return nil, err
 	}
 
-	path := fs.Path(netclassPath)
+	path := path.Join(optionalMountPoint(mountPoint), netclassPath)
 	netClass := NetClass{}
 	for _, deviceDir := range devices {
 		interfaceClass, err := netClass.parseNetClassIface(filepath.Join(path, deviceDir))

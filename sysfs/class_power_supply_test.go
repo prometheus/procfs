@@ -13,21 +13,18 @@
 
 // +build !windows
 
-package sysfs
+package sysfs_test
 
 import (
 	"encoding/json"
 	"reflect"
 	"testing"
+
+	"github.com/prometheus/procfs/sysfs"
 )
 
-func TestNewPowerSupplyClass(t *testing.T) {
-	fs, err := NewFS(sysTestFixtures)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	psc, err := fs.NewPowerSupplyClass()
+func TestReadPowerSupplyClass(t *testing.T) {
+	psc, err := sysfs.ReadPowerSupplyClass(sysTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -45,7 +42,7 @@ func TestNewPowerSupplyClass(t *testing.T) {
 		bat0VoltageNow       int64 = 12229000
 	)
 
-	powerSupplyClass := PowerSupplyClass{
+	powerSupplyClass := sysfs.PowerSupplyClass{
 		"AC": {
 			Name:   "AC",
 			Type:   "Mains",

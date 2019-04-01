@@ -13,22 +13,18 @@
 
 // +build !windows
 
-package sysfs
+package sysfs_test
 
 import (
 	"reflect"
 	"testing"
 
 	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/sysfs"
 )
 
 func TestClassThermalZoneStats(t *testing.T) {
-	fs, err := NewFS(sysTestFixtures)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	thermalTest, err := fs.NewClassThermalZoneStats()
+	thermalTest, err := sysfs.ReadClassThermalZoneStats(sysTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -36,7 +32,7 @@ func TestClassThermalZoneStats(t *testing.T) {
 	enabled := util.ParseBool("enabled")
 	passive := uint64(0)
 
-	classThermalZoneStats := []ClassThermalZoneStats{
+	classThermalZoneStats := []sysfs.ClassThermalZoneStats{
 		{
 			Name:    "0",
 			Type:    "bcm2835_thermal",

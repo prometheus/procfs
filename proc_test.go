@@ -20,13 +20,11 @@ import (
 )
 
 func TestSelf(t *testing.T) {
-	fs := FS(procTestFixtures)
-
-	p1, err := fs.NewProc(26231)
+	p1, err := NewProc(26231, procTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
-	p2, err := fs.Self()
+	p2, err := Self(procTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -37,7 +35,7 @@ func TestSelf(t *testing.T) {
 }
 
 func TestAllProcs(t *testing.T) {
-	procs, err := FS(procTestFixtures).AllProcs()
+	procs, err := AllProcs(procTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -58,7 +56,7 @@ func TestCmdLine(t *testing.T) {
 		{process: 26232, want: []string{}},
 		{process: 26233, want: []string{"com.github.uiautomator"}},
 	} {
-		p1, err := FS(procTestFixtures).NewProc(tt.process)
+		p1, err := NewProc(tt.process, procTestFixtures)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -80,7 +78,7 @@ func TestComm(t *testing.T) {
 		{process: 26231, want: "vim"},
 		{process: 26232, want: "ata_sff"},
 	} {
-		p1, err := FS(procTestFixtures).NewProc(tt.process)
+		p1, err := NewProc(tt.process, procTestFixtures)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -102,7 +100,7 @@ func TestExecutable(t *testing.T) {
 		{process: 26231, want: "/usr/bin/vim"},
 		{process: 26232, want: ""},
 	} {
-		p, err := FS(procTestFixtures).NewProc(tt.process)
+		p, err := NewProc(tt.process, procTestFixtures)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -126,7 +124,7 @@ func TestCwd(t *testing.T) {
 		{process: 26232, want: "/does/not/exist", brokenLink: true},
 		{process: 26233, want: ""},
 	} {
-		p, err := FS(procTestFixtures).NewProc(tt.process)
+		p, err := NewProc(tt.process, procTestFixtures)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -154,7 +152,7 @@ func TestRoot(t *testing.T) {
 		{process: 26232, want: "/does/not/exist", brokenLink: true},
 		{process: 26233, want: ""},
 	} {
-		p, err := FS(procTestFixtures).NewProc(tt.process)
+		p, err := NewProc(tt.process, procTestFixtures)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -173,7 +171,7 @@ func TestRoot(t *testing.T) {
 }
 
 func TestFileDescriptors(t *testing.T) {
-	p1, err := FS(procTestFixtures).NewProc(26231)
+	p1, err := NewProc(26231, procTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -188,7 +186,7 @@ func TestFileDescriptors(t *testing.T) {
 }
 
 func TestFileDescriptorTargets(t *testing.T) {
-	p1, err := FS(procTestFixtures).NewProc(26231)
+	p1, err := NewProc(26231, procTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -210,7 +208,7 @@ func TestFileDescriptorTargets(t *testing.T) {
 }
 
 func TestFileDescriptorsLen(t *testing.T) {
-	p1, err := FS(procTestFixtures).NewProc(26231)
+	p1, err := NewProc(26231, procTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}

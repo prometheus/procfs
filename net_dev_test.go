@@ -32,12 +32,8 @@ func TestNetDevParseLine(t *testing.T) {
 }
 
 func TestNewNetDev(t *testing.T) {
-	fs, err := NewFS(procTestFixtures)
-	if err != nil {
-		t.Fatal(err)
-	}
 
-	nd, err := fs.NewNetDev()
+	nd, err := ReadNetDev(procTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -60,7 +56,7 @@ func TestNewNetDev(t *testing.T) {
 }
 
 func TestProcNewNetDev(t *testing.T) {
-	p, err := FS(procTestFixtures).NewProc(26231)
+	p, err := NewProc(26231, procTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}

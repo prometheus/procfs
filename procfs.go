@@ -13,18 +13,14 @@
 
 package procfs
 
-import "testing"
+// DefaultMountPoint is the common mount point of the proc filesystem.
+const DefaultMountPoint = "/proc"
 
-const (
-	procTestFixtures = "fixtures/proc"
-)
-
-func TestNewFS(t *testing.T) {
-	if _, err := NewFS("foobar"); err == nil {
-		t.Error("want NewFS to fail for non-existing mount point")
+// optionalMountPoint returns the default mount point if the slice is empty.
+// Otherwise, returns the first element.
+func optionalMountPoint(mountPoint []string) string {
+	if len(mountPoint) == 0 {
+		return DefaultMountPoint
 	}
-
-	if _, err := NewFS("procfs.go"); err == nil {
-		t.Error("want NewFS to fail if mount point is not a directory")
-	}
+	return mountPoint[0]
 }

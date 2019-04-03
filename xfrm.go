@@ -17,6 +17,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 )
@@ -85,19 +86,9 @@ type XfrmStat struct {
 	XfrmAcquireError    int
 }
 
-// NewXfrmStat reads the xfrm_stat statistics.
-func NewXfrmStat() (XfrmStat, error) {
-	fs, err := NewFS(DefaultMountPoint)
-	if err != nil {
-		return XfrmStat{}, err
-	}
-
-	return fs.NewXfrmStat()
-}
-
-// NewXfrmStat reads the xfrm_stat statistics from the 'proc' filesystem.
-func (fs FS) NewXfrmStat() (XfrmStat, error) {
-	file, err := os.Open(fs.Path("net/xfrm_stat"))
+// ReadXfrmStat reads the xfrm_stat statistics from the 'proc' filesystem.
+func ReadXfrmStat(mountPoint ...string) (XfrmStat, error) {
+	file, err := os.Open(path.Join(optionalMountPoint(mountPoint), "net/xfrm_stat"))
 	if err != nil {
 		return XfrmStat{}, err
 	}

@@ -16,6 +16,7 @@ package procfs
 import (
 	"fmt"
 	"io/ioutil"
+	"path"
 	"regexp"
 	"strconv"
 	"strings"
@@ -42,9 +43,9 @@ type MDStat struct {
 	BlocksSynced int64
 }
 
-// ParseMDStat parses an mdstat-file and returns a struct with the relevant infos.
-func (fs FS) ParseMDStat() (mdstates []MDStat, err error) {
-	mdStatusFilePath := fs.Path("mdstat")
+// ReadMDStat parses an mdstat-file and returns a struct with the relevant infos.
+func ReadMDStat(mountPoint ...string) (mdstates []MDStat, err error) {
+	mdStatusFilePath := path.Join(optionalMountPoint(mountPoint), "mdstat")
 	content, err := ioutil.ReadFile(mdStatusFilePath)
 	if err != nil {
 		return []MDStat{}, fmt.Errorf("error parsing %s: %s", mdStatusFilePath, err)

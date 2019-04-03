@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 )
@@ -31,19 +32,10 @@ type BuddyInfo struct {
 	Sizes []float64
 }
 
-// NewBuddyInfo reads the buddyinfo statistics.
-func NewBuddyInfo() ([]BuddyInfo, error) {
-	fs, err := NewFS(DefaultMountPoint)
-	if err != nil {
-		return nil, err
-	}
-
-	return fs.NewBuddyInfo()
-}
-
-// NewBuddyInfo reads the buddyinfo statistics from the specified `proc` filesystem.
-func (fs FS) NewBuddyInfo() ([]BuddyInfo, error) {
-	file, err := os.Open(fs.Path("buddyinfo"))
+// ReadBuddyInfo reads the buddyinfo statistics from the specified `proc`
+// filesystem path.
+func ReadBuddyInfo(mountPoint ...string) ([]BuddyInfo, error) {
+	file, err := os.Open(path.Join(optionalMountPoint(mountPoint), "buddyinfo"))
 	if err != nil {
 		return nil, err
 	}

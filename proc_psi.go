@@ -28,6 +28,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path"
 	"strings"
 )
 
@@ -51,20 +52,9 @@ type PSIStats struct {
 	Full *PSILine
 }
 
-// NewPSIStatsForResource reads pressure stall information for the specified
-// resource. At time of writing this can be either "cpu", "memory" or "io".
-func NewPSIStatsForResource(resource string) (PSIStats, error) {
-	fs, err := NewFS(DefaultMountPoint)
-	if err != nil {
-		return PSIStats{}, err
-	}
-
-	return fs.NewPSIStatsForResource(resource)
-}
-
-// NewPSIStatsForResource reads pressure stall information from /proc/pressure/<resource>
-func (fs FS) NewPSIStatsForResource(resource string) (PSIStats, error) {
-	file, err := os.Open(fs.Path(fmt.Sprintf("%s/%s", "pressure", resource)))
+// ReadPSIStatsForResource reads pressure stall information from /proc/pressure/<resource>
+func ReadPSIStatsForResource(mountPoint string, resource string) (PSIStats, error) {
+	file, err := os.Open(path.Join(mountPoint, fmt.Sprintf("%s/%s", "pressure", resource)))
 	if err != nil {
 		return PSIStats{}, fmt.Errorf("psi_stats: unavailable for %s", resource)
 	}

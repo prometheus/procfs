@@ -18,7 +18,7 @@ import (
 )
 
 func TestXfrmStats(t *testing.T) {
-	xfrmStats, err := FS(procTestFixtures).NewXfrmStat()
+	xfrmStats, err := ReadXfrmStat(procTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}

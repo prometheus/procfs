@@ -22,6 +22,7 @@ import (
 	"io/ioutil"
 	"net"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 )
@@ -62,19 +63,9 @@ type IPVSBackendStatus struct {
 	Weight uint64
 }
 
-// NewIPVSStats reads the IPVS statistics.
-func NewIPVSStats() (IPVSStats, error) {
-	fs, err := NewFS(DefaultMountPoint)
-	if err != nil {
-		return IPVSStats{}, err
-	}
-
-	return fs.NewIPVSStats()
-}
-
-// NewIPVSStats reads the IPVS statistics from the specified `proc` filesystem.
-func (fs FS) NewIPVSStats() (IPVSStats, error) {
-	file, err := os.Open(fs.Path("net/ip_vs_stats"))
+// ReadIPVSStats reads the IPVS statistics from the specified `proc` filesystem.
+func ReadIPVSStats(mountPoint ...string) (IPVSStats, error) {
+	file, err := os.Open(path.Join(optionalMountPoint(mountPoint), "net/ip_vs_stats"))
 	if err != nil {
 		return IPVSStats{}, err
 	}
@@ -131,19 +122,9 @@ func parseIPVSStats(file io.Reader) (IPVSStats, error) {
 	return stats, nil
 }
 
-// NewIPVSBackendStatus reads and returns the status of all (virtual,real) server pairs.
-func NewIPVSBackendStatus() ([]IPVSBackendStatus, error) {
-	fs, err := NewFS(DefaultMountPoint)
-	if err != nil {
-		return []IPVSBackendStatus{}, err
-	}
-
-	return fs.NewIPVSBackendStatus()
-}
-
-// NewIPVSBackendStatus reads and returns the status of all (virtual,real) server pairs from the specified `proc` filesystem.
-func (fs FS) NewIPVSBackendStatus() ([]IPVSBackendStatus, error) {
-	file, err := os.Open(fs.Path("net/ip_vs"))
+// ReadIPVSBackendStatus reads and returns the status of all (virtual,real) server pairs from the specified `proc` filesystem.
+func ReadIPVSBackendStatus(mountPoint string) ([]IPVSBackendStatus, error) {
+	file, err := os.Open(path.Join(mountPoint, "net/ip_vs"))
 	if err != nil {
 		return nil, err
 	}

@@ -16,7 +16,7 @@ package procfs
 import "testing"
 
 func TestStat(t *testing.T) {
-	s, err := FS(procTestFixtures).NewStat()
+	s, err := ReadStat(procTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}

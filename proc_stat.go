@@ -98,8 +98,8 @@ type ProcStat struct {
 	VSize uint
 	// Resident set size in pages.
 	RSS int
-
-	fs FS
+	// The procfs mount point
+	mountPoint string
 }
 
 // NewStat returns the current status information of the process.
@@ -118,7 +118,7 @@ func (p Proc) NewStat() (ProcStat, error) {
 	var (
 		ignore int
 
-		s = ProcStat{PID: p.PID, fs: p.fs}
+		s = ProcStat{PID: p.PID, mountPoint: p.mountPoint}
 		l = bytes.Index(data, []byte("("))
 		r = bytes.LastIndex(data, []byte(")"))
 	)
@@ -175,7 +175,7 @@ func (s ProcStat) ResidentMemory() int {
 
 // StartTime returns the unix timestamp of the process in seconds.
 func (s ProcStat) StartTime() (float64, error) {
-	stat, err := s.fs.NewStat()
+	stat, err := ReadStat(s.mountPoint)
 	if err != nil {
 		return 0, err
 	}

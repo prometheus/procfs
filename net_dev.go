@@ -17,6 +17,7 @@ import (
 	"bufio"
 	"errors"
 	"os"
+	"path"
 	"sort"
 	"strconv"
 	"strings"
@@ -47,19 +48,9 @@ type NetDevLine struct {
 // are interface names.
 type NetDev map[string]NetDevLine
 
-// NewNetDev returns kernel/system statistics read from /proc/net/dev.
-func NewNetDev() (NetDev, error) {
-	fs, err := NewFS(DefaultMountPoint)
-	if err != nil {
-		return nil, err
-	}
-
-	return fs.NewNetDev()
-}
-
-// NewNetDev returns kernel/system statistics read from /proc/net/dev.
-func (fs FS) NewNetDev() (NetDev, error) {
-	return newNetDev(fs.Path("net/dev"))
+// ReadNetDev returns kernel/system statistics read from /proc/net/dev.
+func ReadNetDev(mountPoint ...string) (NetDev, error) {
+	return newNetDev(path.Join(optionalMountPoint(mountPoint), "net/dev"))
 }
 
 // NewNetDev returns kernel/system statistics read from /proc/[pid]/net/dev.

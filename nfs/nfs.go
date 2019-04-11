@@ -17,7 +17,9 @@ package nfs
 
 import (
 	"os"
-	"path"
+	"strings"
+
+	"github.com/prometheus/procfs"
 )
 
 // ReplyCache models the "rc" line.
@@ -267,10 +269,32 @@ type ServerRPCStats struct {
 	V4Ops          V4Ops
 }
 
-// ReadClientRPCStats retrieves NFS client RPC statistics
+// NFS represents the pseudo-filesystem proc, which provides an interface to
+// kernel data structures.
+type NFS struct {
+	procfs *procfs.FS
+}
+
+// DefaultMountPoint is the common mount point of the proc filesystem.
+const DefaultMountPoint = "/proc"
+
+// NewNFS returns a new FS mounted under the given mountPoint. It will error
+// if the mount point can't be read.
+func NewNFS(mountPoint string) (NFS, error) {
+	if strings.TrimSpace(mountPoint) == "" {
+		mountPoint = DefaultMountPoint
+	}
+	fs, err := procfs.NewFS(mountPoint)
+	if err != nil {
+		return NFS{}, err
+	}
+	return NFS{&fs}, nil
+}
+
+// ClientRPCStats retrieves NFS client RPC statistics
 // from proc/net/rpc/nfs.
-func ReadClientRPCStats(procfs string) (*ClientRPCStats, error) {
-	f, err := os.Open(path.Join(procfs, "net/rpc/nfs"))
+func (nfs NFS) ClientRPCStats() (*ClientRPCStats, error) {
+	f, err := os.Open(nfs.procfs.Path("net/rpc/nfs"))
 	if err != nil {
 		return nil, err
 	}
@@ -279,10 +303,10 @@ func ReadClientRPCStats(procfs string) (*ClientRPCStats, error) {
 	return ParseClientRPCStats(f)
 }
 
-// ReadServerRPCStats retrieves NFS daemon RPC statistics
+// ServerRPCStats retrieves NFS daemon RPC statistics
 // from proc/net/rpc/nfsd.
-func ReadServerRPCStats(procfs string) (*ServerRPCStats, error) {
-	f, err := os.Open(path.Join(procfs, "net/rpc/nfsd"))
+func (nfs NFS) ServerRPCStats() (*ServerRPCStats, error) {
+	f, err := os.Open(nfs.procfs.Path("net/rpc/nfsd"))
 	if err != nil {
 		return nil, err
 	}

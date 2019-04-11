@@ -16,8 +16,11 @@ package xfs
 
 import (
 	"os"
-	"path"
 	"path/filepath"
+	"strings"
+
+	"github.com/prometheus/procfs"
+	"github.com/prometheus/procfs/sysfs"
 )
 
 // Stats contains XFS filesystem runtime statistics, parsed from
@@ -168,10 +171,43 @@ type ExtendedPrecisionStats struct {
 	ReadBytes  uint64
 }
 
-// ReadProcStat retrieves XFS filesystem runtime statistics
+// XFS represents the pseudo-filesystems proc and sys, which provides an interface to
+// kernel data structures.
+type XFS struct {
+	procfs *procfs.FS
+	sysfs  *sysfs.FS
+}
+
+// DefaultProcMountPoint is the common mount point of the proc filesystem.
+const DefaultProcMountPoint = "/proc"
+
+// DefaultSysMountPoint is the common mount point of the sys filesystem.
+const DefaultSysMountPoint = "/proc"
+
+// NewXFS returns a new XFS mounted under the given mountPoint. It will error
+// if the mount point can't be read.
+func NewXFS(procMountPoint string, sysMountPoint string) (XFS, error) {
+	if strings.TrimSpace(procMountPoint) == "" {
+		procMountPoint = DefaultProcMountPoint
+	}
+	procfs, err := procfs.NewFS(procMountPoint)
+	if err != nil {
+		return XFS{}, err
+	}
+	if strings.TrimSpace(sysMountPoint) == "" {
+		sysMountPoint = DefaultSysMountPoint
+	}
+	sysfs, err := sysfs.NewFS(sysMountPoint)
+	if err != nil {
+		return XFS{}, err
+	}
+	return XFS{&procfs, &sysfs}, nil
+}
+
+// ProcStat retrieves XFS filesystem runtime statistics
 // from proc/fs/xfs/stat given the profs mount point.
-func ReadProcStat(procfs string) (*Stats, error) {
-	f, err := os.Open(path.Join(procfs, "fs/xfs/stat"))
+func (xfs XFS) ProcStat() (*Stats, error) {
+	f, err := os.Open(xfs.procfs.Path("fs/xfs/stat"))
 	if err != nil {
 		return nil, err
 	}
@@ -180,11 +216,11 @@ func ReadProcStat(procfs string) (*Stats, error) {
 	return ParseStats(f)
 }
 
-// ReadSysStats retrieves XFS filesystem runtime statistics for each mounted XFS
+// SysStats retrieves XFS filesystem runtime statistics for each mounted XFS
 // filesystem.  Only available on kernel 4.4+.  On older kernels, an empty
 // slice of *xfs.Stats will be returned.
-func ReadSysStats(sysfs string) ([]*Stats, error) {
-	matches, err := filepath.Glob(path.Join(sysfs, "fs/xfs/*/stats/stats"))
+func (xfs XFS) SysStats() ([]*Stats, error) {
+	matches, err := filepath.Glob(xfs.sysfs.Path("fs/xfs/*/stats/stats"))
 	if err != nil {
 		return nil, err
 	}

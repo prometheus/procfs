@@ -22,11 +22,35 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"github.com/prometheus/procfs/sysfs"
 )
 
-// ReadStats retrieves bcache runtime statistics for each bcache.
-func ReadStats(sysfs string) ([]*Stats, error) {
-	matches, err := filepath.Glob(path.Join(sysfs, "fs/bcache/*-*"))
+// Bcache represents the pseudo-filesystem proc, which provides an interface to
+// kernel data structures.
+type Bcache struct {
+	sysfs *sysfs.FS
+}
+
+// DefaultSysMountPoint is the common mount point of the sys filesystem.
+const DefaultSysMountPoint = "/sys"
+
+// NewBcache returns a new Bcache using the given sys fs mount point. It will error
+// if the mount point can't be read.
+func NewBcache(mountPoint string) (Bcache, error) {
+	if strings.TrimSpace(mountPoint) == "" {
+		mountPoint = DefaultSysMountPoint
+	}
+	fs, err := sysfs.NewFS(mountPoint)
+	if err != nil {
+		return Bcache{}, err
+	}
+	return Bcache{&fs}, nil
+}
+
+// Stats retrieves bcache runtime statistics for each bcache.
+func (b Bcache) Stats() ([]*Stats, error) {
+	matches, err := filepath.Glob(b.sysfs.Path("fs/bcache/*-*"))
 	if err != nil {
 		return nil, err
 	}

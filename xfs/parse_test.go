@@ -429,6 +429,9 @@ func TestParseStats(t *testing.T) {
 				t.Fatalf("failed to access xfs fs: %v", err)
 			}
 			stats, err = xfs.ProcStat()
+			if err != nil {
+				t.Fatalf("failed to gather xfs stats: %v", err)
+			}
 		}
 
 		if tt.invalid && err == nil {

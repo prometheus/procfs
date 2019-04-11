@@ -89,9 +89,9 @@ const (
 	sysBlockStatFormat  = "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
 )
 
-// BlockDevice represents the pseudo-filesystems proc and sys, which provides an
+// Handle represents the pseudo-filesystems proc and sys, which provides an
 // interface to kernel data structures.
-type BlockDevice struct {
+type Handle struct {
 	procfs *procfs.FS
 	sysfs  *sysfs.FS
 }
@@ -102,30 +102,30 @@ const DefaultProcMountPoint = "/proc"
 // DefaultSysMountPoint is the common mount point of the sys filesystem.
 const DefaultSysMountPoint = "/sys"
 
-// NewBlockDevice returns a new XFS mounted under the given mountPoint. It will error
+// New returns a new XFS mounted under the given mountPoint. It will error
 // if the mount point can't be read.
-func NewBlockDevice(procMountPoint string, sysMountPoint string) (BlockDevice, error) {
+func New(procMountPoint string, sysMountPoint string) (Handle, error) {
 	if strings.TrimSpace(procMountPoint) == "" {
 		procMountPoint = DefaultProcMountPoint
 	}
 	procfs, err := procfs.NewFS(procMountPoint)
 	if err != nil {
-		return BlockDevice{}, err
+		return Handle{}, err
 	}
 	if strings.TrimSpace(sysMountPoint) == "" {
 		sysMountPoint = DefaultSysMountPoint
 	}
 	sysfs, err := sysfs.NewFS(sysMountPoint)
 	if err != nil {
-		return BlockDevice{}, err
+		return Handle{}, err
 	}
-	return BlockDevice{&procfs, &sysfs}, nil
+	return Handle{&procfs, &sysfs}, nil
 }
 
 // ProcDiskstats reads the diskstats file and returns
 // an array of Diskstats (one per line/device)
-func (b BlockDevice) ProcDiskstats() ([]Diskstats, error) {
-	file, err := os.Open(b.procfs.Path(procDiskstatsPath))
+func (h Handle) ProcDiskstats() ([]Diskstats, error) {
+	file, err := os.Open(h.procfs.Path(procDiskstatsPath))
 	if err != nil {
 		return nil, err
 	}
@@ -168,8 +168,8 @@ func (b BlockDevice) ProcDiskstats() ([]Diskstats, error) {
 }
 
 // SysBlockDevices lists the device names from /sys/block/<dev>
-func (b BlockDevice) SysBlockDevices() ([]string, error) {
-	deviceDirs, err := ioutil.ReadDir(b.sysfs.Path(sysBlockPath))
+func (h Handle) SysBlockDevices() ([]string, error) {
+	deviceDirs, err := ioutil.ReadDir(h.sysfs.Path(sysBlockPath))
 	if err != nil {
 		return nil, err
 	}
@@ -185,9 +185,9 @@ func (b BlockDevice) SysBlockDevices() ([]string, error) {
 // SysBlockDeviceStat returns stats for the block device read from /sys/block/<device>/stat.
 // The number of stats read will be 15 if the discard stats are available (kernel 4.18+)
 // and 11 if they are not available.
-func (b BlockDevice) SysBlockDeviceStat(device string) (IOStats, int, error) {
+func (h Handle) SysBlockDeviceStat(device string) (IOStats, int, error) {
 	stat := IOStats{}
-	bytes, err := ioutil.ReadFile(b.sysfs.Path(sysBlockPath, device, "stat"))
+	bytes, err := ioutil.ReadFile(h.sysfs.Path(sysBlockPath, device, "stat"))
 	if err != nil {
 		return stat, 0, err
 	}

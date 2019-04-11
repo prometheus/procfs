@@ -269,32 +269,32 @@ type ServerRPCStats struct {
 	V4Ops          V4Ops
 }
 
-// NFS represents the pseudo-filesystem proc, which provides an interface to
+// Handle represents the pseudo-filesystem proc, which provides an interface to
 // kernel data structures.
-type NFS struct {
+type Handle struct {
 	procfs *procfs.FS
 }
 
 // DefaultMountPoint is the common mount point of the proc filesystem.
 const DefaultMountPoint = "/proc"
 
-// NewNFS returns a new FS mounted under the given mountPoint. It will error
+// New returns a new FS mounted under the given mountPoint. It will error
 // if the mount point can't be read.
-func NewNFS(mountPoint string) (NFS, error) {
+func New(mountPoint string) (Handle, error) {
 	if strings.TrimSpace(mountPoint) == "" {
 		mountPoint = DefaultMountPoint
 	}
 	fs, err := procfs.NewFS(mountPoint)
 	if err != nil {
-		return NFS{}, err
+		return Handle{}, err
 	}
-	return NFS{&fs}, nil
+	return Handle{&fs}, nil
 }
 
 // ClientRPCStats retrieves NFS client RPC statistics
 // from proc/net/rpc/nfs.
-func (nfs NFS) ClientRPCStats() (*ClientRPCStats, error) {
-	f, err := os.Open(nfs.procfs.Path("net/rpc/nfs"))
+func (h Handle) ClientRPCStats() (*ClientRPCStats, error) {
+	f, err := os.Open(h.procfs.Path("net/rpc/nfs"))
 	if err != nil {
 		return nil, err
 	}
@@ -305,8 +305,8 @@ func (nfs NFS) ClientRPCStats() (*ClientRPCStats, error) {
 
 // ServerRPCStats retrieves NFS daemon RPC statistics
 // from proc/net/rpc/nfsd.
-func (nfs NFS) ServerRPCStats() (*ServerRPCStats, error) {
-	f, err := os.Open(nfs.procfs.Path("net/rpc/nfsd"))
+func (h Handle) ServerRPCStats() (*ServerRPCStats, error) {
+	f, err := os.Open(h.procfs.Path("net/rpc/nfsd"))
 	if err != nil {
 		return nil, err
 	}

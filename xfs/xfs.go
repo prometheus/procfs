@@ -171,9 +171,9 @@ type ExtendedPrecisionStats struct {
 	ReadBytes  uint64
 }
 
-// XFS represents the pseudo-filesystems proc and sys, which provides an interface to
+// Handle represents the pseudo-filesystems proc and sys, which provides an interface to
 // kernel data structures.
-type XFS struct {
+type Handle struct {
 	procfs *procfs.FS
 	sysfs  *sysfs.FS
 }
@@ -184,30 +184,30 @@ const DefaultProcMountPoint = "/proc"
 // DefaultSysMountPoint is the common mount point of the sys filesystem.
 const DefaultSysMountPoint = "/proc"
 
-// NewXFS returns a new XFS mounted under the given mountPoint. It will error
+// New returns a new XFS mounted under the given mountPoint. It will error
 // if the mount point can't be read.
-func NewXFS(procMountPoint string, sysMountPoint string) (XFS, error) {
+func New(procMountPoint string, sysMountPoint string) (Handle, error) {
 	if strings.TrimSpace(procMountPoint) == "" {
 		procMountPoint = DefaultProcMountPoint
 	}
 	procfs, err := procfs.NewFS(procMountPoint)
 	if err != nil {
-		return XFS{}, err
+		return Handle{}, err
 	}
 	if strings.TrimSpace(sysMountPoint) == "" {
 		sysMountPoint = DefaultSysMountPoint
 	}
 	sysfs, err := sysfs.NewFS(sysMountPoint)
 	if err != nil {
-		return XFS{}, err
+		return Handle{}, err
 	}
-	return XFS{&procfs, &sysfs}, nil
+	return Handle{&procfs, &sysfs}, nil
 }
 
 // ProcStat retrieves XFS filesystem runtime statistics
 // from proc/fs/xfs/stat given the profs mount point.
-func (xfs XFS) ProcStat() (*Stats, error) {
-	f, err := os.Open(xfs.procfs.Path("fs/xfs/stat"))
+func (h Handle) ProcStat() (*Stats, error) {
+	f, err := os.Open(h.procfs.Path("fs/xfs/stat"))
 	if err != nil {
 		return nil, err
 	}
@@ -219,8 +219,8 @@ func (xfs XFS) ProcStat() (*Stats, error) {
 // SysStats retrieves XFS filesystem runtime statistics for each mounted XFS
 // filesystem.  Only available on kernel 4.4+.  On older kernels, an empty
 // slice of *xfs.Stats will be returned.
-func (xfs XFS) SysStats() ([]*Stats, error) {
-	matches, err := filepath.Glob(xfs.sysfs.Path("fs/xfs/*/stats/stats"))
+func (h Handle) SysStats() ([]*Stats, error) {
+	matches, err := filepath.Glob(h.sysfs.Path("fs/xfs/*/stats/stats"))
 	if err != nil {
 		return nil, err
 	}

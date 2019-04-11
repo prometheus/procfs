@@ -21,7 +21,7 @@ import (
 )
 
 func TestReadProcStat(t *testing.T) {
-	xfs, err := xfs.NewXFS("../fixtures/proc", "../fixtures/sys")
+	xfs, err := xfs.New("../fixtures/proc", "../fixtures/sys")
 	if err != nil {
 		t.Fatalf("failed to access xfs fs: %v", err)
 	}
@@ -38,7 +38,7 @@ func TestReadProcStat(t *testing.T) {
 }
 
 func TestReadSysStats(t *testing.T) {
-	xfs, err := xfs.NewXFS("../fixtures/proc", "../fixtures/sys")
+	xfs, err := xfs.New("../fixtures/proc", "../fixtures/sys")
 	if err != nil {
 		t.Fatalf("failed to access xfs fs: %v", err)
 	}

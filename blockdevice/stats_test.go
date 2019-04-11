@@ -24,7 +24,7 @@ const (
 )
 
 func TestDiskstats(t *testing.T) {
-	blockdevice, err := NewBlockDevice("../fixtures/proc", "../fixtures/sys")
+	blockdevice, err := New("../fixtures/proc", "../fixtures/sys")
 	if err != nil {
 		t.Fatalf("failed to access blockdevice fs: %v", err)
 	}
@@ -54,7 +54,7 @@ func TestDiskstats(t *testing.T) {
 }
 
 func TestBlockDevice(t *testing.T) {
-	blockdevice, err := NewBlockDevice("../fixtures/proc", "../fixtures/sys")
+	blockdevice, err := New("../fixtures/proc", "../fixtures/sys")
 	if err != nil {
 		t.Fatalf("failed to access blockdevice fs: %v", err)
 	}

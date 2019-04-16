@@ -19,8 +19,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/prometheus/procfs"
-	"github.com/prometheus/procfs/sysfs"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // Stats contains XFS filesystem runtime statistics, parsed from
@@ -171,43 +170,43 @@ type ExtendedPrecisionStats struct {
 	ReadBytes  uint64
 }
 
-// Handle represents the pseudo-filesystems proc and sys, which provides an interface to
+// FS represents the pseudo-filesystems proc and sys, which provides an interface to
 // kernel data structures.
-type Handle struct {
-	procfs *procfs.FS
-	sysfs  *sysfs.FS
+type FS struct {
+	proc *util.FS
+	sys  *util.FS
 }
 
 // DefaultProcMountPoint is the common mount point of the proc filesystem.
 const DefaultProcMountPoint = "/proc"
 
 // DefaultSysMountPoint is the common mount point of the sys filesystem.
-const DefaultSysMountPoint = "/proc"
+const DefaultSysMountPoint = "/sys"
 
-// New returns a new XFS mounted under the given mountPoint. It will error
-// if the mount point can't be read.
-func New(procMountPoint string, sysMountPoint string) (Handle, error) {
+// NewFS returns a new XFS handle using the given proc and sys mountPoints. It will error
+// if either of the mounts point can't be read.
+func NewFS(procMountPoint string, sysMountPoint string) (FS, error) {
 	if strings.TrimSpace(procMountPoint) == "" {
 		procMountPoint = DefaultProcMountPoint
 	}
-	procfs, err := procfs.NewFS(procMountPoint)
+	procfs, err := util.NewFS(procMountPoint)
 	if err != nil {
-		return Handle{}, err
+		return FS{}, err
 	}
 	if strings.TrimSpace(sysMountPoint) == "" {
 		sysMountPoint = DefaultSysMountPoint
 	}
-	sysfs, err := sysfs.NewFS(sysMountPoint)
+	sysfs, err := util.NewFS(sysMountPoint)
 	if err != nil {
-		return Handle{}, err
+		return FS{}, err
 	}
-	return Handle{&procfs, &sysfs}, nil
+	return FS{&procfs, &sysfs}, nil
 }
 
 // ProcStat retrieves XFS filesystem runtime statistics
 // from proc/fs/xfs/stat given the profs mount point.
-func (h Handle) ProcStat() (*Stats, error) {
-	f, err := os.Open(h.procfs.Path("fs/xfs/stat"))
+func (fs FS) ProcStat() (*Stats, error) {
+	f, err := os.Open(fs.proc.Path("fs/xfs/stat"))
 	if err != nil {
 		return nil, err
 	}
@@ -219,8 +218,8 @@ func (h Handle) ProcStat() (*Stats, error) {
 // SysStats retrieves XFS filesystem runtime statistics for each mounted XFS
 // filesystem.  Only available on kernel 4.4+.  On older kernels, an empty
 // slice of *xfs.Stats will be returned.
-func (h Handle) SysStats() ([]*Stats, error) {
-	matches, err := filepath.Glob(h.sysfs.Path("fs/xfs/*/stats/stats"))
+func (fs FS) SysStats() ([]*Stats, error) {
+	matches, err := filepath.Glob(fs.sys.Path("fs/xfs/*/stats/stats"))
 	if err != nil {
 		return nil, err
 	}

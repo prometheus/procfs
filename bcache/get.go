@@ -23,34 +23,34 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/sysfs"
+	"github.com/prometheus/procfs/internal/util"
 )
 
-// Handle represents the pseudo-filesystem proc, which provides an interface to
+// FS represents the pseudo-filesystem proc, which provides an interface to
 // kernel data structures.
-type Handle struct {
-	sysfs *sysfs.FS
+type FS struct {
+	sys *util.FS
 }
 
 // DefaultSysMountPoint is the common mount point of the sys filesystem.
 const DefaultSysMountPoint = "/sys"
 
-// New returns a new Bcache using the given sys fs mount point. It will error
+// NewFS returns a new Bcache using the given sys fs mount point. It will error
 // if the mount point can't be read.
-func New(mountPoint string) (Handle, error) {
+func NewFS(mountPoint string) (FS, error) {
 	if strings.TrimSpace(mountPoint) == "" {
 		mountPoint = DefaultSysMountPoint
 	}
-	fs, err := sysfs.NewFS(mountPoint)
+	fs, err := util.NewFS(mountPoint)
 	if err != nil {
-		return Handle{}, err
+		return FS{}, err
 	}
-	return Handle{&fs}, nil
+	return FS{&fs}, nil
 }
 
 // Stats retrieves bcache runtime statistics for each bcache.
-func (h Handle) Stats() ([]*Stats, error) {
-	matches, err := filepath.Glob(h.sysfs.Path("fs/bcache/*-*"))
+func (fs FS) Stats() ([]*Stats, error) {
+	matches, err := filepath.Glob(fs.sys.Path("fs/bcache/*-*"))
 	if err != nil {
 		return nil, err
 	}

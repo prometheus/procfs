@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2019 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,25 +11,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package procfs
+package util
 
-import "github.com/prometheus/procfs/internal/util"
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+)
 
 // FS represents the pseudo-filesystem sys, which provides an interface to
 // kernel data structures.
-type FS struct {
-	proc util.FS
+type FS string
+
+// NewFS returns a new FS mounted under the given mountPoint. It will error
+// if the mount point can't be read.
+func NewFS(mountPoint string) (FS, error) {
+	info, err := os.Stat(mountPoint)
+	if err != nil {
+		return "", fmt.Errorf("could not read %s: %s", mountPoint, err)
+	}
+	if !info.IsDir() {
+		return "", fmt.Errorf("mount point %s is not a directory", mountPoint)
+	}
+
+	return FS(mountPoint), nil
 }
 
-// DefaultMountPoint is the common mount point of the proc filesystem.
-const DefaultMountPoint = "/proc"
-
-// NewFS returns a new proc FS mounted under the given proc mountPoint. It will error
-// if the mount point dirctory can't be read or is a file.
-func NewFS(mountPoint string) (FS, error) {
-	fs, err := util.NewFS(mountPoint)
-	if err != nil {
-		return FS{}, err
-	}
-	return FS{fs}, nil
+// Path returns the path of the given subsystem relative to the sys root.
+func (fs FS) Path(p ...string) string {
+	return filepath.Join(append([]string{string(fs)}, p...)...)
 }

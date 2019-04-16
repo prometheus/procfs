@@ -21,8 +21,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/prometheus/procfs"
-	"github.com/prometheus/procfs/sysfs"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // Info contains identifying information for a block device such as a disk drive
@@ -89,11 +88,11 @@ const (
 	sysBlockStatFormat  = "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
 )
 
-// Handle represents the pseudo-filesystems proc and sys, which provides an
+// FS represents the pseudo-filesystems proc and sys, which provides an
 // interface to kernel data structures.
-type Handle struct {
-	procfs *procfs.FS
-	sysfs  *sysfs.FS
+type FS struct {
+	proc *util.FS
+	sys  *util.FS
 }
 
 // DefaultProcMountPoint is the common mount point of the proc filesystem.
@@ -102,30 +101,30 @@ const DefaultProcMountPoint = "/proc"
 // DefaultSysMountPoint is the common mount point of the sys filesystem.
 const DefaultSysMountPoint = "/sys"
 
-// New returns a new XFS mounted under the given mountPoint. It will error
+// NewFS returns a new XFS mounted under the given mountPoint. It will error
 // if the mount point can't be read.
-func New(procMountPoint string, sysMountPoint string) (Handle, error) {
+func NewFS(procMountPoint string, sysMountPoint string) (FS, error) {
 	if strings.TrimSpace(procMountPoint) == "" {
 		procMountPoint = DefaultProcMountPoint
 	}
-	procfs, err := procfs.NewFS(procMountPoint)
+	procfs, err := util.NewFS(procMountPoint)
 	if err != nil {
-		return Handle{}, err
+		return FS{}, err
 	}
 	if strings.TrimSpace(sysMountPoint) == "" {
 		sysMountPoint = DefaultSysMountPoint
 	}
-	sysfs, err := sysfs.NewFS(sysMountPoint)
+	sysfs, err := util.NewFS(sysMountPoint)
 	if err != nil {
-		return Handle{}, err
+		return FS{}, err
 	}
-	return Handle{&procfs, &sysfs}, nil
+	return FS{&procfs, &sysfs}, nil
 }
 
 // ProcDiskstats reads the diskstats file and returns
 // an array of Diskstats (one per line/device)
-func (h Handle) ProcDiskstats() ([]Diskstats, error) {
-	file, err := os.Open(h.procfs.Path(procDiskstatsPath))
+func (fs FS) ProcDiskstats() ([]Diskstats, error) {
+	file, err := os.Open(fs.proc.Path(procDiskstatsPath))
 	if err != nil {
 		return nil, err
 	}
@@ -168,8 +167,8 @@ func (h Handle) ProcDiskstats() ([]Diskstats, error) {
 }
 
 // SysBlockDevices lists the device names from /sys/block/<dev>
-func (h Handle) SysBlockDevices() ([]string, error) {
-	deviceDirs, err := ioutil.ReadDir(h.sysfs.Path(sysBlockPath))
+func (fs FS) SysBlockDevices() ([]string, error) {
+	deviceDirs, err := ioutil.ReadDir(fs.sys.Path(sysBlockPath))
 	if err != nil {
 		return nil, err
 	}
@@ -185,9 +184,9 @@ func (h Handle) SysBlockDevices() ([]string, error) {
 // SysBlockDeviceStat returns stats for the block device read from /sys/block/<device>/stat.
 // The number of stats read will be 15 if the discard stats are available (kernel 4.18+)
 // and 11 if they are not available.
-func (h Handle) SysBlockDeviceStat(device string) (IOStats, int, error) {
+func (fs FS) SysBlockDeviceStat(device string) (IOStats, int, error) {
 	stat := IOStats{}
-	bytes, err := ioutil.ReadFile(h.sysfs.Path(sysBlockPath, device, "stat"))
+	bytes, err := ioutil.ReadFile(fs.sys.Path(sysBlockPath, device, "stat"))
 	if err != nil {
 		return stat, 0, err
 	}

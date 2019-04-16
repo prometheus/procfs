@@ -19,7 +19,7 @@ import (
 )
 
 func TestFSBcacheStats(t *testing.T) {
-	bcache, err := New("../fixtures/sys")
+	bcache, err := NewFS("../fixtures/sys")
 	if err != nil {
 		t.Fatalf("failed to access bcache fs: %v", err)
 	}

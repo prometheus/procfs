@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2019 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,12 +11,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package procfs
+package util
 
 import "testing"
 
 const (
-	procTestFixtures = "fixtures/proc"
+	sysTestFixtures = "../../fixtures/sys"
 )
 
 func TestNewFS(t *testing.T) {
@@ -24,16 +24,11 @@ func TestNewFS(t *testing.T) {
 		t.Error("want NewFS to fail for non-existing mount point")
 	}
 
-	if _, err := NewFS("procfs.go"); err == nil {
+	if _, err := NewFS("doc.go"); err == nil {
 		t.Error("want NewFS to fail if mount point is not a directory")
 	}
-	getProcFixtures(t)
-}
 
-func getProcFixtures(t *testing.T) FS {
-	fs, err := NewFS(procTestFixtures)
-	if err != nil {
-		t.Fatal(err)
+	if _, err := NewFS(sysTestFixtures); err != nil {
+		t.Error("want NewFS to succeed if mount point exists")
 	}
-	return fs
 }

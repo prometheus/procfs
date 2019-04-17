@@ -177,24 +177,18 @@ type FS struct {
 	sys  *fs.FS
 }
 
-// DefaultProcMountPoint is the common mount point of the proc filesystem.
-const DefaultProcMountPoint = "/proc"
-
-// DefaultSysMountPoint is the common mount point of the sys filesystem.
-const DefaultSysMountPoint = "/sys"
-
 // NewFS returns a new XFS handle using the given proc and sys mountPoints. It will error
 // if either of the mounts point can't be read.
 func NewFS(procMountPoint string, sysMountPoint string) (FS, error) {
 	if strings.TrimSpace(procMountPoint) == "" {
-		procMountPoint = DefaultProcMountPoint
+		procMountPoint = fs.DefaultProcMountPoint
 	}
 	procfs, err := fs.NewFS(procMountPoint)
 	if err != nil {
 		return FS{}, err
 	}
 	if strings.TrimSpace(sysMountPoint) == "" {
-		sysMountPoint = DefaultSysMountPoint
+		sysMountPoint = fs.DefaultSysMountPoint
 	}
 	sysfs, err := fs.NewFS(sysMountPoint)
 	if err != nil {

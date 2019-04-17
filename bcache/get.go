@@ -32,14 +32,11 @@ type FS struct {
 	sys *fs.FS
 }
 
-// DefaultSysMountPoint is the common mount point of the sys filesystem.
-const DefaultSysMountPoint = "/sys"
-
 // NewFS returns a new Bcache using the given sys fs mount point. It will error
 // if the mount point can't be read.
 func NewFS(mountPoint string) (FS, error) {
 	if strings.TrimSpace(mountPoint) == "" {
-		mountPoint = DefaultSysMountPoint
+		mountPoint = fs.DefaultSysMountPoint
 	}
 	fs, err := fs.NewFS(mountPoint)
 	if err != nil {

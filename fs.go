@@ -24,7 +24,7 @@ type FS struct {
 }
 
 // DefaultMountPoint is the common mount point of the proc filesystem.
-const DefaultMountPoint = "/proc"
+const DefaultMountPoint = fs.DefaultProcMountPoint
 
 // NewFS returns a new proc FS mounted under the given proc mountPoint. It will error
 // if the mount point dirctory can't be read or is a file.

@@ -19,6 +19,14 @@ import (
 	"path/filepath"
 )
 
+const (
+	// DefaultProcMountPoint is the common mount point of the proc filesystem.
+	DefaultProcMountPoint = "/proc"
+
+	// DefaultSysMountPoint is the common mount point of the sys filesystem.
+	DefaultSysMountPoint = "/sys"
+)
+
 // FS represents a pseudo-filesystem, normally /proc or /sys, which provides an
 // interface to kernel data structures.
 type FS string

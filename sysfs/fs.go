@@ -24,7 +24,7 @@ type FS struct {
 }
 
 // DefaultMountPoint is the common mount point of the sys filesystem.
-const DefaultMountPoint = "/sys"
+const DefaultMountPoint = fs.DefaultSysMountPoint
 
 // NewFS returns a new FS mounted under the given mountPoint. It will error
 // if the mount point can't be read.

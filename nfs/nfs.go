@@ -275,14 +275,11 @@ type FS struct {
 	proc *fs.FS
 }
 
-// DefaultMountPoint is the common mount point of the proc filesystem.
-const DefaultMountPoint = "/proc"
-
 // NewFS returns a new FS mounted under the given mountPoint. It will error
 // if the mount point can't be read.
 func NewFS(mountPoint string) (FS, error) {
 	if strings.TrimSpace(mountPoint) == "" {
-		mountPoint = DefaultMountPoint
+		mountPoint = fs.DefaultProcMountPoint
 	}
 	fs, err := fs.NewFS(mountPoint)
 	if err != nil {

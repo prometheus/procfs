@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package util
+package fs
 
 import (
 	"fmt"
@@ -19,8 +19,8 @@ import (
 	"path/filepath"
 )
 
-// FS represents the pseudo-filesystem sys, which provides an interface to
-// kernel data structures.
+// FS represents a pseudo-filesystem, normally /proc or /sys, which provides an
+// interface to kernel data structures.
 type FS string
 
 // NewFS returns a new FS mounted under the given mountPoint. It will error
@@ -37,7 +37,8 @@ func NewFS(mountPoint string) (FS, error) {
 	return FS(mountPoint), nil
 }
 
-// Path returns the path of the given subsystem relative to the sys root.
+// Path appends the given path elements to the filesystem path, adding separators
+// as necessary.
 func (fs FS) Path(p ...string) string {
 	return filepath.Join(append([]string{string(fs)}, p...)...)
 }

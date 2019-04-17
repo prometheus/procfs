@@ -13,12 +13,14 @@
 
 package procfs
 
-import "github.com/prometheus/procfs/internal/util"
+import (
+	"github.com/prometheus/procfs/internal/fs"
+)
 
 // FS represents the pseudo-filesystem sys, which provides an interface to
 // kernel data structures.
 type FS struct {
-	proc util.FS
+	proc fs.FS
 }
 
 // DefaultMountPoint is the common mount point of the proc filesystem.
@@ -27,7 +29,7 @@ const DefaultMountPoint = "/proc"
 // NewFS returns a new proc FS mounted under the given proc mountPoint. It will error
 // if the mount point dirctory can't be read or is a file.
 func NewFS(mountPoint string) (FS, error) {
-	fs, err := util.NewFS(mountPoint)
+	fs, err := fs.NewFS(mountPoint)
 	if err != nil {
 		return FS{}, err
 	}

@@ -19,7 +19,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/fs"
 )
 
 // Originally, this USER_HZ value was dynamically retrieved via a sysconf call
@@ -101,7 +101,7 @@ type ProcStat struct {
 	// Resident set size in pages.
 	RSS int
 
-	proc util.FS
+	proc fs.FS
 }
 
 // NewStat returns the current status information of the process.

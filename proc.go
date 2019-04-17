@@ -21,7 +21,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/fs"
 )
 
 // Proc provides information about a running process.
@@ -29,7 +29,7 @@ type Proc struct {
 	// The process ID.
 	PID int
 
-	fs util.FS
+	fs fs.FS
 }
 
 // Procs represents a list of Proc structs.

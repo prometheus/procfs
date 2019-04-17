@@ -19,7 +19,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/fs"
 )
 
 // ReplyCache models the "rc" line.
@@ -272,7 +272,7 @@ type ServerRPCStats struct {
 // FS represents the pseudo-filesystem proc, which provides an interface to
 // kernel data structures.
 type FS struct {
-	proc *util.FS
+	proc *fs.FS
 }
 
 // DefaultMountPoint is the common mount point of the proc filesystem.
@@ -284,7 +284,7 @@ func NewFS(mountPoint string) (FS, error) {
 	if strings.TrimSpace(mountPoint) == "" {
 		mountPoint = DefaultMountPoint
 	}
-	fs, err := util.NewFS(mountPoint)
+	fs, err := fs.NewFS(mountPoint)
 	if err != nil {
 		return FS{}, err
 	}

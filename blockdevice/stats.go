@@ -21,7 +21,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/fs"
 )
 
 // Info contains identifying information for a block device such as a disk drive
@@ -91,8 +91,8 @@ const (
 // FS represents the pseudo-filesystems proc and sys, which provides an
 // interface to kernel data structures.
 type FS struct {
-	proc *util.FS
-	sys  *util.FS
+	proc *fs.FS
+	sys  *fs.FS
 }
 
 // DefaultProcMountPoint is the common mount point of the proc filesystem.
@@ -107,14 +107,14 @@ func NewFS(procMountPoint string, sysMountPoint string) (FS, error) {
 	if strings.TrimSpace(procMountPoint) == "" {
 		procMountPoint = DefaultProcMountPoint
 	}
-	procfs, err := util.NewFS(procMountPoint)
+	procfs, err := fs.NewFS(procMountPoint)
 	if err != nil {
 		return FS{}, err
 	}
 	if strings.TrimSpace(sysMountPoint) == "" {
 		sysMountPoint = DefaultSysMountPoint
 	}
-	sysfs, err := util.NewFS(sysMountPoint)
+	sysfs, err := fs.NewFS(sysMountPoint)
 	if err != nil {
 		return FS{}, err
 	}

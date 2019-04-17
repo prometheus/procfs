@@ -23,13 +23,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/fs"
 )
 
 // FS represents the pseudo-filesystem proc, which provides an interface to
 // kernel data structures.
 type FS struct {
-	sys *util.FS
+	sys *fs.FS
 }
 
 // DefaultSysMountPoint is the common mount point of the sys filesystem.
@@ -41,7 +41,7 @@ func NewFS(mountPoint string) (FS, error) {
 	if strings.TrimSpace(mountPoint) == "" {
 		mountPoint = DefaultSysMountPoint
 	}
-	fs, err := util.NewFS(mountPoint)
+	fs, err := fs.NewFS(mountPoint)
 	if err != nil {
 		return FS{}, err
 	}

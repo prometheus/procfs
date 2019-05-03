@@ -19,7 +19,7 @@ import (
 )
 
 func TestBuddyInfo(t *testing.T) {
-	buddyInfo, err := FS("fixtures/proc/").NewBuddyInfo()
+	buddyInfo, err := getProcFixtures(t).NewBuddyInfo()
 	if err != nil {
 		t.Fatal(err)
 	}

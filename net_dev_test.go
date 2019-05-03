@@ -60,7 +60,7 @@ func TestNewNetDev(t *testing.T) {
 }
 
 func TestProcNewNetDev(t *testing.T) {
-	p, err := FS(procTestFixtures).NewProc(26231)
+	p, err := getProcFixtures(t).NewProc(26231)
 	if err != nil {
 		t.Fatal(err)
 	}

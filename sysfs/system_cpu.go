@@ -60,7 +60,7 @@ func NewSystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 func (fs FS) NewSystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 	var g errgroup.Group
 
-	cpus, err := filepath.Glob(fs.Path("devices/system/cpu/cpu[0-9]*"))
+	cpus, err := filepath.Glob(fs.sys.Path("devices/system/cpu/cpu[0-9]*"))
 	if err != nil {
 		return nil, err
 	}

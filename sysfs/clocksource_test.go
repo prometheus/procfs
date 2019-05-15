@@ -26,12 +26,12 @@ func TestNewClocksource(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	c, err := fs.NewClocksource()
+	c, err := fs.ClockSources()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	clocksources := []Clocksource{
+	clocksources := []ClockSource{
 		{
 			Name:      "0",
 			Available: []string{"tsc", "hpet", "acpi_pm"},

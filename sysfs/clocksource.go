@@ -22,32 +22,23 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
-// Clocksource contains metrics related to the clock source
-type Clocksource struct {
+// ClockSource contains metrics related to the clock source
+type ClockSource struct {
 	Name      string
 	Available []string
 	Current   string
 }
 
-// NewClocksource returns clocksource information including current and available clocksources.
-func NewClocksource() ([]Clocksource, error) {
-	fs, err := NewFS(DefaultMountPoint)
-	if err != nil {
-		return []Clocksource{}, err
-	}
-
-	return fs.NewClocksource()
-}
-
-// NewClocksource returns clocksource information including current and available clocksources.
-func (fs FS) NewClocksource() ([]Clocksource, error) {
+// ClockSources returns clocksource information including current and available clocksources
+// read from '/sys/devices/system/clocksource'
+func (fs FS) ClockSources() ([]ClockSource, error) {
 
 	clocksourcePaths, err := filepath.Glob(fs.sys.Path("devices/system/clocksource/clocksource[0-9]*"))
 	if err != nil {
 		return nil, err
 	}
 
-	clocksources := make([]Clocksource, len(clocksourcePaths))
+	clocksources := make([]ClockSource, len(clocksourcePaths))
 	for i, clocksourcePath := range clocksourcePaths {
 		clocksourceName := strings.TrimPrefix(filepath.Base(clocksourcePath), "clocksource")
 
@@ -62,7 +53,7 @@ func (fs FS) NewClocksource() ([]Clocksource, error) {
 	return clocksources, nil
 }
 
-func parseClocksource(clocksourcePath string) (*Clocksource, error) {
+func parseClocksource(clocksourcePath string) (*ClockSource, error) {
 
 	stringFiles := []string{
 		"available_clocksource",
@@ -74,11 +65,11 @@ func parseClocksource(clocksourcePath string) (*Clocksource, error) {
 	for i, f := range stringFiles {
 		stringOut[i], err = util.SysReadFile(filepath.Join(clocksourcePath, f))
 		if err != nil {
-			return &Clocksource{}, err
+			return &ClockSource{}, err
 		}
 	}
 
-	return &Clocksource{
+	return &ClockSource{
 		Available: strings.Fields(stringOut[0]),
 		Current:   stringOut[1],
 	}, nil

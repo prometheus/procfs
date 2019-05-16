@@ -95,8 +95,8 @@ type FS struct {
 	sys  *fs.FS
 }
 
-// NewFS returns a new XFS mounted under the given mountPoint. It will error
-// if the mount point can't be read.
+// NewFS returns a new blockdevice fs using the given mountPoints for proc and sys.
+// It will error if either of these mount points can't be read.
 func NewFS(procMountPoint string, sysMountPoint string) (FS, error) {
 	if strings.TrimSpace(procMountPoint) == "" {
 		procMountPoint = fs.DefaultProcMountPoint

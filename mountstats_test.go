@@ -361,7 +361,7 @@ func TestMountStats(t *testing.T) {
 		if tt.s != "" {
 			mounts, err = parseMountStats(strings.NewReader(tt.s))
 		} else {
-			proc, e := getProcFixtures(t).NewProc(26231)
+			proc, e := getProcFixtures(t).Proc(26231)
 			if e != nil {
 				t.Fatalf("failed to create proc: %v", err)
 			}

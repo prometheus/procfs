@@ -21,13 +21,13 @@ import (
 	"testing"
 )
 
-func TestNewPowerSupplyClass(t *testing.T) {
+func TestPowerSupplyClass(t *testing.T) {
 	fs, err := NewFS(sysTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	psc, err := fs.NewPowerSupplyClass()
+	psc, err := fs.PowerSupplyClass()
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -14,7 +14,7 @@ backwards-incompatible ways without warnings. Use it at your own risk.
 
 The procfs library is organized by packages based on whether the gathered data is coming from
 /proc, /sys, or both.  Each package contains an `FS` type which represents the path to either /proc, /sys, or both.  For example, current cpu statistics are gathered from
-`/proc/stat` and are available via the root procfs package.  First, the proc filesystem mount 
+`/proc/stat` and are available via the root procfs package.  First, the proc filesystem mount
 point is initialized, and then the stat information is read.
 
 ```go
@@ -40,7 +40,7 @@ extracting the ttar file using `make fixtures/.unpacked` or just `make test`.
     make test
 ```
 
-Next, make the required changes to the extracted files in the `fixtures` directory.  When 
+Next, make the required changes to the extracted files in the `fixtures` directory.  When
 the changes are complete, run `make update_fixtures` to create a new `fixtures.ttar` file
-based on the updated `fixtures` directory.  And finally, verify the changes using 
+based on the updated `fixtures` directory.  And finally, verify the changes using
 `git diff fixtures.ttar`.

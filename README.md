@@ -18,8 +18,8 @@ The procfs library is organized by packages based on whether the gathered data i
 point is initialized, and then the stat information is read.
 
 ```go
-	fs, err := procfs.NewFS("/proc")
-    stats, err := fs.NewStat()
+fs, err := procfs.NewFS("/proc")
+stats, err := fs.NewStat()
 ```
 
 ## Building and Testing
@@ -36,8 +36,8 @@ ensure the `fixtures` directory is up to date by removing the existing directory
 extracting the ttar file using `make fixtures/.unpacked` or just `make test`.
 
 ```bash
-    rm -rf fixtures
-    make test
+rm -rf fixtures
+make test
 ```
 
 Next, make the required changes to the extracted files in the `fixtures` directory.  When

@@ -53,7 +53,7 @@ const (
 	netUnixStateDisconnected = 4
 )
 
-var errInvalidKernelPtrFmt = errors.New("Invalid Num(kernal the kernel table slot number) format")
+var errInvalidKernelPtrFmt = errors.New("Invalid Num(the kernel table slot number) format")
 
 // NetUnixType is the type of the type field.
 type NetUnixType uint64

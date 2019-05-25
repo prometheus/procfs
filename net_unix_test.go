@@ -14,7 +14,6 @@
 package procfs
 
 import (
-	"os"
 	"testing"
 )
 

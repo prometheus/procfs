@@ -280,17 +280,36 @@ func (p Proc) path(pa ...string) string {
 	return p.fs.Path(append([]string{strconv.Itoa(p.PID)}, pa...)...)
 }
 
-func (p Proc) fileDescriptorInfo(fd string) ([]byte, error) {
-	f, err := os.Open(p.path("fdinfo", fd))
+// FileDescriptorsInfo retrieves information about all file descriptors of
+// the process.
+func (p Proc) FileDescriptorsInfo() ([]FDInfo, error) {
+	names, err := p.fileDescriptors()
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
 
-	fdinfo, err := ioutil.ReadAll(f)
-	if err != nil {
-		return nil, fmt.Errorf("could not read %s: %s", f.Name(), err)
+	fdinfos := make([]FDInfo, len(names))
+
+	for i, n := range names {
+		fdinfo, _ := p.newFDInfo(n)
+		fdinfos[i] = *fdinfo
 	}
 
-	return fdinfo, nil
+	return fdinfos, nil
+}
+
+// InotifyWatchLen returns the total number of inotify watches used
+// by the process.
+func (p Proc) InotifyWatchLen() (int, error) {
+	fdinfos, err := p.FileDescriptorsInfo()
+	if err != nil {
+		return 0, err
+	}
+
+	length := 0
+	for _, f := range fdinfos {
+		length += len(f.InotifyInfos)
+	}
+
+	return length, nil
 }

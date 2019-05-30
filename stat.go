@@ -20,6 +20,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/prometheus/procfs/internal/fs"
 )
 
 // CPUStat shows how much time the cpu spend in various stages.
@@ -139,9 +141,21 @@ func parseSoftIRQStat(line string) (SoftIRQStat, uint64, error) {
 	return softIRQStat, total, nil
 }
 
-// Stat returns an information about current kernel/system statistics.
+// NewStat returns information about current cpu/process statistics.
+// See https://www.kernel.org/doc/Documentation/filesystems/proc.txt
+//
+// Deprecated: use fs.Stat() instead
+func NewStat() (Stat, error) {
+	fs, err := NewFS(fs.DefaultProcMountPoint)
+	if err != nil {
+		return Stat{}, err
+	}
+	return fs.Stat()
+}
+
+// Stat returns information about current cpu/process statistics.
+// See https://www.kernel.org/doc/Documentation/filesystems/proc.txt
 func (fs FS) Stat() (Stat, error) {
-	// See https://www.kernel.org/doc/Documentation/filesystems/proc.txt
 
 	f, err := os.Open(fs.proc.Path("stat"))
 	if err != nil {

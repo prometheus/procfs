@@ -19,7 +19,7 @@ point is initialized, and then the stat information is read.
 
 ```go
 fs, err := procfs.NewFS("/proc")
-stats, err := fs.NewStat()
+stats, err := fs.Stat()
 ```
 
 Some sub-packages such as `blockdevice`, require access to both the proc and sys filesystems.

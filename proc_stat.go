@@ -104,6 +104,13 @@ type ProcStat struct {
 	proc fs.FS
 }
 
+// NewStat returns the current status information of the process.
+//
+// Deprecated: use NewStat() instead
+func (p Proc) NewStat() (ProcStat, error) {
+	return p.Stat()
+}
+
 // Stat returns the current status information of the process.
 func (p Proc) Stat() (ProcStat, error) {
 	f, err := os.Open(p.path("stat"))

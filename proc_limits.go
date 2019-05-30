@@ -77,6 +77,13 @@ var (
 	limitsDelimiter = regexp.MustCompile("  +")
 )
 
+// NewLimits returns the current soft limits of the process.
+//
+// Deprecated: use p.Limits() instead
+func (p Proc) NewLimits() (ProcLimits, error) {
+	return p.Limits()
+}
+
 // Limits returns the current soft limits of the process.
 func (p Proc) Limits() (ProcLimits, error) {
 	f, err := os.Open(p.path("limits"))

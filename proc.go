@@ -79,6 +79,13 @@ func (fs FS) Self() (Proc, error) {
 	return fs.Proc(pid)
 }
 
+// NewProc returns a process for the given pid.
+//
+// Deprecated: use fs.Proc() instead
+func (fs FS) NewProc(pid int) (Proc, error) {
+	return fs.Proc(pid)
+}
+
 // Proc returns a process for the given pid.
 func (fs FS) Proc(pid int) (Proc, error) {
 	if _, err := os.Stat(fs.proc.Path(strconv.Itoa(pid))); err != nil {

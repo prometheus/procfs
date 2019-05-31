@@ -153,6 +153,14 @@ func NewStat() (Stat, error) {
 	return fs.Stat()
 }
 
+// NewStat returns information about current cpu/process statistics.
+// See https://www.kernel.org/doc/Documentation/filesystems/proc.txt
+//
+// Deprecated: use fs.Stat() instead
+func (fs FS) NewStat() (Stat, error) {
+	return fs.Stat()
+}
+
 // Stat returns information about current cpu/process statistics.
 // See https://www.kernel.org/doc/Documentation/filesystems/proc.txt
 func (fs FS) Stat() (Stat, error) {

@@ -247,6 +247,16 @@ func (p Proc) MountStats() ([]*Mount, error) {
 	return parseMountStats(f)
 }
 
+func (p Proc) MountInfo() ([]*MountInfo, error) {
+	f, err := os.Open(p.path("mountinfo"))
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	return parseMountInfo(f)
+}
+
 func (p Proc) fileDescriptors() ([]string, error) {
 	d, err := os.Open(p.path("fd"))
 	if err != nil {

@@ -77,7 +77,7 @@ func parseMountInfo(r io.Reader) ([]*MountInfo, error) {
 		mountString := scanner.Text()
 		parsedMounts, err := parseMountInfoString(mountString)
 		if err != nil {
-			return nil, fmt.Errorf("failed to parse mount info string")
+			return nil, err
 		}
 		mounts = append(mounts, parsedMounts)
 	}

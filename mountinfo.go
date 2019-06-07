@@ -22,6 +22,8 @@ import (
 	"strings"
 )
 
+var validOptionalFields = map[string]bool{"shared": true, "master": true, "propagate_from": true, "unbindable": true}
+
 // Fields description for mountinfo is here:
 // http://man7.org/linux/man-pages/man5/proc.5.html
 
@@ -50,23 +52,11 @@ type MountInfo struct {
 }
 
 // Returns part of the mountinfo line, if it exists, else an empty string
-func getMountInfoPartString(parts []string, idx int) string {
+func getStringSliceElement(parts []string, idx int, defaultValue string) string {
 	if idx >= len(parts) {
-		return ""
+		return defaultValue
 	}
 	return parts[idx]
-}
-
-// Checks if the 'keys' in the optional fields in the mountinfo line are acceptable
-// Allowed 'keys' are shared, master, propagate_from, unbindable
-func isValidOptionalField(field string) bool {
-	acceptableFields := []string{"shared", "master", "propagate_from", "unbindable"}
-	for _, acceptable := range acceptableFields {
-		if field == acceptable {
-			return true
-		}
-	}
-	return false
 }
 
 // Reads each line of the mountinfo file, and returns a list of formatted MountInfo structs
@@ -82,11 +72,8 @@ func parseMountInfo(r io.Reader) ([]*MountInfo, error) {
 		mounts = append(mounts, parsedMounts)
 	}
 
-	if err := scanner.Err(); err != nil {
-		return mounts, err
-	}
-
-	return mounts, nil
+	err := scanner.Err()
+	return mounts, err
 }
 
 // Parses a mountinfo file line, and converts it to a MountInfo struct
@@ -102,26 +89,26 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 	}
 	beforeFields := strings.Fields(mountString[:separatorIndex])
 	afterFields := strings.Fields(mountString[separatorIndex+1:])
-	splits := strings.Fields(mountString)
-	if len(splits) < 7 {
+	if (len(beforeFields) + len(afterFields)) < 7 {
 		return nil, fmt.Errorf("too few fields")
 	}
+
 	mount := &MountInfo{
-		MajorMinorVer:  getMountInfoPartString(beforeFields, 2),
-		Root:           getMountInfoPartString(beforeFields, 3),
-		MountPoint:     getMountInfoPartString(beforeFields, 4),
-		Options:        mountOptionsParser(getMountInfoPartString(beforeFields, 5)),
+		MajorMinorVer:  getStringSliceElement(beforeFields, 2, ""),
+		Root:           getStringSliceElement(beforeFields, 3, ""),
+		MountPoint:     getStringSliceElement(beforeFields, 4, ""),
+		Options:        mountOptionsParser(getStringSliceElement(beforeFields, 5, "")),
 		OptionalFields: nil,
-		FSType:         getMountInfoPartString(afterFields, 0),
-		Source:         getMountInfoPartString(afterFields, 1),
-		SuperOptions:   mountOptionsParser(getMountInfoPartString(afterFields, 2)),
+		FSType:         getStringSliceElement(afterFields, 0, ""),
+		Source:         getStringSliceElement(afterFields, 1, ""),
+		SuperOptions:   mountOptionsParser(getStringSliceElement(afterFields, 2, "")),
 	}
 
-	mount.MountId, err = strconv.Atoi(getMountInfoPartString(beforeFields, 0))
+	mount.MountId, err = strconv.Atoi(getStringSliceElement(beforeFields, 0, ""))
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse mount ID")
 	}
-	mount.ParentId, err = strconv.Atoi(getMountInfoPartString(beforeFields, 1))
+	mount.ParentId, err = strconv.Atoi(getStringSliceElement(beforeFields, 1, ""))
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse parent ID")
 	}
@@ -132,13 +119,13 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 		optionalFields := beforeFields[6:]
 		for _, field := range optionalFields {
 			optionSplit := strings.Split(field, ":")
-			target, value := "", ""
+			target, value := optionSplit[0], ""
 			if len(optionSplit) == 2 {
-				target, value = optionSplit[0], optionSplit[1]
-			} else if len(optionSplit) == 1 {
-				target = optionSplit[0]
+				value = optionSplit[1]
 			}
-			if isValidOptionalField(target) {
+			// Checks if the 'keys' in the optional fields in the mountinfo line are acceptable
+			// Allowed 'keys' are shared, master, propagate_from, unbindable
+			if _, ok := validOptionalFields[target]; ok {
 				mount.OptionalFields[target] = value
 			}
 		}

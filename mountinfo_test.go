@@ -97,6 +97,23 @@ func TestMountInfo(t *testing.T) {
 			},
 			invalid: false,
 		},
+		{
+			name: "Tmpfs mounted at /run, with a mixture of valid and invalid optional values",
+			s:    "225 20 0:39 / /run/user/112 rw,nosuid,nodev,relatime shared:177 master:8 foo:bar - tmpfs tmpfs rw,size=405096k,mode=700,uid=112,gid=116",
+			mount: &MountInfo{
+				MountId:        225,
+				ParentId:       20,
+				MajorMinorVer:  "0:39",
+				Root:           "/",
+				MountPoint:     "/run/user/112",
+				Options:        map[string]string{"rw": "", "nosuid": "", "nodev": "", "relatime": ""},
+				OptionalFields: map[string]string{"shared": "177", "master": "8"},
+				FSType:         "tmpfs",
+				Source:         "tmpfs",
+				SuperOptions:   map[string]string{"rw": "", "size": "405096k", "mode": "700", "uid": "112", "gid": "116"},
+			},
+			invalid: false,
+		},
 	}
 
 	for i, test := range tests {

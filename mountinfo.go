@@ -30,9 +30,9 @@ var validOptionalFields = map[string]bool{
 }
 
 // A MountInfo is a type that describes the details, options
-// for each mount, parsed from /proc/self/mountinfo
+// for each mount, parsed from /proc/self/mountinfo.
 // The fields described in each entry of /proc/self/mountinfo
-// is described in the following man page
+// is described in the following man page.
 // http://man7.org/linux/man-pages/man5/proc.5.html
 type MountInfo struct {
 	// Unique Id for the mount
@@ -58,7 +58,7 @@ type MountInfo struct {
 	SuperOptions map[string]string
 }
 
-// Returns part of the mountinfo line, if it exists, else an empty string
+// Returns part of the mountinfo line, if it exists, else an empty string.
 func getStringSliceElement(parts []string, idx int, defaultValue string) string {
 	if idx >= len(parts) {
 		return defaultValue
@@ -66,7 +66,7 @@ func getStringSliceElement(parts []string, idx int, defaultValue string) string 
 	return parts[idx]
 }
 
-// Reads each line of the mountinfo file, and returns a list of formatted MountInfo structs
+// Reads each line of the mountinfo file, and returns a list of formatted MountInfo structs.
 func parseMountInfo(r io.Reader) ([]*MountInfo, error) {
 	mounts := []*MountInfo{}
 	scanner := bufio.NewScanner(r)
@@ -83,9 +83,9 @@ func parseMountInfo(r io.Reader) ([]*MountInfo, error) {
 	return mounts, err
 }
 
-// Parses a mountinfo file line, and converts it to a MountInfo struct
+// Parses a mountinfo file line, and converts it to a MountInfo struct.
 // An important check here is to see if the hyphen separator, as if it does not exist,
-// it means that the line is malformed
+// it means that the line is malformed.
 func parseMountInfoString(mountString string) (*MountInfo, error) {
 	var err error
 
@@ -119,7 +119,7 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse parent ID")
 	}
-	// Has optional fields, which is a space separated list of values
+	// Has optional fields, which is a space separated list of values.
 	// Example: shared:2 master:7
 	if len(beforeFields) > 6 {
 		mount.OptionalFields = make(map[string]string)
@@ -130,8 +130,8 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 			if len(optionSplit) == 2 {
 				value = optionSplit[1]
 			}
-			// Checks if the 'keys' in the optional fields in the mountinfo line are acceptable
-			// Allowed 'keys' are shared, master, propagate_from, unbindable
+			// Checks if the 'keys' in the optional fields in the mountinfo line are acceptable.
+			// Allowed 'keys' are shared, master, propagate_from, unbindable.
 			if _, ok := validOptionalFields[target]; ok {
 				mount.OptionalFields[target] = value
 			}
@@ -140,7 +140,7 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 	return mount, nil
 }
 
-// Parses the mount options, superblock options
+// Parses the mount options, superblock options.
 func mountOptionsParser(mountOptions string) map[string]string {
 	opts := make(map[string]string)
 	options := strings.Split(mountOptions, ",")
@@ -157,7 +157,7 @@ func mountOptionsParser(mountOptions string) map[string]string {
 	return opts
 }
 
-// Retrieves mountinfo information from `/proc/self/mountinfo`
+// Retrieves mountinfo information from `/proc/self/mountinfo`.
 func GetMounts() ([]*MountInfo, error) {
 	f, err := os.Open("/proc/self/mountinfo")
 	if err != nil {
@@ -167,7 +167,7 @@ func GetMounts() ([]*MountInfo, error) {
 	return parseMountInfo(f)
 }
 
-// Retrieves mountinfo information from a processes' `/proc/<pid>/mountinfo`
+// Retrieves mountinfo information from a processes' `/proc/<pid>/mountinfo`.
 func GetProcMounts(pid int) ([]*MountInfo, error) {
 	f, err := os.Open(fmt.Sprintf("/proc/%d/mountinfo", pid))
 	if err != nil {

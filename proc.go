@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2019 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -247,6 +247,10 @@ func (p Proc) MountStats() ([]*Mount, error) {
 	return parseMountStats(f)
 }
 
+// MountInfo retrieves mount information for mount points in a
+// process's namespace.
+// It supplies information missing in `/proc/self/mounts` and
+// fixes various other problems with that file too.
 func (p Proc) MountInfo() ([]*MountInfo, error) {
 	f, err := os.Open(p.path("mountinfo"))
 	if err != nil {

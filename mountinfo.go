@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2019 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,11 +22,18 @@ import (
 	"strings"
 )
 
-var validOptionalFields = map[string]bool{"shared": true, "master": true, "propagate_from": true, "unbindable": true}
+var validOptionalFields = map[string]bool{
+	"shared":         true,
+	"master":         true,
+	"propagate_from": true,
+	"unbindable":     true,
+}
 
-// Fields description for mountinfo is here:
+// A MountInfo is a type that describes the details, options
+// for each mount, parsed from /proc/self/mountinfo
+// The fields described in each entry of /proc/self/mountinfo
+// is described in the following man page
 // http://man7.org/linux/man-pages/man5/proc.5.html
-
 type MountInfo struct {
 	// Unique Id for the mount
 	MountId int

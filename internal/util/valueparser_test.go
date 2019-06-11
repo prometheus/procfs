@@ -84,7 +84,7 @@ func TestValueParser(t *testing.T) {
 				return
 			}
 
-			if err == nil && !tt.ok {
+			if !tt.ok {
 				t.Fatal("expected an error, but none occurred")
 			}
 		})

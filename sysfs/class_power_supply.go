@@ -27,73 +27,73 @@ import (
 // single power supply.
 type PowerSupply struct {
 	Name                     string // Power Supply Name
-	Authentic                *int64 // /sys/class/power_suppy/<Name>/authentic
-	Calibrate                *int64 // /sys/class/power_suppy/<Name>/calibrate
-	Capacity                 *int64 // /sys/class/power_suppy/<Name>/capacity
-	CapacityAlertMax         *int64 // /sys/class/power_suppy/<Name>/capacity_alert_max
-	CapacityAlertMin         *int64 // /sys/class/power_suppy/<Name>/capacity_alert_min
-	CapacityLevel            string // /sys/class/power_suppy/<Name>/capacity_level
-	ChargeAvg                *int64 // /sys/class/power_suppy/<Name>/charge_avg
-	ChargeControlLimit       *int64 // /sys/class/power_suppy/<Name>/charge_control_limit
-	ChargeControlLimitMax    *int64 // /sys/class/power_suppy/<Name>/charge_control_limit_max
-	ChargeCounter            *int64 // /sys/class/power_suppy/<Name>/charge_counter
-	ChargeEmpty              *int64 // /sys/class/power_suppy/<Name>/charge_empty
-	ChargeEmptyDesign        *int64 // /sys/class/power_suppy/<Name>/charge_empty_design
-	ChargeFull               *int64 // /sys/class/power_suppy/<Name>/charge_full
-	ChargeFullDesign         *int64 // /sys/class/power_suppy/<Name>/charge_full_design
-	ChargeNow                *int64 // /sys/class/power_suppy/<Name>/charge_now
-	ChargeTermCurrent        *int64 // /sys/class/power_suppy/<Name>/charge_term_current
+	Authentic                *int64 // /sys/class/power_supply/<Name>/authentic
+	Calibrate                *int64 // /sys/class/power_supply/<Name>/calibrate
+	Capacity                 *int64 // /sys/class/power_supply/<Name>/capacity
+	CapacityAlertMax         *int64 // /sys/class/power_supply/<Name>/capacity_alert_max
+	CapacityAlertMin         *int64 // /sys/class/power_supply/<Name>/capacity_alert_min
+	CapacityLevel            string // /sys/class/power_supply/<Name>/capacity_level
+	ChargeAvg                *int64 // /sys/class/power_supply/<Name>/charge_avg
+	ChargeControlLimit       *int64 // /sys/class/power_supply/<Name>/charge_control_limit
+	ChargeControlLimitMax    *int64 // /sys/class/power_supply/<Name>/charge_control_limit_max
+	ChargeCounter            *int64 // /sys/class/power_supply/<Name>/charge_counter
+	ChargeEmpty              *int64 // /sys/class/power_supply/<Name>/charge_empty
+	ChargeEmptyDesign        *int64 // /sys/class/power_supply/<Name>/charge_empty_design
+	ChargeFull               *int64 // /sys/class/power_supply/<Name>/charge_full
+	ChargeFullDesign         *int64 // /sys/class/power_supply/<Name>/charge_full_design
+	ChargeNow                *int64 // /sys/class/power_supply/<Name>/charge_now
+	ChargeTermCurrent        *int64 // /sys/class/power_supply/<Name>/charge_term_current
 	ChargeType               string // /sys/class/power_supply/<Name>/charge_type
-	ConstantChargeCurrent    *int64 // /sys/class/power_suppy/<Name>/constant_charge_current
-	ConstantChargeCurrentMax *int64 // /sys/class/power_suppy/<Name>/constant_charge_current_max
-	ConstantChargeVoltage    *int64 // /sys/class/power_suppy/<Name>/constant_charge_voltage
-	ConstantChargeVoltageMax *int64 // /sys/class/power_suppy/<Name>/constant_charge_voltage_max
-	CurrentAvg               *int64 // /sys/class/power_suppy/<Name>/current_avg
-	CurrentBoot              *int64 // /sys/class/power_suppy/<Name>/current_boot
-	CurrentMax               *int64 // /sys/class/power_suppy/<Name>/current_max
-	CurrentNow               *int64 // /sys/class/power_suppy/<Name>/current_now
-	CycleCount               *int64 // /sys/class/power_suppy/<Name>/cycle_count
+	ConstantChargeCurrent    *int64 // /sys/class/power_supply/<Name>/constant_charge_current
+	ConstantChargeCurrentMax *int64 // /sys/class/power_supply/<Name>/constant_charge_current_max
+	ConstantChargeVoltage    *int64 // /sys/class/power_supply/<Name>/constant_charge_voltage
+	ConstantChargeVoltageMax *int64 // /sys/class/power_supply/<Name>/constant_charge_voltage_max
+	CurrentAvg               *int64 // /sys/class/power_supply/<Name>/current_avg
+	CurrentBoot              *int64 // /sys/class/power_supply/<Name>/current_boot
+	CurrentMax               *int64 // /sys/class/power_supply/<Name>/current_max
+	CurrentNow               *int64 // /sys/class/power_supply/<Name>/current_now
+	CycleCount               *int64 // /sys/class/power_supply/<Name>/cycle_count
 	EnergyAvg                *int64 // /sys/class/power_supply/<Name>/energy_avg
-	EnergyEmpty              *int64 // /sys/class/power_suppy/<Name>/energy_empty
-	EnergyEmptyDesign        *int64 // /sys/class/power_suppy/<Name>/energy_empty_design
-	EnergyFull               *int64 // /sys/class/power_suppy/<Name>/energy_full
-	EnergyFullDesign         *int64 // /sys/class/power_suppy/<Name>/energy_full_design
+	EnergyEmpty              *int64 // /sys/class/power_supply/<Name>/energy_empty
+	EnergyEmptyDesign        *int64 // /sys/class/power_supply/<Name>/energy_empty_design
+	EnergyFull               *int64 // /sys/class/power_supply/<Name>/energy_full
+	EnergyFullDesign         *int64 // /sys/class/power_supply/<Name>/energy_full_design
 	EnergyNow                *int64 // /sys/class/power_supply/<Name>/energy_now
-	Health                   string // /sys/class/power_suppy/<Name>/health
-	InputCurrentLimit        *int64 // /sys/class/power_suppy/<Name>/input_current_limit
-	Manufacturer             string // /sys/class/power_suppy/<Name>/manufacturer
-	ModelName                string // /sys/class/power_suppy/<Name>/model_name
-	Online                   *int64 // /sys/class/power_suppy/<Name>/online
-	PowerAvg                 *int64 // /sys/class/power_suppy/<Name>/power_avg
-	PowerNow                 *int64 // /sys/class/power_suppy/<Name>/power_now
-	PrechargeCurrent         *int64 // /sys/class/power_suppy/<Name>/precharge_current
-	Present                  *int64 // /sys/class/power_suppy/<Name>/present
-	Scope                    string // /sys/class/power_suppy/<Name>/scope
-	SerialNumber             string // /sys/class/power_suppy/<Name>/serial_number
+	Health                   string // /sys/class/power_supply/<Name>/health
+	InputCurrentLimit        *int64 // /sys/class/power_supply/<Name>/input_current_limit
+	Manufacturer             string // /sys/class/power_supply/<Name>/manufacturer
+	ModelName                string // /sys/class/power_supply/<Name>/model_name
+	Online                   *int64 // /sys/class/power_supply/<Name>/online
+	PowerAvg                 *int64 // /sys/class/power_supply/<Name>/power_avg
+	PowerNow                 *int64 // /sys/class/power_supply/<Name>/power_now
+	PrechargeCurrent         *int64 // /sys/class/power_supply/<Name>/precharge_current
+	Present                  *int64 // /sys/class/power_supply/<Name>/present
+	Scope                    string // /sys/class/power_supply/<Name>/scope
+	SerialNumber             string // /sys/class/power_supply/<Name>/serial_number
 	Status                   string // /sys/class/power_supply/<Name>/status
-	Technology               string // /sys/class/power_suppy/<Name>/technology
-	Temp                     *int64 // /sys/class/power_suppy/<Name>/temp
-	TempAlertMax             *int64 // /sys/class/power_suppy/<Name>/temp_alert_max
-	TempAlertMin             *int64 // /sys/class/power_suppy/<Name>/temp_alert_min
-	TempAmbient              *int64 // /sys/class/power_suppy/<Name>/temp_ambient
-	TempAmbientMax           *int64 // /sys/class/power_suppy/<Name>/temp_ambient_max
-	TempAmbientMin           *int64 // /sys/class/power_suppy/<Name>/temp_ambient_min
-	TempMax                  *int64 // /sys/class/power_suppy/<Name>/temp_max
-	TempMin                  *int64 // /sys/class/power_suppy/<Name>/temp_min
-	TimeToEmptyAvg           *int64 // /sys/class/power_suppy/<Name>/time_to_empty_avg
-	TimeToEmptyNow           *int64 // /sys/class/power_suppy/<Name>/time_to_empty_now
-	TimeToFullAvg            *int64 // /sys/class/power_suppy/<Name>/time_to_full_avg
-	TimeToFullNow            *int64 // /sys/class/power_suppy/<Name>/time_to_full_now
+	Technology               string // /sys/class/power_supply/<Name>/technology
+	Temp                     *int64 // /sys/class/power_supply/<Name>/temp
+	TempAlertMax             *int64 // /sys/class/power_supply/<Name>/temp_alert_max
+	TempAlertMin             *int64 // /sys/class/power_supply/<Name>/temp_alert_min
+	TempAmbient              *int64 // /sys/class/power_supply/<Name>/temp_ambient
+	TempAmbientMax           *int64 // /sys/class/power_supply/<Name>/temp_ambient_max
+	TempAmbientMin           *int64 // /sys/class/power_supply/<Name>/temp_ambient_min
+	TempMax                  *int64 // /sys/class/power_supply/<Name>/temp_max
+	TempMin                  *int64 // /sys/class/power_supply/<Name>/temp_min
+	TimeToEmptyAvg           *int64 // /sys/class/power_supply/<Name>/time_to_empty_avg
+	TimeToEmptyNow           *int64 // /sys/class/power_supply/<Name>/time_to_empty_now
+	TimeToFullAvg            *int64 // /sys/class/power_supply/<Name>/time_to_full_avg
+	TimeToFullNow            *int64 // /sys/class/power_supply/<Name>/time_to_full_now
 	Type                     string // /sys/class/power_supply/<Name>/type
 	UsbType                  string // /sys/class/power_supply/<Name>/usb_type
 	VoltageAvg               *int64 // /sys/class/power_supply/<Name>/voltage_avg
-	VoltageBoot              *int64 // /sys/class/power_suppy/<Name>/voltage_boot
-	VoltageMax               *int64 // /sys/class/power_suppy/<Name>/voltage_max
-	VoltageMaxDesign         *int64 // /sys/class/power_suppy/<Name>/voltage_max_design
-	VoltageMin               *int64 // /sys/class/power_suppy/<Name>/voltage_min
-	VoltageMinDesign         *int64 // /sys/class/power_suppy/<Name>/voltage_min_design
-	VoltageNow               *int64 // /sys/class/power_suppy/<Name>/voltage_now
-	VoltageOCV               *int64 // /sys/class/power_suppy/<Name>/voltage_ocv
+	VoltageBoot              *int64 // /sys/class/power_supply/<Name>/voltage_boot
+	VoltageMax               *int64 // /sys/class/power_supply/<Name>/voltage_max
+	VoltageMaxDesign         *int64 // /sys/class/power_supply/<Name>/voltage_max_design
+	VoltageMin               *int64 // /sys/class/power_supply/<Name>/voltage_min
+	VoltageMinDesign         *int64 // /sys/class/power_supply/<Name>/voltage_min_design
+	VoltageNow               *int64 // /sys/class/power_supply/<Name>/voltage_now
+	VoltageOCV               *int64 // /sys/class/power_supply/<Name>/voltage_ocv
 }
 
 // PowerSupplyClass is a collection of every power supply in

@@ -15,7 +15,6 @@ package util
 
 import (
 	"strconv"
-	"strings"
 )
 
 // TODO(mdlayher): util packages are an anti-pattern and this should be moved
@@ -41,18 +40,10 @@ func (vp *ValueParser) PInt64() *int64 {
 		return nil
 	}
 
-	var (
-		base = 10
-		in   = vp.v
-	)
-
-	// Is this value stored in hexadecimal instead of decimal?
-	if strings.HasPrefix(vp.v, "0x") {
-		base = 16
-		in = strings.TrimPrefix(in, "0x")
-	}
-
-	v, err := strconv.ParseInt(in, base, 64)
+	// A base value of zero makes ParseInt infer the correct base using the
+	// string's prefix, if any.
+	const base = 0
+	v, err := strconv.ParseInt(vp.v, base, 64)
 	if err != nil {
 		vp.err = err
 		return nil

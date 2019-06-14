@@ -20,7 +20,7 @@ func TestMdadm(t *testing.T) {
 	fs, errFs := NewFS(mountPoint)
 
 	if errFs != nil {
-		t.Errorf("Creating psuedo fs from proc.NewFS failed at %s", mountPoint)
+		t.Errorf("Creating pseudo fs from proc.NewFS failed at %s", mountPoint)
 	}
 
 	mdStats, err := fs.MDStat()
@@ -63,7 +63,7 @@ func TestInvalidMdstat(t *testing.T) {
 	invalidMount := "fixtures/proc/invalid"
 	fs, errFs := NewFS(invalidMount)
 	if errFs != nil {
-		t.Errorf("Creating psuedo fs from proc.NewFS failed at %s", invalidMount)
+		t.Errorf("Creating pseudo fs from proc.NewFS failed at %s", invalidMount)
 	}
 
 	_, err := fs.MDStat()

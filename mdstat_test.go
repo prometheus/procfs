@@ -1,3 +1,16 @@
+// Copyright 2018 The Prometheus Authors
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package procfs
 
 import (
@@ -5,7 +18,7 @@ import (
 )
 
 func TestMDStat(t *testing.T) {
-	mdStates, err := FS("fixtures").ParseMDStat()
+	mdStats, err := getProcFixtures(t).MDStat()
 	if err != nil {
 		t.Fatalf("parsing of reference-file failed entirely: %s", err)
 	}
@@ -20,10 +33,10 @@ func TestMDStat(t *testing.T) {
 		"md7":   {"md7", "active", 3, 4, 7813735424, 7813735424},
 	}
 
-	if want, have := len(refs), len(mdStates); want != have {
+	if want, have := len(refs), len(mdStats); want != have {
 		t.Errorf("want %d parsed md-devices, have %d", want, have)
 	}
-	for _, md := range mdStates {
+	for _, md := range mdStats {
 		if want, have := refs[md.Name], md; want != have {
 			t.Errorf("%s: want %v, have %v", md.Name, want, have)
 		}

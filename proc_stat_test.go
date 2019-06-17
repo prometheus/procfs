@@ -39,7 +39,7 @@ func TestProcStat(t *testing.T) {
 		{name: "system time", want: 44, have: int(s.STime)},
 		{name: "start time", want: 82375, have: int(s.Starttime)},
 		{name: "virtual memory size", want: 56274944, have: int(s.VSize)},
-		{name: "resident set size", want: 1981, have: s.RSS},
+		{name: "resident set size", want: 1981, have: int(s.RSS)},
 	} {
 		if test.want != test.have {
 			t.Errorf("want %s %d, have %d", test.name, test.want, test.have)
@@ -82,7 +82,7 @@ func TestProcStatResidentMemory(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if want, have := 1981*os.Getpagesize(), s.ResidentMemory(); want != have {
+	if want, have := 1981*os.Getpagesize(), int(s.ResidentMemory()); want != have {
 		t.Errorf("want resident memory %d, have %d", want, have)
 	}
 }

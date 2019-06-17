@@ -5,9 +5,6 @@ Mode: 775
 Directory: fixtures/proc
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Directory: fixtures/proc/invalid
-Mode: 755
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/26231
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -356,15 +353,6 @@ fibt2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 qm 0 0 0 0 0 0 0 0
 xpc 399724544 92823103 86219234
 debug 0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/proc/invalid/mdstat
-Lines: 5
-Personalities : [invalid]
-md3 : invalid
-      314159265 blocks 64k chunks
-
-unused devices: <none>
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/mdstat

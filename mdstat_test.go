@@ -15,14 +15,8 @@ package procfs
 
 import "testing"
 
-func TestMdadm(t *testing.T) {
-	mountPoint := "fixtures/proc"
-	fs, errFs := NewFS(mountPoint)
-
-	if errFs != nil {
-		t.Errorf("Creating pseudo fs from proc.NewFS failed at %s", mountPoint)
-	}
-
+func TestFS_MDStat(t *testing.T) {
+	fs := getProcFixtures(t)
 	mdStats, err := fs.MDStat()
 
 	if err != nil {
@@ -60,13 +54,15 @@ func TestMdadm(t *testing.T) {
 }
 
 func TestInvalidMdstat(t *testing.T) {
-	invalidMount := "fixtures/proc/invalid"
-	fs, errFs := NewFS(invalidMount)
-	if errFs != nil {
-		t.Errorf("Creating pseudo fs from proc.NewFS failed at %s", invalidMount)
-	}
+	invalidMount := []byte(`
+Personalities : [invalid]
+md3 : invalid
+      314159265 blocks 64k chunks
 
-	_, err := fs.MDStat()
+unused devices: <none>
+`)
+
+	_, err := parseMDStat(invalidMount)
 	if err == nil {
 		t.Fatalf("parsing of invalid reference file did not find any errors")
 	}

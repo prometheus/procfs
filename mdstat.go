@@ -74,9 +74,9 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 			continue
 		}
 
-		deviceFields := strings.Split(line, " ")
+		deviceFields := strings.Fields(line)
 		if len(deviceFields) < 3 {
-			return nil, fmt.Errorf("error parsing mdline: %s", line)
+			return nil, fmt.Errorf("not enough fields in mdline (expected at least 3): %s", line)
 		}
 		mdName := deviceFields[0] // mdx
 		state := deviceFields[2]  // active or inactive
@@ -91,7 +91,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		// Failed disks have the suffix (F) & Spare disks have the suffix (S).
 		fail := int64(strings.Count(line, "(F)"))
 		spare := int64(strings.Count(line, "(S)"))
-		active, total, size, err := evalStatusLine(lines, i)
+		active, total, size, err := evalStatusLine(lines[i], lines[i+1])
 
 		if err != nil {
 			return nil, fmt.Errorf("error parsing md device lines: %s", err)
@@ -143,22 +143,21 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 	return mdStats, nil
 }
 
-func evalStatusLine(lines []string, i int) (active, total, size int64, err error) {
-	line, statusLine := lines[i], lines[i+1]
+func evalStatusLine(deviceLine, statusLine string) (active, total, size int64, err error) {
 
-	sizeStr := strings.Split(strings.TrimSpace(statusLine), " ")[0]
+	sizeStr := strings.Fields(statusLine)[0]
 	size, err = strconv.ParseInt(sizeStr, 10, 64)
 	if err != nil {
 		return 0, 0, 0, fmt.Errorf("unexpected statusLine %s: %s", statusLine, err)
 	}
 
-	if strings.Contains(line, "raid0") || strings.Contains(line, "linear") {
-		// In the device line, only disks have a number associated with them in [].
-		total = int64(strings.Count(line, "["))
+	if strings.Contains(deviceLine, "raid0") || strings.Contains(deviceLine, "linear") {
+		// In the device deviceLine, only disks have a number associated with them in [].
+		total = int64(strings.Count(deviceLine, "["))
 		return total, total, size, nil
 	}
 
-	if strings.Contains(line, "inactive") {
+	if strings.Contains(deviceLine, "inactive") {
 		return 0, 0, size, nil
 	}
 

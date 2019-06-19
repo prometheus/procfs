@@ -21,6 +21,11 @@ Mode: 644
 Path: fixtures/proc/26231/cwd
 SymlinkTo: /usr/bin
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/environ
+Lines: 1
+PATH=/go/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/binNULLBYTEHOSTNAME=cd24e11f73a5NULLBYTETERM=xtermNULLBYTEGOLANG_VERSION=1.12.5NULLBYTEGOPATH=/goNULLBYTEHOME=/rootNULLBYTEEOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/26231/exe
 SymlinkTo: /usr/bin/vim
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

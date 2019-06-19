@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2019 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// IO creates a new ProcIO instance from a given Proc instance.
+// Environ reads process environments from /proc/<pid>/environ
 func (p Proc) Environ() ([]string, error) {
 	environments := make([]string, 0)
 
@@ -36,7 +36,7 @@ func (p Proc) Environ() ([]string, error) {
 
 	environments = strings.Split(string(data), "\000")
 	if len(environments) > 0 {
-		environments = environments[:len(environments) - 1]
+		environments = environments[:len(environments)-1]
 	}
 
 	return environments, nil

@@ -282,16 +282,16 @@ func (p Proc) path(pa ...string) string {
 
 // FileDescriptorsInfo retrieves information about all file descriptors of
 // the process.
-func (p Proc) FileDescriptorsInfo() ([]FDInfo, error) {
+func (p Proc) FileDescriptorsInfo() ([]ProcFDInfo, error) {
 	names, err := p.fileDescriptors()
 	if err != nil {
 		return nil, err
 	}
 
-	fdinfos := make([]FDInfo, len(names))
+	fdinfos := make([]ProcFDInfo, len(names))
 
 	for i, n := range names {
-		fdinfo, _ := p.newFDInfo(n)
+		fdinfo, _ := p.FDInfo(n)
 		fdinfos[i] = *fdinfo
 	}
 

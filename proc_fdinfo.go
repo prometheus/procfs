@@ -22,8 +22,8 @@ import (
 	"strings"
 )
 
-// FDInfo contains represents file descriptor information.
-type FDInfo struct {
+// ProcFDInfo contains represents file descriptor information.
+type ProcFDInfo struct {
 	// File descriptor
 	FD string
 	// File offset
@@ -37,7 +37,7 @@ type FDInfo struct {
 }
 
 // FDInfo constructor. On kernels older than 3.8, InotifyInfos will always be empty.
-func (p Proc) newFDInfo(fd string) (*FDInfo, error) {
+func (p Proc) FDInfo(fd string) (*ProcFDInfo, error) {
 	f, err := os.Open(p.path("fdinfo", fd))
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (p Proc) newFDInfo(fd string) (*FDInfo, error) {
 		} else if rMntID.MatchString(scanner.Text()) {
 			mntid = rMntID.FindStringSubmatch(scanner.Text())[1]
 		} else if rInotify.MatchString(scanner.Text()) {
-			newInotify, err := newInotifyInfo(scanner.Text())
+			newInotify, err := parseInotifyInfo(scanner.Text())
 			if err != nil {
 				return nil, err
 			}
@@ -73,7 +73,7 @@ func (p Proc) newFDInfo(fd string) (*FDInfo, error) {
 		}
 	}
 
-	i := &FDInfo{
+	i := &ProcFDInfo{
 		FD:           fd,
 		Pos:          pos,
 		Flags:        flags,
@@ -97,7 +97,7 @@ type InotifyInfo struct {
 }
 
 // InotifyInfo constructor. Only available on kernel 3.8+.
-func newInotifyInfo(line string) (*InotifyInfo, error) {
+func parseInotifyInfo(line string) (*InotifyInfo, error) {
 	r := regexp.MustCompile(`^inotify\s+wd:([0-9a-f]+)\s+ino:([0-9a-f]+)\s+sdev:([0-9a-f]+)\s+mask:([0-9a-f]+)`)
 	m := r.FindStringSubmatch(line)
 	i := &InotifyInfo{

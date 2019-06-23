@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2019 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -49,7 +49,7 @@ func (p Proc) FDInfo(fd string) (*ProcFDInfo, error) {
 		return nil, fmt.Errorf("could not read %s: %s", f.Name(), err)
 	}
 
-	var pos, flags, mntid string
+	var text, pos, flags, mntid string
 	var inotify []InotifyInfo
 	rPos := regexp.MustCompile(`^pos:\s+(\d+)$`)
 	rFlags := regexp.MustCompile(`^flags:\s+(\d+)$`)
@@ -58,14 +58,15 @@ func (p Proc) FDInfo(fd string) (*ProcFDInfo, error) {
 
 	scanner := bufio.NewScanner(strings.NewReader(string(fdinfo)))
 	for scanner.Scan() {
-		if rPos.MatchString(scanner.Text()) {
-			pos = rPos.FindStringSubmatch(scanner.Text())[1]
-		} else if rFlags.MatchString(scanner.Text()) {
-			flags = rFlags.FindStringSubmatch(scanner.Text())[1]
-		} else if rMntID.MatchString(scanner.Text()) {
-			mntid = rMntID.FindStringSubmatch(scanner.Text())[1]
-		} else if rInotify.MatchString(scanner.Text()) {
-			newInotify, err := parseInotifyInfo(scanner.Text())
+		text = scanner.Text()
+		if rPos.MatchString(text) {
+			pos = rPos.FindStringSubmatch(text)[1]
+		} else if rFlags.MatchString(text) {
+			flags = rFlags.FindStringSubmatch(text)[1]
+		} else if rMntID.MatchString(text) {
+			mntid = rMntID.FindStringSubmatch(text)[1]
+		} else if rInotify.MatchString(text) {
+			newInotify, err := parseInotifyInfo(text)
 			if err != nil {
 				return nil, err
 			}
@@ -107,4 +108,21 @@ func parseInotifyInfo(line string) (*InotifyInfo, error) {
 		Mask: m[4],
 	}
 	return i, nil
+}
+
+// ProcFDInfos represents a list of ProcFDInfo structs.
+type ProcFDInfos []ProcFDInfo
+
+func (p ProcFDInfos) Len() int           { return len(p) }
+func (p ProcFDInfos) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+func (p ProcFDInfos) Less(i, j int) bool { return p[i].FD < p[j].FD }
+
+// InotifyWatchLen returns the total number of inotify watches
+func (p ProcFDInfos) InotifyWatchLen() (int, error) {
+	length := 0
+	for _, f := range p {
+		length += len(f.InotifyInfos)
+	}
+
+	return length, nil
 }

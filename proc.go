@@ -282,13 +282,13 @@ func (p Proc) path(pa ...string) string {
 
 // FileDescriptorsInfo retrieves information about all file descriptors of
 // the process.
-func (p Proc) FileDescriptorsInfo() ([]ProcFDInfo, error) {
+func (p Proc) FileDescriptorsInfo() (ProcFDInfos, error) {
 	names, err := p.fileDescriptors()
 	if err != nil {
 		return nil, err
 	}
 
-	fdinfos := make([]ProcFDInfo, len(names))
+	fdinfos := make(ProcFDInfos, len(names))
 
 	for i, n := range names {
 		fdinfo, _ := p.FDInfo(n)
@@ -296,20 +296,4 @@ func (p Proc) FileDescriptorsInfo() ([]ProcFDInfo, error) {
 	}
 
 	return fdinfos, nil
-}
-
-// InotifyWatchLen returns the total number of inotify watches used
-// by the process.
-func (p Proc) InotifyWatchLen() (int, error) {
-	fdinfos, err := p.FileDescriptorsInfo()
-	if err != nil {
-		return 0, err
-	}
-
-	length := 0
-	for _, f := range fdinfos {
-		length += len(f.InotifyInfos)
-	}
-
-	return length, nil
 }

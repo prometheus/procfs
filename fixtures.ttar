@@ -47,6 +47,48 @@ SymlinkTo: ../../symlinktargets/ghi
 Path: fixtures/proc/26231/fd/3
 SymlinkTo: ../../symlinktargets/uvw
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/proc/26231/fdinfo
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/fdinfo/0
+Lines: 6
+pos:	0
+flags:	02004000
+mnt_id:	13
+inotify wd:3 ino:1 sdev:34 mask:fce ignored_mask:0 fhandle-bytes:c fhandle-type:81 f_handle:000000000100000000000000
+inotify wd:2 ino:1300016 sdev:fd00002 mask:fce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:16003001ed3f022a
+inotify wd:1 ino:2e0001 sdev:fd00000 mask:fce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:01002e00138e7c65
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/fdinfo/1
+Lines: 4
+pos:	0
+flags:	02004002
+mnt_id:	13
+eventfd-count:                0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/fdinfo/10
+Lines: 3
+pos:	0
+flags:	02004002
+mnt_id:	9
+Mode: 400
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/fdinfo/2
+Lines: 3
+pos:	0
+flags:	02004002
+mnt_id:	9
+Mode: 400
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/fdinfo/3
+Lines: 3
+pos:	0
+flags:	02004002
+mnt_id:	9
+Mode: 400
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/26231/io
 Lines: 7
 rchar: 750339

@@ -288,11 +288,14 @@ func (p Proc) FileDescriptorsInfo() (ProcFDInfos, error) {
 		return nil, err
 	}
 
-	fdinfos := make(ProcFDInfos, len(names))
+	var fdinfos ProcFDInfos
 
-	for i, n := range names {
-		fdinfo, _ := p.FDInfo(n)
-		fdinfos[i] = *fdinfo
+	for _, n := range names {
+		fdinfo, err := p.FDInfo(n)
+		if err != nil {
+			continue
+		}
+		fdinfos = append(fdinfos, *fdinfo)
 	}
 
 	return fdinfos, nil

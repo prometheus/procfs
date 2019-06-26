@@ -22,6 +22,14 @@ import (
 	"strings"
 )
 
+// Regexp variables
+var (
+	rPos     = regexp.MustCompile(`^pos:\s+(\d+)$`)
+	rFlags   = regexp.MustCompile(`^flags:\s+(\d+)$`)
+	rMntID   = regexp.MustCompile(`^mnt_id:\s+(\d+)$`)
+	rInotify = regexp.MustCompile(`^inotify`)
+)
+
 // ProcFDInfo contains represents file descriptor information.
 type ProcFDInfo struct {
 	// File descriptor
@@ -51,10 +59,6 @@ func (p Proc) FDInfo(fd string) (*ProcFDInfo, error) {
 
 	var text, pos, flags, mntid string
 	var inotify []InotifyInfo
-	rPos := regexp.MustCompile(`^pos:\s+(\d+)$`)
-	rFlags := regexp.MustCompile(`^flags:\s+(\d+)$`)
-	rMntID := regexp.MustCompile(`^mnt_id:\s+(\d+)$`)
-	rInotify := regexp.MustCompile(`^inotify`)
 
 	scanner := bufio.NewScanner(strings.NewReader(string(fdinfo)))
 	for scanner.Scan() {

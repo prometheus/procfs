@@ -20,9 +20,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/prometheus/procfs/bcache"
-	"github.com/prometheus/procfs/cpu"
-	"github.com/prometheus/procfs/xfs"
 	"github.com/prometheus/procfs/internal/fs"
 )
 

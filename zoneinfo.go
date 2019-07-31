@@ -66,13 +66,15 @@ type Zoneinfo struct {
 	Protection                 []*int64
 }
 
+var nodeZoneRE = regexp.MustCompile(`(\d+), zone\s+(\w+)`)
+
 // Zoneinfo parses an zoneinfo-file (/proc/zoneinfo) and returns a slice of
 // structs containing the relevant info.  More information available here:
-// https://github.com/torvalds/linux/blob/master/Documentation/sysctl/vm.txt
+// https://www.kernel.org/doc/Documentation/sysctl/vm.txt
 func (fs FS) Zoneinfo() ([]Zoneinfo, error) {
 	data, err := ioutil.ReadFile(fs.proc.Path("zoneinfo"))
 	if err != nil {
-		return nil, fmt.Errorf("error parsing zoneinfo %s: %s", fs.proc.Path("zoneinfo"), err)
+		return nil, fmt.Errorf("error reading zoneinfo %s: %s", fs.proc.Path("zoneinfo"), err)
 	}
 	zoneinfo, err := parseZoneinfo(data)
 	if err != nil {
@@ -82,16 +84,13 @@ func (fs FS) Zoneinfo() ([]Zoneinfo, error) {
 }
 
 func parseZoneinfo(zoneinfoData []byte) ([]Zoneinfo, error) {
-	var nodeZoneRE = regexp.MustCompile(`Node (\d+), zone\s+(\w+)`)
 
 	zoneinfo := []Zoneinfo{}
 
-	cryptoBlocks := bytes.Split(zoneinfoData, []byte("\nNode"))
-	for _, block := range cryptoBlocks {
+	zoneinfoBlocks := bytes.Split(zoneinfoData, []byte("\nNode"))
+	for _, block := range zoneinfoBlocks {
 		var zoneinfoElement Zoneinfo
-		blockComplete := []byte("Node")
-		blockComplete = append(blockComplete, block...)
-		lines := strings.Split(string(blockComplete), "\n")
+		lines := strings.Split(string(block), "\n")
 		for _, line := range lines {
 
 			if nodeZone := nodeZoneRE.FindStringSubmatch(line); nodeZone != nil {

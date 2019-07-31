@@ -56,7 +56,6 @@ func (fs FS) ClassCoolingDeviceStats() ([]ClassCoolingDeviceStats, error) {
 }
 
 func parseCoolingDeviceStats(cd string) (ClassCoolingDeviceStats, error) {
-	// get cd type
 	cdType, err := util.SysReadFile(filepath.Join(cd, "type"))
 	if err != nil {
 		return ClassCoolingDeviceStats{}, err

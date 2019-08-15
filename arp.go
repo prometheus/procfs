@@ -46,12 +46,13 @@ func parseARPEntries(data []byte) ([]ARPEntry, error) {
 	lines := strings.Split(string(data), "\n")
 	entries := make([]ARPEntry, 0)
 	var err error
-
+	const (
+		expectedDataWidth   = 6
+		expectedHeaderWidth = 9
+	)
 	for _, line := range lines {
 		columns := strings.Fields(line)
 		width := len(columns)
-		expectedDataWidth := 6
-		expectedHeaderWidth := 9
 
 		if width == expectedHeaderWidth || width == 0 {
 			continue

@@ -33,7 +33,7 @@ func TestProcStatus(t *testing.T) {
 		want int
 		have int
 	}{
-		{name: "pid", want: 26231, have: s.PID},
+		{name: "Pid", want: 26231, have: s.PID},
 		{name: "VmPeak", want: 58472 * 1024, have: int(s.VmPeak)},
 		{name: "VmSize", want: 58440 * 1024, have: int(s.VmSize)},
 		{name: "VmLck", want: 0 * 1024, have: int(s.VmLck)},

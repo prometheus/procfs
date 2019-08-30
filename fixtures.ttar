@@ -179,7 +179,7 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/26231/status
-Lines: 53
+Lines: 54
 
 Name:	prometheus
 Umask:	0022

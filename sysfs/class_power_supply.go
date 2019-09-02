@@ -134,7 +134,7 @@ func parsePowerSupply(path string) (*PowerSupply, error) {
 
 	var ps PowerSupply
 	for _, f := range files {
-		if f.IsDir() {
+		if !f.Mode().IsRegular() {
 			continue
 		}
 

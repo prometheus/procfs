@@ -244,7 +244,7 @@ func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 	}
 
 	for _, f := range files {
-		if f.IsDir() {
+		if !f.Mode().IsRegular() {
 			continue
 		}
 
@@ -324,7 +324,7 @@ func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 	}
 
 	for _, f := range files {
-		if f.IsDir() {
+		if !f.Mode().IsRegular() {
 			continue
 		}
 

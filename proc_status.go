@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// ProcStat provides status information about the process,
+// ProcStatus provides status information about the process,
 // read from /proc/[pid]/stat.
 type ProcStatus struct {
 	// The process ID.

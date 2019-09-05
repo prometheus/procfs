@@ -112,7 +112,7 @@ func (nc NetClass) parseNetClassIface(devicePath string) (*NetClassIface, error)
 	}
 
 	for _, f := range files {
-		if f.IsDir() {
+		if !f.Mode().IsRegular() {
 			continue
 		}
 		name := filepath.Join(devicePath, f.Name())

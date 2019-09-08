@@ -30,14 +30,14 @@ type CPUInfo struct {
 	ModelName       string
 	Stepping        string
 	Microcode       string
-	CPUMHz          string
+	CPUMHz          float64
 	CacheSize       string
-	PhysicalID      uint
+	PhysicalID      string
 	Siblings        uint
-	CoreID          uint
+	CoreID          string
 	CPUCores        uint
-	APICID          uint
-	InitialAPICID   uint
+	APICID          string
+	InitialAPICID   string
 	FPU             string
 	FPUException    string
 	CPUIDLevel      uint
@@ -94,15 +94,15 @@ func parseCPUInfo(info []byte) ([]CPUInfo, error) {
 		case "microcode":
 			cpuinfo[i].Microcode = field[1]
 		case "cpu MHz":
-			cpuinfo[i].CPUMHz = field[1]
-		case "cache size":
-			cpuinfo[i].CacheSize = field[1]
-		case "physical id":
-			v, err := strconv.ParseUint(field[1], 0, 32)
+			v, err := strconv.ParseFloat(field[1], 64)
 			if err != nil {
 				return nil, err
 			}
-			cpuinfo[i].PhysicalID = uint(v)
+			cpuinfo[i].CPUMHz = v
+		case "cache size":
+			cpuinfo[i].CacheSize = field[1]
+		case "physical id":
+			cpuinfo[i].PhysicalID = field[1]
 		case "siblings":
 			v, err := strconv.ParseUint(field[1], 0, 32)
 			if err != nil {
@@ -110,11 +110,7 @@ func parseCPUInfo(info []byte) ([]CPUInfo, error) {
 			}
 			cpuinfo[i].Siblings = uint(v)
 		case "core id":
-			v, err := strconv.ParseUint(field[1], 0, 32)
-			if err != nil {
-				return nil, err
-			}
-			cpuinfo[i].CoreID = uint(v)
+			cpuinfo[i].CoreID = field[1]
 		case "cpu cores":
 			v, err := strconv.ParseUint(field[1], 0, 32)
 			if err != nil {
@@ -122,17 +118,9 @@ func parseCPUInfo(info []byte) ([]CPUInfo, error) {
 			}
 			cpuinfo[i].CPUCores = uint(v)
 		case "apicid":
-			v, err := strconv.ParseUint(field[1], 0, 32)
-			if err != nil {
-				return nil, err
-			}
-			cpuinfo[i].APICID = uint(v)
+			cpuinfo[i].APICID = field[1]
 		case "initial apicid":
-			v, err := strconv.ParseUint(field[1], 0, 32)
-			if err != nil {
-				return nil, err
-			}
-			cpuinfo[i].InitialAPICID = uint(v)
+			cpuinfo[i].InitialAPICID = field[1]
 		case "fpu":
 			cpuinfo[i].FPU = field[1]
 		case "fpu_exception":

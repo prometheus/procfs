@@ -47,7 +47,7 @@ func TestCPUInfo(t *testing.T) {
 	if want, have := uint(8), cpuinfo[4].Siblings; want != have {
 		t.Errorf("want siblings %v, have %v", want, have)
 	}
-	if want, have := uint(1), cpuinfo[5].CoreID; want != have {
+	if want, have := "1", cpuinfo[5].CoreID; want != have {
 		t.Errorf("want core id %v, have %v", want, have)
 	}
 	if want, have := uint(4), cpuinfo[6].CPUCores; want != have {

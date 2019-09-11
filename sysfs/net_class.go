@@ -18,6 +18,7 @@ package sysfs
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	"github.com/prometheus/procfs/internal/util"
@@ -118,6 +119,9 @@ func (nc NetClass) parseNetClassIface(devicePath string) (*NetClassIface, error)
 		name := filepath.Join(devicePath, f.Name())
 		value, err := util.SysReadFile(name)
 		if err != nil {
+			if os.IsNotExist(err) || err.Error() == "operation not supported" || err.Error() == "invalid argument" {
+				continue
+			}
 			return nil, fmt.Errorf("failed to read file %q: %v", name, err)
 		}
 		vp := util.NewValueParser(value)

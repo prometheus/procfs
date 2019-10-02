@@ -17,12 +17,15 @@ package util
 
 import (
 	"bytes"
+	"io/ioutil"
 	"os"
 	"syscall"
 )
 
 // SysReadFile is a simplified ioutil.ReadFile that invokes syscall.Read directly.
 // https://github.com/prometheus/node_exporter/pull/728/files
+//
+// Note that this function will not read files larger than 128 bytes.
 func SysReadFile(file string) (string, error) {
 	f, err := os.Open(file)
 	if err != nil {
@@ -35,11 +38,25 @@ func SysReadFile(file string) (string, error) {
 	//
 	// Since we either want to read data or bail immediately, do the simplest
 	// possible read using syscall directly.
-	b := make([]byte, 128)
+	const sysFileBufferSize = 128
+	b := make([]byte, sysFileBufferSize)
 	n, err := syscall.Read(int(f.Fd()), b)
 	if err != nil {
 		return "", err
 	}
 
 	return string(bytes.TrimSpace(b[:n])), nil
+}
+
+// ReadFileNoStat uses ioutil.ReadAll to read contents of entire file.
+// This is similar to ioutil.ReadFile but without the call to os.Stat, because
+// many files in /proc and /sys report incorrect file sizes (either 0 or 4096).
+func ReadFileNoStat(filename string) ([]byte, error) {
+	f, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	return ioutil.ReadAll(f)
 }

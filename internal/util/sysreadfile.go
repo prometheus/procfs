@@ -17,6 +17,7 @@ package util
 
 import (
 	"bytes"
+	"io"
 	"io/ioutil"
 	"os"
 	"syscall"
@@ -51,12 +52,17 @@ func SysReadFile(file string) (string, error) {
 // ReadFileNoStat uses ioutil.ReadAll to read contents of entire file.
 // This is similar to ioutil.ReadFile but without the call to os.Stat, because
 // many files in /proc and /sys report incorrect file sizes (either 0 or 4096).
+// Reads a max file size of 512kB.  For files larger than this, a scanner
+// should be used.
 func ReadFileNoStat(filename string) ([]byte, error) {
+	const maxBufferSize = 1024 * 500
+
 	f, err := os.Open(filename)
 	if err != nil {
 		return nil, err
 	}
 	defer f.Close()
 
-	return ioutil.ReadAll(f)
+	reader := io.LimitReader(f, maxBufferSize)
+	return ioutil.ReadAll(reader)
 }

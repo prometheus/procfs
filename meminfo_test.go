@@ -1,65 +1,22 @@
+// Copyright 2019 The Prometheus Authors
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package procfs
 
 import (
 	"reflect"
-	"regexp"
 	"testing"
 )
-
-func TestMeminfo_regex(t *testing.T) {
-
-	var expected = []struct {
-		Line  string
-		Key   string
-		Value string
-	}{
-		{
-			Line:  "Inactive(file):  6532440 kB",
-			Key:   "Inactive(file)",
-			Value: "6532440",
-		},
-		{
-			Line: "Writeback:             0 kB",
-
-			Key:   "Writeback",
-			Value: "0",
-		},
-		{
-			Line:  "Writeback:             123",
-			Key:   "Writeback",
-			Value: "123",
-		},
-		{
-			Line:  "HugePages_Total:       0",
-			Key:   "HugePages_Total",
-			Value: "0",
-		},
-		{
-			Line:  "DirectMap2M:    16039936 kB",
-			Key:   "DirectMap2M",
-			Value: "16039936",
-		},
-	}
-
-	m := Meminfo{}
-	re := regexp.MustCompile(m.regex())
-
-	for _, i := range expected {
-		submatch := re.FindAllStringSubmatch(i.Line, 1)
-		if submatch == nil {
-			t.Errorf("regex fail")
-		}
-
-		if submatch[0][1] != i.Key {
-			t.Errorf("Key failed for %s", i.Key)
-		}
-		if submatch[0][2] != i.Value {
-			t.Errorf("Value failed for %s", i.Value)
-		}
-
-	}
-
-}
 
 func TestMeminfo(t *testing.T) {
 	expected := Meminfo{
@@ -107,12 +64,14 @@ func TestMeminfo(t *testing.T) {
 		DirectMap2M:       16039936,
 	}
 
-	have, err := FS("fixtures").NewMeminfo()
+	have, err := getProcFixtures(t).Meminfo()
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	if !reflect.DeepEqual(have, expected) {
+		t.Logf("have: %+v", have)
+		t.Logf("expected: %+v", expected)
 		t.Errorf("structs are not equal")
 	}
 }

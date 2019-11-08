@@ -241,13 +241,11 @@ func (p Proc) MountStats() ([]*Mount, error) {
 // It supplies information missing in `/proc/self/mounts` and
 // fixes various other problems with that file too.
 func (p Proc) MountInfo() ([]*MountInfo, error) {
-	f, err := os.Open(p.path("mountinfo"))
+	data, err := util.ReadFileNoStat(p.path("mountinfo"))
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
-
-	return parseMountInfo(f)
+	return parseMountInfo(data)
 }
 
 func (p Proc) fileDescriptors() ([]string, error) {

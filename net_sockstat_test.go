@@ -14,6 +14,7 @@
 package procfs
 
 import (
+	"os"
 	"strings"
 	"testing"
 
@@ -73,6 +74,17 @@ func TestNetSockstat6(t *testing.T) {
 	}
 	if diff := cmp.Diff(17, stat.Protocols[0].InUse); diff != "" {
 		t.Fatalf("unexpected number of TCP sockets (-want +got):\n%s", diff)
+	}
+}
+
+func Test_readSockstatIsNotExist(t *testing.T) {
+	// On a machine with IPv6 disabled for example, we want to ensure that
+	// readSockstat returns an error that is compatible with os.IsNotExist.
+	//
+	// We can use a synthetic file path here to verify this behavior.
+	_, err := readSockstat("/does/not/exist")
+	if err == nil || !os.IsNotExist(err) {
+		t.Fatalf("error is not compatible with os.IsNotExist: %#v", err)
 	}
 }
 

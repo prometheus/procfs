@@ -51,6 +51,9 @@ func (fs FS) NetSockstat() (*NetSockstat, error) {
 }
 
 // NetSockstat6 retrieves IPv6 socket statistics.
+//
+// If IPv6 is disabled on this kernel, the returned error can be checked with
+// os.IsNotExist.
 func (fs FS) NetSockstat6() (*NetSockstat, error) {
 	return readSockstat(fs.proc.Path("net", "sockstat6"))
 }
@@ -60,6 +63,8 @@ func readSockstat(name string) (*NetSockstat, error) {
 	// This file is small and can be read with one syscall.
 	b, err := util.ReadFileNoStat(name)
 	if err != nil {
+		// Do not wrap this error so the caller can detect os.IsNotExist and
+		// similar conditions.
 		return nil, err
 	}
 

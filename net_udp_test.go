@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2019 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -19,58 +19,79 @@ import (
 )
 
 func Test_parseNetUDPLine(t *testing.T) {
-	type args struct {
-		fields []string
-	}
 	tests := []struct {
+		fields  []string
 		name    string
-		args    args
-		want    *NetUDPLine
+		want    *netUDPLine
 		wantErr bool
 	}{
 		{
-			name: "reading valid lines, no issue should happened",
-			args: args{
-				fields: []string{"1:", "00000000:0000", "00000000:0000", "07", "00000017:0000002A"},
+			name:   "reading valid lines, no issue should happened",
+			fields: []string{"11:", "00000000:0000", "00000000:0000", "0A", "00000017:0000002A", "0:0", "0", "1000"},
+			want: &netUDPLine{
+				Sl:        11,
+				LocalAddr: 0,
+				LocalPort: 0,
+				RemAddr:   0,
+				RemPort:   0,
+				St:        10,
+				TxQueue:   23,
+				RxQueue:   42,
+				UID:       1000,
 			},
-			want: &NetUDPLine{TxQueue: 23, RxQueue: 42},
 		},
 		{
-			name: "error case - invalid line - number of fields/columns < 5",
-			args: args{
-				fields: []string{"1:", "00000000:0000", "00000000:0000", "07"},
-			},
+			name:    "error case - invalid line - number of fields/columns < 8",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "0:0", "0"},
 			want:    nil,
 			wantErr: true,
 		},
 		{
-			name: "error case - cannot parse line - missing colon",
-			args: args{
-				fields: []string{"1:", "00000000:0000", "00000000:0000", "07", "0000000000000001"},
-			},
+			name:    "error case - parse sl - not a valid uint",
+			fields:  []string{"a:", "00000000:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "0"},
 			want:    nil,
 			wantErr: true,
 		},
 		{
-			name: "error case - parse tx_queue - not an valid hex",
-			args: args{
-				fields: []string{"1:", "00000000:0000", "00000000:0000", "07", "DEADCODE:00000001"},
-			},
+			name:    "error case - parse local_address - not a valid hex",
+			fields:  []string{"1:", "0000000O:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "0"},
 			want:    nil,
 			wantErr: true,
 		},
 		{
-			name: "error case - parse rx_queue - not an valid hex",
-			args: args{
-				fields: []string{"1:", "00000000:0000", "00000000:0000", "07", "00000000:FEEDCODE"},
-			},
+			name:    "error case - parse rem_address - not a valid hex",
+			fields:  []string{"1:", "00000000:0000", "0000000O:0000", "07", "00000000:00000001", "0:0", "0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - cannot parse line - missing colon",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "0000000000000001", "0:0", "0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - parse tx_queue - not a valid hex",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "DEADCODE:00000001", "0:0", "0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - parse rx_queue - not a valid hex",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "00000000:FEEDCODE", "0:0", "0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - parse UID - not a valid uint",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "-10"},
 			want:    nil,
 			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := parseNetUDPLine(tt.args.fields)
+			got, err := parseNetUDPLine(tt.fields)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("parseNetUDPLine() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -79,7 +100,16 @@ func Test_parseNetUDPLine(t *testing.T) {
 				t.Errorf("parseNetUDPLine() = %v, want %v", got, tt.want)
 			}
 			if got != nil {
-				if (got.RxQueue != tt.want.RxQueue) || (got.TxQueue != tt.want.TxQueue) {
+				if (got.Sl != tt.want.Sl) ||
+					(got.LocalAddr != tt.want.LocalAddr) ||
+					(got.LocalPort != tt.want.LocalPort) ||
+					(got.RemAddr != tt.want.RemAddr) ||
+					(got.RemPort != tt.want.RemPort) ||
+					(got.St != tt.want.St) ||
+					(got.TxQueue != tt.want.TxQueue) ||
+					(got.RxQueue != tt.want.RxQueue) ||
+					(got.UID != tt.want.UID) {
+
 					t.Errorf("parseNetUDPLine() = %#v, want %#v", got, tt.want)
 				}
 			}
@@ -88,43 +118,109 @@ func Test_parseNetUDPLine(t *testing.T) {
 }
 
 func Test_newNetUDP(t *testing.T) {
-	type args struct {
-		file string
-	}
 	tests := []struct {
 		name    string
-		args    args
-		want    *NetUDP
+		file    string
+		want    NetUDP
 		wantErr bool
 	}{
 		{
-			name:    "file found, no error should come up",
-			args:    args{file: "fixtures/proc/net/udp"},
-			want:    &NetUDP{TxQueueLength: 2, RxQueueLength: 2, UsedSockets: 3},
+			name: "udp file found, no error should come up",
+			file: "fixtures/proc/net/udp",
+			want: []*netUDPLine{
+				&netUDPLine{
+					Sl: 0, LocalAddr: 0, LocalPort: 22, RemAddr: 0, RemPort: 0, St: 10, TxQueue: 0, RxQueue: 1, UID: 0,
+				},
+				&netUDPLine{
+					Sl: 1, LocalAddr: 0, LocalPort: 22, RemAddr: 0, RemPort: 0, St: 10, TxQueue: 1, RxQueue: 0, UID: 0,
+				},
+				&netUDPLine{
+					Sl: 2, LocalAddr: 0, LocalPort: 22, RemAddr: 0, RemPort: 0, St: 10, TxQueue: 1, RxQueue: 1, UID: 0,
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "udp6 file found, no error should come up",
+			file: "fixtures/proc/net/udp6",
+			want: []*netUDPLine{
+				&netUDPLine{
+					Sl: 1315, LocalAddr: 0, LocalPort: 5355, RemAddr: 0, RemPort: 0, St: 7, TxQueue: 0, RxQueue: 0, UID: 981,
+				},
+				&netUDPLine{
+					Sl: 6073, LocalAddr: 0, LocalPort: 51073, RemAddr: 0, RemPort: 0, St: 7, TxQueue: 0, RxQueue: 0, UID: 1000,
+				},
+			},
 			wantErr: false,
 		},
 		{
 			name:    "error case - file not found",
-			args:    args{file: "somewhere over the rainbow"},
+			file:    "somewhere over the rainbow",
 			want:    nil,
 			wantErr: true,
 		},
 		{
 			name:    "error case - parse error",
-			args:    args{file: "fixtures/proc/net/udp_broken"},
+			file:    "fixtures/proc/net/udp_broken",
 			want:    nil,
 			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := newNetUDP(tt.args.file)
+			got, err := newNetUDP(tt.file)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("newNetUDP() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("newNetUDP() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_newNetUDPSummary(t *testing.T) {
+	tests := []struct {
+		name    string
+		file    string
+		want    *NetUDPSummary
+		wantErr bool
+	}{
+		{
+			name:    "udp file found, no error should come up",
+			file:    "fixtures/proc/net/udp",
+			want:    &NetUDPSummary{TxQueueLength: 2, RxQueueLength: 2, UsedSockets: 3},
+			wantErr: false,
+		},
+		{
+			name:    "udp6 file found, no error should come up",
+			file:    "fixtures/proc/net/udp6",
+			want:    &NetUDPSummary{TxQueueLength: 0, RxQueueLength: 0, UsedSockets: 2},
+			wantErr: false,
+		},
+		{
+			name:    "error case - file not found",
+			file:    "somewhere over the rainbow",
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - parse error",
+			file:    "fixtures/proc/net/udp_broken",
+			want:    nil,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := newNetUDPSummary(tt.file)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("newNetUDPSummary() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("newNetUDPSummary() = %v, want %v", got, tt.want)
 			}
 		})
 	}

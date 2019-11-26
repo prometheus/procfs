@@ -42,41 +42,39 @@ const (
 	netUnixStateDisconnected = 4
 )
 
-// NetUnixType is the type of the type field.
-type NetUnixType uint64
+// NetUNIXType is the type of the type field.
+type NetUNIXType uint64
 
-// NetUnixFlags is the type of the flags field.
-type NetUnixFlags uint64
+// NetUNIXFlags is the type of the flags field.
+type NetUNIXFlags uint64
 
-// NetUnixState is the type of the state field.
-type NetUnixState uint64
+// NetUNIXState is the type of the state field.
+type NetUNIXState uint64
 
-// NetUnixLine represents a line of /proc/net/unix.
-type NetUnixLine struct {
+// NetUNIXLine represents a line of /proc/net/unix.
+type NetUNIXLine struct {
 	KernelPtr string
 	RefCount  uint64
 	Protocol  uint64
-	Flags     NetUnixFlags
-	Type      NetUnixType
-	State     NetUnixState
+	Flags     NetUNIXFlags
+	Type      NetUNIXType
+	State     NetUNIXState
 	Inode     uint64
 	Path      string
 }
 
-// NetUnix holds the data read from /proc/net/unix.
-type NetUnix struct {
-	Rows []*NetUnixLine
+// NetUNIX holds the data read from /proc/net/unix.
+type NetUNIX struct {
+	Rows []*NetUNIXLine
 }
 
-// NetUnix returns data read from /proc/net/unix.
-func (fs FS) NetUnix() (*NetUnix, error) {
-	// TODO: this function name and type should be "NetUNIX" per Go convention.
-	// Consider changing at a later time.
+// NetUNIX returns data read from /proc/net/unix.
+func (fs FS) NetUNIX() (*NetUNIX, error) {
 	return readNetUNIX(fs.proc.Path("net/unix"))
 }
 
 // readNetUNIX reads data in /proc/net/unix format from the specified file.
-func readNetUNIX(file string) (*NetUnix, error) {
+func readNetUNIX(file string) (*NetUNIX, error) {
 	// This file could be quite large and a streaming read is desirable versus
 	// reading the entire contents at once.
 	f, err := os.Open(file)
@@ -89,7 +87,7 @@ func readNetUNIX(file string) (*NetUnix, error) {
 }
 
 // parseNetUNIX creates a NetUnix structure from the incoming stream.
-func parseNetUNIX(r io.Reader) (*NetUnix, error) {
+func parseNetUNIX(r io.Reader) (*NetUNIX, error) {
 	// Begin scanning by checking for the existence of Inode.
 	s := bufio.NewScanner(r)
 	s.Scan()
@@ -105,7 +103,7 @@ func parseNetUNIX(r io.Reader) (*NetUnix, error) {
 		minFields++
 	}
 
-	var nu NetUnix
+	var nu NetUNIX
 	for s.Scan() {
 		line := s.Text()
 		item, err := nu.parseLine(line, hasInode, minFields)
@@ -123,7 +121,7 @@ func parseNetUNIX(r io.Reader) (*NetUnix, error) {
 	return &nu, nil
 }
 
-func (u *NetUnix) parseLine(line string, hasInode bool, min int) (*NetUnixLine, error) {
+func (u *NetUNIX) parseLine(line string, hasInode bool, min int) (*NetUNIXLine, error) {
 	fields := strings.Fields(line)
 
 	l := len(fields)
@@ -164,7 +162,7 @@ func (u *NetUnix) parseLine(line string, hasInode bool, min int) (*NetUnixLine, 
 		}
 	}
 
-	n := &NetUnixLine{
+	n := &NetUNIXLine{
 		KernelPtr: kernelPtr,
 		RefCount:  users,
 		Type:      typ,
@@ -188,42 +186,42 @@ func (u *NetUnix) parseLine(line string, hasInode bool, min int) (*NetUnixLine, 
 	return n, nil
 }
 
-func (u NetUnix) parseUsers(s string) (uint64, error) {
+func (u NetUNIX) parseUsers(s string) (uint64, error) {
 	return strconv.ParseUint(s, 16, 32)
 }
 
-func (u NetUnix) parseType(s string) (NetUnixType, error) {
+func (u NetUNIX) parseType(s string) (NetUNIXType, error) {
 	typ, err := strconv.ParseUint(s, 16, 16)
 	if err != nil {
 		return 0, err
 	}
 
-	return NetUnixType(typ), nil
+	return NetUNIXType(typ), nil
 }
 
-func (u NetUnix) parseFlags(s string) (NetUnixFlags, error) {
+func (u NetUNIX) parseFlags(s string) (NetUNIXFlags, error) {
 	flags, err := strconv.ParseUint(s, 16, 32)
 	if err != nil {
 		return 0, err
 	}
 
-	return NetUnixFlags(flags), nil
+	return NetUNIXFlags(flags), nil
 }
 
-func (u NetUnix) parseState(s string) (NetUnixState, error) {
+func (u NetUNIX) parseState(s string) (NetUNIXState, error) {
 	st, err := strconv.ParseInt(s, 16, 8)
 	if err != nil {
 		return 0, err
 	}
 
-	return NetUnixState(st), nil
+	return NetUNIXState(st), nil
 }
 
-func (u NetUnix) parseInode(s string) (uint64, error) {
+func (u NetUNIX) parseInode(s string) (uint64, error) {
 	return strconv.ParseUint(s, 10, 64)
 }
 
-func (t NetUnixType) String() string {
+func (t NetUNIXType) String() string {
 	switch t {
 	case netUnixTypeStream:
 		return "stream"
@@ -235,7 +233,7 @@ func (t NetUnixType) String() string {
 	return "unknown"
 }
 
-func (f NetUnixFlags) String() string {
+func (f NetUNIXFlags) String() string {
 	switch f {
 	case netUnixFlagListen:
 		return "listen"
@@ -244,7 +242,7 @@ func (f NetUnixFlags) String() string {
 	}
 }
 
-func (s NetUnixState) String() string {
+func (s NetUNIXState) String() string {
 	switch s {
 	case netUnixStateUnconnected:
 		return "unconnected"

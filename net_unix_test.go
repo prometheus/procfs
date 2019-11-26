@@ -31,7 +31,7 @@ func TestNetUnix(t *testing.T) {
 		t.Fatalf("failed to open procfs: %v", err)
 	}
 
-	got, err := fs.NetUnix()
+	got, err := fs.NetUNIX()
 	if err != nil {
 		t.Fatalf("failed to get UNIX socket data: %v", err)
 	}
@@ -53,12 +53,12 @@ func TestNetUnixNoInode(t *testing.T) {
 	testNetUNIX(t, noCheckInode, got)
 }
 
-func testNetUNIX(t *testing.T, testInode bool, got *NetUnix) {
+func testNetUNIX(t *testing.T, testInode bool, got *NetUNIX) {
 	t.Helper()
 
 	// First verify that the input data matches a prepopulated structure.
 
-	want := []*NetUnixLine{
+	want := []*NetUNIXLine{
 		{
 			KernelPtr: "0000000000000000",
 			RefCount:  2,
@@ -120,7 +120,7 @@ func testNetUNIX(t *testing.T, testInode bool, got *NetUnix) {
 	// Now test the field enumerations and ensure they match up correctly
 	// with the constants used to generate readable strings.
 
-	wantFlags := []NetUnixFlags{
+	wantFlags := []NetUNIXFlags{
 		netUnixFlagListen,
 		netUnixFlagListen,
 		netUnixFlagDefault,
@@ -128,7 +128,7 @@ func testNetUNIX(t *testing.T, testInode bool, got *NetUnix) {
 		netUnixFlagDefault,
 	}
 
-	wantType := []NetUnixType{
+	wantType := []NetUNIXType{
 		netUnixTypeStream,
 		netUnixTypeSeqpacket,
 		netUnixTypeDgram,
@@ -136,7 +136,7 @@ func testNetUNIX(t *testing.T, testInode bool, got *NetUnix) {
 		netUnixTypeStream,
 	}
 
-	wantState := []NetUnixState{
+	wantState := []NetUNIXState{
 		netUnixStateUnconnected,
 		netUnixStateUnconnected,
 		netUnixStateUnconnected,
@@ -145,9 +145,9 @@ func testNetUNIX(t *testing.T, testInode bool, got *NetUnix) {
 	}
 
 	var (
-		gotFlags []NetUnixFlags
-		gotType  []NetUnixType
-		gotState []NetUnixState
+		gotFlags []NetUNIXFlags
+		gotType  []NetUNIXType
+		gotState []NetUNIXState
 	)
 
 	for _, r := range got.Rows {

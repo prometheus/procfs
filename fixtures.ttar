@@ -1952,6 +1952,12 @@ procs_blocked 1
 softirq 5057579 250191 1481983 1647 211099 186066 0 1783454 622196 12499 508444
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/swaps
+Lines: 2
+Filename				Type		Size	Used	Priority
+/dev/dm-2                               partition	131068	176	-2
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/symlinktargets
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

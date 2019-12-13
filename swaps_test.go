@@ -19,6 +19,39 @@ import (
 )
 
 func TestSwaps(t *testing.T) {
+	fs, err := NewFS(procTestFixtures)
+	if err != nil {
+		t.Fatalf("failed to open procfs: %v", err)
+	}
+
+	swaps, err := fs.Swaps()
+	if err != nil {
+		t.Fatalf("failed to get swaps: %v", err)
+	}
+
+	if len(swaps) != 1 {
+		t.Fatalf("expected 1 swap entry, got %d", len(swaps))
+	}
+	swap := swaps[0]
+
+	if swap.Filename != "/dev/dm-2" {
+		t.Errorf("expected swap.Filename /dev/dm-2, got %s", swap.Filename)
+	}
+	if swap.Type != "partition" {
+		t.Errorf("expected swap.Type partition, got %s", swap.Type)
+	}
+	if swap.Size != 131068 {
+		t.Errorf("expected swap.Size 131068, got %d", swap.Size)
+	}
+	if swap.Used != 176 {
+		t.Errorf("expected swap.Used 176, got %d", swap.Used)
+	}
+	if swap.Priority != -2 {
+		t.Errorf("expected swap.Priority -2, got %d", swap.Priority)
+	}
+}
+
+func TestParseSwapString(t *testing.T) {
 	tests := []struct {
 		name    string
 		s       string
@@ -61,20 +94,20 @@ func TestSwaps(t *testing.T) {
 		},
 	}
 
-	for i, test := range tests {
-		t.Logf("[%02d] test %q", i, test.name)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			swap, err := parseSwapString(tt.s)
 
-		swap, err := parseSwapString(test.s)
+			if tt.invalid && err == nil {
+				t.Error("unexpected success")
+			}
+			if !tt.invalid && err != nil {
+				t.Errorf("unexpected error: %v", err)
+			}
 
-		if test.invalid && err == nil {
-			t.Error("unexpected success")
-		}
-		if !test.invalid && err != nil {
-			t.Errorf("unexpected error: %v", err)
-		}
-
-		if !reflect.DeepEqual(test.swap, swap) {
-			t.Errorf("swap:\nwant:\n%+v\nhave:\n%+v", test.swap, swap)
-		}
+			if !reflect.DeepEqual(tt.swap, swap) {
+				t.Errorf("swap:\nwant:\n%+v\nhave:\n%+v", tt.swap, swap)
+			}
+		})
 	}
 }

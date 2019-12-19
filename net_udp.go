@@ -15,6 +15,7 @@ package procfs
 
 import (
 	"bufio"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"os"
@@ -54,9 +55,9 @@ type (
 	// For the proc file format details, see https://linux.die.net/man/5/proc.
 	netUDPLine struct {
 		Sl        uint64
-		LocalAddr uint64
+		LocalAddr []uint8
 		LocalPort uint64
-		RemAddr   uint64
+		RemAddr   []uint8
 		RemPort   uint64
 		St        uint64
 		TxQueue   uint64
@@ -172,7 +173,7 @@ func parseNetUDPLine(fields []string) (*netUDPLine, error) {
 		return nil, fmt.Errorf(
 			"cannot parse local_address field in udp socket line: %s", fields[1])
 	}
-	if line.LocalAddr, err = strconv.ParseUint(l[0], 16, 64); err != nil {
+	if line.LocalAddr, err = hex.DecodeString(l[0]); err != nil {
 		return nil, fmt.Errorf(
 			"cannot parse local_address value in udp socket line: %s", err)
 	}
@@ -187,7 +188,7 @@ func parseNetUDPLine(fields []string) (*netUDPLine, error) {
 		return nil, fmt.Errorf(
 			"cannot parse rem_address field in udp socket line: %s", fields[1])
 	}
-	if line.RemAddr, err = strconv.ParseUint(r[0], 16, 64); err != nil {
+	if line.RemAddr, err = hex.DecodeString(r[0]); err != nil {
 		return nil, fmt.Errorf(
 			"cannot parse rem_address value in udp socket line: %s", err)
 	}

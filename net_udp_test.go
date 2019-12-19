@@ -18,104 +18,93 @@ import (
 	"testing"
 )
 
-//func Test_parseNetUDPLine(t *testing.T) {
-//	tests := []struct {
-//		fields  []string
-//		name    string
-//		want    *netUDPLine
-//		wantErr bool
-//	}{
-//		{
-//			name:   "reading valid lines, no issue should happened",
-//			fields: []string{"11:", "00000000:0000", "00000000:0000", "0A", "00000017:0000002A", "0:0", "0", "1000"},
-//			want: &netUDPLine{
-//				Sl:        11,
-//				LocalAddr: 0,
-//				LocalPort: 0,
-//				RemAddr:   0,
-//				RemPort:   0,
-//				St:        10,
-//				TxQueue:   23,
-//				RxQueue:   42,
-//				UID:       1000,
-//			},
-//		},
-//		{
-//			name:    "error case - invalid line - number of fields/columns < 8",
-//			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "0:0", "0"},
-//			want:    nil,
-//			wantErr: true,
-//		},
-//		{
-//			name:    "error case - parse sl - not a valid uint",
-//			fields:  []string{"a:", "00000000:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "0"},
-//			want:    nil,
-//			wantErr: true,
-//		},
-//		{
-//			name:    "error case - parse local_address - not a valid hex",
-//			fields:  []string{"1:", "0000000O:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "0"},
-//			want:    nil,
-//			wantErr: true,
-//		},
-//		{
-//			name:    "error case - parse rem_address - not a valid hex",
-//			fields:  []string{"1:", "00000000:0000", "0000000O:0000", "07", "00000000:00000001", "0:0", "0", "0"},
-//			want:    nil,
-//			wantErr: true,
-//		},
-//		{
-//			name:    "error case - cannot parse line - missing colon",
-//			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "0000000000000001", "0:0", "0", "0"},
-//			want:    nil,
-//			wantErr: true,
-//		},
-//		{
-//			name:    "error case - parse tx_queue - not a valid hex",
-//			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "DEADCODE:00000001", "0:0", "0", "0"},
-//			want:    nil,
-//			wantErr: true,
-//		},
-//		{
-//			name:    "error case - parse rx_queue - not a valid hex",
-//			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "00000000:FEEDCODE", "0:0", "0", "0"},
-//			want:    nil,
-//			wantErr: true,
-//		},
-//		{
-//			name:    "error case - parse UID - not a valid uint",
-//			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "-10"},
-//			want:    nil,
-//			wantErr: true,
-//		},
-//	}
-//	for _, tt := range tests {
-//		t.Run(tt.name, func(t *testing.T) {
-//			got, err := parseNetUDPLine(tt.fields)
-//			if (err != nil) != tt.wantErr {
-//				t.Errorf("parseNetUDPLine() error = %v, wantErr %v", err, tt.wantErr)
-//				return
-//			}
-//			if tt.want == nil && got != nil {
-//				t.Errorf("parseNetUDPLine() = %v, want %v", got, tt.want)
-//			}
-//			if got != nil {
-//				if (got.Sl != tt.want.Sl) ||
-//					(got.LocalAddr != tt.want.LocalAddr) ||
-//					(got.LocalPort != tt.want.LocalPort) ||
-//					(got.RemAddr != tt.want.RemAddr) ||
-//					(got.RemPort != tt.want.RemPort) ||
-//					(got.St != tt.want.St) ||
-//					(got.TxQueue != tt.want.TxQueue) ||
-//					(got.RxQueue != tt.want.RxQueue) ||
-//					(got.UID != tt.want.UID) {
-//
-//					t.Errorf("parseNetUDPLine() = %#v, want %#v", got, tt.want)
-//				}
-//			}
-//		})
-//	}
-//}
+func Test_parseNetUDPLine(t *testing.T) {
+	tests := []struct {
+		fields  []string
+		name    string
+		want    *netUDPLine
+		wantErr bool
+	}{
+		{
+			name:   "reading valid lines, no issue should happened",
+			fields: []string{"11:", "00000000:0000", "00000000:0000", "0A", "00000017:0000002A", "0:0", "0", "1000"},
+			want: &netUDPLine{
+				Sl:        11,
+				LocalAddr: []uint8{0, 0, 0, 0},
+				LocalPort: 0,
+				RemAddr:   []uint8{0, 0, 0, 0},
+				RemPort:   0,
+				St:        10,
+				TxQueue:   23,
+				RxQueue:   42,
+				UID:       1000,
+			},
+		},
+		{
+			name:    "error case - invalid line - number of fields/columns < 8",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "0:0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - parse sl - not a valid uint",
+			fields:  []string{"a:", "00000000:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - parse local_address - not a valid hex",
+			fields:  []string{"1:", "0000000O:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - parse rem_address - not a valid hex",
+			fields:  []string{"1:", "00000000:0000", "0000000O:0000", "07", "00000000:00000001", "0:0", "0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - cannot parse line - missing colon",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "0000000000000001", "0:0", "0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - parse tx_queue - not a valid hex",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "DEADCODE:00000001", "0:0", "0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - parse rx_queue - not a valid hex",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "00000000:FEEDCODE", "0:0", "0", "0"},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name:    "error case - parse UID - not a valid uint",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "-10"},
+			want:    nil,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := parseNetUDPLine(tt.fields)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("parseNetUDPLine() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if tt.want == nil && got != nil {
+				t.Errorf("parseNetUDPLine() = %v, want %v", got, tt.want)
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("parseNetUDPLine() = %#v, want %#v", got, tt.want)
+			}
+		})
+	}
+}
 
 func Test_newNetUDP(t *testing.T) {
 	tests := []struct {

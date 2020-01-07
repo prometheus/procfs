@@ -1,4 +1,4 @@
-# Archive created by ttar -c -f fixtures.ttar fixtures/
+# Archive created by ttar -cvf fixtures.ttar fixtures
 Directory: fixtures
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -287,6 +287,19 @@ Max msgqueue size         819200               819200               bytes
 Max nice priority         0                    0
 Max realtime priority     0                    0
 Max realtime timeout      unlimited            unlimited            us
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26232/maps
+Lines: 9
+55680ae1e000-55680ae20000 r--p 00000000 fd:01 47316994                   /bin/cat
+55680ae29000-55680ae2a000 rwxs 0000a000 fd:01 47316994                   /bin/cat
+55680bed6000-55680bef7000 rw-p 00000000 00:00 0                          [heap]
+7fdf964fc000-7fdf973f2000 r--p 00000000 fd:01 17432624                   /usr/lib/locale/locale-archive
+7fdf973f2000-7fdf97417000 r--p 00000000 fd:01 60571062                   /lib/x86_64-linux-gnu/libc-2.29.so
+7ffe9215c000-7ffe9217f000 rw-p 00000000 00:00 0                          [stack]
+7ffe921da000-7ffe921dd000 r--p 00000000 00:00 0                          [vvar]
+7ffe921dd000-7ffe921de000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/26232/root

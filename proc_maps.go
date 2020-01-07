@@ -11,6 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// +build !windows
+
 package procfs
 
 import (
@@ -41,7 +43,7 @@ type ProcMapPermissions struct {
 type ProcMap struct {
 	// The start address of current mapping.
 	StartAddr uintptr
-	// The end address of the current mappping
+	// The end address of the current mapping
 	EndAddr uintptr
 	// The permissions for this mapping
 	Perms *ProcMapPermissions

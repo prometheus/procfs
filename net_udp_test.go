@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright 2020 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,6 +14,7 @@
 package procfs
 
 import (
+	"net"
 	"reflect"
 	"testing"
 )
@@ -30,9 +31,9 @@ func Test_parseNetUDPLine(t *testing.T) {
 			fields: []string{"11:", "00000000:0000", "00000000:0000", "0A", "00000017:0000002A", "0:0", "0", "1000"},
 			want: &netUDPLine{
 				Sl:        11,
-				LocalAddr: []uint8{0, 0, 0, 0},
+				LocalAddr: net.IP{0, 0, 0, 0},
 				LocalPort: 0,
-				RemAddr:   []uint8{0, 0, 0, 0},
+				RemAddr:   net.IP{0, 0, 0, 0},
 				RemPort:   0,
 				St:        10,
 				TxQueue:   23,
@@ -119,9 +120,9 @@ func Test_newNetUDP(t *testing.T) {
 			want: []*netUDPLine{
 				&netUDPLine{
 					Sl:        0,
-					LocalAddr: []uint8{10, 0, 0, 5},
+					LocalAddr: net.IP{10, 0, 0, 5},
 					LocalPort: 22,
-					RemAddr:   []uint8{0, 0, 0, 0},
+					RemAddr:   net.IP{0, 0, 0, 0},
 					RemPort:   0,
 					St:        10,
 					TxQueue:   0,
@@ -130,9 +131,9 @@ func Test_newNetUDP(t *testing.T) {
 				},
 				&netUDPLine{
 					Sl:        1,
-					LocalAddr: []uint8{0, 0, 0, 0},
+					LocalAddr: net.IP{0, 0, 0, 0},
 					LocalPort: 22,
-					RemAddr:   []uint8{0, 0, 0, 0},
+					RemAddr:   net.IP{0, 0, 0, 0},
 					RemPort:   0,
 					St:        10,
 					TxQueue:   1,
@@ -141,9 +142,9 @@ func Test_newNetUDP(t *testing.T) {
 				},
 				&netUDPLine{
 					Sl:        2,
-					LocalAddr: []uint8{0, 0, 0, 0},
+					LocalAddr: net.IP{0, 0, 0, 0},
 					LocalPort: 22,
-					RemAddr:   []uint8{0, 0, 0, 0},
+					RemAddr:   net.IP{0, 0, 0, 0},
 					RemPort:   0,
 					St:        10,
 					TxQueue:   1,
@@ -159,9 +160,9 @@ func Test_newNetUDP(t *testing.T) {
 			want: []*netUDPLine{
 				&netUDPLine{
 					Sl:        1315,
-					LocalAddr: []uint8{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+					LocalAddr: net.IP{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					LocalPort: 5355,
-					RemAddr:   []uint8{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+					RemAddr:   net.IP{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					RemPort:   0,
 					St:        7,
 					TxQueue:   0,
@@ -170,9 +171,9 @@ func Test_newNetUDP(t *testing.T) {
 				},
 				&netUDPLine{
 					Sl:        6073,
-					LocalAddr: []uint8{0, 0, 128, 254, 0, 0, 0, 0, 255, 173, 225, 86, 9, 102, 124, 254},
+					LocalAddr: net.IP{0, 0, 128, 254, 0, 0, 0, 0, 255, 173, 225, 86, 9, 102, 124, 254},
 					LocalPort: 51073,
-					RemAddr:   []uint8{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+					RemAddr:   net.IP{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					RemPort:   0,
 					St:        7,
 					TxQueue:   0,

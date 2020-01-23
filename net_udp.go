@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright 2020 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,6 +18,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
+	"net"
 	"os"
 	"strconv"
 	"strings"
@@ -55,9 +56,9 @@ type (
 	// For the proc file format details, see https://linux.die.net/man/5/proc.
 	netUDPLine struct {
 		Sl        uint64
-		LocalAddr []uint8
+		LocalAddr net.IP
 		LocalPort uint64
-		RemAddr   []uint8
+		RemAddr   net.IP
 		RemPort   uint64
 		St        uint64
 		TxQueue   uint64

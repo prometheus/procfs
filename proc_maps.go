@@ -168,9 +168,8 @@ func parseProcMap(text string) (*ProcMap, error) {
 		return nil, err
 	}
 
-	var fname string
 	if len(fields) >= 5 {
-		fname = strings.Join(fields[5:], " ")
+		pmap.Pathname = strings.Join(fields[5:], " ")
 	}
 
 	pmap.StartAddr = saddr
@@ -179,7 +178,6 @@ func parseProcMap(text string) (*ProcMap, error) {
 	pmap.Offset = offset
 	pmap.Dev = device
 	pmap.Inode = inode
-	pmap.Pathname = fname
 
 	return &pmap, nil
 }

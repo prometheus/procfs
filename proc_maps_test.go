@@ -23,17 +23,46 @@ import (
 )
 
 func TestProcMaps(t *testing.T) {
-	p, err := getProcFixtures(t).Proc(26232)
-	if err != nil {
-		t.Fatal(err)
+	tsts32 := []*ProcMap{
+		{
+			StartAddr: 0x08048000,
+			EndAddr:   0x08089000,
+			Perms:     &ProcMapPermissions{true, false, true, false, true},
+			Offset:    0,
+			Dev:       unix.Mkdev(0x03, 0x01),
+			Inode:     104219,
+			Pathname:  "/bin/tcsh",
+		},
+		{
+			StartAddr: 0x08089000,
+			EndAddr:   0x0808c000,
+			Perms:     &ProcMapPermissions{true, true, false, false, true},
+			Offset:    266240,
+			Dev:       unix.Mkdev(0x03, 0x01),
+			Inode:     104219,
+			Pathname:  "/bin/tcsh",
+		},
+		{
+			StartAddr: 0x0808c000,
+			EndAddr:   0x08146000,
+			Perms:     &ProcMapPermissions{true, true, true, false, true},
+			Offset:    0,
+			Dev:       unix.Mkdev(0x00, 0x00),
+			Inode:     0,
+			Pathname:  "",
+		},
+		{
+			StartAddr: 0x40000000,
+			EndAddr:   0x40015000,
+			Perms:     &ProcMapPermissions{true, false, true, false, true},
+			Offset:    0,
+			Dev:       unix.Mkdev(0x03, 0x01),
+			Inode:     61874,
+			Pathname:  "/lib/ld-2.3.2.so",
+		},
 	}
 
-	maps, err := p.ProcMaps()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	tsts := []*ProcMap{
+	tsts64 := []*ProcMap{
 		{
 			StartAddr: 0x55680ae1e000,
 			EndAddr:   0x55680ae20000,
@@ -115,6 +144,31 @@ func TestProcMaps(t *testing.T) {
 			Inode:     0,
 			Pathname:  "[vsyscall]",
 		},
+	}
+
+	var (
+		tsts []*ProcMap
+		tpid int
+	)
+
+	if (32 << uintptr(^uintptr(0)>>63)) == 64 {
+		// 64b test pid
+		tpid = 26232
+		tsts = tsts64
+	} else {
+		// 32b test pid
+		tpid = 26234
+		tsts = tsts32
+	}
+
+	p, err := getProcFixtures(t).Proc(tpid)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	maps, err := p.ProcMaps()
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	if want, have := len(maps), len(tsts); want > have {

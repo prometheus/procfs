@@ -1,4 +1,4 @@
-# Archive created by ttar -cvf fixtures.ttar fixtures
+# Archive created by ttar -c -f fixtures.ttar fixtures/
 Directory: fixtures
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -328,6 +328,17 @@ Lines: 8
             (__)\       )\/\
                 ||----w |
                 ||     ||
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/proc/26234
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26234/maps
+Lines: 4
+08048000-08089000 r-xp 00000000 03:01 104219 /bin/tcsh
+08089000-0808c000 rw-p 00041000 03:01 104219 /bin/tcsh
+0808c000-08146000 rwxp 00000000 00:00 0
+40000000-40015000 r-xp 00000000 03:01 61874 /lib/ld-2.3.2.so
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/584

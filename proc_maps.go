@@ -136,8 +136,6 @@ func parsePermissions(s string) (*ProcMapPermissions, error) {
 // parseProcMap will attempt to parse a single line within a proc/[pid]/maps
 // buffer.
 func parseProcMap(text string) (*ProcMap, error) {
-	pmap := ProcMap{}
-
 	fields := strings.Fields(text)
 	if len(fields) < 5 {
 		return nil, fmt.Errorf("truncated procmap entry")
@@ -168,18 +166,21 @@ func parseProcMap(text string) (*ProcMap, error) {
 		return nil, err
 	}
 
+	pathname := ""
+
 	if len(fields) >= 5 {
-		pmap.Pathname = strings.Join(fields[5:], " ")
+		pathname = strings.Join(fields[5:], " ")
 	}
 
-	pmap.StartAddr = saddr
-	pmap.EndAddr = eaddr
-	pmap.Perms = perms
-	pmap.Offset = offset
-	pmap.Dev = device
-	pmap.Inode = inode
-
-	return &pmap, nil
+	return &ProcMap{
+		StartAddr: saddr,
+		EndAddr:   eaddr,
+		Perms:     perms,
+		Offset:    offset,
+		Dev:       device,
+		Inode:     inode,
+		Pathname:  pathname,
+	}, nil
 }
 
 // ProcMaps reads from /proc/[pid]/maps to get the memory-mappings of the

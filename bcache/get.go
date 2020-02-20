@@ -52,7 +52,7 @@ func NewFS(mountPoint string) (FS, error) {
 }
 
 // Stats retrieves bcache runtime statistics for each bcache.
-func (fs FS) Stats() ([]*Stats, error) {
+func (fs FS) Stats(priorityStats bool) ([]*Stats, error) {
 	matches, err := filepath.Glob(fs.sys.Path("fs/bcache/*-*"))
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (fs FS) Stats() ([]*Stats, error) {
 		name := filepath.Base(uuidPath)
 
 		// stats
-		s, err := GetStats(uuidPath)
+		s, err := GetStats(uuidPath, priorityStats)
 		if err != nil {
 			return nil, err
 		}
@@ -251,7 +251,7 @@ func (p *parser) getPriorityStats() PriorityStats {
 }
 
 // GetStats collects from sysfs files data tied to one bcache ID.
-func GetStats(uuidPath string) (*Stats, error) {
+func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 	var bs Stats
 
 	par := parser{uuidPath: uuidPath}
@@ -370,8 +370,10 @@ func GetStats(uuidPath string) (*Stats, error) {
 		cs.MetadataWritten = par.readValue("metadata_written")
 		cs.Written = par.readValue("written")
 
-		ps := par.getPriorityStats()
-		cs.Priority = ps
+		if priorityStats {
+			ps := par.getPriorityStats()
+			cs.Priority = ps
+		}
 	}
 
 	if par.err != nil {

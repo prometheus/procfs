@@ -35,7 +35,6 @@ type Cgroup struct {
 	// ID number that can be matched to a hierarchy ID found in /proc/cgroups
 	HierarchyId int
 	// Controllers using this hierarchy of processes. Controllers are also known as subsystems.
-	// TODO is it a problem that len(Controllers)==1 even when there are no controllers?
 	Controllers []string
 	// Path of this control group, relative to the mount point of the various controllers
 	Path string
@@ -51,16 +50,17 @@ func parseCgroupString(cgroupStr string) (*Cgroup, error) {
 	}
 
 	cgroup := &Cgroup{
-		Path: fields[2],
+		Path:        fields[2],
+		Controllers: nil,
 	}
 	cgroup.HierarchyId, err = strconv.Atoi(fields[0])
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse hierarchy ID")
 	}
-	// fields[1] may be ""
-	ssNames := strings.Split(fields[1], ",")
-	cgroup.Controllers = append(cgroup.Controllers, ssNames...)
-
+	if fields[1] != "" {
+		ssNames := strings.Split(fields[1], ",")
+		cgroup.Controllers = append(cgroup.Controllers, ssNames...)
+	}
 	return cgroup, nil
 }
 

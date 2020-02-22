@@ -51,7 +51,7 @@ func TestParseCgroupString(t *testing.T) {
 			shouldErr: false,
 			cgroup: &Cgroup{
 				HierarchyId: 0,
-				Controllers: []string{""},
+				Controllers: nil,
 				Path:        "/user.slice/user-1000.slice/user@1000.service/gnome-terminal-server.service",
 			},
 		},

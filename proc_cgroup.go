@@ -26,21 +26,25 @@ import (
 // specific control hierarchy. The kernel has two cgroup APIs, v1 and v2. v1 has one hierarchy per available resource
 // controller, while v2 has one unified hierarchy shared by all controllers. Regardless of v1 or v2, all hierarchies
 // contain all running processes, so the question answerable with a Cgroup struct is 'where is this process in
-// this hierarchy' (where==what path). By prefixing this path with the mount point of this hierarchy, you can locate
-// the relevant pseudo-files needed to read/set the data for this PID in this hierarchy
+// this hierarchy' (where==what path on the specific cgroupfs). By prefixing this path with the mount point of
+// *this specific* hierarchy, you can locate the relevant pseudo-files needed to read/set the data for this PID
+// in this hierarchy
 //
 // Also see http://man7.org/linux/man-pages/man7/cgroups.7.html
 type Cgroup struct {
-	// HierarchyId for cgroups V2 is always 0. For cgroups v1 this is a unique
-	// ID number that can be matched to a hierarchy ID found in /proc/cgroups
+	// HierarchyId that can be matched to a named hierarchy using /proc/cgroups. Cgroups V2 only has one
+	// hierarchy, so HierarchyId is always 0. For cgroups v1 this is a unique ID number
 	HierarchyId int
-	// Controllers using this hierarchy of processes. Controllers are also known as subsystems.
+	// Controllers using this hierarchy of processes. Controllers are also known as subsystems. For
+	// Cgroups V2 this may be empty, as all active controllers use the same hierarchy
 	Controllers []string
-	// Path of this control group, relative to the mount point of the various controllers
+	// Path of this control group, relative to the mount point of the cgroupfs representing this specific
+	// hierarchy
 	Path string
 }
 
 // parseCgroupString parses each line of the /proc/[pid]/cgroup file
+// Line format is hierarchyID:[controller1,controller2]:path
 func parseCgroupString(cgroupStr string) (*Cgroup, error) {
 	var err error
 

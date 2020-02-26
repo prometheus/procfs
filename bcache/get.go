@@ -51,21 +51,21 @@ func NewFS(mountPoint string) (FS, error) {
 	return FS{&fs}, nil
 }
 
-// Stats is a wrapper around _Stats
+// Stats is a wrapper around stats()
 // It returns full available statistics
 func (fs FS) Stats() ([]*Stats, error) {
-	return fs._Stats(true)
+	return fs.stats(true)
 }
 
-// StatsWithoutPriority is a wrapper around _Stats.
+// StatsWithoutPriority is a wrapper around stats().
 // It ignores priority_stats file, because it is expensive to read.
 func (fs FS) StatsWithoutPriority() ([]*Stats, error) {
-	return fs._Stats(false)
+	return fs.stats(false)
 }
 
-// _Stats retrieves bcache runtime statistics for each bcache.
+// stats() retrieves bcache runtime statistics for each bcache.
 // priorityStats flag controls if we need to read priority_stats.
-func (fs FS) _Stats(priorityStats bool) ([]*Stats, error) {
+func (fs FS) stats(priorityStats bool) ([]*Stats, error) {
 	matches, err := filepath.Glob(fs.sys.Path("fs/bcache/*-*"))
 	if err != nil {
 		return nil, err

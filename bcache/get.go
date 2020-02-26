@@ -52,7 +52,7 @@ func NewFS(mountPoint string) (FS, error) {
 }
 
 // Stats retrieves bcache runtime statistics for each bcache.
-func (fs FS) Stats(priorityStats bool) ([]*Stats, error) {
+func (fs FS) Stats() ([]*Stats, error) {
 	matches, err := filepath.Glob(fs.sys.Path("fs/bcache/*-*"))
 	if err != nil {
 		return nil, err
@@ -64,7 +64,33 @@ func (fs FS) Stats(priorityStats bool) ([]*Stats, error) {
 		name := filepath.Base(uuidPath)
 
 		// stats
-		s, err := GetStats(uuidPath, priorityStats)
+		s, err := GetStats(uuidPath, true)
+		if err != nil {
+			return nil, err
+		}
+
+		s.Name = name
+		stats = append(stats, s)
+	}
+
+	return stats, nil
+}
+
+// StatsWithoutPriority retrieves bcache runtime statistics for each bcache.
+// It ignores priority_stats file, because it is expensive to read.
+func (fs FS) StatsWithoutPriority() ([]*Stats, error) {
+	matches, err := filepath.Glob(fs.sys.Path("fs/bcache/*-*"))
+	if err != nil {
+		return nil, err
+	}
+
+	stats := make([]*Stats, 0, len(matches))
+	for _, uuidPath := range matches {
+		// "*-*" in glob above indicates the name of the bcache.
+		name := filepath.Base(uuidPath)
+
+		// stats
+		s, err := GetStats(uuidPath, false)
 		if err != nil {
 			return nil, err
 		}

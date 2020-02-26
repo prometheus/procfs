@@ -23,7 +23,7 @@ func TestFSBcacheStats(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to access bcache fs: %v", err)
 	}
-	stats, err := bcache.Stats(true)
+	stats, err := bcache.Stats()
 	if err != nil {
 		t.Fatalf("failed to parse bcache stats: %v", err)
 	}

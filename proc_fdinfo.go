@@ -111,9 +111,8 @@ func parseInotifyInfo(line string) (*InotifyInfo, error) {
 			Mask: mask,
 		}
 		return i, nil
-	} else {
-		return nil, errors.New("invalid inode entry: " + line)
 	}
+	return nil, errors.New("invalid inode entry: " + line)
 }
 
 // ProcFDInfos represents a list of ProcFDInfo structs.

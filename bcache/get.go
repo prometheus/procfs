@@ -51,34 +51,21 @@ func NewFS(mountPoint string) (FS, error) {
 	return FS{&fs}, nil
 }
 
-// Stats retrieves bcache runtime statistics for each bcache.
+// Stats is a wrapper around _Stats
+// It returns full available statistics
 func (fs FS) Stats() ([]*Stats, error) {
-	matches, err := filepath.Glob(fs.sys.Path("fs/bcache/*-*"))
-	if err != nil {
-		return nil, err
-	}
-
-	stats := make([]*Stats, 0, len(matches))
-	for _, uuidPath := range matches {
-		// "*-*" in glob above indicates the name of the bcache.
-		name := filepath.Base(uuidPath)
-
-		// stats
-		s, err := GetStats(uuidPath, true)
-		if err != nil {
-			return nil, err
-		}
-
-		s.Name = name
-		stats = append(stats, s)
-	}
-
-	return stats, nil
+	return fs._Stats(true)
 }
 
-// StatsWithoutPriority retrieves bcache runtime statistics for each bcache.
+// StatsWithoutPriority is a wrapper around _Stats.
 // It ignores priority_stats file, because it is expensive to read.
 func (fs FS) StatsWithoutPriority() ([]*Stats, error) {
+	return fs._Stats(false)
+}
+
+// _Stats retrieves bcache runtime statistics for each bcache.
+// priorityStats flag controls if we need to read priority_stats.
+func (fs FS) _Stats(priorityStats bool) ([]*Stats, error) {
 	matches, err := filepath.Glob(fs.sys.Path("fs/bcache/*-*"))
 	if err != nil {
 		return nil, err
@@ -90,7 +77,7 @@ func (fs FS) StatsWithoutPriority() ([]*Stats, error) {
 		name := filepath.Base(uuidPath)
 
 		// stats
-		s, err := GetStats(uuidPath, false)
+		s, err := GetStats(uuidPath, priorityStats)
 		if err != nil {
 			return nil, err
 		}

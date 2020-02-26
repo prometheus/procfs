@@ -88,7 +88,7 @@ func (fs FS) parseFibreChannelHost(name string) (*FibreChannelHost, error) {
 	path := fs.sys.Path(fibrechannelClassPath, name)
 	host := FibreChannelHost{Name: name}
 
-	for _, f := range [...]string{"speed", "port_state", "port_type", "node_name", "port_id", "port_name", "fabric_name", "dev_loss_tmo", "supported_classes", "supported_speeds"} {
+	for _, f := range [...]string{"speed", "port_state", "port_type", "node_name", "port_id", "port_name", "fabric_name", "dev_loss_tmo", "symbolic_name", "supported_classes", "supported_speeds"} {
 		name := filepath.Join(path, f)
 		value, err := util.SysReadFile(name)
 		if err != nil {

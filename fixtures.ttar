@@ -1553,11 +1553,6 @@ max keysize  : 32
 
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/proc/loadavg
-Lines: 1
-0.02 0.04 0.05 1/497 11947
-Mode: 444
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/diskstats
 Lines: 49
    1       0 ram0 0 0 0 0 0 0 0 0 0 0 0
@@ -1643,6 +1638,11 @@ qm 0 0 0 0 0 0 0 0
 xpc 399724544 92823103 86219234
 debug 0
 Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/loadavg
+Lines: 1
+0.02 0.04 0.05 1/497 11947
+Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/mdstat
 Lines: 56
@@ -1851,8 +1851,14 @@ FRAG6: inuse 0 memory 0
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/net/softnet_stat
-Lines: 1
+Lines: 2
 00015c73 00020e76 F0000769 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+01663fb2 00000000 000109a4 00000000 00000000 00000000 00000000 00000000 00000000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/net/softnet_stat.broken
+Lines: 1
+00015c73 00020e76 F0000769 00000000
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/net/udp

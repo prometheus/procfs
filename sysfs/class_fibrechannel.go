@@ -204,9 +204,9 @@ func parseFibreChannelStatistics(hostPath string) (*FibreChannelCounters, error)
 			/*
 				case "fcp_packet_alloc_failures":
 					counters.FcpPacketAllocFailures = *vp.PUInt64()
-				case "invalid_tx_word_count":
-					counters.InvalidTxWordCount = *vp.PUInt64()
 			*/
+		case "invalid_tx_word_count":
+			counters.InvalidTXWordCount = *vp.PUInt64()
 		case "invalid_crc_count":
 			counters.InvalidCRCCount = *vp.PUInt64()
 		case "link_failure_count":

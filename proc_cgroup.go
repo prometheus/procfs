@@ -17,9 +17,10 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"github.com/prometheus/procfs/internal/util"
 	"strconv"
 	"strings"
+
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // Cgroup models one line from /proc/[pid]/cgroup. Each Cgroup struct describes the the placement of a PID inside a
@@ -32,9 +33,9 @@ import (
 //
 // Also see http://man7.org/linux/man-pages/man7/cgroups.7.html
 type Cgroup struct {
-	// HierarchyId that can be matched to a named hierarchy using /proc/cgroups. Cgroups V2 only has one
-	// hierarchy, so HierarchyId is always 0. For cgroups v1 this is a unique ID number
-	HierarchyId int
+	// HierarchyID that can be matched to a named hierarchy using /proc/cgroups. Cgroups V2 only has one
+	// hierarchy, so HierarchyID is always 0. For cgroups v1 this is a unique ID number
+	HierarchyID int
 	// Controllers using this hierarchy of processes. Controllers are also known as subsystems. For
 	// Cgroups V2 this may be empty, as all active controllers use the same hierarchy
 	Controllers []string
@@ -57,7 +58,7 @@ func parseCgroupString(cgroupStr string) (*Cgroup, error) {
 		Path:        fields[2],
 		Controllers: nil,
 	}
-	cgroup.HierarchyId, err = strconv.Atoi(fields[0])
+	cgroup.HierarchyID, err = strconv.Atoi(fields[0])
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse hierarchy ID")
 	}

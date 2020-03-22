@@ -30,7 +30,7 @@ func TestParseCgroupString(t *testing.T) {
 			s:         "10:rdma:/",
 			shouldErr: false,
 			cgroup: &Cgroup{
-				HierarchyId: 10,
+				HierarchyID: 10,
 				Controllers: []string{"rdma"},
 				Path:        "/",
 			},
@@ -40,7 +40,7 @@ func TestParseCgroupString(t *testing.T) {
 			s:         "3:cpu,cpuacct:/user.slice/user-1000.slice/session-10.scope",
 			shouldErr: false,
 			cgroup: &Cgroup{
-				HierarchyId: 3,
+				HierarchyID: 3,
 				Controllers: []string{"cpu", "cpuacct"},
 				Path:        "/user.slice/user-1000.slice/session-10.scope",
 			},
@@ -50,7 +50,7 @@ func TestParseCgroupString(t *testing.T) {
 			s:         "0::/user.slice/user-1000.slice/user@1000.service/gnome-terminal-server.service",
 			shouldErr: false,
 			cgroup: &Cgroup{
-				HierarchyId: 0,
+				HierarchyID: 0,
 				Controllers: nil,
 				Path:        "/user.slice/user-1000.slice/user@1000.service/gnome-terminal-server.service",
 			},

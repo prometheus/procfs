@@ -56,10 +56,14 @@ func TestParseCgroupString(t *testing.T) {
 			},
 		},
 		{
-			name:      "extra fields",
+			name:      "extra fields (such as those added by later kernel versions)",
 			s:         "0::/:foobar",
-			shouldErr: true,
-			cgroup:    nil,
+			shouldErr: false,
+			cgroup: &Cgroup{
+				HierarchyID: 0,
+				Controllers: nil,
+				Path:        "/",
+			},
 		},
 		{
 			name:      "bad hierarchy ID field",

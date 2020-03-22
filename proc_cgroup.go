@@ -50,8 +50,8 @@ func parseCgroupString(cgroupStr string) (*Cgroup, error) {
 	var err error
 
 	fields := strings.Split(cgroupStr, ":")
-	if len(fields) != 3 {
-		return nil, fmt.Errorf("incorrect number of fields (%d) in cgroup string: %s", len(fields), cgroupStr)
+	if len(fields) < 3 {
+		return nil, fmt.Errorf("at least 3 fields required, found %d fields in cgroup string: %s", len(fields), cgroupStr)
 	}
 
 	cgroup := &Cgroup{
@@ -70,8 +70,8 @@ func parseCgroupString(cgroupStr string) (*Cgroup, error) {
 }
 
 // parseCgroups reads each line of the /proc/[pid]/cgroup file
-func parseCgroups(data []byte) ([]*Cgroup, error) {
-	var cgroups []*Cgroup
+func parseCgroups(data []byte) ([]Cgroup, error) {
+	var cgroups []Cgroup
 	scanner := bufio.NewScanner(bytes.NewReader(data))
 	for scanner.Scan() {
 		mountString := scanner.Text()
@@ -79,7 +79,7 @@ func parseCgroups(data []byte) ([]*Cgroup, error) {
 		if err != nil {
 			return nil, err
 		}
-		cgroups = append(cgroups, parsedMounts)
+		cgroups = append(cgroups, *parsedMounts)
 	}
 
 	err := scanner.Err()
@@ -89,7 +89,7 @@ func parseCgroups(data []byte) ([]*Cgroup, error) {
 // Cgroups reads from /proc/<pid>/cgroups and returns a []*Cgroup struct locating this PID in each process
 // control hierarchy running on this system. On every system (v1 and v2), all hierarchies contain all processes,
 // so the len of the returned struct is equal to the number of active hierarchies on this system
-func (p Proc) Cgroups() ([]*Cgroup, error) {
+func (p Proc) Cgroups() ([]Cgroup, error) {
 	data, err := util.ReadFileNoStat(fmt.Sprintf("/proc/%d/cgroup", p.PID))
 	if err != nil {
 		return nil, err

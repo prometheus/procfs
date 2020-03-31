@@ -174,6 +174,18 @@ func dehumanize(hbytes []byte) (uint64, error) {
 	return res, nil
 }
 
+func dehumanizeSigned(str string) (int64, error) {
+	value, err := dehumanize([]byte(strings.TrimPrefix(str, "-")))
+	if err != nil {
+		return 0, err
+	}
+	if strings.HasPrefix(str, "-") {
+		return int64(-value), nil
+	} else {
+		return int64(value), nil
+	}
+}
+
 type parser struct {
 	uuidPath   string
 	subDir     string
@@ -268,44 +280,26 @@ func parseWritebackRateDebug(line string, wrd *WritebackRateDebugStats) error {
 	case strings.HasPrefix(line, "proportional:"):
 		fields := strings.Fields(line)
 		valueStr := fields[len(fields)-1]
-		neg := strings.HasPrefix(valueStr, "-")
-		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr, "-")))
+		svalue, err = dehumanizeSigned(valueStr)
 		if err != nil {
 			return err
-		}
-		if neg {
-			svalue = int64(-value)
-		} else {
-			svalue = int64(value)
 		}
 		wrd.Proportional = svalue
 	case strings.HasPrefix(line, "integral:"):
 		fields := strings.Fields(line)
 		valueStr := fields[len(fields)-1]
-		neg := strings.HasPrefix(valueStr, "-")
-		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr, "-")))
+		svalue, err = dehumanizeSigned(valueStr)
 		if err != nil {
 			return err
-		}
-		if neg {
-			svalue = int64(-value)
-		} else {
-			svalue = int64(value)
 		}
 		wrd.Integral = svalue
 	case strings.HasPrefix(line, "change:"):
 		fields := strings.Fields(line)
 		rawValue := fields[len(fields)-1]
 		valueStr := strings.TrimSuffix(rawValue, "/sec")
-		neg := strings.HasPrefix(valueStr, "-")
-		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr, "-")))
+		svalue, err = dehumanizeSigned(valueStr)
 		if err != nil {
 			return err
-		}
-		if neg {
-			svalue = int64(-value)
-		} else {
-			svalue = int64(value)
 		}
 		wrd.Change = svalue
 	case strings.HasPrefix(line, "next io:"):

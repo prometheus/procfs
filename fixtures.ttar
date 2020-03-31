@@ -4115,6 +4115,17 @@ Lines: 1
 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/writeback_rate_debug
+Lines: 7
+rate:           1.1M/sec
+dirty:          20.4G
+target:         20.4G
+proportional:   427.5k
+integral:       790.0k
+change:         321.5k/sec
+next io:        17ms
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_day
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

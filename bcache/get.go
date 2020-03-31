@@ -235,9 +235,9 @@ func parsePriorityStats(line string, ps *PriorityStats) error {
 // ParseWritebackRateDebug parses lines from the writeback_rate_debug file.
 func parseWritebackRateDebug(line string, wrd *WritebackRateDebugStats) error {
 	var (
-		value uint64
+		value  uint64
 		svalue int64
-		err   error
+		err    error
 	)
 	switch {
 	case strings.HasPrefix(line, "rate:"):
@@ -268,8 +268,8 @@ func parseWritebackRateDebug(line string, wrd *WritebackRateDebugStats) error {
 	case strings.HasPrefix(line, "proportional:"):
 		fields := strings.Fields(line)
 		valueStr := fields[len(fields)-1]
-		neg := strings.HasPrefix(valueStr,"-")
-		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr,"-")))
+		neg := strings.HasPrefix(valueStr, "-")
+		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr, "-")))
 		if err != nil {
 			return err
 		}
@@ -282,8 +282,8 @@ func parseWritebackRateDebug(line string, wrd *WritebackRateDebugStats) error {
 	case strings.HasPrefix(line, "integral:"):
 		fields := strings.Fields(line)
 		valueStr := fields[len(fields)-1]
-		neg := strings.HasPrefix(valueStr,"-")
-		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr,"-")))
+		neg := strings.HasPrefix(valueStr, "-")
+		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr, "-")))
 		if err != nil {
 			return err
 		}
@@ -297,8 +297,8 @@ func parseWritebackRateDebug(line string, wrd *WritebackRateDebugStats) error {
 		fields := strings.Fields(line)
 		rawValue := fields[len(fields)-1]
 		valueStr := strings.TrimSuffix(rawValue, "/sec")
-		neg := strings.HasPrefix(valueStr,"-")
-		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr,"-")))
+		neg := strings.HasPrefix(valueStr, "-")
+		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr, "-")))
 		if err != nil {
 			return err
 		}

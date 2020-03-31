@@ -352,6 +352,35 @@ func (p *parser) getPriorityStats() PriorityStats {
 	return res
 }
 
+func (p *parser) getWritebackRateDebug() WritebackRateDebugStats {
+	var res WritebackRateDebugStats
+
+	if p.err != nil {
+		return res
+	}
+	path := path.Join(p.currentDir, "writeback_rate_debug")
+	file, err := os.Open(path)
+	if err != nil {
+		p.err = fmt.Errorf("failed to read: %s", path)
+		return res
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		err = parseWritebackRateDebug(scanner.Text(), &res)
+		if err != nil {
+			p.err = fmt.Errorf("failed to parse: %s (%s)", path, err)
+			return res
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		p.err = fmt.Errorf("failed to parse: %s (%s)", path, err)
+		return res
+	}
+	return res
+}
+
 // GetStats collects from sysfs files data tied to one bcache ID.
 func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 	var bs Stats
@@ -427,6 +456,9 @@ func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 
 		par.setSubDir(bds.Name)
 		bds.DirtyData = par.readValue("dirty_data")
+
+		wrd := par.getWritebackRateDebug()
+		bds.WritebackRateDebug = wrd
 
 		// dir <uuidPath>/<bds.Name>/stats_five_minute
 		par.setSubDir(bds.Name, "stats_five_minute")

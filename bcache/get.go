@@ -246,17 +246,12 @@ func parsePriorityStats(line string, ps *PriorityStats) error {
 
 // ParseWritebackRateDebug parses lines from the writeback_rate_debug file.
 func parseWritebackRateDebug(line string, wrd *WritebackRateDebugStats) error {
-	var (
-		value  uint64
-		svalue int64
-		err    error
-	)
 	switch {
 	case strings.HasPrefix(line, "rate:"):
 		fields := strings.Fields(line)
 		rawValue := fields[len(fields)-1]
 		valueStr := strings.TrimSuffix(rawValue, "/sec")
-		value, err = dehumanize([]byte(valueStr))
+		value, err := dehumanize([]byte(valueStr))
 		if err != nil {
 			return err
 		}
@@ -264,7 +259,7 @@ func parseWritebackRateDebug(line string, wrd *WritebackRateDebugStats) error {
 	case strings.HasPrefix(line, "dirty:"):
 		fields := strings.Fields(line)
 		valueStr := fields[len(fields)-1]
-		value, err = dehumanize([]byte(valueStr))
+		value, err := dehumanize([]byte(valueStr))
 		if err != nil {
 			return err
 		}
@@ -272,7 +267,7 @@ func parseWritebackRateDebug(line string, wrd *WritebackRateDebugStats) error {
 	case strings.HasPrefix(line, "target:"):
 		fields := strings.Fields(line)
 		valueStr := fields[len(fields)-1]
-		value, err = dehumanize([]byte(valueStr))
+		value, err := dehumanize([]byte(valueStr))
 		if err != nil {
 			return err
 		}
@@ -280,37 +275,37 @@ func parseWritebackRateDebug(line string, wrd *WritebackRateDebugStats) error {
 	case strings.HasPrefix(line, "proportional:"):
 		fields := strings.Fields(line)
 		valueStr := fields[len(fields)-1]
-		svalue, err = dehumanizeSigned(valueStr)
+		value, err := dehumanizeSigned(valueStr)
 		if err != nil {
 			return err
 		}
-		wrd.Proportional = svalue
+		wrd.Proportional = value
 	case strings.HasPrefix(line, "integral:"):
 		fields := strings.Fields(line)
 		valueStr := fields[len(fields)-1]
-		svalue, err = dehumanizeSigned(valueStr)
+		value, err := dehumanizeSigned(valueStr)
 		if err != nil {
 			return err
 		}
-		wrd.Integral = svalue
+		wrd.Integral = value
 	case strings.HasPrefix(line, "change:"):
 		fields := strings.Fields(line)
 		rawValue := fields[len(fields)-1]
 		valueStr := strings.TrimSuffix(rawValue, "/sec")
-		svalue, err = dehumanizeSigned(valueStr)
+		value, err := dehumanizeSigned(valueStr)
 		if err != nil {
 			return err
 		}
-		wrd.Change = svalue
+		wrd.Change = value
 	case strings.HasPrefix(line, "next io:"):
 		fields := strings.Fields(line)
 		rawValue := fields[len(fields)-1]
 		valueStr := strings.TrimSuffix(rawValue, "ms")
-		svalue, err = strconv.ParseInt(valueStr, 10, 64)
+		value, err := strconv.ParseInt(valueStr, 10, 64)
 		if err != nil {
 			return err
 		}
-		wrd.NextIO = svalue
+		wrd.NextIO = value
 	}
 	return nil
 }

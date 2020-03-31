@@ -181,9 +181,8 @@ func dehumanizeSigned(str string) (int64, error) {
 	}
 	if strings.HasPrefix(str, "-") {
 		return int64(-value), nil
-	} else {
-		return int64(value), nil
 	}
+	return int64(value), nil
 }
 
 type parser struct {

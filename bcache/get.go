@@ -232,6 +232,95 @@ func parsePriorityStats(line string, ps *PriorityStats) error {
 	return nil
 }
 
+// ParseWritebackRateDebug parses lines from the writeback_rate_debug file.
+func parseWritebackRateDebug(line string, wrd *WritebackRateDebugStats) error {
+	var (
+		value uint64
+		svalue int64
+		err   error
+	)
+	switch {
+	case strings.HasPrefix(line, "rate:"):
+		fields := strings.Fields(line)
+		rawValue := fields[len(fields)-1]
+		valueStr := strings.TrimSuffix(rawValue, "/sec")
+		value, err = dehumanize([]byte(valueStr))
+		if err != nil {
+			return err
+		}
+		wrd.Rate = value
+	case strings.HasPrefix(line, "dirty:"):
+		fields := strings.Fields(line)
+		valueStr := fields[len(fields)-1]
+		value, err = dehumanize([]byte(valueStr))
+		if err != nil {
+			return err
+		}
+		wrd.Dirty = value
+	case strings.HasPrefix(line, "target:"):
+		fields := strings.Fields(line)
+		valueStr := fields[len(fields)-1]
+		value, err = dehumanize([]byte(valueStr))
+		if err != nil {
+			return err
+		}
+		wrd.Target = value
+	case strings.HasPrefix(line, "proportional:"):
+		fields := strings.Fields(line)
+		valueStr := fields[len(fields)-1]
+		neg := strings.HasPrefix(valueStr,"-")
+		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr,"-")))
+		if err != nil {
+			return err
+		}
+		if neg {
+			svalue = int64(-value)
+		} else {
+			svalue = int64(value)
+		}
+		wrd.Proportional = svalue
+	case strings.HasPrefix(line, "integral:"):
+		fields := strings.Fields(line)
+		valueStr := fields[len(fields)-1]
+		neg := strings.HasPrefix(valueStr,"-")
+		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr,"-")))
+		if err != nil {
+			return err
+		}
+		if neg {
+			svalue = int64(-value)
+		} else {
+			svalue = int64(value)
+		}
+		wrd.Integral = svalue
+	case strings.HasPrefix(line, "change:"):
+		fields := strings.Fields(line)
+		rawValue := fields[len(fields)-1]
+		valueStr := strings.TrimSuffix(rawValue, "/sec")
+		neg := strings.HasPrefix(valueStr,"-")
+		value, err = dehumanize([]byte(strings.TrimPrefix(valueStr,"-")))
+		if err != nil {
+			return err
+		}
+		if neg {
+			svalue = int64(-value)
+		} else {
+			svalue = int64(value)
+		}
+		wrd.Change = svalue
+	case strings.HasPrefix(line, "next io:"):
+		fields := strings.Fields(line)
+		rawValue := fields[len(fields)-1]
+		valueStr := strings.TrimSuffix(rawValue, "ms")
+		svalue, err = strconv.ParseInt(valueStr, 10, 64)
+		if err != nil {
+			return err
+		}
+		wrd.NextIO = svalue
+	}
+	return nil
+}
+
 func (p *parser) getPriorityStats() PriorityStats {
 	var res PriorityStats
 

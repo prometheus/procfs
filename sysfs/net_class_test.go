@@ -69,6 +69,30 @@ func TestNetClass(t *testing.T) {
 		speed            int64 = 1000
 		txQueueLen       int64 = 1000
 		netType          int64 = 1
+		collisions       int64
+		multicast        int64 = 685
+		rxBytes          int64 = 67684
+		rxCompressed     int64
+		rxCrcErrors      int64
+		rxDropped        int64
+		rxErrrors        int64
+		rxFifoErrors     int64
+		rxFrameErrors    int64
+		rxLengthErrors   int64
+		rxMissedErrors   int64
+		rxNoHandler      int64
+		rxOverErrors     int64
+		rxPackets        int64 = 869
+		txAbortedErrors  int64
+		txBytes          int64 = 2113
+		txCarrierErrors  int64
+		txCompressed     int64
+		txDropped        int64
+		txErrors         int64
+		txFifoErrors     int64
+		txHeartbtErrors  int64
+		txPackets        int64 = 11
+		txWindowErrors   int64
 	)
 
 	netClass := NetClass{
@@ -100,6 +124,30 @@ func TestNetClass(t *testing.T) {
 			Speed:            &speed,
 			TxQueueLen:       &txQueueLen,
 			Type:             &netType,
+			Collisions:       &collisions,
+			Multicast:        &multicast,
+			RxBytes:          &rxBytes,
+			RxCompressed:     &rxCompressed,
+			RxCrcErrors:      &rxCrcErrors,
+			RxDropped:        &rxDropped,
+			RxErrors:         &rxErrrors,
+			RxFifoErrors:     &rxFifoErrors,
+			RxFrameErrors:    &rxFrameErrors,
+			RxLengthErrors:   &rxLengthErrors,
+			RxMissedErrors:   &rxMissedErrors,
+			RxNoHandler:      &rxNoHandler,
+			RxOverErrors:     &rxOverErrors,
+			RxPackets:        &rxPackets,
+			TxAbortedErrors:  &txAbortedErrors,
+			TxBytes:          &txBytes,
+			TxCarrierErrors:  &txCarrierErrors,
+			TxCompressed:     &txCompressed,
+			TxDropped:        &txDropped,
+			TxErrors:         &txErrors,
+			TxFifoErrors:     &txFifoErrors,
+			TxHeartbtErrors:  &txHeartbtErrors,
+			TxPackets:        &txPackets,
+			TxWindowErrors:   &txWindowErrors,
 		},
 	}
 

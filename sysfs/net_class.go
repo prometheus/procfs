@@ -56,6 +56,30 @@ type NetClassIface struct {
 	Speed            *int64 // /sys/class/net/<iface>/speed
 	TxQueueLen       *int64 // /sys/class/net/<iface>/tx_queue_len
 	Type             *int64 // /sys/class/net/<iface>/type
+	Collisions       *int64 // /sys/class/net/<iface>/statistics/collisions
+	Multicast        *int64 // /sys/class/net/<iface>/statistics/multicast
+	RxBytes          *int64 // /sys/class/net/<iface>/statistics/rx_bytes
+	RxCompressed     *int64 // /sys/class/net/<iface>/statistics/rx_compressed
+	RxCrcErrors      *int64 // /sys/class/net/<iface>/statistics/rx_crc_errors
+	RxDropped        *int64 // /sys/class/net/<iface>/statistics/rx_dropped
+	RxErrors         *int64 // /sys/class/net/<iface>/statistics/rx_errors
+	RxFifoErrors     *int64 // /sys/class/net/<iface>/statistics/rx_fifo_errors
+	RxFrameErrors    *int64 // /sys/class/net/<iface>/statistics/rx_frame_errors
+	RxLengthErrors   *int64 // /sys/class/net/<iface>/statistics/rx_length_errors
+	RxMissedErrors   *int64 // /sys/class/net/<iface>/statistics/rx_missed_errors
+	RxNoHandler      *int64 // /sys/class/net/<iface>/statistics/rx_nohandler
+	RxOverErrors     *int64 // /sys/class/net/<iface>/statistics/rx_over_errors
+	RxPackets        *int64 // /sys/class/net/<iface>/statistics/rx_over_packets
+	TxAbortedErrors  *int64 // /sys/class/net/<iface>/statistics/tx_aborted_errors
+	TxBytes          *int64 // /sys/class/net/<iface>/statistics/tx_bytes
+	TxCarrierErrors  *int64 // /sys/class/net/<iface>/statistics/tx_carrier_errors
+	TxCompressed     *int64 // /sys/class/net/<iface>/statistics/tx_compressed
+	TxDropped        *int64 // /sys/class/net/<iface>/statistics/tx_dropped
+	TxErrors         *int64 // /sys/class/net/<iface>/statistics/tx_errors
+	TxFifoErrors     *int64 // /sys/class/net/<iface>/statistics/tx_fifo_errors
+	TxHeartbtErrors  *int64 // /sys/class/net/<iface>/statistics/tx_heartbeat_errors
+	TxPackets        *int64 // /sys/class/net/<iface>/statistics/tx_packets
+	TxWindowErrors   *int64 // /sys/class/net/<iface>/statistics/tx_window_errors
 }
 
 // NetClass is collection of info for every interface (iface) in /sys/class/net. The map keys
@@ -113,71 +137,140 @@ func (nc NetClass) parseNetClassIface(devicePath string) (*NetClassIface, error)
 	}
 
 	for _, f := range files {
-		if !f.Mode().IsRegular() {
+		if !f.Mode().IsRegular() && f.Name() != "statistics" {
 			continue
 		}
-		name := filepath.Join(devicePath, f.Name())
-		value, err := util.SysReadFile(name)
-		if err != nil {
-			if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || err.Error() == "invalid argument" {
-				continue
+
+		if f.Name() == "statistics" {
+			statisticsFiles, err := ioutil.ReadDir(devicePath + "/statistics")
+			if err != nil {
+				return nil, err
 			}
-			return nil, fmt.Errorf("failed to read file %q: %v", name, err)
-		}
-		vp := util.NewValueParser(value)
-		switch f.Name() {
-		case "addr_assign_type":
-			interfaceClass.AddrAssignType = vp.PInt64()
-		case "addr_len":
-			interfaceClass.AddrLen = vp.PInt64()
-		case "address":
-			interfaceClass.Address = value
-		case "broadcast":
-			interfaceClass.Broadcast = value
-		case "carrier":
-			interfaceClass.Carrier = vp.PInt64()
-		case "carrier_changes":
-			interfaceClass.CarrierChanges = vp.PInt64()
-		case "carrier_up_count":
-			interfaceClass.CarrierUpCount = vp.PInt64()
-		case "carrier_down_count":
-			interfaceClass.CarrierDownCount = vp.PInt64()
-		case "dev_id":
-			interfaceClass.DevID = vp.PInt64()
-		case "dormant":
-			interfaceClass.Dormant = vp.PInt64()
-		case "duplex":
-			interfaceClass.Duplex = value
-		case "flags":
-			interfaceClass.Flags = vp.PInt64()
-		case "ifalias":
-			interfaceClass.IfAlias = value
-		case "ifindex":
-			interfaceClass.IfIndex = vp.PInt64()
-		case "iflink":
-			interfaceClass.IfLink = vp.PInt64()
-		case "link_mode":
-			interfaceClass.LinkMode = vp.PInt64()
-		case "mtu":
-			interfaceClass.MTU = vp.PInt64()
-		case "name_assign_type":
-			interfaceClass.NameAssignType = vp.PInt64()
-		case "netdev_group":
-			interfaceClass.NetDevGroup = vp.PInt64()
-		case "operstate":
-			interfaceClass.OperState = value
-		case "phys_port_id":
-			interfaceClass.PhysPortID = value
-		case "phys_port_name":
-			interfaceClass.PhysPortName = value
-		case "phys_switch_id":
-			interfaceClass.PhysSwitchID = value
-		case "speed":
-			interfaceClass.Speed = vp.PInt64()
-		case "tx_queue_len":
-			interfaceClass.TxQueueLen = vp.PInt64()
-		case "type":
-			interfaceClass.Type = vp.PInt64()
+			for _, statisticsFile := range statisticsFiles {
+				statisticName := filepath.Join(devicePath+"/statistics", statisticsFile.Name())
+				value, err := util.SysReadFile(statisticName)
+				if err != nil {
+					if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || err.Error() == "invalid argument" {
+						continue
+					}
+					return nil, fmt.Errorf("failed to read file %q: %v", statisticName, err)
+				}
+				vp := util.NewValueParser(value)
+				switch statisticsFile.Name() {
+				case "collisions":
+					interfaceClass.Collisions = vp.PInt64()
+				case "multicast":
+					interfaceClass.Multicast = vp.PInt64()
+				case "rx_bytes":
+					interfaceClass.RxBytes = vp.PInt64()
+				case "rx_compressed":
+					interfaceClass.RxCompressed = vp.PInt64()
+				case "rx_crc_errors":
+					interfaceClass.RxCrcErrors = vp.PInt64()
+				case "rx_dropped":
+					interfaceClass.RxDropped = vp.PInt64()
+				case "rx_errors":
+					interfaceClass.RxErrors = vp.PInt64()
+				case "rx_fifo_errors":
+					interfaceClass.RxFifoErrors = vp.PInt64()
+				case "rx_frame_errors":
+					interfaceClass.RxFrameErrors = vp.PInt64()
+				case "rx_length_errors":
+					interfaceClass.RxLengthErrors = vp.PInt64()
+				case "rx_missed_errors":
+					interfaceClass.RxMissedErrors = vp.PInt64()
+				case "rx_nohandler":
+					interfaceClass.RxNoHandler = vp.PInt64()
+				case "rx_over_errors":
+					interfaceClass.RxOverErrors = vp.PInt64()
+				case "rx_packets":
+					interfaceClass.RxPackets = vp.PInt64()
+				case "tx_aborted_errors":
+					interfaceClass.TxAbortedErrors = vp.PInt64()
+				case "tx_bytes":
+					interfaceClass.TxBytes = vp.PInt64()
+				case "tx_carrier_errors":
+					interfaceClass.TxCarrierErrors = vp.PInt64()
+				case "tx_compressed":
+					interfaceClass.TxCompressed = vp.PInt64()
+				case "tx_dropped":
+					interfaceClass.TxDropped = vp.PInt64()
+				case "tx_errors":
+					interfaceClass.TxErrors = vp.PInt64()
+				case "tx_fifo_errors":
+					interfaceClass.TxFifoErrors = vp.PInt64()
+				case "tx_heartbeat_errors":
+					interfaceClass.TxHeartbtErrors = vp.PInt64()
+				case "tx_packets":
+					interfaceClass.TxPackets = vp.PInt64()
+				case "tx_window_errors":
+					interfaceClass.TxWindowErrors = vp.PInt64()
+				}
+			}
+		} else {
+			name := filepath.Join(devicePath, f.Name())
+			value, err := util.SysReadFile(name)
+			if err != nil {
+				if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || err.Error() == "invalid argument" {
+					continue
+				}
+				return nil, fmt.Errorf("failed to read file %q: %v", name, err)
+			}
+			vp := util.NewValueParser(value)
+			switch f.Name() {
+			case "addr_assign_type":
+				interfaceClass.AddrAssignType = vp.PInt64()
+			case "addr_len":
+				interfaceClass.AddrLen = vp.PInt64()
+			case "address":
+				interfaceClass.Address = value
+			case "broadcast":
+				interfaceClass.Broadcast = value
+			case "carrier":
+				interfaceClass.Carrier = vp.PInt64()
+			case "carrier_changes":
+				interfaceClass.CarrierChanges = vp.PInt64()
+			case "carrier_up_count":
+				interfaceClass.CarrierUpCount = vp.PInt64()
+			case "carrier_down_count":
+				interfaceClass.CarrierDownCount = vp.PInt64()
+			case "dev_id":
+				interfaceClass.DevID = vp.PInt64()
+			case "dormant":
+				interfaceClass.Dormant = vp.PInt64()
+			case "duplex":
+				interfaceClass.Duplex = value
+			case "flags":
+				interfaceClass.Flags = vp.PInt64()
+			case "ifalias":
+				interfaceClass.IfAlias = value
+			case "ifindex":
+				interfaceClass.IfIndex = vp.PInt64()
+			case "iflink":
+				interfaceClass.IfLink = vp.PInt64()
+			case "link_mode":
+				interfaceClass.LinkMode = vp.PInt64()
+			case "mtu":
+				interfaceClass.MTU = vp.PInt64()
+			case "name_assign_type":
+				interfaceClass.NameAssignType = vp.PInt64()
+			case "netdev_group":
+				interfaceClass.NetDevGroup = vp.PInt64()
+			case "operstate":
+				interfaceClass.OperState = value
+			case "phys_port_id":
+				interfaceClass.PhysPortID = value
+			case "phys_port_name":
+				interfaceClass.PhysPortName = value
+			case "phys_switch_id":
+				interfaceClass.PhysSwitchID = value
+			case "speed":
+				interfaceClass.Speed = vp.PInt64()
+			case "tx_queue_len":
+				interfaceClass.TxQueueLen = vp.PInt64()
+			case "type":
+				interfaceClass.Type = vp.PInt64()
+			}
 		}
 	}
 	return &interfaceClass, nil

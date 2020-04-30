@@ -2605,6 +2605,11 @@ Mode: 755
 Directory: fixtures/sys/class/infiniband/mlx4_0/ports/1/counters
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/infiniband/mlx4_0/ports/1/counters/VL15_dropped
+Lines: 1
+0
+Mode: 664
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/1/counters/excessive_buffer_overrun_errors
 Lines: 1
 0
@@ -2705,6 +2710,11 @@ Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/infiniband/mlx4_0/ports/2/counters
 Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/infiniband/mlx4_0/ports/2/counters/VL15_dropped
+Lines: 1
+0
+Mode: 664
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/2/counters/excessive_buffer_overrun_errors
 Lines: 1

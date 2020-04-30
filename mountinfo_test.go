@@ -131,6 +131,38 @@ func TestMountInfo(t *testing.T) {
 			},
 			invalid: false,
 		},
+		{
+			name: "Docker overlay with 10 fields (no optional fields)",
+			s:    "137 45 253:2 /lib/docker/overlay2 /var/lib/docker/overlay2 rw,relatime - ext4 /dev/mapper/vg0-lv_var rw,data=ordered",
+			mount: &MountInfo{
+				MountID:        137,
+				ParentID:       45,
+				MajorMinorVer:  "253:2",
+				Root:           "/lib/docker/overlay2",
+				MountPoint:     "/var/lib/docker/overlay2",
+				Options:        map[string]string{"rw": "", "relatime": ""},
+				OptionalFields: map[string]string{},
+				FSType:         "ext4",
+				Source:         "/dev/mapper/vg0-lv_var",
+				SuperOptions:   map[string]string{"rw": "", "data": "ordered"},
+			},
+		},
+		{
+			name: "bind chroot bind mount with 10 fields (no optional fields)",
+			s:    "157 47 253:2 /etc/named /var/named/chroot/etc/named rw,relatime - ext4 /dev/mapper/vg0-lv_root rw,data=ordered",
+			mount: &MountInfo{
+				MountID:        157,
+				ParentID:       47,
+				MajorMinorVer:  "253:2",
+				Root:           "/etc/named",
+				MountPoint:     "/var/named/chroot/etc/named",
+				Options:        map[string]string{"rw": "", "relatime": ""},
+				OptionalFields: map[string]string{},
+				FSType:         "ext4",
+				Source:         "/dev/mapper/vg0-lv_root",
+				SuperOptions:   map[string]string{"rw": "", "data": "ordered"},
+			},
+		},
 	}
 
 	for i, test := range tests {

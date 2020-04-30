@@ -77,7 +77,7 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 
 	mountInfo := strings.Split(mountString, " ")
 	mountInfoLength := len(mountInfo)
-	if mountInfoLength < 11 {
+	if mountInfoLength < 10 {
 		return nil, fmt.Errorf("couldn't find enough fields in mount string: %s", mountString)
 	}
 

@@ -19,7 +19,7 @@ import (
 	"testing"
 )
 
-func BenchmarkProcSmaps(b *testing.B) {
+func BenchmarkProcSMapsRollup(b *testing.B) {
 	fs, err := NewFS(procTestFixtures)
 	if err != nil {
 		b.Fatalf("Creating pseudo fs from getProcFixtures failed at fixtures/proc with error: %s", err)
@@ -32,36 +32,36 @@ func BenchmarkProcSmaps(b *testing.B) {
 
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		_, _ = p.ProcSMaps()
+		_, _ = p.ProcSMapsRollup()
 	}
 }
 
-func TestProcSmaps(t *testing.T) {
+func TestProcSmapsRollup(t *testing.T) {
 	p, err := getProcFixtures(t).Proc(26231)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	s1, err := p.ProcSMaps()
+	s1, err := p.ProcSMapsRollup()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	s2, err := p.procSMapsManualRollup()
+	s2, err := p.procSMapsRollupManual()
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	cases := []struct {
 		name  string
-		smaps ProcSMaps
+		smaps ProcSMapsRollup
 	}{
 		{
-			name:  "ProcSMaps",
+			name:  "ProcSMapsRollup",
 			smaps: s1,
 		},
 		{
-			name:  "procSMapsManualRollup",
+			name:  "procSMapsRollupManual",
 			smaps: s2,
 		},
 	}

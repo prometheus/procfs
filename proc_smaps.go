@@ -31,7 +31,7 @@ var (
 	rFirstLine = regexp.MustCompile(`^[a-f0-9].*$`)
 )
 
-type ProcSMaps struct {
+type ProcSMapsRollup struct {
 	// Amount of the mapping that is currently resident in RAM
 	Rss uint64
 	// Process's proportional share of this mapping
@@ -54,22 +54,22 @@ type ProcSMaps struct {
 	SwapPss uint64
 }
 
-// ProcSMaps reads from /proc/[pid]/smaps_rollup to get summed memory information of the
+// ProcSMapsRollup reads from /proc/[pid]/smaps_rollup to get summed memory information of the
 // process.
 //
 // If smaps_rollup does not exists (require kernel >= 4.15), the content of /proc/pid/smaps will
 // we read and summed.
-func (p Proc) ProcSMaps() (ProcSMaps, error) {
+func (p Proc) ProcSMapsRollup() (ProcSMapsRollup, error) {
 	data, err := util.ReadFileNoStat(p.path("smaps_rollup"))
 	if err != nil && os.IsNotExist(err) {
-		return p.procSMapsManualRollup()
+		return p.procSMapsRollupManual()
 	}
 	if err != nil {
-		return ProcSMaps{}, err
+		return ProcSMapsRollup{}, err
 	}
 
 	lines := strings.Split(string(data), "\n")
-	smaps := ProcSMaps{}
+	smaps := ProcSMapsRollup{}
 
 	// skip first line which don't contains information we need
 	lines = lines[1:]
@@ -79,7 +79,7 @@ func (p Proc) ProcSMaps() (ProcSMaps, error) {
 		}
 
 		if err := smaps.parseLine(line); err != nil {
-			return ProcSMaps{}, err
+			return ProcSMapsRollup{}, err
 		}
 	}
 
@@ -87,14 +87,14 @@ func (p Proc) ProcSMaps() (ProcSMaps, error) {
 }
 
 // Read /proc/pid/smaps and do the roll-up in Go code.
-func (p Proc) procSMapsManualRollup() (ProcSMaps, error) {
+func (p Proc) procSMapsRollupManual() (ProcSMapsRollup, error) {
 	file, err := os.Open(p.path("smaps"))
 	if err != nil {
-		return ProcSMaps{}, err
+		return ProcSMapsRollup{}, err
 	}
 	defer file.Close()
 
-	smaps := ProcSMaps{}
+	smaps := ProcSMapsRollup{}
 	scan := bufio.NewScanner(file)
 
 	for scan.Scan() {
@@ -105,14 +105,14 @@ func (p Proc) procSMapsManualRollup() (ProcSMaps, error) {
 		}
 
 		if err := smaps.parseLine(line); err != nil {
-			return ProcSMaps{}, err
+			return ProcSMapsRollup{}, err
 		}
 	}
 
 	return smaps, nil
 }
 
-func (s *ProcSMaps) parseLine(line string) error {
+func (s *ProcSMapsRollup) parseLine(line string) error {
 	kv := strings.SplitN(line, ":", 2)
 	if len(kv) != 2 {
 		fmt.Println(line)
@@ -136,7 +136,7 @@ func (s *ProcSMaps) parseLine(line string) error {
 	return nil
 }
 
-func (s *ProcSMaps) addValue(k string, vString string, vUint uint64, vUintBytes uint64) {
+func (s *ProcSMapsRollup) addValue(k string, vString string, vUint uint64, vUintBytes uint64) {
 	switch k {
 	case "Rss":
 		s.Rss += vUintBytes

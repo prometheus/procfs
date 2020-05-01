@@ -11,119 +11,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// +build linux
+
 package procfs
 
 import "testing"
-
-func TestCPUInfoBasic(t *testing.T) {
-	cpuinfo, err := getProcFixtures(t).CPUInfo()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if cpuinfo == nil {
-		t.Fatal("cpuinfo is nil")
-	}
-
-	if want, have := 8, len(cpuinfo); want != have {
-		t.Errorf("want number of processors %v, have %v", want, have)
-	}
-
-	if want, have := uint(7), cpuinfo[7].Processor; want != have {
-		t.Errorf("want processor %v, have %v", want, have)
-	}
-	if want, have := "GenuineIntel", cpuinfo[0].VendorID; want != have {
-		t.Errorf("want vendor %v, have %v", want, have)
-	}
-	if want, have := "6", cpuinfo[1].CPUFamily; want != have {
-		t.Errorf("want family %v, have %v", want, have)
-	}
-	if want, have := "142", cpuinfo[2].Model; want != have {
-		t.Errorf("want model %v, have %v", want, have)
-	}
-	if want, have := "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz", cpuinfo[3].ModelName; want != have {
-		t.Errorf("want model %v, have %v", want, have)
-	}
-	if want, have := uint(8), cpuinfo[4].Siblings; want != have {
-		t.Errorf("want siblings %v, have %v", want, have)
-	}
-	if want, have := "1", cpuinfo[5].CoreID; want != have {
-		t.Errorf("want core id %v, have %v", want, have)
-	}
-	if want, have := uint(4), cpuinfo[6].CPUCores; want != have {
-		t.Errorf("want cpu cores %v, have %v", want, have)
-	}
-	if want, have := "vme", cpuinfo[7].Flags[1]; want != have {
-		t.Errorf("want flag %v, have %v", want, have)
-	}
-}
-
-func TestCPUInfoDetectFormat(t *testing.T) {
-	cpuinfoX86Bytes := []byte("processor  : 0\nvendor_id : GenuineIntel")
-	if want, have := platformX86, cpuinfoDetectFormat(cpuinfoX86Bytes); want != have {
-		t.Errorf("want cpuinfo format %v, have %v", want, have)
-	}
-	cpuinfoArm7Bytes := []byte(cpuinfoArm7)
-	if want, have := platformARM, cpuinfoDetectFormat(cpuinfoArm7Bytes); want != have {
-		t.Errorf("want cpuinfo format %v, have %v", want, have)
-	}
-	cpuinfoS390xBytes := []byte(cpuinfoS390x)
-	if want, have := platformS390X, cpuinfoDetectFormat(cpuinfoS390xBytes); want != have {
-		t.Errorf("want cpuinfo format %v, have %v", want, have)
-	}
-	cpuinfoPpc64Bytes := []byte(cpuinfoPpc64)
-	if want, have := platformPPC, cpuinfoDetectFormat(cpuinfoPpc64Bytes); want != have {
-		t.Errorf("want cpuinfo format %v, have %v", want, have)
-	}
-}
-
-func TestCPUInfoParseARM(t *testing.T) {
-	cpuinfo, err := parseCPUInfo([]byte(cpuinfoArm7))
-	if err != nil || cpuinfo == nil {
-		t.Fatalf("unable to parse arm cpu info: %v", err)
-	}
-	if want, have := 2, len(cpuinfo); want != have {
-		t.Errorf("want number of processors %v, have %v", want, have)
-	}
-	if want, have := "ARMv7 Processor rev 5 (v7l)", cpuinfo[0].VendorID; want != have {
-		t.Errorf("want vendor %v, have %v", want, have)
-	}
-	if want, have := "thumb", cpuinfo[1].Flags[2]; want != have {
-		t.Errorf("want flag %v, have %v", want, have)
-	}
-}
-
-func TestCPUInfoParseS390X(t *testing.T) {
-	cpuinfo, err := parseCPUInfo([]byte(cpuinfoS390x))
-	if err != nil || cpuinfo == nil {
-		t.Fatalf("unable to parse s390x cpu info: %v", err)
-	}
-	if want, have := 4, len(cpuinfo); want != have {
-		t.Errorf("want number of processors %v, have %v", want, have)
-	}
-	if want, have := "IBM/S390", cpuinfo[0].VendorID; want != have {
-		t.Errorf("want vendor %v, have %v", want, have)
-	}
-	if want, have := "ldisp", cpuinfo[1].Flags[4]; want != have {
-		t.Errorf("want flag %v, have %v", want, have)
-	}
-	if want, have := 5000.0, cpuinfo[2].CPUMHz; want != have {
-		t.Errorf("want cpu MHz %v, have %v", want, have)
-	}
-}
-
-func TestCPUInfoParsePPC(t *testing.T) {
-	cpuinfo, err := parseCPUInfo([]byte(cpuinfoPpc64))
-	if err != nil || cpuinfo == nil {
-		t.Fatalf("unable to parse ppc cpu info: %v", err)
-	}
-	if want, have := 6, len(cpuinfo); want != have {
-		t.Errorf("want number of processors %v, have %v", want, have)
-	}
-	if want, have := 3000.00, cpuinfo[2].CPUMHz; want != have {
-		t.Errorf("want cpu mhz %v, have %v", want, have)
-	}
-}
 
 const (
 	cpuinfoArm7 = `
@@ -217,3 +109,113 @@ model		: IBM,8233-E8B
 machine		: CHRP IBM,8233-E8B
 `
 )
+
+func TestCPUInfoDetectFormat(t *testing.T) {
+	cpuinfoX86Bytes := []byte("processor  : 0\nvendor_id : GenuineIntel")
+	if want, have := platformX86, cpuinfoDetectFormat(cpuinfoX86Bytes); want != have {
+		t.Errorf("want cpuinfo format %v, have %v", want, have)
+	}
+	cpuinfoArm7Bytes := []byte(cpuinfoArm7)
+	if want, have := platformARM, cpuinfoDetectFormat(cpuinfoArm7Bytes); want != have {
+		t.Errorf("want cpuinfo format %v, have %v", want, have)
+	}
+	cpuinfoS390xBytes := []byte(cpuinfoS390x)
+	if want, have := platformS390X, cpuinfoDetectFormat(cpuinfoS390xBytes); want != have {
+		t.Errorf("want cpuinfo format %v, have %v", want, have)
+	}
+	cpuinfoPpc64Bytes := []byte(cpuinfoPpc64)
+	if want, have := platformPPC, cpuinfoDetectFormat(cpuinfoPpc64Bytes); want != have {
+		t.Errorf("want cpuinfo format %v, have %v", want, have)
+	}
+}
+
+func TestCPUInfoX86(t *testing.T) {
+	cpuinfo, err := getProcFixtures(t).CPUInfo()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if cpuinfo == nil {
+		t.Fatal("cpuinfo is nil")
+	}
+
+	if want, have := 8, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+
+	if want, have := uint(7), cpuinfo[7].Processor; want != have {
+		t.Errorf("want processor %v, have %v", want, have)
+	}
+	if want, have := "GenuineIntel", cpuinfo[0].VendorID; want != have {
+		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "6", cpuinfo[1].CPUFamily; want != have {
+		t.Errorf("want family %v, have %v", want, have)
+	}
+	if want, have := "142", cpuinfo[2].Model; want != have {
+		t.Errorf("want model %v, have %v", want, have)
+	}
+	if want, have := "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz", cpuinfo[3].ModelName; want != have {
+		t.Errorf("want model %v, have %v", want, have)
+	}
+	if want, have := uint(8), cpuinfo[4].Siblings; want != have {
+		t.Errorf("want siblings %v, have %v", want, have)
+	}
+	if want, have := "1", cpuinfo[5].CoreID; want != have {
+		t.Errorf("want core id %v, have %v", want, have)
+	}
+	if want, have := uint(4), cpuinfo[6].CPUCores; want != have {
+		t.Errorf("want cpu cores %v, have %v", want, have)
+	}
+	if want, have := "vme", cpuinfo[7].Flags[1]; want != have {
+		t.Errorf("want flag %v, have %v", want, have)
+	}
+}
+
+func TestCPUInfoParseARM(t *testing.T) {
+	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse arm cpu info: %v", err)
+	}
+	if want, have := 2, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := "ARMv7 Processor rev 5 (v7l)", cpuinfo[0].VendorID; want != have {
+		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "thumb", cpuinfo[1].Flags[2]; want != have {
+		t.Errorf("want flag %v, have %v", want, have)
+	}
+}
+
+func TestCPUInfoParseS390X(t *testing.T) {
+	cpuinfo, err := parseCPUInfoS390X([]byte(cpuinfoS390x))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse s390x cpu info: %v", err)
+	}
+	if want, have := 4, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := "IBM/S390", cpuinfo[0].VendorID; want != have {
+		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "ldisp", cpuinfo[1].Flags[4]; want != have {
+		t.Errorf("want flag %v, have %v", want, have)
+	}
+	if want, have := 5000.0, cpuinfo[2].CPUMHz; want != have {
+		t.Errorf("want cpu MHz %v, have %v", want, have)
+	}
+}
+
+func TestCPUInfoParsePPC(t *testing.T) {
+	cpuinfo, err := parseCPUInfoPPC([]byte(cpuinfoPpc64))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse ppc cpu info: %v", err)
+	}
+	if want, have := 6, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := 3000.00, cpuinfo[2].CPUMHz; want != have {
+		t.Errorf("want cpu mhz %v, have %v", want, have)
+	}
+}

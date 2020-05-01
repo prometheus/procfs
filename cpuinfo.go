@@ -11,12 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// +build linux
+
 package procfs
 
 import (
 	"bufio"
 	"bytes"
 	"errors"
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -96,23 +99,11 @@ func (fs FS) CPUInfo() ([]CPUInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	return parseCPUInfo(data)
-}
-
-// parseCPUInfo parses data from /proc/cpuinfo
-func parseCPUInfo(info []byte) ([]CPUInfo, error) {
-	platform := cpuinfoDetectFormat(info)
-	switch platform {
-	case platformX86:
-		return parseCPUInfoX86(info)
-	case platformARM:
-		return parseCPUInfoARM(info)
-	case platformS390X:
-		return parseCPUInfoS390X(info)
-	case platformPPC:
-		return parseCPUInfoPPC(info)
+	if format := cpuinfoDetectFormat(data); format != expectedPlatform {
+		return nil, fmt.Errorf("unable to parse CPU info, expected format %v, found: %v",
+			expectedPlatform, format)
 	}
-	return nil, errors.New("unable to determine format of 'cpuinfo'")
+	return parseCPUInfo(data)
 }
 
 func parseCPUInfoX86(info []byte) ([]CPUInfo, error) {

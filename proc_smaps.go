@@ -56,7 +56,7 @@ type ProcSMap struct {
 	VMFlags string
 }
 
-// SizeSum returns the sum of Pss from all mappings
+// SizeSum returns the sum of all mappings
 func (s ProcSMaps) SizeSum() (sum uint64) {
 	for _, x := range s {
 		sum += x.Size
@@ -65,7 +65,7 @@ func (s ProcSMaps) SizeSum() (sum uint64) {
 	return
 }
 
-// RssSum returns the sum of Pss from all mappings
+// RssSum returns the sum of all mappings
 func (s ProcSMaps) RssSum() (sum uint64) {
 	for _, x := range s {
 		sum += x.Rss
@@ -74,7 +74,7 @@ func (s ProcSMaps) RssSum() (sum uint64) {
 	return
 }
 
-// PssSum returns the sum of Pss from all mappings
+// PssSum returns the sum of all mappings
 func (s ProcSMaps) PssSum() (sum uint64) {
 	for _, x := range s {
 		sum += x.Pss
@@ -83,7 +83,7 @@ func (s ProcSMaps) PssSum() (sum uint64) {
 	return
 }
 
-// SharedCleanSum returns the sum of Pss from all mappings
+// SharedCleanSum returns the sum of all mappings
 func (s ProcSMaps) SharedCleanSum() (sum uint64) {
 	for _, x := range s {
 		sum += x.SharedClean
@@ -92,7 +92,7 @@ func (s ProcSMaps) SharedCleanSum() (sum uint64) {
 	return
 }
 
-// SharedDirtySum returns the sum of Pss from all mappings
+// SharedDirtySum returns the sum of all mappings
 func (s ProcSMaps) SharedDirtySum() (sum uint64) {
 	for _, x := range s {
 		sum += x.SharedDirty
@@ -101,7 +101,7 @@ func (s ProcSMaps) SharedDirtySum() (sum uint64) {
 	return
 }
 
-// PrivateCleanSum returns the sum of Pss from all mappings
+// PrivateCleanSum returns the sum of all mappings
 func (s ProcSMaps) PrivateCleanSum() (sum uint64) {
 	for _, x := range s {
 		sum += x.PrivateClean
@@ -110,7 +110,7 @@ func (s ProcSMaps) PrivateCleanSum() (sum uint64) {
 	return
 }
 
-// PrivateDirtySum returns the sum of Pss from all mappings
+// PrivateDirtySum returns the sum of all mappings
 func (s ProcSMaps) PrivateDirtySum() (sum uint64) {
 	for _, x := range s {
 		sum += x.PrivateDirty
@@ -119,7 +119,7 @@ func (s ProcSMaps) PrivateDirtySum() (sum uint64) {
 	return
 }
 
-// ReferencedSum returns the sum of Pss from all mappings
+// ReferencedSum returns the sum of all mappings
 func (s ProcSMaps) ReferencedSum() (sum uint64) {
 	for _, x := range s {
 		sum += x.Referenced
@@ -128,7 +128,7 @@ func (s ProcSMaps) ReferencedSum() (sum uint64) {
 	return
 }
 
-// AnonymousSum returns the sum of Pss from all mappings
+// AnonymousSum returns the sum of all mappings
 func (s ProcSMaps) AnonymousSum() (sum uint64) {
 	for _, x := range s {
 		sum += x.Anonymous
@@ -137,7 +137,7 @@ func (s ProcSMaps) AnonymousSum() (sum uint64) {
 	return
 }
 
-// SwapSum returns the sum of Pss from all mappings
+// SwapSum returns the sum of all mappings
 func (s ProcSMaps) SwapSum() (sum uint64) {
 	for _, x := range s {
 		sum += x.Swap
@@ -146,7 +146,7 @@ func (s ProcSMaps) SwapSum() (sum uint64) {
 	return
 }
 
-// SwapPssSum returns the sum of Pss from all mappings
+// SwapPssSum returns the sum of all mappings
 func (s ProcSMaps) SwapPssSum() (sum uint64) {
 	for _, x := range s {
 		sum += x.SwapPss

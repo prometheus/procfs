@@ -199,7 +199,12 @@ func (p Proc) ProcSMaps() (ProcSMaps, error) {
 		v := strings.TrimSpace(kv[1])
 		v = strings.TrimRight(v, " kB")
 
-		vKBytes, _ := strconv.ParseUint(v, 10, 64)
+		vKBytes, err := strconv.ParseUint(v, 10, 64)
+
+		// VmFlags is the only field which is not a number, ignore parse error for it.
+		if err != nil && k != "VmFlags" {
+			return nil, err
+		}
 		vBytes := vKBytes * 1024
 
 		currentMap.fillValue(k, v, vKBytes, vBytes)

@@ -22,6 +22,23 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+func BenchmarkProcSmaps(b *testing.B) {
+	fs, err := NewFS(procTestFixtures)
+	if err != nil {
+		b.Fatalf("Creating pseudo fs from getProcFixtures failed at fixtures/proc with error: %s", err)
+	}
+
+	p, err := fs.Proc(26231)
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_, _ = p.ProcSMaps()
+	}
+}
+
 func TestProcSmaps(t *testing.T) {
 	p, err := getProcFixtures(t).Proc(26231)
 	if err != nil {

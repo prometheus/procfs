@@ -61,7 +61,7 @@ type FibreChannelHost struct {
 
 type FibreChannelClass map[string]FibreChannelHost
 
-// parses everything in /sys/class/fc_host
+// FibreChannelClass parses everything in /sys/class/fc_host.
 func (fs FS) FibreChannelClass() (FibreChannelClass, error) {
 	path := fs.sys.Path(fibrechannelClassPath)
 
@@ -142,6 +142,7 @@ func (fs FS) parseFibreChannelHost(name string) (*FibreChannelHost, error) {
 	return &host, nil
 }
 
+// parseFibreChannelStatistics parses metrics from a single FC host.
 func parseFibreChannelStatistics(hostPath string) (*FibreChannelCounters, error) {
 	var counters FibreChannelCounters
 
@@ -167,7 +168,7 @@ func parseFibreChannelStatistics(hostPath string) (*FibreChannelCounters, error)
 
 		vp := util.NewValueParser(value)
 
-		// Below switch was automatically generated. Don't need everything in there yet, so the unwanted bits are commented out
+		// Below switch was automatically generated. Don't need everything in there yet, so the unwanted bits are commented out.
 		switch f.Name() {
 		case "dumped_frames":
 			counters.DumpedFrames = *vp.PUInt64()

@@ -29,7 +29,7 @@ import (
 type ClassThermalZoneStats struct {
 	Name    string  // The name of the zone from the directory structure.
 	Type    string  // The type of thermal zone.
-	Temp    int64  // Temperature in millidegree Celsius.
+	Temp    int64   // Temperature in millidegree Celsius.
 	Policy  string  // One of the various thermal governors used for a particular zone.
 	Mode    *bool   // Optional: One of the predefined values in [enabled, disabled].
 	Passive *uint64 // Optional: millidegrees Celsius. (0 for disabled, > 1000 for enabled+value)

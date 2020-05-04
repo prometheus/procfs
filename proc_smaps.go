@@ -121,13 +121,15 @@ func (s *ProcSMapsRollup) parseLine(line string) error {
 	}
 
 	k := kv[0]
+	if k == "VmFlags" {
+		return nil
+	}
+
 	v := strings.TrimSpace(kv[1])
 	v = strings.TrimRight(v, " kB")
 
 	vKBytes, err := strconv.ParseUint(v, 10, 64)
-
-	// VmFlags is the only field which is not a number, ignore parse error for it.
-	if err != nil && k != "VmFlags" {
+	if err != nil {
 		return err
 	}
 	vBytes := vKBytes * 1024

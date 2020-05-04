@@ -160,6 +160,7 @@ func parseFibreChannelStatistics(hostPath string) (*FibreChannelCounters, error)
 		name := filepath.Join(path, f.Name())
 		value, err := util.SysReadFile(name)
 		if err != nil {
+			// there are some write-only files in this directory; we can safely skip over them
 			if os.IsNotExist(err) || err.Error() == "operation not supported" || err.Error() == "invalid argument" {
 				continue
 			}

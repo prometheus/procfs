@@ -16,6 +16,4 @@
 
 package procfs
 
-const expectedPlatform = platformPPC
-
 var parseCPUInfo = parseCPUInfoPPC

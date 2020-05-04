@@ -16,6 +16,4 @@
 
 package procfs
 
-const expectedPlatform = platformS390X
-
 var parseCPUInfo = parseCPUInfoS390x

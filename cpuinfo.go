@@ -19,7 +19,6 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
-	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -57,40 +56,10 @@ type CPUInfo struct {
 	PowerManagement string
 }
 
-const (
-	platformX86     = "x86"
-	platformARM     = "arm"
-	platformS390X   = "s390x"
-	platformPPC     = "ppc"
-	platformUnknown = "unknown"
-)
-
 var (
-	cpuinfoX86Regexp   = regexp.MustCompile(`(?m)^\s*processor\s*:\s*\d+\s*vendor`)
-	cpuinfoARMRegexp   = regexp.MustCompile(`^\s*Processor\s*:\s*ARM`)
-	cpuinfoS390XRegexp = regexp.MustCompile(`^\s*vendor_id\s*:\s*IBM/S390`)
-	cpuinfoPPCRegexp   = regexp.MustCompile(`(?m)^\s*processor\s*:\s*\d+\s+cpu\s+:\s+POWER`)
-
 	cpuinfoClockRegexp          = regexp.MustCompile(`([\d.]+)`)
 	cpuinfoS390XProcessorRegexp = regexp.MustCompile(`^processor\s+(\d+):.*`)
 )
-
-// cpuinfoDetectFormat attempts to determine the format used by the cpuinfo.
-// This format corresponds to the platform generating the /proc/cpuinfo file.
-// Returns "unknown"
-func cpuinfoDetectFormat(info []byte) string {
-	switch {
-	case cpuinfoX86Regexp.Match(info):
-		return platformX86
-	case cpuinfoARMRegexp.Match(info):
-		return platformARM
-	case cpuinfoPPCRegexp.Match(info):
-		return platformPPC
-	case cpuinfoS390XRegexp.Match(info):
-		return platformS390X
-	}
-	return platformUnknown
-}
 
 // CPUInfo returns information about current system CPUs.
 // See https://www.kernel.org/doc/Documentation/filesystems/proc.txt
@@ -98,10 +67,6 @@ func (fs FS) CPUInfo() ([]CPUInfo, error) {
 	data, err := util.ReadFileNoStat(fs.proc.Path("cpuinfo"))
 	if err != nil {
 		return nil, err
-	}
-	if format := cpuinfoDetectFormat(data); format != expectedPlatform {
-		return nil, fmt.Errorf("unable to parse CPU info, expected format %v, found: %v",
-			expectedPlatform, format)
 	}
 	return parseCPUInfo(data)
 }

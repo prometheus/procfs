@@ -16,6 +16,4 @@
 
 package procfs
 
-const expectedPlatform = platformX86
-
 var parseCPUInfo = parseCPUInfoX86

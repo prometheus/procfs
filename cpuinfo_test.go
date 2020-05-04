@@ -110,25 +110,6 @@ machine		: CHRP IBM,8233-E8B
 `
 )
 
-func TestCPUInfoDetectFormat(t *testing.T) {
-	cpuinfoX86Bytes := []byte("processor  : 0\nvendor_id : GenuineIntel")
-	if want, have := platformX86, cpuinfoDetectFormat(cpuinfoX86Bytes); want != have {
-		t.Errorf("want cpuinfo format %v, have %v", want, have)
-	}
-	cpuinfoArm7Bytes := []byte(cpuinfoArm7)
-	if want, have := platformARM, cpuinfoDetectFormat(cpuinfoArm7Bytes); want != have {
-		t.Errorf("want cpuinfo format %v, have %v", want, have)
-	}
-	cpuinfoS390xBytes := []byte(cpuinfoS390x)
-	if want, have := platformS390X, cpuinfoDetectFormat(cpuinfoS390xBytes); want != have {
-		t.Errorf("want cpuinfo format %v, have %v", want, have)
-	}
-	cpuinfoPpc64Bytes := []byte(cpuinfoPpc64)
-	if want, have := platformPPC, cpuinfoDetectFormat(cpuinfoPpc64Bytes); want != have {
-		t.Errorf("want cpuinfo format %v, have %v", want, have)
-	}
-}
-
 func TestCPUInfoX86(t *testing.T) {
 	cpuinfo, err := getProcFixtures(t).CPUInfo()
 	if err != nil {

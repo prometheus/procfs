@@ -28,7 +28,8 @@ import (
 )
 
 var (
-	rFirstLine = regexp.MustCompile(`^[a-f0-9].*$`)
+	// match the header line before each mapped zone in /proc/pid/smaps
+	procSMapsHeaderLine = regexp.MustCompile(`^[a-f0-9].*$`)
 )
 
 type ProcSMapsRollup struct {
@@ -100,7 +101,7 @@ func (p Proc) procSMapsRollupManual() (ProcSMapsRollup, error) {
 	for scan.Scan() {
 		line := scan.Text()
 
-		if rFirstLine.MatchString(line) {
+		if procSMapsHeaderLine.MatchString(line) {
 			continue
 		}
 

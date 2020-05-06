@@ -12,7 +12,6 @@
 // limitations under the License.
 
 // +build linux
-// +build ppc64,ppc64le
 
 package procfs
 

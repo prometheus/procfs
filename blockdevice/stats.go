@@ -69,21 +69,26 @@ type IOStats struct {
 	DiscardSectors uint64
 	// DiscardTicks is the total number of milliseconds spent by all discards.
 	DiscardTicks uint64
+	// FlushRequestsCompleted is the total number of flush request completed successfully.
+	FlushRequestsCompleted uint64
+	// TimeSpentFlushing is the total number of milliseconds spent flushing.
+	TimeSpentFlushing uint64
 }
 
 // Diskstats combines the device Info and IOStats
 type Diskstats struct {
 	Info
 	IOStats
-	// IoStatsCount contains the number of io stats read.  For kernel versions
-	// 4.18+, there should be 18 fields read.  For earlier kernel versions this
+	// IoStatsCount contains the number of io stats read. For kernel versions 5.5+,
+	// there should be 20 fields read. For kernel versions 4.18+,
+	// there should be 18 fields read. For earlier kernel versions this
 	// will be 14 because the discard values are not available.
 	IoStatsCount int
 }
 
 const (
 	procDiskstatsPath   = "diskstats"
-	procDiskstatsFormat = "%d %d %s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
+	procDiskstatsFormat = "%d %d %s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
 	sysBlockPath        = "block"
 	sysBlockStatFormat  = "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
 )
@@ -153,13 +158,15 @@ func (fs FS) ProcDiskstats() ([]Diskstats, error) {
 			&d.DiscardMerges,
 			&d.DiscardSectors,
 			&d.DiscardTicks,
+			&d.FlushRequestsCompleted,
+			&d.TimeSpentFlushing,
 		)
 		// The io.EOF error can be safely ignored because it just means we read fewer than
-		// the full 18 fields.
+		// the full 20 fields.
 		if err != nil && err != io.EOF {
 			return diskstats, err
 		}
-		if d.IoStatsCount == 14 || d.IoStatsCount == 18 {
+		if d.IoStatsCount == 14 || d.IoStatsCount == 18 || d.IoStatsCount == 20 {
 			diskstats = append(diskstats, *d)
 		}
 	}

@@ -32,7 +32,7 @@ func TestDiskstats(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	expectedNumOfDevices := 49
+	expectedNumOfDevices := 52
 	if len(diskstats) != expectedNumOfDevices {
 		t.Errorf(failMsgFormat, "Incorrect number of devices", expectedNumOfDevices, len(diskstats))
 	}
@@ -50,6 +50,15 @@ func TestDiskstats(t *testing.T) {
 	}
 	if diskstats[48].IoStatsCount != 18 {
 		t.Errorf(failMsgFormat, "Incorrect number of stats read", 18, diskstats[48].IoStatsCount)
+	}
+	if diskstats[49].IoStatsCount != 20 {
+		t.Errorf(failMsgFormat, "Incorrect number of stats read", 20, diskstats[50].IoStatsCount)
+	}
+	if diskstats[49].FlushRequestsCompleted != 127 {
+		t.Errorf(failMsgFormat, "Incorrect number of flash requests completed", 127, diskstats[50].FlushRequestsCompleted)
+	}
+	if diskstats[49].TimeSpentFlushing != 182 {
+		t.Errorf(failMsgFormat, "Incorrect time spend flushing", 182, diskstats[50].TimeSpentFlushing)
 	}
 }
 

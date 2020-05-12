@@ -12,7 +12,6 @@
 // limitations under the License.
 
 // +build linux
-// +build armv6l
 
 package procfs
 

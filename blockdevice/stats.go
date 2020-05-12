@@ -166,7 +166,7 @@ func (fs FS) ProcDiskstats() ([]Diskstats, error) {
 		if err != nil && err != io.EOF {
 			return diskstats, err
 		}
-		if d.IoStatsCount == 14 || d.IoStatsCount == 18 || d.IoStatsCount == 20 {
+		if d.IoStatsCount >= 14 {
 			diskstats = append(diskstats, *d)
 		}
 	}

@@ -104,4 +104,116 @@ func TestBlockDevice(t *testing.T) {
 	if device1stats.DiscardTicks != 12 {
 		t.Errorf(failMsgFormat, "Incorrect discard ticks", 12, device1stats.DiscardTicks)
 	}
+	blockQueueStat, err := blockdevice.SysBlockDeviceQueueStats(devices[1])
+	if err != nil {
+		t.Fatal(err)
+	}
+	if blockQueueStat.AddRandom != 1 {
+		t.Errorf(failMsgFormat, "Incorrect add_random", 1, blockQueueStat.AddRandom)
+	}
+	if blockQueueStat.ChunkSectors != 0 {
+		t.Errorf(failMsgFormat, "Incorrect chunk_sectors", 0, blockQueueStat.ChunkSectors)
+	}
+	if blockQueueStat.DAX != 0 {
+		t.Errorf(failMsgFormat, "Incorrect dax", 0, blockQueueStat.DAX)
+	}
+	if blockQueueStat.DiscardGranularity != 0 {
+		t.Errorf(failMsgFormat, "Incorrect discard_granularity", 0, blockQueueStat.DiscardGranularity)
+	}
+	if blockQueueStat.DiscardMaxHWBytes != 0 {
+		t.Errorf(failMsgFormat, "Incorrect discard_max_hw_bytes", 0, blockQueueStat.DiscardMaxHWBytes)
+	}
+	if blockQueueStat.DiscardMaxBytes != 0 {
+		t.Errorf(failMsgFormat, "Incorrect discard_max_bytes", 0, blockQueueStat.DiscardMaxBytes)
+	}
+	if blockQueueStat.FUA != 0 {
+		t.Errorf(failMsgFormat, "Incorrect fua", 0, blockQueueStat.FUA)
+	}
+	if blockQueueStat.HWSectorSize != 512 {
+		t.Errorf(failMsgFormat, "Incorrect hw_sector_size", 512, blockQueueStat.HWSectorSize)
+	}
+	if blockQueueStat.IOPoll != 0 {
+		t.Errorf(failMsgFormat, "Incorrect io_poll", 0, blockQueueStat.IOPoll)
+	}
+	if blockQueueStat.IOPollDelay != -1 {
+		t.Errorf(failMsgFormat, "Incorrect io_poll_delay", -1, blockQueueStat.IOPollDelay)
+	}
+	if blockQueueStat.IOTimeout != 30000 {
+		t.Errorf(failMsgFormat, "Incorrect io_timeout", 30000, blockQueueStat.IOTimeout)
+	}
+	if blockQueueStat.IOStats != 1 {
+		t.Errorf(failMsgFormat, "Incorrect iostats", 1, blockQueueStat.IOStats)
+	}
+	if blockQueueStat.LogicalBlockSize != 512 {
+		t.Errorf(failMsgFormat, "Incorrect logical_block_size", 512, blockQueueStat.LogicalBlockSize)
+	}
+	if blockQueueStat.MaxDiscardSegments != 1 {
+		t.Errorf(failMsgFormat, "Incorrect max_discard_segments", 1, blockQueueStat.MaxDiscardSegments)
+	}
+	if blockQueueStat.MaxHWSectorsKB != 32767 {
+		t.Errorf(failMsgFormat, "Incorrect max_hw_sectors_kb", 32767, blockQueueStat.MaxHWSectorsKB)
+	}
+	if blockQueueStat.MaxIntegritySegments != 0 {
+		t.Errorf(failMsgFormat, "Incorrect max_integrity_segments", 0, blockQueueStat.MaxIntegritySegments)
+	}
+	if blockQueueStat.MaxSectorsKB != 1280 {
+		t.Errorf(failMsgFormat, "Incorrect max_sectors_kb", 1280, blockQueueStat.MaxSectorsKB)
+	}
+	if blockQueueStat.MaxSegments != 168 {
+		t.Errorf(failMsgFormat, "Incorrect max_segments", 168, blockQueueStat.MaxSegments)
+	}
+	if blockQueueStat.MaxSegmentSize != 65536 {
+		t.Errorf(failMsgFormat, "Incorrect max_segment_size", 65536, blockQueueStat.MaxSegmentSize)
+	}
+	if blockQueueStat.MinimumIOSize != 512 {
+		t.Errorf(failMsgFormat, "Incorrect minimum_io_size", 512, blockQueueStat.MinimumIOSize)
+	}
+	if blockQueueStat.NoMerges != 0 {
+		t.Errorf(failMsgFormat, "Incorrect nomerges", 0, blockQueueStat.NoMerges)
+	}
+	if blockQueueStat.NRRequests != 64 {
+		t.Errorf(failMsgFormat, "Incorrect nr_requests", 64, blockQueueStat.NRRequests)
+	}
+	if blockQueueStat.NRZones != 0 {
+		t.Errorf(failMsgFormat, "Incorrect nr_zones", 0, blockQueueStat.NRZones)
+	}
+	if blockQueueStat.OptimalIOSize != 0 {
+		t.Errorf(failMsgFormat, "Incorrect optimal_io_size", 0, blockQueueStat.OptimalIOSize)
+	}
+	if blockQueueStat.PhysicalBlockSize != 512 {
+		t.Errorf(failMsgFormat, "Incorrect physical_block_size", 512, blockQueueStat.PhysicalBlockSize)
+	}
+	if blockQueueStat.ReadAHeadKB != 128 {
+		t.Errorf(failMsgFormat, "Incorrect read_ahead_kb", 128, blockQueueStat.ReadAHeadKB)
+	}
+	if blockQueueStat.Rotational != 1 {
+		t.Errorf(failMsgFormat, "Incorrect rotational", 1, blockQueueStat.Rotational)
+	}
+	if blockQueueStat.RQAffinity != 1 {
+		t.Errorf(failMsgFormat, "Incorrect rq_affinity", 1, blockQueueStat.RQAffinity)
+	}
+	if blockQueueStat.SchedulerCurrent != "bfq" {
+		t.Errorf(failMsgFormat, "Incorrect current scheduler", "bfq", blockQueueStat.SchedulerCurrent)
+	}
+	if len(blockQueueStat.SchedulerList) != 4 {
+		t.Errorf(failMsgFormat, "Incorrect scheduler list", 4, len(blockQueueStat.SchedulerList))
+	}
+	if blockQueueStat.WriteCache != "write back" {
+		t.Errorf(failMsgFormat, "Incorrect write_cache", "write back", blockQueueStat.WriteCache)
+	}
+	if blockQueueStat.WriteSameMaxBytes != 0 {
+		t.Errorf(failMsgFormat, "Incorrect write_same_max_bytes", 0, blockQueueStat.WriteSameMaxBytes)
+	}
+	if blockQueueStat.WBTLatUSec != 75000 {
+		t.Errorf(failMsgFormat, "Incorrect wbt_lat_usec", 75000, blockQueueStat.WBTLatUSec)
+	}
+	if blockQueueStat.ThrottleSampleTime != nil {
+		t.Errorf(failMsgFormat, "Incorrect throttle_sample_time", nil, blockQueueStat.ThrottleSampleTime)
+	}
+	if blockQueueStat.WriteZeroesMaxBytes != 0 {
+		t.Errorf(failMsgFormat, "Incorrect write_zeroes_max_bytes", 0, blockQueueStat.WriteZeroesMaxBytes)
+	}
+	if blockQueueStat.Zoned != "none" {
+		t.Errorf(failMsgFormat, "Incorrect zoned", 0, blockQueueStat.Zoned)
+	}
 }

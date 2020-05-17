@@ -16,6 +16,7 @@ package blockdevice
 import (
 	"bufio"
 	"fmt"
+	"github.com/prometheus/procfs/internal/util"
 	"io"
 	"io/ioutil"
 	"os"
@@ -86,11 +87,100 @@ type Diskstats struct {
 	IoStatsCount int
 }
 
+// BlockQueueStats models the queue files that are located in the sysfs tree for each block device.
+type BlockQueueStats struct {
+	// AddRandom is the status of a disk entropy (1 is on, 0 is off).
+	AddRandom uint64
+	// Dax indicates whether the device supports Direct Access (DAX) (1 is on, 0 is off).
+	DAX uint64
+	// DiscardGranularity is the size of internal allocation of the device in bytes, 0 means device
+	// does not support the discard functionality.
+	DiscardGranularity uint64
+	// DiscardMaxHWBytes is the hardware maximum number of bytes that can be discarded in a single operation,
+	// 0 means device does not support the discard functionality.
+	DiscardMaxHWBytes uint64
+	// DiscardMaxBytes is the software maximum number of bytes that can be discarded in a single operation.
+	DiscardMaxBytes uint64
+	// HWSectorSize is the sector size of the device, in bytes.
+	HWSectorSize uint64
+	// IOPoll indicates if polling is enabled (1 is on, 0 is off).
+	IOPoll uint64
+	// IOPollDelay indicates how polling will be performed, -1 for classic polling, 0 for hybrid polling,
+	// with greater than 0 the kernel will put process issuing IO to sleep for this amount of time in
+	// microseconds before entering classic polling.
+	IOPollDelay int64
+	// IOTimeout is the request timeout in milliseconds.
+	IOTimeout uint64
+	// IOStats indicates if iostats accounting is used for the disk (1 is on, 0 is off).
+	IOStats uint64
+	// LogicalBlockSize is the logical block size of the device, in bytes.
+	LogicalBlockSize uint64
+	// MaxHWSectorsKB is the maximum number of kilobytes supported in a single data transfer.
+	MaxHWSectorsKB uint64
+	// MaxIntegritySegments is the max limit of integrity segments as set by block layer which a hardware controller
+	// can handle.
+	MaxIntegritySegments uint64
+	// MaxSectorsKB is the maximum number of kilobytes that the block layer will allow for a filesystem request.
+	MaxSectorsKB uint64
+	// MaxSegments is the number of segments on the device.
+	MaxSegments uint64
+	// MaxSegmentsSize is the maximum segment size of the device.
+	MaxSegmentSize uint64
+	// MinimumIOSize is the smallest preferred IO size reported by the device.
+	MinimumIOSize uint64
+	// NoMerges shows the lookup logic involved with IO merging requests in the block layer. 0 all merges are
+	// enabled, 1 only simple one hit merges are tried, 2 no merge algorithms will be tried.
+	NoMerges uint64
+	// NRRequests is the number of how many requests may be allocated in the block layer for read or write requests.
+	NRRequests uint64
+	// OptimalIOSize is the optimal IO size reported by the device.
+	OptimalIOSize uint64
+	// PhysicalBlockSize is the physical block size of device, in bytes.
+	PhysicalBlockSize uint64
+	// ReadAHeadKB is the maximum number of kilobytes to read-ahead for filesystems on this block device.
+	ReadAHeadKB uint64
+	// Rotational indicates if the device is of rotational type or non-rotational type.
+	Rotational uint64
+	// RQAffinity indicates affinity policy of device, if 1 the block layer will migrate request completions to the
+	// cpu “group” that originally submitted the request, if 2 forces the completion to run on the requesting cpu.
+	RQAffinity uint64
+	// SchedulerList contains list of available schedulers for this block device.
+	SchedulerList []string
+	// SchedulerCurrent is the current scheduler for this block device.
+	SchedulerCurrent string
+	// WriteCache shows the type of cache for block device, "write back" or "write through".
+	WriteCache string
+	// WriteSameMaxBytes is the number of bytes the device can write in a single write-same command.
+	// A value of ‘0’ means write-same is not supported by this device.
+	WriteSameMaxBytes uint64
+	// WBTLatUSec is the target minimum read latency, 0 means feature is disables.
+	WBTLatUSec int64
+	// ThrottleSampleTime is the time window that blk-throttle samples data, in millisecond. Optional
+	// exists only if CONFIG_BLK_DEV_THROTTLING_LOW is enabled.
+	ThrottleSampleTime *uint64
+	// Zoned indicates if the device is a zoned block device and the zone model of the device if it is indeed zoned.
+	// Possible values are: none, host-aware, host-managed for zoned block devices.
+	Zoned string
+	// NRZones indicates the total number of zones of the device, always zero for regular block devices.
+	NRZones uint64
+	// ChunksSectors for RAID is the size in 512B sectors of the RAID volume stripe segment,
+	// for zoned host device is the size in 512B sectors.
+	ChunkSectors uint64
+	// FUA indicates whether the device supports Force Unit Access for write requests.
+	FUA uint64
+	// MaxDiscardSegments is the maximum number of DMA entries in a discard request.
+	MaxDiscardSegments uint64
+	// WriteZeroesMaxBytes the maximum number of bytes that can be zeroed at once.
+	// The value 0 means that REQ_OP_WRITE_ZEROES is not supported.
+	WriteZeroesMaxBytes uint64
+}
+
 const (
 	procDiskstatsPath   = "diskstats"
 	procDiskstatsFormat = "%d %d %s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
 	sysBlockPath        = "block"
 	sysBlockStatFormat  = "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
+	sysBlockQueue       = "queue"
 )
 
 // FS represents the pseudo-filesystems proc and sys, which provides an
@@ -219,4 +309,191 @@ func (fs FS) SysBlockDeviceStat(device string) (IOStats, int, error) {
 		return stat, count, nil
 	}
 	return stat, count, err
+}
+
+func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
+	stat := BlockQueueStats{}
+	addRandom, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "add_random"))
+	if err != nil {
+		return stat, err
+	}
+	stat.AddRandom = addRandom
+	dax, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "dax"))
+	if err != nil {
+		return stat, err
+	}
+	stat.DAX = dax
+	discardGranularity, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "discard_granularity"))
+	if err != nil {
+		return stat, err
+	}
+	stat.DiscardGranularity = discardGranularity
+	discardMaxHWBytes, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "discard_max_hw_bytes"))
+	if err != nil {
+		return stat, err
+	}
+	stat.DiscardMaxHWBytes = discardMaxHWBytes
+	discardMaxBytes, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "discard_max_bytes"))
+	if err != nil {
+		return stat, err
+	}
+	stat.DiscardMaxBytes = discardMaxBytes
+	hwSectorSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "hw_sector_size"))
+	if err != nil {
+		return stat, err
+	}
+	stat.HWSectorSize = hwSectorSize
+	ioPoll, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "io_poll"))
+	if err != nil {
+		return stat, err
+	}
+	stat.IOPoll = ioPoll
+	ioPollDelay, err := util.ReadIntFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "io_poll_delay"))
+	if err != nil {
+		return stat, err
+	}
+	stat.IOPollDelay = ioPollDelay
+	ioTimeout, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "io_timeout"))
+	if err != nil {
+		return stat, err
+	}
+	stat.IOTimeout = ioTimeout
+	iostats, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "iostats"))
+	if err != nil {
+		return stat, err
+	}
+	stat.IOStats = iostats
+	logicalBlockSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "logical_block_size"))
+	if err != nil {
+		return stat, err
+	}
+	stat.LogicalBlockSize = logicalBlockSize
+	maxHWSectorsKB, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_hw_sectors_kb"))
+	if err != nil {
+		return stat, err
+	}
+	stat.MaxHWSectorsKB = maxHWSectorsKB
+	maxIntegritySegments, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_integrity_segments"))
+	if err != nil {
+		return stat, err
+	}
+	stat.MaxIntegritySegments = maxIntegritySegments
+	maxSectorsKB, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_sectors_kb"))
+	if err != nil {
+		return stat, err
+	}
+	stat.MaxSectorsKB = maxSectorsKB
+	maxSegments, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_segments"))
+	if err != nil {
+		return stat, err
+	}
+	stat.MaxSegments = maxSegments
+	maxSegmentSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_segment_size"))
+	if err != nil {
+		return stat, err
+	}
+	stat.MaxSegmentSize = maxSegmentSize
+	minimumIOSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "minimum_io_size"))
+	if err != nil {
+		return stat, err
+	}
+	stat.MinimumIOSize = minimumIOSize
+	noMerges, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "nomerges"))
+	if err != nil {
+		return stat, err
+	}
+	stat.NoMerges = noMerges
+	nrRequest, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "nr_requests"))
+	if err != nil {
+		return stat, err
+	}
+	stat.NRRequests = nrRequest
+	optimalIOSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "optimal_io_size"))
+	if err != nil {
+		return stat, err
+	}
+	stat.OptimalIOSize = optimalIOSize
+	physicalBlockSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "physical_block_size"))
+	if err != nil {
+		return stat, err
+	}
+	stat.PhysicalBlockSize = physicalBlockSize
+	readAHeadKB, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "read_ahead_kb"))
+	if err != nil {
+		return stat, err
+	}
+	stat.ReadAHeadKB = readAHeadKB
+	rotational, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "rotational"))
+	if err != nil {
+		return stat, err
+	}
+	stat.Rotational = rotational
+	rqAffinity, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "rq_affinity"))
+	if err != nil {
+		return stat, err
+	}
+	stat.RQAffinity = rqAffinity
+	scheduler, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "scheduler"))
+	if err != nil {
+		return stat, err
+	}
+	var schedulers []string
+	xs := strings.Split(scheduler, " ")
+	for _, s := range xs {
+		if strings.HasPrefix(s, "[") && strings.HasSuffix(s, "]") {
+			stat.SchedulerCurrent = s[1 : len(s)-1]
+		}
+		schedulers = append(schedulers, s)
+	}
+	stat.SchedulerList = schedulers
+	writeCache, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "write_cache"))
+	if err != nil {
+		return stat, err
+	}
+	stat.WriteCache = writeCache
+	writeSameMaxBytes, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "write_same_max_bytes"))
+	if err != nil {
+		return stat, err
+	}
+	stat.WriteSameMaxBytes = writeSameMaxBytes
+	wbtLatUSec, err := util.ReadIntFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "wbt_lat_usec"))
+	if err != nil {
+		return stat, err
+	}
+	stat.WBTLatUSec = wbtLatUSec
+	throttleSampleTime, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "throttle_sample_time"))
+	if err == nil {
+		stat.ThrottleSampleTime = &throttleSampleTime
+	}
+	zoned, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "zoned"))
+	if err != nil {
+		return stat, err
+	}
+	stat.Zoned = zoned
+	nrZones, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "nr_zones"))
+	if err != nil {
+		return stat, err
+	}
+	stat.NRZones = nrZones
+	chunkSectors, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "chunk_sectors"))
+	if err != nil {
+		return stat, err
+	}
+	stat.ChunkSectors = chunkSectors
+	fua, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "fua"))
+	if err != nil {
+		return stat, err
+	}
+	stat.FUA = fua
+	maxDiscardSegments, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_discard_segments"))
+	if err != nil {
+		return stat, err
+	}
+	stat.MaxDiscardSegments = maxDiscardSegments
+	writeZeroesMaxBytes, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "write_zeroes_max_bytes"))
+	if err != nil {
+		return stat, err
+	}
+	stat.WriteZeroesMaxBytes = writeZeroesMaxBytes
+	return stat, nil
 }

@@ -67,7 +67,7 @@ func parseClassThermalZone(zone string) (ClassThermalZoneStats, error) {
 	if err != nil {
 		return ClassThermalZoneStats{}, err
 	}
-	zoneTemp, err := util.ReadIntFromFromFile(filepath.Join(zone, "temp"))
+	zoneTemp, err := util.ReadIntFromFile(filepath.Join(zone, "temp"))
 	if err != nil {
 		return ClassThermalZoneStats{}, err
 	}

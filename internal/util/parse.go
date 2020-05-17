@@ -74,7 +74,7 @@ func ReadUintFromFile(path string) (uint64, error) {
 }
 
 // ReadIntFromFile reads a file and attempts to parse a int64 from it.
-func ReadIntFromFromFile(path string) (int64, error) {
+func ReadIntFromFile(path string) (int64, error) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return 0, err

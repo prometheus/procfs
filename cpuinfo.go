@@ -190,15 +190,26 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 	scanner := bufio.NewScanner(bytes.NewReader(info))
 
 	firstLine := firstNonEmptyLine(scanner)
-	if !strings.HasPrefix(firstLine, "Processor") || !strings.Contains(firstLine, ":") {
+	match, _ := regexp.MatchString("^[Pp]rocessor", firstLine)
+	if !match || !strings.Contains(firstLine, ":") {
 		return nil, errors.New("invalid cpuinfo file: " + firstLine)
 	}
 	field := strings.SplitN(firstLine, ": ", 2)
-	commonCPUInfo := CPUInfo{VendorID: field[1]}
-
 	cpuinfo := []CPUInfo{}
-	i := -1
 	featuresLine := ""
+	commonCPUInfo := CPUInfo{}
+	i := 0
+	if strings.TrimSpace(field[0]) == "Processor" {
+		commonCPUInfo = CPUInfo{ModelName: field[1]}
+		i = -1
+	} else {
+		v, err := strconv.ParseUint(field[1], 0, 32)
+		if err != nil {
+			return nil, err
+		}
+		firstcpu := CPUInfo{Processor: uint(v)}
+		cpuinfo = []CPUInfo{firstcpu}
+	}
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -216,6 +227,11 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 			}
 			cpuinfo[i].Processor = uint(v)
 		case "BogoMIPS":
+			if i == -1 {
+				cpuinfo = append(cpuinfo, commonCPUInfo) // There is only one processor
+				i++
+				cpuinfo[i].Processor = 0
+			}
 			v, err := strconv.ParseFloat(field[1], 64)
 			if err != nil {
 				return nil, err
@@ -223,6 +239,8 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 			cpuinfo[i].BogoMips = v
 		case "Features":
 			featuresLine = line
+		case "model name":
+			cpuinfo[i].ModelName = field[1]
 		}
 	}
 	fields := strings.SplitN(featuresLine, ": ", 2)
@@ -230,6 +248,7 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 		cpuinfo[i].Flags = strings.Fields(fields[1])
 	}
 	return cpuinfo, nil
+
 }
 
 func parseCPUInfoS390X(info []byte) ([]CPUInfo, error) {

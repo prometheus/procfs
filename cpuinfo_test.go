@@ -18,8 +18,7 @@ package procfs
 import "testing"
 
 const (
-	cpuinfoArm7 = `
-Processor : ARMv7 Processor rev 5 (v7l)
+	cpuinfoArm7 = `Processor : ARMv7 Processor rev 5 (v7l)
 processor : 0
 BogoMIPS : 2400.00
 
@@ -37,8 +36,7 @@ Hardware : sun8i
 Revision : 0000
 Serial : 5400503583203c3c040e`
 
-	cpuinfoS390x = `
-vendor_id       : IBM/S390
+	cpuinfoS390x = `vendor_id       : IBM/S390
 # processors    : 4
 bogomips per cpu: 3033.00
 max thread id   : 0
@@ -69,11 +67,9 @@ cpu MHz static  : 5000
 
 cpu number      : 3
 cpu MHz dynamic : 5000
-cpu MHz static  : 5000
-`
+cpu MHz static  : 5000`
 
-	cpuinfoPpc64 = `
-processor	: 0
+	cpuinfoPpc64 = `processor	: 0
 cpu		: POWER7 (architected), altivec supported
 clock		: 3000.000000MHz
 revision	: 2.1 (pvr 003f 0201)

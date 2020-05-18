@@ -17,13 +17,12 @@ package procfs
 
 import (
 	"bufio"
-	"bytes"
 	"errors"
+	"io"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
-
-	"github.com/prometheus/procfs/internal/util"
 )
 
 // CPUInfo contains general information about a system CPU found in /proc/cpuinfo
@@ -64,15 +63,16 @@ var (
 // CPUInfo returns information about current system CPUs.
 // See https://www.kernel.org/doc/Documentation/filesystems/proc.txt
 func (fs FS) CPUInfo() ([]CPUInfo, error) {
-	data, err := util.ReadFileNoStat(fs.proc.Path("cpuinfo"))
+	file, err := os.Open(fs.proc.Path("cpuinfo"))
 	if err != nil {
 		return nil, err
 	}
-	return parseCPUInfo(data)
+	defer file.Close()
+	return parseCPUInfo(file)
 }
 
-func parseCPUInfoX86(info []byte) ([]CPUInfo, error) {
-	scanner := bufio.NewScanner(bytes.NewReader(info))
+func parseCPUInfoX86(info io.Reader) ([]CPUInfo, error) {
+	scanner := bufio.NewScanner(info)
 
 	// find the first "processor" line
 	firstLine := firstNonEmptyLine(scanner)
@@ -186,8 +186,8 @@ func parseCPUInfoX86(info []byte) ([]CPUInfo, error) {
 	return cpuinfo, nil
 }
 
-func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
-	scanner := bufio.NewScanner(bytes.NewReader(info))
+func parseCPUInfoARM(info io.Reader) ([]CPUInfo, error) {
+	scanner := bufio.NewScanner(info)
 
 	cpuinfo := []CPUInfo{{}}
 	i := 0
@@ -236,8 +236,8 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 	return cpuinfo, nil
 }
 
-func parseCPUInfoS390X(info []byte) ([]CPUInfo, error) {
-	scanner := bufio.NewScanner(bytes.NewReader(info))
+func parseCPUInfoS390X(info io.Reader) ([]CPUInfo, error) {
+	scanner := bufio.NewScanner(info)
 
 	firstLine := firstNonEmptyLine(scanner)
 	if !strings.HasPrefix(firstLine, "vendor_id") || !strings.Contains(firstLine, ":") {
@@ -304,8 +304,8 @@ func parseCPUInfoS390X(info []byte) ([]CPUInfo, error) {
 	return cpuinfo, nil
 }
 
-func parseCPUInfoPPC(info []byte) ([]CPUInfo, error) {
-	scanner := bufio.NewScanner(bytes.NewReader(info))
+func parseCPUInfoPPC(info io.Reader) ([]CPUInfo, error) {
+	scanner := bufio.NewScanner(info)
 
 	firstLine := firstNonEmptyLine(scanner)
 	if !strings.HasPrefix(firstLine, "processor") || !strings.Contains(firstLine, ":") {

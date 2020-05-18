@@ -15,7 +15,10 @@
 
 package procfs
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 const (
 	// non-SMP system before kernel v3.8, commit
@@ -177,7 +180,7 @@ func TestCPUInfoX86(t *testing.T) {
 }
 
 func TestCPUInfoParseARM6(t *testing.T) {
-	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm6))
+	cpuinfo, err := parseCPUInfoARM(strings.NewReader(cpuinfoArm6))
 	if err != nil || cpuinfo == nil {
 		t.Fatalf("unable to parse arm cpu info: %v", err)
 	}
@@ -192,7 +195,7 @@ func TestCPUInfoParseARM6(t *testing.T) {
 	}
 }
 func TestCPUInfoParseARM7old(t *testing.T) {
-	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7old))
+	cpuinfo, err := parseCPUInfoARM(strings.NewReader(cpuinfoArm7old))
 	if err != nil || cpuinfo == nil {
 		t.Fatalf("unable to parse arm cpu info: %v", err)
 	}
@@ -208,7 +211,7 @@ func TestCPUInfoParseARM7old(t *testing.T) {
 }
 
 func TestCPUInfoParseARM(t *testing.T) {
-	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7))
+	cpuinfo, err := parseCPUInfoARM(strings.NewReader(cpuinfoArm7))
 	if err != nil || cpuinfo == nil {
 		t.Fatalf("unable to parse arm cpu info: %v", err)
 	}
@@ -223,7 +226,7 @@ func TestCPUInfoParseARM(t *testing.T) {
 	}
 }
 func TestCPUInfoParseS390X(t *testing.T) {
-	cpuinfo, err := parseCPUInfoS390X([]byte(cpuinfoS390x))
+	cpuinfo, err := parseCPUInfoS390X(strings.NewReader(cpuinfoS390x))
 	if err != nil || cpuinfo == nil {
 		t.Fatalf("unable to parse s390x cpu info: %v", err)
 	}
@@ -242,7 +245,7 @@ func TestCPUInfoParseS390X(t *testing.T) {
 }
 
 func TestCPUInfoParsePPC(t *testing.T) {
-	cpuinfo, err := parseCPUInfoPPC([]byte(cpuinfoPpc64))
+	cpuinfo, err := parseCPUInfoPPC(strings.NewReader(cpuinfoPpc64))
 	if err != nil || cpuinfo == nil {
 		t.Fatalf("unable to parse ppc cpu info: %v", err)
 	}

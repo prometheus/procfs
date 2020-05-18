@@ -189,16 +189,10 @@ func parseCPUInfoX86(info []byte) ([]CPUInfo, error) {
 func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 	scanner := bufio.NewScanner(bytes.NewReader(info))
 
-	firstLine := firstNonEmptyLine(scanner)
-	if !strings.HasPrefix(firstLine, "Processor") || !strings.Contains(firstLine, ":") {
-		return nil, errors.New("invalid cpuinfo file: " + firstLine)
-	}
-	field := strings.SplitN(firstLine, ": ", 2)
-	commonCPUInfo := CPUInfo{VendorID: field[1]}
-
-	cpuinfo := []CPUInfo{}
-	i := -1
+	cpuinfo := []CPUInfo{{}}
+	i := 0
 	featuresLine := ""
+	modelName := ""
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -207,14 +201,23 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 		}
 		field := strings.SplitN(line, ": ", 2)
 		switch strings.TrimSpace(field[0]) {
+		case "Processor":
+			// this appears at the first line in kernels < 3.8
+			modelName = field[1]
+			cpuinfo[i].VendorID = field[1]
 		case "processor":
-			cpuinfo = append(cpuinfo, commonCPUInfo) // start of the next processor
-			i++
 			v, err := strconv.ParseUint(field[1], 0, 32)
 			if err != nil {
 				return nil, err
 			}
-			cpuinfo[i].Processor = uint(v)
+			if v != 0 {
+				cpuinfo = append(cpuinfo, CPUInfo{VendorID: modelName}) // start of the next processor
+				i++
+				cpuinfo[i].Processor = uint(v)
+			}
+		case "model name":
+			// this is what kernel 3.8+ gives instead of "Processor:"
+			cpuinfo[i].VendorID = field[1]
 		case "BogoMIPS":
 			v, err := strconv.ParseFloat(field[1], 64)
 			if err != nil {

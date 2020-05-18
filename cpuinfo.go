@@ -90,10 +90,10 @@ func parseCPUInfoX86(info []byte) ([]CPUInfo, error) {
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		if !strings.Contains(line, ":") {
+		field := strings.SplitN(line, ": ", 2)
+		if len(field) != 2 {
 			continue
 		}
-		field := strings.SplitN(line, ": ", 2)
 		switch strings.TrimSpace(field[0]) {
 		case "processor":
 			cpuinfo = append(cpuinfo, CPUInfo{}) // start of the next processor
@@ -249,10 +249,10 @@ func parseCPUInfoS390X(info []byte) ([]CPUInfo, error) {
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		if !strings.Contains(line, ":") {
+		field := strings.SplitN(line, ": ", 2)
+		if len(field) != 2 {
 			continue
 		}
-		field := strings.SplitN(line, ": ", 2)
 		switch strings.TrimSpace(field[0]) {
 		case "bogomips per cpu":
 			v, err := strconv.ParseFloat(field[1], 64)
@@ -322,10 +322,10 @@ func parseCPUInfoPPC(info []byte) ([]CPUInfo, error) {
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		if !strings.Contains(line, ":") {
+		field := strings.SplitN(line, ": ", 2)
+		if len(field) != 2 {
 			continue
 		}
-		field := strings.SplitN(line, ": ", 2)
 		switch strings.TrimSpace(field[0]) {
 		case "processor":
 			cpuinfo = append(cpuinfo, CPUInfo{}) // start of the next processor

@@ -183,7 +183,7 @@ func parseCPUInfoX86(info io.Reader) ([]CPUInfo, error) {
 			cpuinfo[i].PowerManagement = field[1]
 		}
 	}
-	return cpuinfo, nil
+	return cpuinfo, scanner.Err()
 }
 
 func parseCPUInfoARM(info io.Reader) ([]CPUInfo, error) {
@@ -233,7 +233,7 @@ func parseCPUInfoARM(info io.Reader) ([]CPUInfo, error) {
 		}
 	}
 
-	return cpuinfo, nil
+	return cpuinfo, scanner.Err()
 }
 
 func parseCPUInfoS390X(info io.Reader) ([]CPUInfo, error) {
@@ -301,7 +301,7 @@ func parseCPUInfoS390X(info io.Reader) ([]CPUInfo, error) {
 		}
 	}
 
-	return cpuinfo, nil
+	return cpuinfo, scanner.Err()
 }
 
 func parseCPUInfoPPC(info io.Reader) ([]CPUInfo, error) {
@@ -346,7 +346,7 @@ func parseCPUInfoPPC(info io.Reader) ([]CPUInfo, error) {
 			cpuinfo[i].CPUMHz = v
 		}
 	}
-	return cpuinfo, nil
+	return cpuinfo, scanner.Err()
 }
 
 // firstNonEmptyLine advances the scanner to the first non-empty line

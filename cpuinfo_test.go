@@ -18,7 +18,7 @@ package procfs
 import "testing"
 
 const (
-	cpuinfoArm7 = `
+	cpuinfoArm7Legacy = `
 Processor : ARMv7 Processor rev 5 (v7l)
 processor : 0
 BogoMIPS : 2400.00
@@ -36,6 +36,65 @@ CPU revision : 5
 Hardware : sun8i
 Revision : 0000
 Serial : 5400503583203c3c040e`
+
+	cpuinfoArm7LegacyV1 = `
+Processor       : ARMv6-compatible processor rev 5 (v6l)
+BogoMIPS        : 791.34
+Features        : swp half thumb fastmult vfp edsp java 
+CPU implementer : 0x41
+CPU architecture: 6TEJ
+CPU variant     : 0x1
+CPU part        : 0xb36
+CPU revision    : 5
+
+Hardware        : IMAPX200
+Revision        : 0000
+Serial          : 0000000000000000`
+
+	cpuinfoArm7 = `
+processor : 0
+model name : ARMv7 Processor rev 3 (v7l)
+BogoMIPS : 108.00
+Features : half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 lpae evtstrm crc32
+CPU implementer : 0x41
+CPU architecture: 7
+CPU variant : 0x0
+CPU part : 0xd08
+CPU revision : 3
+
+processor : 1
+model name : ARMv7 Processor rev 3 (v7l)
+BogoMIPS : 108.00
+Features : half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 lpae evtstrm crc32
+CPU implementer : 0x41
+CPU architecture: 7
+CPU variant : 0x0
+CPU part : 0xd08
+CPU revision : 3
+
+processor : 2
+model name : ARMv7 Processor rev 3 (v7l)
+BogoMIPS : 108.00
+Features : half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 lpae evtstrm crc32
+CPU implementer : 0x41
+CPU architecture: 7
+CPU variant : 0x0
+CPU part : 0xd08
+CPU revision : 3
+
+processor : 3
+model name : ARMv7 Processor rev 3 (v7l)
+BogoMIPS : 108.00
+Features : half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 lpae evtstrm crc32
+CPU implementer : 0x41
+CPU architecture: 7
+CPU variant : 0x0
+CPU part : 0xd08
+CPU revision : 3
+
+Hardware : BCM2835
+Revision : c03111
+`
 
 	cpuinfoS390x = `
 vendor_id       : IBM/S390
@@ -153,18 +212,50 @@ func TestCPUInfoX86(t *testing.T) {
 	}
 }
 
-func TestCPUInfoParseARM(t *testing.T) {
-	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7))
+func TestCPUInfoParseARMLegacy(t *testing.T) {
+	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7Legacy))
 	if err != nil || cpuinfo == nil {
 		t.Fatalf("unable to parse arm cpu info: %v", err)
 	}
 	if want, have := 2, len(cpuinfo); want != have {
 		t.Errorf("want number of processors %v, have %v", want, have)
 	}
-	if want, have := "ARMv7 Processor rev 5 (v7l)", cpuinfo[0].VendorID; want != have {
+	if want, have := "ARMv7 Processor rev 5 (v7l)", cpuinfo[0].ModelName; want != have {
 		t.Errorf("want vendor %v, have %v", want, have)
 	}
 	if want, have := "thumb", cpuinfo[1].Flags[2]; want != have {
+		t.Errorf("want flag %v, have %v", want, have)
+	}
+}
+
+func TestCPUInfoParseARMLegacyV1(t *testing.T) {
+	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7LegacyV1))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse arm cpu info: %v", err)
+	}
+	if want, have := 1, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := "ARMv6-compatible processor rev 5 (v6l)", cpuinfo[0].ModelName; want != have {
+		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "thumb", cpuinfo[0].Flags[2]; want != have {
+		t.Errorf("want flag %v, have %v", want, have)
+	}
+}
+
+func TestCPUInfoParseARM(t *testing.T) {
+	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse arm cpu info: %v", err)
+	}
+	if want, have := 4, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := "ARMv7 Processor rev 3 (v7l)", cpuinfo[0].ModelName; want != have {
+		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "thumb", cpuinfo[1].Flags[1]; want != have {
 		t.Errorf("want flag %v, have %v", want, have)
 	}
 }

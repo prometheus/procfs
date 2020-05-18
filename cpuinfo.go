@@ -191,7 +191,7 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 
 	cpuinfo := []CPUInfo{{}}
 	i := 0
-	featuresLine := ""
+	var features []string
 	modelName := ""
 
 	for scanner.Scan() {
@@ -225,13 +225,14 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 			}
 			cpuinfo[i].BogoMips = v
 		case "Features":
-			featuresLine = line
+			if len(features) == 0 {
+				// only parse once
+				features = strings.Fields(field[1])
+			}
+			cpuinfo[i].Flags = features
 		}
 	}
-	fields := strings.SplitN(featuresLine, ": ", 2)
-	for i := range cpuinfo {
-		cpuinfo[i].Flags = strings.Fields(fields[1])
-	}
+
 	return cpuinfo, nil
 }
 

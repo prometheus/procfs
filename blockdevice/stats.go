@@ -313,126 +313,66 @@ func (fs FS) SysBlockDeviceStat(device string) (IOStats, int, error) {
 
 func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 	stat := BlockQueueStats{}
-	addRandom, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "add_random"))
-	if err != nil {
-		return stat, err
+	// files with uint64 fields
+	for file, p := range map[string]*uint64{
+		"add_random":             &stat.AddRandom,
+		"dax":                    &stat.DAX,
+		"discard_granularity":    &stat.DiscardGranularity,
+		"discard_max_hw_bytes":   &stat.DiscardMaxHWBytes,
+		"discard_max_bytes":      &stat.DiscardMaxBytes,
+		"hw_sector_size":         &stat.HWSectorSize,
+		"io_poll":                &stat.IOPoll,
+		"io_timeout":             &stat.IOTimeout,
+		"iostats":                &stat.IOStats,
+		"logical_block_size":     &stat.LogicalBlockSize,
+		"max_hw_sectors_kb":      &stat.MaxHWSectorsKB,
+		"max_integrity_segments": &stat.MaxIntegritySegments,
+		"max_sectors_kb":         &stat.MaxSectorsKB,
+		"max_segments":           &stat.MaxSegments,
+		"max_segment_size":       &stat.MaxSegmentSize,
+		"minimum_io_size":        &stat.MinimumIOSize,
+		"nomerges":               &stat.NoMerges,
+		"nr_requests":            &stat.NRRequests,
+		"optimal_io_size":        &stat.OptimalIOSize,
+		"physical_block_size":    &stat.PhysicalBlockSize,
+		"read_ahead_kb":          &stat.ReadAHeadKB,
+		"rotational":             &stat.Rotational,
+		"rq_affinity":            &stat.RQAffinity,
+		"write_same_max_bytes":   &stat.WriteSameMaxBytes,
+		"nr_zones":               &stat.NRZones,
+		"chunk_sectors":          &stat.ChunkSectors,
+		"fua":                    &stat.FUA,
+		"max_discard_segments":   &stat.MaxDiscardSegments,
+		"write_zeroes_max_bytes": &stat.WriteZeroesMaxBytes,
+	} {
+		val, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
+		if err != nil {
+			return stat, err
+		}
+		*p = val
 	}
-	stat.AddRandom = addRandom
-	dax, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "dax"))
-	if err != nil {
-		return stat, err
+	// files with int64 fields
+	for file, p := range map[string]*int64{
+		"io_poll_delay": &stat.IOPollDelay,
+		"wbt_lat_usec":  &stat.WBTLatUSec,
+	} {
+		val, err := util.ReadIntFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
+		if err != nil {
+			return stat, err
+		}
+		*p = val
 	}
-	stat.DAX = dax
-	discardGranularity, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "discard_granularity"))
-	if err != nil {
-		return stat, err
+	// files with string fields
+	for file, p := range map[string]*string{
+		"write_cache": &stat.WriteCache,
+		"zoned":       &stat.Zoned,
+	} {
+		val, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
+		if err != nil {
+			return stat, err
+		}
+		*p = val
 	}
-	stat.DiscardGranularity = discardGranularity
-	discardMaxHWBytes, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "discard_max_hw_bytes"))
-	if err != nil {
-		return stat, err
-	}
-	stat.DiscardMaxHWBytes = discardMaxHWBytes
-	discardMaxBytes, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "discard_max_bytes"))
-	if err != nil {
-		return stat, err
-	}
-	stat.DiscardMaxBytes = discardMaxBytes
-	hwSectorSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "hw_sector_size"))
-	if err != nil {
-		return stat, err
-	}
-	stat.HWSectorSize = hwSectorSize
-	ioPoll, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "io_poll"))
-	if err != nil {
-		return stat, err
-	}
-	stat.IOPoll = ioPoll
-	ioPollDelay, err := util.ReadIntFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "io_poll_delay"))
-	if err != nil {
-		return stat, err
-	}
-	stat.IOPollDelay = ioPollDelay
-	ioTimeout, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "io_timeout"))
-	if err != nil {
-		return stat, err
-	}
-	stat.IOTimeout = ioTimeout
-	iostats, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "iostats"))
-	if err != nil {
-		return stat, err
-	}
-	stat.IOStats = iostats
-	logicalBlockSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "logical_block_size"))
-	if err != nil {
-		return stat, err
-	}
-	stat.LogicalBlockSize = logicalBlockSize
-	maxHWSectorsKB, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_hw_sectors_kb"))
-	if err != nil {
-		return stat, err
-	}
-	stat.MaxHWSectorsKB = maxHWSectorsKB
-	maxIntegritySegments, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_integrity_segments"))
-	if err != nil {
-		return stat, err
-	}
-	stat.MaxIntegritySegments = maxIntegritySegments
-	maxSectorsKB, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_sectors_kb"))
-	if err != nil {
-		return stat, err
-	}
-	stat.MaxSectorsKB = maxSectorsKB
-	maxSegments, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_segments"))
-	if err != nil {
-		return stat, err
-	}
-	stat.MaxSegments = maxSegments
-	maxSegmentSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_segment_size"))
-	if err != nil {
-		return stat, err
-	}
-	stat.MaxSegmentSize = maxSegmentSize
-	minimumIOSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "minimum_io_size"))
-	if err != nil {
-		return stat, err
-	}
-	stat.MinimumIOSize = minimumIOSize
-	noMerges, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "nomerges"))
-	if err != nil {
-		return stat, err
-	}
-	stat.NoMerges = noMerges
-	nrRequest, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "nr_requests"))
-	if err != nil {
-		return stat, err
-	}
-	stat.NRRequests = nrRequest
-	optimalIOSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "optimal_io_size"))
-	if err != nil {
-		return stat, err
-	}
-	stat.OptimalIOSize = optimalIOSize
-	physicalBlockSize, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "physical_block_size"))
-	if err != nil {
-		return stat, err
-	}
-	stat.PhysicalBlockSize = physicalBlockSize
-	readAHeadKB, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "read_ahead_kb"))
-	if err != nil {
-		return stat, err
-	}
-	stat.ReadAHeadKB = readAHeadKB
-	rotational, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "rotational"))
-	if err != nil {
-		return stat, err
-	}
-	stat.Rotational = rotational
-	rqAffinity, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "rq_affinity"))
-	if err != nil {
-		return stat, err
-	}
-	stat.RQAffinity = rqAffinity
 	scheduler, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "scheduler"))
 	if err != nil {
 		return stat, err
@@ -441,59 +381,16 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 	xs := strings.Split(scheduler, " ")
 	for _, s := range xs {
 		if strings.HasPrefix(s, "[") && strings.HasSuffix(s, "]") {
-			stat.SchedulerCurrent = s[1 : len(s)-1]
+			s = s[1 : len(s)-1]
+			stat.SchedulerCurrent = s
 		}
 		schedulers = append(schedulers, s)
 	}
 	stat.SchedulerList = schedulers
-	writeCache, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "write_cache"))
-	if err != nil {
-		return stat, err
-	}
-	stat.WriteCache = writeCache
-	writeSameMaxBytes, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "write_same_max_bytes"))
-	if err != nil {
-		return stat, err
-	}
-	stat.WriteSameMaxBytes = writeSameMaxBytes
-	wbtLatUSec, err := util.ReadIntFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "wbt_lat_usec"))
-	if err != nil {
-		return stat, err
-	}
-	stat.WBTLatUSec = wbtLatUSec
+	// optional
 	throttleSampleTime, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "throttle_sample_time"))
 	if err == nil {
 		stat.ThrottleSampleTime = &throttleSampleTime
 	}
-	zoned, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "zoned"))
-	if err != nil {
-		return stat, err
-	}
-	stat.Zoned = zoned
-	nrZones, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "nr_zones"))
-	if err != nil {
-		return stat, err
-	}
-	stat.NRZones = nrZones
-	chunkSectors, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "chunk_sectors"))
-	if err != nil {
-		return stat, err
-	}
-	stat.ChunkSectors = chunkSectors
-	fua, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "fua"))
-	if err != nil {
-		return stat, err
-	}
-	stat.FUA = fua
-	maxDiscardSegments, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "max_discard_segments"))
-	if err != nil {
-		return stat, err
-	}
-	stat.MaxDiscardSegments = maxDiscardSegments
-	writeZeroesMaxBytes, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "write_zeroes_max_bytes"))
-	if err != nil {
-		return stat, err
-	}
-	stat.WriteZeroesMaxBytes = writeZeroesMaxBytes
 	return stat, nil
 }

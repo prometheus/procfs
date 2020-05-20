@@ -15,11 +15,29 @@
 
 package procfs
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 const (
-	cpuinfoArm7 = `
-Processor : ARMv7 Processor rev 5 (v7l)
+	// non-SMP system before kernel v3.8, commit
+	// https://github.com/torvalds/linux/commit/b4b8f770eb
+	cpuinfoArm6 = `Processor       : ARMv6-compatible processor rev 5 (v6l)
+BogoMIPS        : 791.34
+Features        : swp half thumb fastmult vfp edsp java
+CPU implementer : 0x41
+CPU architecture: 6TEJ
+CPU variant     : 0x1
+CPU part        : 0xb36
+CPU revision    : 5
+
+Hardware        : IMAPX200
+Revision        : 0000
+Serial          : 0000000000000000`
+
+	// SMP system before kernel 3.8
+	cpuinfoArm7old = `Processor : ARMv7 Processor rev 5 (v7l)
 processor : 0
 BogoMIPS : 2400.00
 
@@ -37,8 +55,18 @@ Hardware : sun8i
 Revision : 0000
 Serial : 5400503583203c3c040e`
 
-	cpuinfoS390x = `
-vendor_id       : IBM/S390
+	// kernel v3.8+
+	cpuinfoArm7 = `processor       : 0
+model name      : ARMv7 Processor rev 2 (v7l)
+BogoMIPS        : 50.00
+Features        : half thumb fastmult vfp edsp thumbee vfpv3 tls idiva idivt vfpd32 lpae
+CPU implementer : 0x56
+CPU architecture: 7
+CPU variant     : 0x2
+CPU part        : 0x584
+CPU revision    : 2`
+
+	cpuinfoS390x = `vendor_id       : IBM/S390
 # processors    : 4
 bogomips per cpu: 3033.00
 max thread id   : 0
@@ -69,11 +97,9 @@ cpu MHz static  : 5000
 
 cpu number      : 3
 cpu MHz dynamic : 5000
-cpu MHz static  : 5000
-`
+cpu MHz static  : 5000`
 
-	cpuinfoPpc64 = `
-processor	: 0
+	cpuinfoPpc64 = `processor	: 0
 cpu		: POWER7 (architected), altivec supported
 clock		: 3000.000000MHz
 revision	: 2.1 (pvr 003f 0201)
@@ -153,8 +179,23 @@ func TestCPUInfoX86(t *testing.T) {
 	}
 }
 
-func TestCPUInfoParseARM(t *testing.T) {
-	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7))
+func TestCPUInfoParseARM6(t *testing.T) {
+	cpuinfo, err := parseCPUInfoARM(strings.NewReader(cpuinfoArm6))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse arm cpu info: %v", err)
+	}
+	if want, have := 1, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := "ARMv6-compatible processor rev 5 (v6l)", cpuinfo[0].VendorID; want != have {
+		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "thumb", cpuinfo[0].Flags[2]; want != have {
+		t.Errorf("want flag %v, have %v", want, have)
+	}
+}
+func TestCPUInfoParseARM7old(t *testing.T) {
+	cpuinfo, err := parseCPUInfoARM(strings.NewReader(cpuinfoArm7old))
 	if err != nil || cpuinfo == nil {
 		t.Fatalf("unable to parse arm cpu info: %v", err)
 	}
@@ -169,8 +210,23 @@ func TestCPUInfoParseARM(t *testing.T) {
 	}
 }
 
+func TestCPUInfoParseARM(t *testing.T) {
+	cpuinfo, err := parseCPUInfoARM(strings.NewReader(cpuinfoArm7))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse arm cpu info: %v", err)
+	}
+	if want, have := 1, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := "ARMv7 Processor rev 2 (v7l)", cpuinfo[0].VendorID; want != have {
+		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "fastmult", cpuinfo[0].Flags[2]; want != have {
+		t.Errorf("want flag %v, have %v", want, have)
+	}
+}
 func TestCPUInfoParseS390X(t *testing.T) {
-	cpuinfo, err := parseCPUInfoS390X([]byte(cpuinfoS390x))
+	cpuinfo, err := parseCPUInfoS390X(strings.NewReader(cpuinfoS390x))
 	if err != nil || cpuinfo == nil {
 		t.Fatalf("unable to parse s390x cpu info: %v", err)
 	}
@@ -189,7 +245,7 @@ func TestCPUInfoParseS390X(t *testing.T) {
 }
 
 func TestCPUInfoParsePPC(t *testing.T) {
-	cpuinfo, err := parseCPUInfoPPC([]byte(cpuinfoPpc64))
+	cpuinfo, err := parseCPUInfoPPC(strings.NewReader(cpuinfoPpc64))
 	if err != nil || cpuinfo == nil {
 		t.Fatalf("unable to parse ppc cpu info: %v", err)
 	}

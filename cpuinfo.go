@@ -17,13 +17,12 @@ package procfs
 
 import (
 	"bufio"
-	"bytes"
 	"errors"
+	"io"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
-
-	"github.com/prometheus/procfs/internal/util"
 )
 
 // CPUInfo contains general information about a system CPU found in /proc/cpuinfo
@@ -64,36 +63,26 @@ var (
 // CPUInfo returns information about current system CPUs.
 // See https://www.kernel.org/doc/Documentation/filesystems/proc.txt
 func (fs FS) CPUInfo() ([]CPUInfo, error) {
-	data, err := util.ReadFileNoStat(fs.proc.Path("cpuinfo"))
+	file, err := os.Open(fs.proc.Path("cpuinfo"))
 	if err != nil {
 		return nil, err
 	}
-	return parseCPUInfo(data)
+	defer file.Close()
+	return parseCPUInfo(file)
 }
 
-func parseCPUInfoX86(info []byte) ([]CPUInfo, error) {
-	scanner := bufio.NewScanner(bytes.NewReader(info))
+func parseCPUInfoX86(info io.Reader) ([]CPUInfo, error) {
+	scanner := bufio.NewScanner(info)
 
-	// find the first "processor" line
-	firstLine := firstNonEmptyLine(scanner)
-	if !strings.HasPrefix(firstLine, "processor") || !strings.Contains(firstLine, ":") {
-		return nil, errors.New("invalid cpuinfo file: " + firstLine)
-	}
-	field := strings.SplitN(firstLine, ": ", 2)
-	v, err := strconv.ParseUint(field[1], 0, 32)
-	if err != nil {
-		return nil, err
-	}
-	firstcpu := CPUInfo{Processor: uint(v)}
-	cpuinfo := []CPUInfo{firstcpu}
-	i := 0
+	cpuinfo := []CPUInfo{}
+	i := -1
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		if !strings.Contains(line, ":") {
+		field := strings.SplitN(line, ": ", 2)
+		if len(field) != 2 {
 			continue
 		}
-		field := strings.SplitN(line, ": ", 2)
 		switch strings.TrimSpace(field[0]) {
 		case "processor":
 			cpuinfo = append(cpuinfo, CPUInfo{}) // start of the next processor
@@ -183,22 +172,16 @@ func parseCPUInfoX86(info []byte) ([]CPUInfo, error) {
 			cpuinfo[i].PowerManagement = field[1]
 		}
 	}
-	return cpuinfo, nil
+	return cpuinfo, scanner.Err()
 }
 
-func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
-	scanner := bufio.NewScanner(bytes.NewReader(info))
+func parseCPUInfoARM(info io.Reader) ([]CPUInfo, error) {
+	scanner := bufio.NewScanner(info)
 
-	firstLine := firstNonEmptyLine(scanner)
-	if !strings.HasPrefix(firstLine, "Processor") || !strings.Contains(firstLine, ":") {
-		return nil, errors.New("invalid cpuinfo file: " + firstLine)
-	}
-	field := strings.SplitN(firstLine, ": ", 2)
-	commonCPUInfo := CPUInfo{VendorID: field[1]}
-
-	cpuinfo := []CPUInfo{}
-	i := -1
-	featuresLine := ""
+	cpuinfo := []CPUInfo{{}}
+	i := 0
+	var features []string
+	modelName := ""
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -207,14 +190,23 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 		}
 		field := strings.SplitN(line, ": ", 2)
 		switch strings.TrimSpace(field[0]) {
+		case "Processor":
+			// this appears at the first line in kernels < 3.8
+			modelName = field[1]
+			cpuinfo[i].VendorID = field[1]
 		case "processor":
-			cpuinfo = append(cpuinfo, commonCPUInfo) // start of the next processor
-			i++
 			v, err := strconv.ParseUint(field[1], 0, 32)
 			if err != nil {
 				return nil, err
 			}
-			cpuinfo[i].Processor = uint(v)
+			if v != 0 {
+				cpuinfo = append(cpuinfo, CPUInfo{VendorID: modelName}) // start of the next processor
+				i++
+				cpuinfo[i].Processor = uint(v)
+			}
+		case "model name":
+			// this is what kernel 3.8+ gives instead of "Processor:"
+			cpuinfo[i].VendorID = field[1]
 		case "BogoMIPS":
 			v, err := strconv.ParseFloat(field[1], 64)
 			if err != nil {
@@ -222,34 +214,32 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 			}
 			cpuinfo[i].BogoMips = v
 		case "Features":
-			featuresLine = line
+			if len(features) == 0 {
+				// only parse once
+				features = strings.Fields(field[1])
+			}
+			cpuinfo[i].Flags = features
 		}
 	}
-	fields := strings.SplitN(featuresLine, ": ", 2)
-	for i := range cpuinfo {
-		cpuinfo[i].Flags = strings.Fields(fields[1])
-	}
-	return cpuinfo, nil
+
+	return cpuinfo, scanner.Err()
 }
 
-func parseCPUInfoS390X(info []byte) ([]CPUInfo, error) {
-	scanner := bufio.NewScanner(bytes.NewReader(info))
+func parseCPUInfoS390X(info io.Reader) ([]CPUInfo, error) {
+	scanner := bufio.NewScanner(info)
 
-	firstLine := firstNonEmptyLine(scanner)
-	if !strings.HasPrefix(firstLine, "vendor_id") || !strings.Contains(firstLine, ":") {
-		return nil, errors.New("invalid cpuinfo file: " + firstLine)
-	}
-	field := strings.SplitN(firstLine, ": ", 2)
 	cpuinfo := []CPUInfo{}
-	commonCPUInfo := CPUInfo{VendorID: field[1]}
+	commonCPUInfo := CPUInfo{}
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		if !strings.Contains(line, ":") {
+		field := strings.SplitN(line, ": ", 2)
+		if len(field) != 2 {
 			continue
 		}
-		field := strings.SplitN(line, ": ", 2)
 		switch strings.TrimSpace(field[0]) {
+		case "vendor_id":
+			commonCPUInfo.VendorID = field[1]
 		case "bogomips per cpu":
 			v, err := strconv.ParseFloat(field[1], 64)
 			if err != nil {
@@ -297,31 +287,21 @@ func parseCPUInfoS390X(info []byte) ([]CPUInfo, error) {
 		}
 	}
 
-	return cpuinfo, nil
+	return cpuinfo, scanner.Err()
 }
 
-func parseCPUInfoPPC(info []byte) ([]CPUInfo, error) {
-	scanner := bufio.NewScanner(bytes.NewReader(info))
+func parseCPUInfoPPC(info io.Reader) ([]CPUInfo, error) {
+	scanner := bufio.NewScanner(info)
 
-	firstLine := firstNonEmptyLine(scanner)
-	if !strings.HasPrefix(firstLine, "processor") || !strings.Contains(firstLine, ":") {
-		return nil, errors.New("invalid cpuinfo file: " + firstLine)
-	}
-	field := strings.SplitN(firstLine, ": ", 2)
-	v, err := strconv.ParseUint(field[1], 0, 32)
-	if err != nil {
-		return nil, err
-	}
-	firstcpu := CPUInfo{Processor: uint(v)}
-	cpuinfo := []CPUInfo{firstcpu}
-	i := 0
+	cpuinfo := []CPUInfo{}
+	i := -1
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		if !strings.Contains(line, ":") {
+		field := strings.SplitN(line, ": ", 2)
+		if len(field) != 2 {
 			continue
 		}
-		field := strings.SplitN(line, ": ", 2)
 		switch strings.TrimSpace(field[0]) {
 		case "processor":
 			cpuinfo = append(cpuinfo, CPUInfo{}) // start of the next processor
@@ -342,17 +322,5 @@ func parseCPUInfoPPC(info []byte) ([]CPUInfo, error) {
 			cpuinfo[i].CPUMHz = v
 		}
 	}
-	return cpuinfo, nil
-}
-
-// firstNonEmptyLine advances the scanner to the first non-empty line
-// and returns the contents of that line
-func firstNonEmptyLine(scanner *bufio.Scanner) string {
-	for scanner.Scan() {
-		line := scanner.Text()
-		if strings.TrimSpace(line) != "" {
-			return line
-		}
-	}
-	return ""
+	return cpuinfo, scanner.Err()
 }

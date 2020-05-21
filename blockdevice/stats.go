@@ -87,7 +87,10 @@ type Diskstats struct {
 	IoStatsCount int
 }
 
-// BlockQueueStats models the queue files that are located in the sysfs tree for each block device.
+// BlockQueueStats models the queue files that are located in the sysfs tree for each block device
+// and described in the kernel documentation:
+// https://www.kernel.org/doc/Documentation/block/queue-sysfs.txt
+// https://www.kernel.org/doc/html/latest/block/queue-sysfs.html
 type BlockQueueStats struct {
 	// AddRandom is the status of a disk entropy (1 is on, 0 is off).
 	AddRandom uint64
@@ -311,6 +314,7 @@ func (fs FS) SysBlockDeviceStat(device string) (IOStats, int, error) {
 	return stat, count, err
 }
 
+// SysBlockDeviceQueueStats returns stats for /sys/block/xxx/queue where xxx is a device name.
 func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 	stat := BlockQueueStats{}
 	// files with uint64 fields
@@ -347,7 +351,7 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 	} {
 		val, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
 		if err != nil {
-			return stat, err
+			return BlockQueueStats{}, err
 		}
 		*p = val
 	}
@@ -358,7 +362,7 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 	} {
 		val, err := util.ReadIntFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
 		if err != nil {
-			return stat, err
+			return BlockQueueStats{}, err
 		}
 		*p = val
 	}
@@ -369,13 +373,13 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 	} {
 		val, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
 		if err != nil {
-			return stat, err
+			return BlockQueueStats{}, err
 		}
 		*p = val
 	}
 	scheduler, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "scheduler"))
 	if err != nil {
-		return stat, err
+		return BlockQueueStats{}, err
 	}
 	var schedulers []string
 	xs := strings.Split(scheduler, " ")

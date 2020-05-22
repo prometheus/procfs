@@ -16,9 +16,11 @@
 package sysfs
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 	"strings"
+	"syscall"
 
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -39,20 +41,20 @@ type ClassThermalZoneStats struct {
 func (fs FS) ClassThermalZoneStats() ([]ClassThermalZoneStats, error) {
 	zones, err := filepath.Glob(fs.sys.Path("class/thermal/thermal_zone[0-9]*"))
 	if err != nil {
-		return []ClassThermalZoneStats{}, err
+		return nil, err
 	}
 
-	var zoneStats = ClassThermalZoneStats{}
-	stats := make([]ClassThermalZoneStats, len(zones))
-	for i, zone := range zones {
-		zoneName := strings.TrimPrefix(filepath.Base(zone), "thermal_zone")
-
-		zoneStats, err = parseClassThermalZone(zone)
+	stats := make([]ClassThermalZoneStats, 0, len(zones))
+	for _, zone := range zones {
+		zoneStats, err := parseClassThermalZone(zone)
 		if err != nil {
-			return []ClassThermalZoneStats{}, err
+			if errors.Is(err, syscall.ENODATA) {
+				continue
+			}
+			return nil, err
 		}
-		zoneStats.Name = zoneName
-		stats[i] = zoneStats
+		zoneStats.Name = strings.TrimPrefix(filepath.Base(zone), "thermal_zone")
+		stats = append(stats, zoneStats)
 	}
 	return stats, nil
 }

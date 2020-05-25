@@ -14,6 +14,7 @@
 package blockdevice
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -103,5 +104,51 @@ func TestBlockDevice(t *testing.T) {
 	}
 	if device1stats.DiscardTicks != 12 {
 		t.Errorf(failMsgFormat, "Incorrect discard ticks", 12, device1stats.DiscardTicks)
+	}
+	blockQueueStatExpected := BlockQueueStats{
+		AddRandom:            1,
+		DAX:                  0,
+		DiscardGranularity:   0,
+		DiscardMaxHWBytes:    0,
+		DiscardMaxBytes:      0,
+		HWSectorSize:         512,
+		IOPoll:               0,
+		IOPollDelay:          -1,
+		IOTimeout:            30000,
+		IOStats:              1,
+		LogicalBlockSize:     512,
+		MaxHWSectorsKB:       32767,
+		MaxIntegritySegments: 0,
+		MaxSectorsKB:         1280,
+		MaxSegments:          168,
+		MaxSegmentSize:       65536,
+		MinimumIOSize:        512,
+		NoMerges:             0,
+		NRRequests:           64,
+		OptimalIOSize:        0,
+		PhysicalBlockSize:    512,
+		ReadAHeadKB:          128,
+		Rotational:           1,
+		RQAffinity:           1,
+		SchedulerList:        []string{"mq-deadline", "kyber", "bfq", "none"},
+		SchedulerCurrent:     "bfq",
+		WriteCache:           "write back",
+		WriteSameMaxBytes:    0,
+		WBTLatUSec:           75000,
+		ThrottleSampleTime:   nil,
+		Zoned:                "none",
+		NRZones:              0,
+		ChunkSectors:         0,
+		FUA:                  0,
+		MaxDiscardSegments:   1,
+		WriteZeroesMaxBytes:  0,
+	}
+
+	blockQueueStat, err := blockdevice.SysBlockDeviceQueueStats(devices[1])
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(blockQueueStat, blockQueueStatExpected) {
+		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", blockQueueStatExpected, blockQueueStat)
 	}
 }

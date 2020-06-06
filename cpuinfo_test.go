@@ -131,6 +131,43 @@ cpu MHz dynamic : 5000
 cpu MHz static  : 5000
 `
 
+	cpuinfoMips = `
+system type		: UBNT_E100
+machine			: Unknown
+processor		: 0
+cpu model		: Cavium Octeon+ V0.1
+BogoMIPS		: 1000.00
+wait instruction	: yes
+microsecond timers	: yes
+tlb_entries		: 64
+extra interrupt vector	: yes
+hardware watchpoint	: yes, count: 2, address/irw mask: [0x0ffc, 0x0ffb]
+isa			: mips1 mips2 mips3 mips4 mips5 mips64r2
+ASEs implemented	:
+shadow register sets	: 1
+kscratch registers	: 0
+core			: 0
+VCED exceptions		: not available
+VCEI exceptions		: not available
+
+processor		: 1
+cpu model		: Cavium Octeon+ V0.1
+BogoMIPS		: 1000.00
+wait instruction	: yes
+microsecond timers	: yes
+tlb_entries		: 64
+extra interrupt vector	: yes
+hardware watchpoint	: yes, count: 2, address/irw mask: [0x0ffc, 0x0ffb]
+isa			: mips1 mips2 mips3 mips4 mips5 mips64r2
+ASEs implemented	:
+shadow register sets	: 1
+kscratch registers	: 0
+core			: 1
+VCED exceptions		: not available
+VCEI exceptions		: not available
+
+`
+
 	cpuinfoPpc64 = `
 processor	: 0
 cpu		: POWER7 (architected), altivec supported
@@ -276,6 +313,22 @@ func TestCPUInfoParseS390X(t *testing.T) {
 	}
 	if want, have := 5000.0, cpuinfo[2].CPUMHz; want != have {
 		t.Errorf("want cpu MHz %v, have %v", want, have)
+	}
+}
+
+func TestCPUInfoParseMips(t *testing.T) {
+	cpuinfo, err := parseCPUInfoMips([]byte(cpuinfoMips))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse mips cpu info: %v", err)
+	}
+	if want, have := 2, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := 1000.00, cpuinfo[0].BogoMips; want != have {
+		t.Errorf("want BogoMIPS %v, have %v", want, have)
+	}
+	if want, have := "Cavium Octeon+ V0.1", cpuinfo[1].ModelName; want != have {
+		t.Errorf("want ModelName '%v', have '%v'", want, have)
 	}
 }
 

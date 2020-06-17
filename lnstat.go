@@ -1,4 +1,4 @@
-// Copyright 2020 Aleksei Zakharov
+// Copyright 2020 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,62 +11,69 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package lnstat
+package procfs
 
 import (
 	"bufio"
-	"bytes"
-	"io"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
-  "path/filepath"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/fs"
 )
 
+// Lnstats contains statistics for one counter for all cpus
 type Lnstats struct {
-  Filename string
-  Name string
-  Value uint64
-  CPU uint64
+	Filename string
+	Name     string
+	Value    map[uint64]uint64
 }
 
-func Lnstat() (Lnstats[], error) {
-  statFiles, err := filepath.Glob(fs.proc.Path("net/stat/*"))
-  if err != nil {
-    return err
-  }
+func Lnstat() ([]Lnstats, error) {
+	fs, err := NewFS(fs.DefaultProcMountPoint)
+	if err != nil {
+		return nil, err
+	}
+	statFiles, err := filepath.Glob(fs.proc.Path("net/stat/*"))
+	if err != nil {
+		return nil, err
+	}
 
-  var lnstats Lnstats[]
+	var lnstatsTotal []Lnstats
 
-  for filePath range statsFiles {
-    file, err := os.Open(filePath)
-    if err != nil {
-      return nil, err
-    }
+	for _, filePath := range statFiles {
+		file, err := os.Open(filePath)
+		if err != nil {
+			return nil, err
+		}
 
-    scanner := bufio.NewScanner(file)
-    scanner.Split(bufio.ScanLines)
-    scanner.Scan()
-    for _, header := range strings.Fields(scanner.Text()) {
-      lnstat := Lnstats {
-        Filename: filepath.Base(filePath),
-        Name: header,
-      }
-      lnstats = append(lnstats. lnstat)
-    }
+		var lnstatsOnce []Lnstats
+		scanner := bufio.NewScanner(file)
+		scanner.Split(bufio.ScanLines)
+		scanner.Scan()
+		// First string is always a header for stats
+		for _, header := range strings.Fields(scanner.Text()) {
+			lnstat := Lnstats{
+				Filename: filepath.Base(filePath),
+				Name:     header,
+			}
+			lnstat.Value = make(map[uint64]uint64)
+			lnstatsOnce = append(lnstatsOnce, lnstat)
+		}
 
-    var cpu uint32 = 0
-    for scanner.Scan() {
-      for num, counter := range strings.Fields(scanner.Text()) {
-        lnstats[num].CPU = cpu
-        lnstats[unm].Value, err = strconv.ParseUint(counter, 16, 32)
-        if err != nil {
-          return nil, err
-        }
-      }
-      cpu++
-    }
-  }
-  return lnstats, nil
+		// Other strings represent per-CPU counters
+		var cpu uint64 = 0
+		for scanner.Scan() {
+			for num, counter := range strings.Fields(scanner.Text()) {
+				lnstatsOnce[num].Value[cpu], err = strconv.ParseUint(counter, 16, 32)
+				if err != nil {
+					return nil, err
+				}
+			}
+			cpu++
+		}
+		lnstatsTotal = append(lnstatsTotal, lnstatsOnce...)
+	}
+	return lnstatsTotal, nil
 }

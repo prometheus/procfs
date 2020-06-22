@@ -407,6 +407,10 @@ func parseCPUInfoPPC(info []byte) ([]CPUInfo, error) {
 	return cpuinfo, nil
 }
 
+func parseCPUInfoDummy(_ []byte) ([]CPUInfo, error) { // nolint:unused,deadcode
+	return nil, errors.New("not implemented")
+}
+
 // firstNonEmptyLine advances the scanner to the first non-empty line
 // and returns the contents of that line
 func firstNonEmptyLine(scanner *bufio.Scanner) string {

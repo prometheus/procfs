@@ -12,6 +12,7 @@
 // limitations under the License.
 
 // +build aix darwin dragonfly freebsd linux netbsd openbsd solaris
+// +build !386,!arm,!mips,!mipsle
 
 package procfs
 
@@ -23,45 +24,6 @@ import (
 )
 
 func TestProcMaps(t *testing.T) {
-	tsts32 := []*ProcMap{
-		{
-			StartAddr: 0x08048000,
-			EndAddr:   0x08089000,
-			Perms:     &ProcMapPermissions{true, false, true, false, true},
-			Offset:    0,
-			Dev:       unix.Mkdev(0x03, 0x01),
-			Inode:     104219,
-			Pathname:  "/bin/tcsh",
-		},
-		{
-			StartAddr: 0x08089000,
-			EndAddr:   0x0808c000,
-			Perms:     &ProcMapPermissions{true, true, false, false, true},
-			Offset:    266240,
-			Dev:       unix.Mkdev(0x03, 0x01),
-			Inode:     104219,
-			Pathname:  "/bin/tcsh",
-		},
-		{
-			StartAddr: 0x0808c000,
-			EndAddr:   0x08146000,
-			Perms:     &ProcMapPermissions{true, true, true, false, true},
-			Offset:    0,
-			Dev:       unix.Mkdev(0x00, 0x00),
-			Inode:     0,
-			Pathname:  "",
-		},
-		{
-			StartAddr: 0x40000000,
-			EndAddr:   0x40015000,
-			Perms:     &ProcMapPermissions{true, false, true, false, true},
-			Offset:    0,
-			Dev:       unix.Mkdev(0x03, 0x01),
-			Inode:     61874,
-			Pathname:  "/lib/ld-2.3.2.so",
-		},
-	}
-
 	tsts64 := []*ProcMap{
 		{
 			StartAddr: 0x55680ae1e000,
@@ -146,20 +108,9 @@ func TestProcMaps(t *testing.T) {
 		},
 	}
 
-	var (
-		tsts []*ProcMap
-		tpid int
-	)
-
-	if (32 << uintptr(^uintptr(0)>>63)) == 64 {
-		// 64b test pid
-		tpid = 26232
-		tsts = tsts64
-	} else {
-		// 32b test pid
-		tpid = 26234
-		tsts = tsts32
-	}
+	// 64-bit test pid and fixtures
+	tpid := 26232
+	tsts := tsts64
 
 	p, err := getProcFixtures(t).Proc(tpid)
 	if err != nil {

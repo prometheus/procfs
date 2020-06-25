@@ -207,6 +207,7 @@ machine		: CHRP IBM,8233-E8B
 )
 
 func TestCPUInfoX86(t *testing.T) {
+	parseCPUInfo = parseCPUInfoX86
 	cpuinfo, err := getProcFixtures(t).CPUInfo()
 	if err != nil {
 		t.Fatal(err)

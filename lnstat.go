@@ -63,7 +63,7 @@ func Lnstat() ([]Lnstats, error) {
 		}
 
 		// Other strings represent per-CPU counters
-		var cpu uint64 = 0
+		var cpu uint64
 		for scanner.Scan() {
 			for num, counter := range strings.Fields(scanner.Text()) {
 				lnstatsOnce[num].Value[cpu], err = strconv.ParseUint(counter, 16, 32)

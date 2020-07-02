@@ -19,8 +19,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-
-	"github.com/prometheus/procfs/internal/fs"
 )
 
 // Lnstats contains statistics for one counter for all cpus
@@ -30,11 +28,7 @@ type Lnstats struct {
 }
 
 // Lnstat() retrieves stats from /proc/net/stat/
-func Lnstat() ([]Lnstats, error) {
-	fs, err := NewFS(fs.DefaultProcMountPoint)
-	if err != nil {
-		return nil, err
-	}
+func (fs FS) Lnstat() ([]Lnstats, error) {
 	statFiles, err := filepath.Glob(fs.proc.Path("net/stat/*"))
 	if err != nil {
 		return nil, err

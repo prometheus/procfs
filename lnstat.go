@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// Lnstats contains statistics for one counter for all cpus
+// Lnstats contains statistics for all the counters from one file
 type Lnstats struct {
 	Filename string
 	Stats    map[string][]uint64

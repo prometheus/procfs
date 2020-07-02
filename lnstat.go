@@ -26,8 +26,7 @@ import (
 // Lnstats contains statistics for one counter for all cpus
 type Lnstats struct {
 	Filename string
-	Name     string
-	Value    map[uint64]uint64
+	Stats    map[string][]uint64
 }
 
 func Lnstat() ([]Lnstats, error) {
@@ -48,32 +47,30 @@ func Lnstat() ([]Lnstats, error) {
 			return nil, err
 		}
 
-		var lnstatsOnce []Lnstats
+		lnstatFile := Lnstats{
+			Filename: filepath.Base(filePath),
+			Stats:    make(map[string][]uint64),
+		}
 		scanner := bufio.NewScanner(file)
 		scanner.Split(bufio.ScanLines)
 		scanner.Scan()
 		// First string is always a header for stats
+		var headers []string
 		for _, header := range strings.Fields(scanner.Text()) {
-			lnstat := Lnstats{
-				Filename: filepath.Base(filePath),
-				Name:     header,
-			}
-			lnstat.Value = make(map[uint64]uint64)
-			lnstatsOnce = append(lnstatsOnce, lnstat)
+			headers = append(headers, header)
 		}
 
 		// Other strings represent per-CPU counters
-		var cpu uint64
 		for scanner.Scan() {
 			for num, counter := range strings.Fields(scanner.Text()) {
-				lnstatsOnce[num].Value[cpu], err = strconv.ParseUint(counter, 16, 32)
+				value, err := strconv.ParseUint(counter, 16, 32)
 				if err != nil {
 					return nil, err
 				}
+				lnstatFile.Stats[headers[num]] = append(lnstatFile.Stats[headers[num]], value)
 			}
-			cpu++
 		}
-		lnstatsTotal = append(lnstatsTotal, lnstatsOnce...)
+		lnstatsTotal = append(lnstatsTotal, lnstatFile)
 	}
 	return lnstatsTotal, nil
 }

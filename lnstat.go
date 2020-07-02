@@ -53,7 +53,6 @@ func Lnstat() ([]Lnstats, error) {
 			Stats:    make(map[string][]uint64),
 		}
 		scanner := bufio.NewScanner(file)
-		scanner.Split(bufio.ScanLines)
 		scanner.Scan()
 		// First string is always a header for stats
 		var headers []string

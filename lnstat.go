@@ -29,7 +29,7 @@ type Lnstats struct {
 	Stats    map[string][]uint64
 }
 
-// Lnstat() retrieves stats from /proc/nets/stat/
+// Lnstat() retrieves stats from /proc/net/stat/
 func Lnstat() ([]Lnstats, error) {
 	fs, err := NewFS(fs.DefaultProcMountPoint)
 	if err != nil {

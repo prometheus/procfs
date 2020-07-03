@@ -50,9 +50,7 @@ func (fs FS) Lnstat() ([]Lnstats, error) {
 		scanner.Scan()
 		// First string is always a header for stats
 		var headers []string
-		for _, header := range strings.Fields(scanner.Text()) {
-			headers = append(headers, header)
-		}
+		headers = append(headers, strings.Fields(scanner.Text())...)
 
 		// Other strings represent per-CPU counters
 		for scanner.Scan() {

@@ -21,20 +21,20 @@ import (
 	"strings"
 )
 
-// Lnstats contains statistics for all the counters from one file
-type Lnstats struct {
+// NetStat contains statistics for all the counters from one file
+type NetStat struct {
 	Filename string
 	Stats    map[string][]uint64
 }
 
-// Lnstat() retrieves stats from /proc/net/stat/
-func (fs FS) Lnstat() ([]Lnstats, error) {
+// NetStat retrieves stats from /proc/net/stat/
+func (fs FS) NetStat() ([]NetStat, error) {
 	statFiles, err := filepath.Glob(fs.proc.Path("net/stat/*"))
 	if err != nil {
 		return nil, err
 	}
 
-	var lnstatsTotal []Lnstats
+	var netStatsTotal []NetStat
 
 	for _, filePath := range statFiles {
 		file, err := os.Open(filePath)
@@ -42,7 +42,7 @@ func (fs FS) Lnstat() ([]Lnstats, error) {
 			return nil, err
 		}
 
-		lnstatFile := Lnstats{
+		netStatFile := NetStat{
 			Filename: filepath.Base(filePath),
 			Stats:    make(map[string][]uint64),
 		}
@@ -59,10 +59,10 @@ func (fs FS) Lnstat() ([]Lnstats, error) {
 				if err != nil {
 					return nil, err
 				}
-				lnstatFile.Stats[headers[num]] = append(lnstatFile.Stats[headers[num]], value)
+				netStatFile.Stats[headers[num]] = append(netStatFile.Stats[headers[num]], value)
 			}
 		}
-		lnstatsTotal = append(lnstatsTotal, lnstatFile)
+		netStatsTotal = append(netStatsTotal, netStatFile)
 	}
-	return lnstatsTotal, nil
+	return netStatsTotal, nil
 }

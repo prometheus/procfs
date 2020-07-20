@@ -17,7 +17,7 @@ import (
 	"testing"
 )
 
-func TestLnstat(t *testing.T) {
+func TestNetStat(t *testing.T) {
 	const (
 		filesCount             = 2
 		CPUsCount              = 2
@@ -30,16 +30,16 @@ func TestLnstat(t *testing.T) {
 		t.Fatalf("failed to open procfs: %v", err)
 	}
 
-	lnstats, err := fs.Lnstat()
+	netStats, err := fs.NetStat()
 	if err != nil {
-		t.Fatalf("Lnstat() error: %s", err)
+		t.Fatalf("NetStat() error: %s", err)
 	}
 
-	if len(lnstats) != filesCount {
-		t.Fatalf("unexpected number of files parsed %d, expected %d", len(lnstats), filesCount)
+	if len(netStats) != filesCount {
+		t.Fatalf("unexpected number of files parsed %d, expected %d", len(netStats), filesCount)
 	}
 
-	expectedStats := [2]Lnstats{
+	expectedStats := [2]NetStat{
 		{
 			Filename: "arp_cache",
 			Stats:    make(map[string][]uint64),
@@ -83,28 +83,28 @@ func TestLnstat(t *testing.T) {
 		}
 	}
 
-	for _, lnstatFile := range lnstats {
-		if lnstatFile.Filename == "arp_cache" && len(lnstatFile.Stats) != arpCacheMetricsCount {
-			t.Fatalf("unexpected arp_cache metrics count %d, expected %d", len(lnstatFile.Stats), arpCacheMetricsCount)
+	for _, netStatFile := range netStats {
+		if netStatFile.Filename == "arp_cache" && len(netStatFile.Stats) != arpCacheMetricsCount {
+			t.Fatalf("unexpected arp_cache metrics count %d, expected %d", len(netStatFile.Stats), arpCacheMetricsCount)
 		}
-		if lnstatFile.Filename == "ndisc_cache" && len(lnstatFile.Stats) != ndiscCacheMetricsCount {
-			t.Fatalf("unexpected ndisc_cache metrics count %d, expected %d", len(lnstatFile.Stats), ndiscCacheMetricsCount)
+		if netStatFile.Filename == "ndisc_cache" && len(netStatFile.Stats) != ndiscCacheMetricsCount {
+			t.Fatalf("unexpected ndisc_cache metrics count %d, expected %d", len(netStatFile.Stats), ndiscCacheMetricsCount)
 		}
 		for _, expected := range expectedStats {
-			for header, stats := range lnstatFile.Stats {
+			for header, stats := range netStatFile.Stats {
 				if header == "" {
 					t.Fatalf("Found empty metric name")
 				}
 				if len(stats) != CPUsCount {
-					t.Fatalf("Lnstat parsed %d lines with metrics, expected %d", len(stats), CPUsCount)
+					t.Fatalf("NetStat() parsed %d lines with metrics, expected %d", len(stats), CPUsCount)
 				}
-				if lnstatFile.Filename == expected.Filename {
+				if netStatFile.Filename == expected.Filename {
 					if expected.Stats[header] == nil {
 						t.Fatalf("unexpected metric header: %s", header)
 					}
-					for cpu, value := range lnstatFile.Stats[header] {
+					for cpu, value := range netStatFile.Stats[header] {
 						if expected.Stats[header][cpu] != value {
-							t.Fatalf("unexpected value for %s for cpu %d in %s: %d, expected %d", header, cpu, lnstatFile.Filename, value, expected.Stats[header][cpu])
+							t.Fatalf("unexpected value for %s for cpu %d in %s: %d, expected %d", header, cpu, netStatFile.Filename, value, expected.Stats[header][cpu])
 						}
 					}
 				}

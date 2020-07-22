@@ -204,6 +204,18 @@ platform	: pSeries
 model		: IBM,8233-E8B
 machine		: CHRP IBM,8233-E8B
 `
+
+	cpuinfoRiscv64 = `
+processor	: 0
+hart		: 0
+isa		: rv64imafdcsu
+mmu		: sv48
+
+processor	: 1
+hart		: 1
+isa		: rv64imafdcsu
+mmu		: sv48
+`
 )
 
 func TestCPUInfoX86(t *testing.T) {
@@ -343,5 +355,21 @@ func TestCPUInfoParsePPC(t *testing.T) {
 	}
 	if want, have := 3000.00, cpuinfo[2].CPUMHz; want != have {
 		t.Errorf("want cpu mhz %v, have %v", want, have)
+	}
+}
+
+func TestCPUInfoParseRISCV64(t *testing.T) {
+	cpuinfo, err := parseCPUInfoRISCV([]byte(cpuinfoRiscv64))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse ppc cpu info: %v", err)
+	}
+	if want, have := 2, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := "1", cpuinfo[1].CoreID; want != have {
+		t.Errorf("want CoreId %v, have %v", want, have)
+	}
+	if want, have := "rv64imafdcsu", cpuinfo[1].ModelName; want != have {
+		t.Errorf("want ModelName %v, have %v", want, have)
 	}
 }

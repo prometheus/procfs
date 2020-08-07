@@ -40,6 +40,7 @@ func TestFS_MDStat(t *testing.T) {
 		"md219": {Name: "md219", ActivityState: "inactive", DisksTotal: 0, DisksFailed: 0, DisksActive: 0, DisksSpare: 3, BlocksTotal: 7932, BlocksSynced: 7932},
 		"md00":  {Name: "md00", ActivityState: "active", DisksActive: 1, DisksTotal: 1, DisksFailed: 0, DisksSpare: 0, BlocksTotal: 4186624, BlocksSynced: 4186624},
 		"md101": {Name: "md101", ActivityState: "active", DisksActive: 3, DisksTotal: 3, DisksFailed: 0, DisksSpare: 0, BlocksTotal: 322560, BlocksSynced: 322560},
+		"md201": {Name: "md201", ActivityState: "checking", DisksActive: 2, DisksTotal: 2, DisksFailed: 0, DisksSpare: 0, BlocksTotal: 1993728, BlocksSynced: 114176},
 	}
 
 	if want, have := len(refs), len(mdStats); want != have {

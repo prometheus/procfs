@@ -56,7 +56,7 @@ func TestNewRaplValues(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if len(zones) != 2 {
+	if len(zones) != 3 {
 		t.Fatal("wrong number of RAPL values")
 	}
 	microjoules, err := zones[0].GetEnergyMicrojoules()
@@ -65,5 +65,8 @@ func TestNewRaplValues(t *testing.T) {
 	}
 	if microjoules != 240422366267 {
 		t.Fatal("wrong microjoule number")
+	}
+	if zones[2].Index != 10 {
+		t.Fatal("wrong index number")
 	}
 }

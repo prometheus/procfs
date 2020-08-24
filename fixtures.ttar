@@ -3758,6 +3758,73 @@ Path: fixtures/sys/class/powercap/intel-rapl:0:0/uevent
 Lines: 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/powercap/intel-rapl:a
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/constraint_0_max_power_uw
+Lines: 1
+95000000
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/constraint_0_name
+Lines: 1
+long_term
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/constraint_0_power_limit_uw
+Lines: 1
+4090000000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/constraint_0_time_window_us
+Lines: 1
+999424
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/constraint_1_max_power_uw
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/constraint_1_name
+Lines: 1
+short_term
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/constraint_1_power_limit_uw
+Lines: 1
+4090000000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/constraint_1_time_window_us
+Lines: 1
+2440
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/enabled
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/energy_uj
+Lines: 1
+240422366267
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/max_energy_range_uj
+Lines: 1
+262143328850
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/name
+Lines: 1
+package-10
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/powercap/intel-rapl:a/uevent
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

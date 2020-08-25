@@ -91,3 +91,19 @@ func TestProcStatusUIDs(t *testing.T) {
 		t.Errorf("want uids %s, have %s", want, have)
 	}
 }
+
+func TestProcStatusGIDs(t *testing.T) {
+	p, err := getProcFixtures(t).Proc(26231)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	s, err := p.NewStatus()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if want, have := [4]string{"1001", "1001", "1001", "0"}, s.GIDs; want != have {
+		t.Errorf("want uids %s, have %s", want, have)
+	}
+}

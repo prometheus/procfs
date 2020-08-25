@@ -467,7 +467,7 @@ Pid:	26231
 PPid:	1
 TracerPid:	0
 Uid:	1000	1000	1000	0
-Gid:	0	0	0	0
+Gid:	1001	1001	1001	0
 FDSize:	128
 Groups:
 NStgid:	1

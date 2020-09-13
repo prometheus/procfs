@@ -83,7 +83,7 @@ func parseClassThermalZone(zone string) (ClassThermalZoneStats, error) {
 
 	var zonePassive *uint64
 	passive, err := util.ReadUintFromFile(filepath.Join(zone, "passive"))
-	if os.IsNotExist(err) || os.IsPermission(err) {
+	if os.IsNotExist(errors.Unwrap(err)) || os.IsPermission(errors.Unwrap(err)) {
 		zonePassive = nil
 	} else if err != nil {
 		return ClassThermalZoneStats{}, err

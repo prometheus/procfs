@@ -16,6 +16,7 @@
 package procfs
 
 import (
+	"errors"
 	"os"
 
 	"github.com/prometheus/procfs/internal/util"
@@ -49,7 +50,7 @@ func (fs FS) KernelRandom() (KernelRandom, error) {
 		"read_wakeup_threshold":   &random.ReadWakeupThreshold,
 	} {
 		val, err := util.ReadUintFromFile(fs.proc.Path("sys", "kernel", "random", file))
-		if os.IsNotExist(err) {
+		if os.IsNotExist(errors.Unwrap(err)) {
 			continue
 		}
 		if err != nil {

@@ -16,6 +16,7 @@
 package sysfs
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 	"strings"
@@ -196,7 +197,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	for i, f := range uintFiles {
 		v, err := util.ReadUintFromFile(filepath.Join(cpuPath, f))
 		if err != nil {
-			if os.IsNotExist(err) || os.IsPermission(err) {
+			if os.IsNotExist(errors.Unwrap(err)) || os.IsPermission(errors.Unwrap(err)) {
 				continue
 			}
 			return &SystemCPUCpufreqStats{}, err

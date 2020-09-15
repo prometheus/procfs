@@ -2004,7 +2004,7 @@ md9 : active raid1 sdc2[2] sdd2[3] sdb2[1] sda2[0] sde[4](F) sdf[5](F) sdg[6](S)
 md10 : active raid0 sda1[0] sdb1[1]
        314159265 blocks 64k chunks
 
-md11 : active (auto-read-only) raid1 sdb2[0] sdc2[1] sdc3[2](F) hda[4](S) ssdc2[3](S)
+md11 : active (auto-read-only) raid1 sdb2[0] sdc2[1] sdc3[2](F) hdb[4](S) ssdc2[3](S)
       4190208 blocks super 1.2 [2/2] [UU]
       resync=PENDING
 

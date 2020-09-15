@@ -22,9 +22,17 @@ import (
 )
 
 var (
+	deviceLineRE   = regexp.MustCompile(`(\w+\d+) : (\w+) ?(?:\(.+?\))? ?(\w+)? ((?:\w+\d*\[\d+\](?:\(\w\))? ?)+)`)
 	statusLineRE   = regexp.MustCompile(`(\d+) blocks .*\[(\d+)/(\d+)\] \[[U_]+\]`)
-	recoveryLineRE = regexp.MustCompile(`\((\d+)/\d+\)`)
+	recoveryLineRE = regexp.MustCompile(`(?:(\d{1,3}\.\d)%) \((\d+)/\d+\).+?(\d+\.\d)min`)
+	devicesStrRE   = regexp.MustCompile(`(\w+\d*)\[(\d+)\](?:\((\w)\))?`)
 )
+
+type MDAssignedDevice struct {
+	Name  string
+	Role  int64
+	State string
+}
 
 // MDStat holds info parsed from /proc/mdstat.
 type MDStat struct {
@@ -32,6 +40,8 @@ type MDStat struct {
 	Name string
 	// activity-state of the device.
 	ActivityState string
+	// Raid personality of the device.
+	Personality string
 	// Number of active disks.
 	DisksActive int64
 	// Total number of disks the device requires.
@@ -44,6 +54,12 @@ type MDStat struct {
 	BlocksTotal int64
 	// Number of blocks on the device that are in sync.
 	BlocksSynced int64
+	// Percentage of blocks on the device that are in sync.
+	PercentSynced float64
+	// Remaining minutes to complete sync
+	RemainingSyncMinutes float64
+	// List of assigned devices
+	AssignedDevices []MDAssignedDevice
 }
 
 // MDStat parses an mdstat-file (/proc/mdstat) and returns a slice of
@@ -74,12 +90,25 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 			continue
 		}
 
-		deviceFields := strings.Fields(line)
-		if len(deviceFields) < 3 {
-			return nil, fmt.Errorf("not enough fields in mdline (expected at least 3): %s", line)
+		matches := deviceLineRE.FindStringSubmatch(line)
+		if len(matches) < 4 {
+			return nil, fmt.Errorf("not enough fields in mdline (expected at least 4): %s", line)
 		}
-		mdName := deviceFields[0] // mdx
-		state := deviceFields[2]  // active or inactive
+		mdName := matches[1] // mdx
+		state := matches[2]  // active or inactive
+		var personality string
+		assignedDevicesStr := matches[3]
+
+		if len(matches) == 5 {
+			personality = matches[3]
+			assignedDevicesStr = matches[4]
+		}
+
+		assignedDevices, err := evalAssignedDevices(assignedDevicesStr)
+
+		if err != nil {
+			return nil, err
+		}
 
 		if len(lines) <= i+3 {
 			return nil, fmt.Errorf(
@@ -105,6 +134,8 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		// If device is syncing at the moment, get the number of currently
 		// synced bytes, otherwise that number equals the size of the device.
 		syncedBlocks := size
+		syncedPercent := float64(100)
+		remainingSyncMinutes := float64(0)
 		recovering := strings.Contains(lines[syncLineIdx], "recovery")
 		resyncing := strings.Contains(lines[syncLineIdx], "resync")
 		checking := strings.Contains(lines[syncLineIdx], "check")
@@ -123,8 +154,9 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 			if strings.Contains(lines[syncLineIdx], "PENDING") ||
 				strings.Contains(lines[syncLineIdx], "DELAYED") {
 				syncedBlocks = 0
+				syncedPercent = 0
 			} else {
-				syncedBlocks, err = evalRecoveryLine(lines[syncLineIdx])
+				syncedPercent, syncedBlocks, remainingSyncMinutes, err = evalRecoveryLine(lines[syncLineIdx])
 				if err != nil {
 					return nil, fmt.Errorf("error parsing sync line in md device %s: %s", mdName, err)
 				}
@@ -132,14 +164,18 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		}
 
 		mdStats = append(mdStats, MDStat{
-			Name:          mdName,
-			ActivityState: state,
-			DisksActive:   active,
-			DisksFailed:   fail,
-			DisksSpare:    spare,
-			DisksTotal:    total,
-			BlocksTotal:   size,
-			BlocksSynced:  syncedBlocks,
+			Name:                 mdName,
+			ActivityState:        state,
+			Personality:          personality,
+			DisksActive:          active,
+			DisksFailed:          fail,
+			DisksSpare:           spare,
+			DisksTotal:           total,
+			BlocksTotal:          size,
+			BlocksSynced:         syncedBlocks,
+			PercentSynced:        syncedPercent,
+			RemainingSyncMinutes: remainingSyncMinutes,
+			AssignedDevices:      assignedDevices,
 		})
 	}
 
@@ -182,16 +218,62 @@ func evalStatusLine(deviceLine, statusLine string) (active, total, size int64, e
 	return active, total, size, nil
 }
 
-func evalRecoveryLine(recoveryLine string) (syncedBlocks int64, err error) {
+func evalRecoveryLine(recoveryLine string) (syncedPercent float64, syncedBlocks int64, remainMinutes float64, err error) {
 	matches := recoveryLineRE.FindStringSubmatch(recoveryLine)
-	if len(matches) != 2 {
-		return 0, fmt.Errorf("unexpected recoveryLine: %s", recoveryLine)
+	if len(matches) != 4 {
+		return 0.0, 0, 0.0, fmt.Errorf("unexpected recoveryLine: %s", recoveryLine)
 	}
 
-	syncedBlocks, err = strconv.ParseInt(matches[1], 10, 64)
+	syncedPercent, err = strconv.ParseFloat(matches[1], 64)
 	if err != nil {
-		return 0, fmt.Errorf("%s in recoveryLine: %s", err, recoveryLine)
+		return 0.0, 0, 0.0, fmt.Errorf("%s in recoveryLine: %s", err, recoveryLine)
 	}
 
-	return syncedBlocks, nil
+	syncedBlocks, err = strconv.ParseInt(matches[2], 10, 64)
+	if err != nil {
+		return 0.0, 0, 0.0, fmt.Errorf("%s in recoveryLine: %s", err, recoveryLine)
+	}
+
+	remainMinutes, err = strconv.ParseFloat(matches[3], 64)
+	if err != nil {
+		return 0.0, 0, 0.0, fmt.Errorf("%s in recoveryLine: %s", err, recoveryLine)
+	}
+
+	return syncedPercent, syncedBlocks, remainMinutes, nil
+}
+
+func evalAssignedDevices(assignedDevicesStr string) ([]MDAssignedDevice, error) {
+	fields := strings.Fields(assignedDevicesStr)
+	assignedDevices := make([]MDAssignedDevice, len(fields))
+
+	for i, d := range fields {
+		matches := devicesStrRE.FindStringSubmatch(d)
+		if len(matches) < 3 {
+			return nil, fmt.Errorf("couldn't find all the substring matches: %s", d)
+		}
+
+		name := matches[1]
+		state := "active"
+		role, err := strconv.ParseInt(matches[2], 10, 64)
+		if err != nil {
+			return nil, err
+		}
+
+		if len(matches) == 4 {
+			switch matches[3] {
+			case "S":
+				state = "spare"
+			case "F":
+				state = "failed"
+			}
+		}
+
+		assignedDevices[i] = MDAssignedDevice{
+			Name:  name,
+			Role:  role,
+			State: state,
+		}
+	}
+
+	return assignedDevices, nil
 }

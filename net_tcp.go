@@ -13,7 +13,7 @@
 
 package procfs
 
-// Because this shares so much logic with the net_udp.go module, it 
+// Because this shares so much logic with the net_udp.go module, it
 // just calls the udp parsing functions and converts the types to the tcp
 // equivalent. This could be an issue if the formats of /dev/net/tcp and /dev/net/udp
 // diverge, but is an advantage if the format changes in sync
@@ -57,7 +57,6 @@ func (fs FS) NetTCP6Summary() (*NetTCPSummary, error) {
 	return newNetTCPSummary(fs.proc.Path("net/tcp6"))
 }
 
-
 func newNetTCP(file string) (NetTCP, error) {
 	n, err := newNetIPSocket(file)
 	n1 := NetTCP(n)
@@ -72,5 +71,3 @@ func newNetTCPSummary(file string) (*NetTCPSummary, error) {
 	n1 := NetTCPSummary(*n)
 	return &n1, err
 }
-
-

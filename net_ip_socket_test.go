@@ -106,4 +106,3 @@ func Test_parseNetIPSocketLine(t *testing.T) {
 		})
 	}
 }
-

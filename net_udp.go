@@ -13,8 +13,7 @@
 
 package procfs
 
-import (
-)
+import ()
 
 const (
 	// readLimit is used by io.LimitReader while reading the content of the
@@ -84,4 +83,3 @@ func newNetUDPSummary(file string) (*NetUDPSummary, error) {
 	n1 := NetUDPSummary(*n)
 	return &n1, err
 }
-

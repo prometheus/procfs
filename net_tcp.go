@@ -13,11 +13,6 @@
 
 package procfs
 
-// Because this shares so much logic with the net_udp.go module, it
-// just calls the udp parsing functions and converts the types to the tcp
-// equivalent. This could be an issue if the formats of /dev/net/tcp and /dev/net/udp
-// diverge, but is an advantage if the format changes in sync
-
 type (
 	// NetTCP represents the contents of /proc/net/tcp{,6} file without the header.
 	NetTCP []*netIPSocketLine
@@ -26,11 +21,6 @@ type (
 	// the total number of used sockets. In contrast to NetTCP it does not collect
 	// the parsed lines into a slice.
 	NetTCPSummary NetIPSocketSummary
-
-	// netTCPLine represents the fields parsed from a single line
-	// in /proc/net/tcp{,6}. Fields which are not used by TCP are skipped.
-	// For the proc file format details, see https://linux.die.net/man/5/proc.
-	netTCPLine netIPSocketLine
 )
 
 // NetTCP returns the IPv4 kernel/networking statistics for TCP datagrams
@@ -57,6 +47,7 @@ func (fs FS) NetTCP6Summary() (*NetTCPSummary, error) {
 	return newNetTCPSummary(fs.proc.Path("net/tcp6"))
 }
 
+// newNetTCP creates a new NetTCP{,6} from the contents of the given file.
 func newNetTCP(file string) (NetTCP, error) {
 	n, err := newNetIPSocket(file)
 	n1 := NetTCP(n)

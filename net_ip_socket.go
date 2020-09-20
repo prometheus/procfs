@@ -24,6 +24,16 @@ import (
 	"strings"
 )
 
+const (
+	// readLimit is used by io.LimitReader while reading the content of the
+	// /proc/net/udp{,6} files. The number of lines inside such a file is dynamic
+	// as each line represents a single used socket.
+	// In theory, the number of available sockets is 65535 (2^16 - 1) per IP.
+	// With e.g. 150 Byte per line and the maximum number of 65535,
+	// the reader needs to handle 150 Byte * 65535 =~ 10 MB for a single IP.
+	readLimit = 4294967296 // Byte -> 4 GiB
+)
+
 // this contains generic data structures for both udp and tcp sockets
 type (
 	// NetIPSocket represents the contents of /proc/net/udp{,6} file without the header.

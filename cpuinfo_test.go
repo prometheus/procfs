@@ -115,18 +115,34 @@ processor 2: version = FF,  identification = 2733E8,  machine = 2964
 processor 3: version = FF,  identification = 2733E8,  machine = 2964
 
 cpu number      : 0
+physical id     : 2
+core id         : 0
+siblings        : 8
+cpu cores       : 4
 cpu MHz dynamic : 5000
 cpu MHz static  : 5000
 
 cpu number      : 1
+physical id     : 2
+core id         : 0
+siblings        : 8
+cpu cores       : 4
 cpu MHz dynamic : 5000
 cpu MHz static  : 5000
 
 cpu number      : 2
+physical id     : 2
+core id         : 1
+siblings        : 8
+cpu cores       : 4
 cpu MHz dynamic : 5000
 cpu MHz static  : 5000
 
 cpu number      : 3
+physical id     : 2
+core id         : 1
+siblings        : 8
+cpu cores       : 4
 cpu MHz dynamic : 5000
 cpu MHz static  : 5000
 `
@@ -326,6 +342,18 @@ func TestCPUInfoParseS390X(t *testing.T) {
 	}
 	if want, have := 5000.0, cpuinfo[2].CPUMHz; want != have {
 		t.Errorf("want cpu MHz %v, have %v", want, have)
+	}
+	if want, have := uint(8), cpuinfo[3].Siblings; want != have {
+		t.Errorf("want siblings %v, have %v", want, have)
+	}
+	if want, have := "1", cpuinfo[3].CoreID; want != have {
+		t.Errorf("want core id %v, have %v", want, have)
+	}
+	if want, have := uint(4), cpuinfo[2].CPUCores; want != have {
+		t.Errorf("want cpu cores %v, have %v", want, have)
+	}
+	if want, have := "2", cpuinfo[2].PhysicalID; want != have {
+		t.Errorf("want physical id %v, have %v", want, have)
 	}
 }
 

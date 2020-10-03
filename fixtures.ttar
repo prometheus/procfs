@@ -1896,6 +1896,82 @@ Lines: 52
    8       2 sdc2 13126 71 561749 16802 2830 1589 176404 40620 0 10931 50449 0 0 0 0 0 0
 Mode: 664
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/proc/flashcache
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/proc/flashcache/CG0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/flashcache/CG0/flashcache_errors
+Lines: 10
+disk_read_errors=0 disk_write_errors=0 ssd_read_errors=0 ssd_write_errors=0 memory_alloc_errors=0
+thin_alloc_errors=0
+ssd_errors=0
+verify_errors1=0
+verify_errors2=0
+verify_errors3=0
+verify_errors4=0
+verify_errors5=0
+verify_errors6=0
+verify_errors7=0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/flashcache/CG0/flashcache_iosize_hist
+Lines: 1
+1:15 2:0 4:52419764 8:4301895 16:601787 32:77257 64:35248 128:29153 256:10846 512:260737 1024:128460 
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/flashcache/CG0/flashcache_stats
+Lines: 42
+raw_reads:	17586454
+raw_writes:	40278701
+raw_read_hits:	645626
+raw_potential_read_hits:	662438
+raw_write_hits:	613274
+raw_potential_write_hits:	613274
+reads:	0
+writes:	2193
+read_hits:	0
+potential_read_hits:	0
+read_hit_percent:	0
+potential_read_hit_percent:	0
+write_hits:	35
+potential_write_hits:	35
+write_hit_percent:	1
+potential_write_hit_percent:	1
+replacement:	16812
+write_replacement:	0
+write_invalidates:	278
+read_invalidates:	53
+direct:	0
+discards:	193017
+fbc_busy:	0
+fbc_inval:	0
+defer_bio:	0
+ssd_trim:	331
+zero_sized_bio:	0
+pending_enqueues:	0
+pending_inval:	0
+tier_ssd_inval:	0
+no_room:	0
+disk_reads:	16940830
+disk_writes:	40086177
+ssd_reads:	645626
+ssd_writes:	701762
+uncached_reads:	16852344
+uncached_writes:	39472994
+uncached_IO_requeue:	0
+uncached_sequential_reads:	0
+uncached_sequential_writes:	0
+total_blocks:	415744
+cached_blocks:	415701
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/flashcache/flashcache_version
+Lines: 1
+Flashcache Version : flashcache-3.1.1-7.6
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/fs
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

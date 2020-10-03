@@ -36,7 +36,7 @@ const (
 
 // this contains generic data structures for both udp and tcp sockets
 type (
-	// NetIPSocket represents the contents of /proc/net/udp{,6} file without the header.
+	// NetIPSocket represents the contents of /proc/net/{t,u}dp{,6} file without the header.
 	NetIPSocket []*netIPSocketLine
 
 	// NetIPSocketSummary provides already computed values like the total queue lengths or
@@ -53,7 +53,7 @@ type (
 	}
 
 	// netIPSocketLine represents the fields parsed from a single line
-	// in /proc/net/udp{,6}. Fields which are not used by IPSocket are skipped.
+	// in /proc/net/{t,u}dp{,6}. Fields which are not used by IPSocket are skipped.
 	// For the proc file format details, see https://linux.die.net/man/5/proc.
 	netIPSocketLine struct {
 		Sl        uint64
@@ -75,7 +75,7 @@ func newNetIPSocket(file string) (NetIPSocket, error) {
 	}
 	defer f.Close()
 
-	netIPSocket := NetIPSocket{}
+	var netIPSocket NetIPSocket
 
 	lr := io.LimitReader(f, readLimit)
 	s := bufio.NewScanner(lr)
@@ -102,7 +102,7 @@ func newNetIPSocketSummary(file string) (*NetIPSocketSummary, error) {
 	}
 	defer f.Close()
 
-	netIPSocketSummary := &NetIPSocketSummary{}
+	var netIPSocketSummary NetIPSocketSummary
 
 	lr := io.LimitReader(f, readLimit)
 	s := bufio.NewScanner(lr)
@@ -120,7 +120,7 @@ func newNetIPSocketSummary(file string) (*NetIPSocketSummary, error) {
 	if err := s.Err(); err != nil {
 		return nil, err
 	}
-	return netIPSocketSummary, nil
+	return &netIPSocketSummary, nil
 }
 
 // parseNetIPSocketLine parses a single line, represented by a list of fields.

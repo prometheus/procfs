@@ -134,18 +134,18 @@ func parseIP(hexIP string) (net.IP, error) {
 	}
 	switch len(byteIP) {
 	case 4:
-		return net.IP{byteIP[3],byteIP[2],byteIP[1],byteIP[0]},nil
+		return net.IP{byteIP[3], byteIP[2], byteIP[1], byteIP[0]}, nil
 	case 16:
 		i := net.IP{
-			byteIP[3],byteIP[2],byteIP[1],byteIP[0],
-			byteIP[7],byteIP[6],byteIP[5],byteIP[4],
-			byteIP[11],byteIP[10],byteIP[9],byteIP[8],
-			byteIP[15],byteIP[14],byteIP[13],byteIP[12],
+			byteIP[3], byteIP[2], byteIP[1], byteIP[0],
+			byteIP[7], byteIP[6], byteIP[5], byteIP[4],
+			byteIP[11], byteIP[10], byteIP[9], byteIP[8],
+			byteIP[15], byteIP[14], byteIP[13], byteIP[12],
 		}
-		return i,nil
+		return i, nil
 	default:
-		return nil, fmt.Errorf("Unable to parse IP %s",hexIP)
-	} 
+		return nil, fmt.Errorf("Unable to parse IP %s", hexIP)
+	}
 }
 
 // parseNetIPSocketLine parses a single line, represented by a list of fields.

@@ -123,6 +123,31 @@ func newNetIPSocketSummary(file string) (*NetIPSocketSummary, error) {
 	return &netIPSocketSummary, nil
 }
 
+// the /proc/net/{t,u}dp{,6} files are network byte order for ipv4 and for ipv6 the address is four words consisting of four bytes each. In each of those four words the four bytes are written in reverse order.
+
+func parseIP(hexIP string) (net.IP, error) {
+	var byteIP []byte
+	byteIP, err := hex.DecodeString(hexIP)
+	if err != nil {
+		return nil, fmt.Errorf(
+			"cannot parse address field in socket line: %s", hexIP)
+	}
+	switch len(byteIP) {
+	case 4:
+		return net.IP{byteIP[3],byteIP[2],byteIP[1],byteIP[0]},nil
+	case 16:
+		i := net.IP{
+			byteIP[3],byteIP[2],byteIP[1],byteIP[0],
+			byteIP[7],byteIP[6],byteIP[5],byteIP[4],
+			byteIP[11],byteIP[10],byteIP[9],byteIP[8],
+			byteIP[15],byteIP[14],byteIP[13],byteIP[12],
+		}
+		return i,nil
+	default:
+		return nil, fmt.Errorf("Unable to parse IP %s",hexIP)
+	} 
+}
+
 // parseNetIPSocketLine parses a single line, represented by a list of fields.
 func parseNetIPSocketLine(fields []string) (*netIPSocketLine, error) {
 	line := &netIPSocketLine{}
@@ -150,9 +175,8 @@ func parseNetIPSocketLine(fields []string) (*netIPSocketLine, error) {
 		return nil, fmt.Errorf(
 			"cannot parse local_address field in socket line: %s", fields[1])
 	}
-	if line.LocalAddr, err = hex.DecodeString(l[0]); err != nil {
-		return nil, fmt.Errorf(
-			"cannot parse local_address value in socket line: %s", err)
+	if line.LocalAddr, err = parseIP(l[0]); err != nil {
+		return nil, err
 	}
 	if line.LocalPort, err = strconv.ParseUint(l[1], 16, 64); err != nil {
 		return nil, fmt.Errorf(
@@ -165,9 +189,8 @@ func parseNetIPSocketLine(fields []string) (*netIPSocketLine, error) {
 		return nil, fmt.Errorf(
 			"cannot parse rem_address field in socket line: %s", fields[1])
 	}
-	if line.RemAddr, err = hex.DecodeString(r[0]); err != nil {
-		return nil, fmt.Errorf(
-			"cannot parse rem_address value in socket line: %s", err)
+	if line.RemAddr, err = parseIP(r[0]); err != nil {
+		return nil, err
 	}
 	if line.RemPort, err = strconv.ParseUint(r[1], 16, 64); err != nil {
 		return nil, fmt.Errorf(

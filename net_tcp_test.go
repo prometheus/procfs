@@ -83,7 +83,7 @@ func Test_newNetTCP(t *testing.T) {
 				},
 				&netIPSocketLine{
 					Sl:        6073,
-					LocalAddr: net.IP{0, 0, 128, 254, 0, 0, 0, 0, 255, 173, 225, 86, 9, 102, 124, 254},
+					LocalAddr: net.IP{254, 128, 0, 0, 0, 0, 0, 0, 86, 225, 173, 255, 254, 124, 102, 9},
 					LocalPort: 51073,
 					RemAddr:   net.IP{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					RemPort:   0,

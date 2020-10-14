@@ -1,0 +1,17 @@
+component: "Monitoring"
+
+reviewers:
+- dgrisonnet
+- LiliC
+- paulfantom
+- pgier
+- s-urbaniak
+- simonpasquier
+
+approvers:
+- dgrisonnet
+- LiliC
+- paulfantom
+- pgier
+- s-urbaniak
+- simonpasquier

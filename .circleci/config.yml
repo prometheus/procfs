@@ -42,9 +42,9 @@ workflows:
     jobs:
     - test:
         command: default
-        name: linux-1-13
+        name: linux-1-15
         os: linux
-        go_version: "1.13"
+        go_version: "1.15"
     - test:
         command: default
         name: linux-1-14
@@ -52,9 +52,9 @@ workflows:
         go_version: "1.14"
     - test:
         command: no-test
-        name: windows-1-13
+        name: windows-1-15
         os: windows
-        go_version: "1.13"
+        go_version: "1.15"
     - test:
         command: no-test
         name: windows-1-14

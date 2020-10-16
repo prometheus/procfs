@@ -111,7 +111,7 @@ Max core file size        0                    unlimited            bytes
 Max resident set          unlimited            unlimited            bytes
 Max processes             62898                62898                processes
 Max open files            2048                 4096                 files
-Max locked memory         65536                65536                bytes
+Max locked memory         18446744073708503040 18446744073708503040 bytes
 Max address space         8589934592           unlimited            bytes
 Max file locks            unlimited            unlimited            locks
 Max pending signals       62898                62898                signals

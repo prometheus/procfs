@@ -28,8 +28,8 @@ func TestLimits(t *testing.T) {
 
 	for _, test := range []struct {
 		name string
-		want int64
-		have int64
+		want uint64
+		have uint64
 	}{
 		{name: "cpu time", want: -1, have: l.CPUTime},
 		{name: "open files", want: 2048, have: l.OpenFiles},

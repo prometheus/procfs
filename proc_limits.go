@@ -97,7 +97,7 @@ func (p Proc) Limits() (ProcLimits, error) {
 		s = bufio.NewScanner(f)
 	)
 
-        s.Scan() // Skip limits header
+	s.Scan() // Skip limits header
 
 	for s.Scan() {
 		//fields := limitsMatch.Split(s.Text(), limitsFields)
@@ -153,7 +153,7 @@ func parseUint(s string) (uint64, error) {
 	if s == limitsUnlimited {
 		return 18446744073709551615, nil
 	}
-	i, err := strconv.ParseUint(s, 10, 64) 
+	i, err := strconv.ParseUint(s, 10, 64)
 	if err != nil {
 		return 0, fmt.Errorf("couldn't parse value %s: %s", s, err)
 	}

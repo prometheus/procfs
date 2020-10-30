@@ -64,7 +64,7 @@ func TestMountStats(t *testing.T) {
 		},
 		{
 			name:    "NFSv4 device with too little info",
-			s:       "device 192.168.1.1:/srv mounted on /mnt/nfs with fstype nfs4 statvers=1.1\nhello",
+			s:       "device 192.168.1.1:/srv mounted on /mnt/nfs with fstype nfs4 statvers=1.1\nopts:",
 			invalid: true,
 		},
 		{

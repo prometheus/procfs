@@ -199,8 +199,8 @@ func TestParseStats(t *testing.T) {
 			s:    "rw 1 2",
 			stats: &xfs.Stats{
 				ReadWrite: xfs.ReadWriteStats{
-					Read:  1,
-					Write: 2,
+					Write: 1,
+					Read:  2,
 				},
 			},
 		},
@@ -577,8 +577,8 @@ func TestParseStats(t *testing.T) {
 					ForceSleep:        739,
 				},
 				ReadWrite: xfs.ReadWriteStats{
-					Read:  107739,
-					Write: 94045,
+					Write: 107739,
+					Read:  94045,
 				},
 				AttributeOperation: xfs.AttributeOperationStats{
 					Get:    4,

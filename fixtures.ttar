@@ -2353,6 +2353,11 @@ Mode: 775
 Directory: fixtures/proc/sys/kernel
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/sys/kernel/core_pattern
+Lines: 1
+|/usr/share/apport/apport %p %s %c %d %P %E
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys/kernel/random
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

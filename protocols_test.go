@@ -13,8 +13,23 @@
 package procfs
 
 import (
+	"strings"
 	"testing"
 )
+
+func TestParseCapabilities(t *testing.T) {
+	rawStr := "y  y  y  y  y  y  y  y  y  y  y  y  y  n  y  y  y  y  y\n"
+	have := ProtocolCapabilities{}
+	err := have.parseCapabilities(strings.Fields(rawStr))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := ProtocolCapabilities{true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true}
+	if want != have {
+		t.Errorf("want %+v\nhave %+v\n", want, have)
+	}
+}
 
 func TestProtocolsParseLine(t *testing.T) {
 	rawStr := "TCP       1984  93064  1225378   no     320   yes  kernel      y  y  y  y  y  y  y  y  y  y  y  y  y  n  y  y  y  y  y\n"
@@ -24,9 +39,9 @@ func TestProtocolsParseLine(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	want := ProtocolStatLine{"TCP", 1984, 93064, 1225378, false, 320}
+	want := ProtocolStatLine{"TCP", 1984, 93064, 1225378, 0, 320, true, "kernel", ProtocolCapabilities{true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true}}
 	if want != *have {
-		t.Errorf("want %+v have %+v\n", want, have)
+		t.Errorf("want %+v\nhave %+v\n", want, have)
 	}
 }
 
@@ -42,19 +57,19 @@ func TestProtocolsParseProtocols(t *testing.T) {
 	}
 
 	lines := map[string]ProtocolStatLine{
-		"PACKET":    {"PACKET", 1344, 2, -1, false, 0},
-		"PINGv6":    {"PINGv6", 1112, 0, -1, false, 0},
-		"RAWv6":     {"RAWv6", 1112, 1, -1, false, 0},
-		"UDPLITEv6": {"UDPLITEv6", 1216, 0, 57, false, 0},
-		"UDPv6":     {"UDPv6", 1216, 10, 57, false, 0},
-		"TCPv6":     {"TCPv6", 2144, 1937, 1225378, false, 320},
-		"UNIX":      {"UNIX", 1024, 120, -1, false, 0},
-		"UDP-Lite":  {"UDP-Lite", 1024, 0, 57, false, 0},
-		"PING":      {"PING", 904, 0, -1, false, 0},
-		"RAW":       {"RAW", 912, 0, -1, false, 0},
-		"UDP":       {"UDP", 1024, 73, 57, false, 0},
-		"TCP":       {"TCP", 1984, 93064, 1225378, true, 320},
-		"NETLINK":   {"NETLINK", 1040, 16, -1, false, 0},
+		"PACKET":    {"PACKET", 1344, 2, -1, -1, 0, false, "kernel", ProtocolCapabilities{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}},
+		"PINGv6":    {"PINGv6", 1112, 0, -1, -1, 0, true, "kernel", ProtocolCapabilities{true, true, true, false, false, true, false, false, true, true, true, true, false, true, true, true, true, true, false}},
+		"RAWv6":     {"RAWv6", 1112, 1, -1, -1, 0, true, "kernel", ProtocolCapabilities{true, true, true, false, true, true, true, false, true, true, true, true, false, true, true, true, true, false, false}},
+		"UDPLITEv6": {"UDPLITEv6", 1216, 0, 57, -1, 0, true, "kernel", ProtocolCapabilities{true, true, true, false, true, true, true, false, true, true, true, true, false, false, false, true, true, true, false}},
+		"UDPv6":     {"UDPv6", 1216, 10, 57, -1, 0, true, "kernel", ProtocolCapabilities{true, true, true, false, true, true, true, false, true, true, true, true, false, false, false, true, true, true, false}},
+		"TCPv6":     {"TCPv6", 2144, 1937, 1225378, 0, 320, true, "kernel", ProtocolCapabilities{true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true}},
+		"UNIX":      {"UNIX", 1024, 120, -1, -1, 0, true, "kernel", ProtocolCapabilities{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}},
+		"UDP-Lite":  {"UDP-Lite", 1024, 0, 57, -1, 0, true, "kernel", ProtocolCapabilities{true, true, true, false, true, true, true, false, true, true, true, true, true, false, false, true, true, true, false}},
+		"PING":      {"PING", 904, 0, -1, -1, 0, true, "kernel", ProtocolCapabilities{true, true, true, false, false, true, false, false, true, true, true, true, false, true, true, true, true, true, false}},
+		"RAW":       {"RAW", 912, 0, -1, -1, 0, true, "kernel", ProtocolCapabilities{true, true, true, false, true, true, true, false, true, true, true, true, false, true, true, true, true, false, false}},
+		"UDP":       {"UDP", 1024, 73, 57, -1, 0, true, "kernel", ProtocolCapabilities{true, true, true, false, true, true, true, false, true, true, true, true, true, false, false, true, true, true, false}},
+		"TCP":       {"TCP", 1984, 93064, 1225378, 1, 320, true, "kernel", ProtocolCapabilities{true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true}},
+		"NETLINK":   {"NETLINK", 1040, 16, -1, -1, 0, false, "kernel", ProtocolCapabilities{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}},
 	}
 
 	if want, have := len(lines), len(protocolStats); want != have {

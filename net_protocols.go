@@ -75,10 +75,10 @@ func (fs FS) Protocols() (NetProtocolStats, error) {
 	if err != nil {
 		return NetProtocolStats{}, err
 	}
-	return parseProtocols(bufio.NewScanner(bytes.NewReader(data)))
+	return parseNetProtocols(bufio.NewScanner(bytes.NewReader(data)))
 }
 
-func parseProtocols(s *bufio.Scanner) (NetProtocolStats, error) {
+func parseNetProtocols(s *bufio.Scanner) (NetProtocolStats, error) {
 	nps := NetProtocolStats{}
 
 	// Skip the header line

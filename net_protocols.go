@@ -64,13 +64,13 @@ type NetProtocolCapabilities struct {
 	EnterMemoryPressure bool // 26
 }
 
-// Protocols reads stats from /proc/net/protocols and returns a map of
+// NetProtocols reads stats from /proc/net/protocols and returns a map of
 // PortocolStatLine entries. As of this writing no official Linux Documentation
 // exists, however the source is fairly self-explanatory and the format seems
 // stable since its introduction in 2.6.12-rc2
 // Linux 2.6.12-rc2 - https://elixir.bootlin.com/linux/v2.6.12-rc2/source/net/core/sock.c#L1452
 // Linux 5.10 - https://elixir.bootlin.com/linux/v5.10.4/source/net/core/sock.c#L3586
-func (fs FS) Protocols() (NetProtocolStats, error) {
+func (fs FS) NetProtocols() (NetProtocolStats, error) {
 	data, err := util.ReadFileNoStat(fs.proc.Path("net/protocols"))
 	if err != nil {
 		return NetProtocolStats{}, err

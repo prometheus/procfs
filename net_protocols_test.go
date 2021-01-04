@@ -51,7 +51,7 @@ func TestProtocolsParseProtocols(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	protocolStats, err := fs.Protocols()
+	protocolStats, err := fs.NetProtocols()
 	if err != nil {
 		t.Fatal(err)
 	}

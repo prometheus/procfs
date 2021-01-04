@@ -23,13 +23,13 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
-// ProtocolStats stores the contents from /proc/net/protocols
-type ProtocolStats map[string]ProtocolStatLine
+// NetProtocolStats stores the contents from /proc/net/protocols
+type NetProtocolStats map[string]NetProtocolStatLine
 
-// ProtocolStatLine contains a single line parsed from /proc/net/protocols. We
+// NetProtocolStatLine contains a single line parsed from /proc/net/protocols. We
 // only care about the first six columns as the rest are not likely to change
 // and only serve to provide a set of capabilities for each protocol.
-type ProtocolStatLine struct {
+type NetProtocolStatLine struct {
 	Name         string // 0 The name of the protocol
 	Size         uint64 // 1 The size, in bytes, of a given protocol structure. e.g. sizeof(struct tcp_sock) or sizeof(struct unix_sock)
 	Sockets      int64  // 2 Number of sockets in use by this protocol
@@ -38,11 +38,11 @@ type ProtocolStatLine struct {
 	MaxHeader    uint64 // 5 Protocol specific max header size
 	Slab         bool   // 6 Indicates whether or not memory is allocated from the SLAB
 	ModuleName   string // 7 The name of the module that implemented this protocol or "kernel" if not from a module
-	Capabilities ProtocolCapabilities
+	Capabilities NetProtocolCapabilities
 }
 
-// ProtocolCapabilities contains a list of capabilities for each protocol
-type ProtocolCapabilities struct {
+// NetProtocolCapabilities contains a list of capabilities for each protocol
+type NetProtocolCapabilities struct {
 	Close               bool // 8
 	Connect             bool // 9
 	Disconnect          bool // 10
@@ -66,33 +66,33 @@ type ProtocolCapabilities struct {
 
 // Protocols reads stats from /proc/net/protocols and returns a map of
 // PortocolStatLine entries
-func (fs FS) Protocols() (ProtocolStats, error) {
+func (fs FS) Protocols() (NetProtocolStats, error) {
 	data, err := util.ReadFileNoStat(fs.proc.Path("net/protocols"))
 	if err != nil {
-		return ProtocolStats{}, err
+		return NetProtocolStats{}, err
 	}
 	return parseProtocols(bufio.NewScanner(bytes.NewReader(data)))
 }
 
-func parseProtocols(s *bufio.Scanner) (ProtocolStats, error) {
-	protocolStats := ProtocolStats{}
+func parseProtocols(s *bufio.Scanner) (NetProtocolStats, error) {
+	nps := NetProtocolStats{}
 
 	// Skip the header line
 	s.Scan()
 
 	for s.Scan() {
-		line, err := protocolStats.parseLine(s.Text())
+		line, err := nps.parseLine(s.Text())
 		if err != nil {
-			return ProtocolStats{}, err
+			return NetProtocolStats{}, err
 		}
 
-		protocolStats[line.Name] = *line
+		nps[line.Name] = *line
 	}
-	return protocolStats, nil
+	return nps, nil
 }
 
-func (ps ProtocolStats) parseLine(rawLine string) (*ProtocolStatLine, error) {
-	line := &ProtocolStatLine{Capabilities: ProtocolCapabilities{}}
+func (ps NetProtocolStats) parseLine(rawLine string) (*NetProtocolStatLine, error) {
+	line := &NetProtocolStatLine{Capabilities: NetProtocolCapabilities{}}
 	var err error
 	const enabled = "yes"
 	const disabled = "no"
@@ -139,7 +139,7 @@ func (ps ProtocolStats) parseLine(rawLine string) (*ProtocolStatLine, error) {
 	return line, nil
 }
 
-func (pc *ProtocolCapabilities) parseCapabilities(capabilities []string) error {
+func (pc *NetProtocolCapabilities) parseCapabilities(capabilities []string) error {
 	// The capabilities are all bools so we can loop over to map them
 	capabilityFields := [...]*bool{
 		&pc.Close,

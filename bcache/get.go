@@ -459,7 +459,7 @@ func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 		bds.FiveMin.CacheReadaheads = par.readValue("cache_readaheads")
 
 		// dir <uuidPath>/<bds.Name>/stats_total
-		par.setSubDir("stats_total")
+		par.setSubDir(bds.Name, "stats_total")
 		bds.Total.Bypassed = par.readValue("bypassed")
 		bds.Total.CacheBypassHits = par.readValue("cache_bypass_hits")
 		bds.Total.CacheBypassMisses = par.readValue("cache_bypass_misses")

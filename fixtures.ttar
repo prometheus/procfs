@@ -4657,6 +4657,35 @@ Mode: 644
 Directory: fixtures/sys/devices/system
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/system/node
+Mode: 775
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/system/node/node1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/node/node1/vmstat
+Lines: 6
+nr_free_pages 1
+nr_zone_inactive_anon 2
+nr_zone_active_anon 3
+nr_zone_inactive_file 4
+nr_zone_active_file 5
+nr_zone_unevictable 6
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/system/node/node2
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/node/node2/vmstat
+Lines: 6
+nr_free_pages 7
+nr_zone_inactive_anon 8
+nr_zone_active_anon 9
+nr_zone_inactive_file 10
+nr_zone_active_file 11
+nr_zone_unevictable 12
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/clocksource
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -418,7 +418,7 @@ func mountsStr(mounts []*Mount) string {
 		out += fmt.Sprintf("\n\t- bytes: %v", stats.Bytes)
 		out += fmt.Sprintf("\n\t- events: %v", stats.Events)
 		out += fmt.Sprintf("\n\t- transport: %v", stats.Transport)
-		out += fmt.Sprintf("\n\t- per-operation stats:")
+		out += "\n\t- per-operation stats:"
 
 		for _, o := range stats.Operations {
 			out += fmt.Sprintf("\n\t\t- %v", o)

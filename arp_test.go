@@ -33,11 +33,33 @@ func TestARP(t *testing.T) {
 		t.Errorf("want 192.168.224.1, got %s", got)
 	}
 
-	if want, got := net.HardwareAddr("00:50:56:c0:00:08").String(), arpFile[0].HWAddr.String(); want != got {
+	hwAddr, err := net.ParseMAC("00:50:56:c0:00:08")
+	if err != nil {
+		t.Error(err)
+	}
+
+	if want, got := arpFile[0].HWAddr.String(), hwAddr.String(); want != got {
 		t.Errorf("want 00:50:56:c0:00:08, got %s", got)
 	}
 
 	if want, got := "ens33", arpFile[0].Device; want != got {
 		t.Errorf("want ens33, got %s", got)
+	}
+
+	if want, got := "10.50.0.1", arpFile[1].IPAddr.String(); want != got {
+		t.Errorf("want 10.50.0.1, got %s", got)
+	}
+
+	hwAddr, err = net.ParseMAC("00:00:00:00:00:00")
+	if err != nil {
+		t.Error(err)
+	}
+
+	if want, got := arpFile[1].HWAddr.String(), hwAddr.String(); want != got {
+		t.Errorf("want 00:00:00:00:00:00, got %s", got)
+	}
+
+	if want, got := "eth0", arpFile[1].Device; want != got {
+		t.Errorf("want eth0, got %s", got)
 	}
 }

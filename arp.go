@@ -73,7 +73,10 @@ func parseARPEntries(data []byte) ([]ARPEntry, error) {
 
 func parseARPEntry(columns []string) (ARPEntry, error) {
 	ip := net.ParseIP(columns[0])
-	mac := net.HardwareAddr(columns[3])
+	mac, err := net.ParseMAC(columns[3])
+	if err != nil {
+		return ARPEntry{}, err
+	}
 
 	entry := ARPEntry{
 		IPAddr: ip,

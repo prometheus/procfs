@@ -56,13 +56,13 @@ func TestParseCgroupString(t *testing.T) {
 			},
 		},
 		{
-			name:      "extra fields (such as those added by later kernel versions)",
-			s:         "0::/:foobar",
+			name:      "path containing colons",
+			s:         "0::/some/long/path:foobar",
 			shouldErr: false,
 			cgroup: &Cgroup{
 				HierarchyID: 0,
 				Controllers: nil,
-				Path:        "/",
+				Path:        "/some/long/path:foobar",
 			},
 		},
 		{

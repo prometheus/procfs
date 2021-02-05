@@ -19,16 +19,16 @@ import (
 	"testing"
 )
 
-func Test_newNetUDP(t *testing.T) {
+func Test_newNetTCP(t *testing.T) {
 	tests := []struct {
 		name    string
 		file    string
-		want    NetUDP
+		want    NetTCP
 		wantErr bool
 	}{
 		{
-			name: "udp file found, no error should come up",
-			file: "fixtures/proc/net/udp",
+			name: "tcp file found, no error should come up",
+			file: "fixtures/proc/net/tcp",
 			want: []*netIPSocketLine{
 				&netIPSocketLine{
 					Sl:        0,
@@ -67,8 +67,8 @@ func Test_newNetUDP(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "udp6 file found, no error should come up",
-			file: "fixtures/proc/net/udp6",
+			name: "tcp6 file found, no error should come up",
+			file: "fixtures/proc/net/tcp6",
 			want: []*netIPSocketLine{
 				&netIPSocketLine{
 					Sl:        1315,
@@ -103,42 +103,42 @@ func Test_newNetUDP(t *testing.T) {
 		},
 		{
 			name:    "error case - parse error",
-			file:    "fixtures/proc/net/udp_broken",
+			file:    "fixtures/proc/net/tcp_broken",
 			want:    nil,
 			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := newNetUDP(tt.file)
+			got, err := newNetTCP(tt.file)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("newNetUDP() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("newNetTCP() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("newNetUDP() = %v, want %v", got, tt.want)
+				t.Errorf("newNetTCP() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func Test_newNetUDPSummary(t *testing.T) {
+func Test_newNetTCPSummary(t *testing.T) {
 	tests := []struct {
 		name    string
 		file    string
-		want    *NetUDPSummary
+		want    *NetTCPSummary
 		wantErr bool
 	}{
 		{
-			name:    "udp file found, no error should come up",
-			file:    "fixtures/proc/net/udp",
-			want:    &NetUDPSummary{TxQueueLength: 2, RxQueueLength: 2, UsedSockets: 3},
+			name:    "tcp file found, no error should come up",
+			file:    "fixtures/proc/net/tcp",
+			want:    &NetTCPSummary{TxQueueLength: 2, RxQueueLength: 2, UsedSockets: 3},
 			wantErr: false,
 		},
 		{
-			name:    "udp6 file found, no error should come up",
-			file:    "fixtures/proc/net/udp6",
-			want:    &NetUDPSummary{TxQueueLength: 0, RxQueueLength: 0, UsedSockets: 2},
+			name:    "tcp6 file found, no error should come up",
+			file:    "fixtures/proc/net/tcp6",
+			want:    &NetTCPSummary{TxQueueLength: 0, RxQueueLength: 0, UsedSockets: 2},
 			wantErr: false,
 		},
 		{
@@ -149,20 +149,20 @@ func Test_newNetUDPSummary(t *testing.T) {
 		},
 		{
 			name:    "error case - parse error",
-			file:    "fixtures/proc/net/udp_broken",
+			file:    "fixtures/proc/net/tcp_broken",
 			want:    nil,
 			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := newNetUDPSummary(tt.file)
+			got, err := newNetTCPSummary(tt.file)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("newNetUDPSummary() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("newNetTCPSummary() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("newNetUDPSummary() = %v, want %v", got, tt.want)
+				t.Errorf("newNetTCPSummary() = %v, want %v", got, tt.want)
 			}
 		})
 	}

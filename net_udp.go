@@ -60,5 +60,5 @@ func newNetUDPSummary(file string) (*NetUDPSummary, error) {
 		return nil, err
 	}
 	n1 := NetUDPSummary(*n)
-	return &n1, nil
+	return &n1, err
 }

@@ -38,17 +38,13 @@ func (fs FS) NetUDP6() (NetUDP, error) {
 // NetUDPSummary returns already computed statistics like the total queue lengths
 // for UDP datagrams read from /proc/net/udp.
 func (fs FS) NetUDPSummary() (*NetUDPSummary, error) {
-	n, err := newNetUDPSummary(fs.proc.Path("net/udp"))
-	n1 := NetUDPSummary(*n)
-	return &n1, err
+	return newNetUDPSummary(fs.proc.Path("net/udp"))
 }
 
 // NetUDP6Summary returns already computed statistics like the total queue lengths
 // for UDP datagrams read from /proc/net/udp6.
 func (fs FS) NetUDP6Summary() (*NetUDPSummary, error) {
-	n, err := newNetUDPSummary(fs.proc.Path("net/udp6"))
-	n1 := NetUDPSummary(*n)
-	return &n1, err
+	return newNetUDPSummary(fs.proc.Path("net/udp6"))
 }
 
 // newNetUDP creates a new NetUDP{,6} from the contents of the given file.

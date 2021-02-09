@@ -36,7 +36,7 @@ func GetStats(iqnPath string) (*Stats, error) {
 
 	matches, err := filepath.Glob(filepath.Join(iqnPath, "tpgt*"))
 	if err != nil {
-		return nil, fmt.Errorf("iscsi: GetStats: get TPGT path error %v", err)
+		return nil, fmt.Errorf("iscsi: GetStats: get TPGT path error %w", err)
 	}
 	istats.Tpgt = make([]TPGT, len(matches))
 
@@ -63,11 +63,11 @@ func GetStats(iqnPath string) (*Stats, error) {
 func isPathEnable(path string) (bool, error) {
 	enableReadout, err := ioutil.ReadFile(filepath.Join(path, "enable"))
 	if err != nil {
-		return false, fmt.Errorf("iscsi: isPathEnable ReadFile error %v", err)
+		return false, fmt.Errorf("iscsi: isPathEnable ReadFile error %w", err)
 	}
 	isEnable, err := strconv.ParseBool(strings.TrimSpace(string(enableReadout)))
 	if err != nil {
-		return false, fmt.Errorf("iscsi: isPathEnable ParseBool error %v", err)
+		return false, fmt.Errorf("iscsi: isPathEnable ParseBool error %w", err)
 	}
 	return isEnable, nil
 }
@@ -77,14 +77,14 @@ func getLunLinkTarget(lunPath string) (lunObject LUN, err error) {
 	lunObject.LunPath = lunPath
 	files, err := ioutil.ReadDir(lunPath)
 	if err != nil {
-		return lunObject, fmt.Errorf("getLunLinkTarget: ReadDir path %s error %v", lunPath, err)
+		return lunObject, fmt.Errorf("getLunLinkTarget: ReadDir path %q: %w", lunPath, err)
 	}
 	for _, file := range files {
 		fileInfo, _ := os.Lstat(filepath.Join(lunPath, file.Name()))
 		if fileInfo.Mode()&os.ModeSymlink != 0 {
 			target, err := os.Readlink(filepath.Join(lunPath, fileInfo.Name()))
 			if err != nil {
-				return lunObject, fmt.Errorf("getLunLinkTarget: Readlink err %v", err)
+				return lunObject, fmt.Errorf("getLunLinkTarget: Readlink: %w", err)
 			}
 			targetPath, objectName := filepath.Split(target)
 			_, typeWithNumber := filepath.Split(filepath.Clean(targetPath))
@@ -112,24 +112,21 @@ func ReadWriteOPS(iqnPath string, tpgt string, lun string) (readmb uint64,
 		"statistics/scsi_tgt_port/read_mbytes")
 	readmb, err = util.ReadUintFromFile(readmbPath)
 	if err != nil {
-		return 0, 0, 0, fmt.Errorf("iscsi: ReadWriteOPS: read_mbytes error file %s and %v",
-			readmbPath, err)
+		return 0, 0, 0, fmt.Errorf("iscsi: ReadWriteOPS: read_mbytes error file %q: %w", readmbPath, err)
 	}
 
 	writembPath := filepath.Join(iqnPath, tpgt, "lun", lun,
 		"statistics/scsi_tgt_port/write_mbytes")
 	writemb, err = util.ReadUintFromFile(writembPath)
 	if err != nil {
-		return 0, 0, 0, fmt.Errorf("iscsi: ReadWriteOPS: write_mbytes error file %s and %v",
-			writembPath, err)
+		return 0, 0, 0, fmt.Errorf("iscsi: ReadWriteOPS: write_mbytes error file %q: %w", writembPath, err)
 	}
 
 	iopsPath := filepath.Join(iqnPath, tpgt, "lun", lun,
 		"statistics/scsi_tgt_port/in_cmds")
 	iops, err = util.ReadUintFromFile(iopsPath)
 	if err != nil {
-		return 0, 0, 0, fmt.Errorf("iscsi: ReadWriteOPS: in_cmds error file %s and %v",
-			iopsPath, err)
+		return 0, 0, 0, fmt.Errorf("iscsi: ReadWriteOPS: in_cmds error file %q: %w", iopsPath, err)
 	}
 
 	return readmb, writemb, iops, nil
@@ -150,7 +147,7 @@ func (fs FS) GetFileioUdev(fileioNumber string, objectName string) (*FILEIO, err
 	}
 	filename, err := ioutil.ReadFile(udevPath)
 	if err != nil {
-		return nil, fmt.Errorf("iscsi: GetFileioUdev: Cannot read filename from udev link :%s", udevPath)
+		return nil, fmt.Errorf("iscsi: GetFileioUdev: Cannot read filename from udev link %q", udevPath)
 	}
 	fileio.Filename = strings.TrimSpace(string(filename))
 
@@ -172,7 +169,7 @@ func (fs FS) GetIblockUdev(iblockNumber string, objectName string) (*IBLOCK, err
 	}
 	filename, err := ioutil.ReadFile(udevPath)
 	if err != nil {
-		return nil, fmt.Errorf("iscsi: GetIBlockUdev: Cannot read iblock from udev link :%s", udevPath)
+		return nil, fmt.Errorf("iscsi: GetIBlockUdev: Cannot read iblock from udev link %q", udevPath)
 	}
 	iblock.Iblock = strings.TrimSpace(string(filename))
 
@@ -234,11 +231,11 @@ func (fs FS) GetRDMCPPath(rdmcpNumber string, objectName string) (*RDMCP, error)
 	rdmcpPath := fs.configfs.Path(targetCore, rdmcp.Name, rdmcp.ObjectName)
 
 	if _, err := os.Stat(rdmcpPath); os.IsNotExist(err) {
-		return nil, fmt.Errorf("iscsi: GetRDMCPPath: %s does not exist", rdmcpPath)
+		return nil, fmt.Errorf("iscsi: GetRDMCPPath %q does not exist", rdmcpPath)
 	}
 	isEnable, err := isPathEnable(rdmcpPath)
 	if err != nil {
-		return nil, fmt.Errorf("iscsi: GetRDMCPPath: error %v", err)
+		return nil, fmt.Errorf("iscsi: GetRDMCPPath: error %w", err)
 	}
 	if isEnable {
 		return &rdmcp, nil

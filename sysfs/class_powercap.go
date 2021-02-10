@@ -41,7 +41,7 @@ func GetRaplZones(fs FS) ([]RaplZone, error) {
 
 	files, err := ioutil.ReadDir(raplDir)
 	if err != nil {
-		return nil, fmt.Errorf("unable to read class/powercap: %s", err)
+		return nil, fmt.Errorf("unable to read class/powercap: %w", err)
 	}
 
 	var zones []RaplZone

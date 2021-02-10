@@ -329,12 +329,12 @@ func (p *parser) getPriorityStats() PriorityStats {
 	for scanner.Scan() {
 		err = parsePriorityStats(scanner.Text(), &res)
 		if err != nil {
-			p.err = fmt.Errorf("failed to parse: %s (%s)", path, err)
+			p.err = fmt.Errorf("failed to parse path %q: %w", path, err)
 			return res
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		p.err = fmt.Errorf("failed to parse: %s (%s)", path, err)
+		p.err = fmt.Errorf("failed to parse path %q: %w", path, err)
 		return res
 	}
 	return res
@@ -358,12 +358,12 @@ func (p *parser) getWritebackRateDebug() WritebackRateDebugStats {
 	for scanner.Scan() {
 		err = parseWritebackRateDebug(scanner.Text(), &res)
 		if err != nil {
-			p.err = fmt.Errorf("failed to parse: %s (%s)", path, err)
+			p.err = fmt.Errorf("failed to parse path %q: %w", path, err)
 			return res
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		p.err = fmt.Errorf("failed to parse: %s (%s)", path, err)
+		p.err = fmt.Errorf("failed to parse path %q: %w", path, err)
 		return res
 	}
 	return res

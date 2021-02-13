@@ -281,7 +281,7 @@ func TestCPUInfoX86(t *testing.T) {
 func TestCPUInfoParseARMLegacy(t *testing.T) {
 	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7Legacy))
 	if err != nil || cpuinfo == nil {
-		t.Fatalf("unable to parse arm cpu info: %v", err)
+		t.Fatalf("unable to read arm cpu info: %v", err)
 	}
 	if want, have := 2, len(cpuinfo); want != have {
 		t.Errorf("want number of processors %v, have %v", want, have)
@@ -297,7 +297,7 @@ func TestCPUInfoParseARMLegacy(t *testing.T) {
 func TestCPUInfoParseARMLegacyV1(t *testing.T) {
 	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7LegacyV1))
 	if err != nil || cpuinfo == nil {
-		t.Fatalf("unable to parse arm cpu info: %v", err)
+		t.Fatalf("unable to read arm cpu info: %v", err)
 	}
 	if want, have := 1, len(cpuinfo); want != have {
 		t.Errorf("want number of processors %v, have %v", want, have)
@@ -313,7 +313,7 @@ func TestCPUInfoParseARMLegacyV1(t *testing.T) {
 func TestCPUInfoParseARM(t *testing.T) {
 	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm7))
 	if err != nil || cpuinfo == nil {
-		t.Fatalf("unable to parse arm cpu info: %v", err)
+		t.Fatalf("unable to read arm cpu info: %v", err)
 	}
 	if want, have := 4, len(cpuinfo); want != have {
 		t.Errorf("want number of processors %v, have %v", want, have)
@@ -329,7 +329,7 @@ func TestCPUInfoParseARM(t *testing.T) {
 func TestCPUInfoParseS390X(t *testing.T) {
 	cpuinfo, err := parseCPUInfoS390X([]byte(cpuinfoS390x))
 	if err != nil || cpuinfo == nil {
-		t.Fatalf("unable to parse s390x cpu info: %v", err)
+		t.Fatalf("unable to read s390x cpu info: %v", err)
 	}
 	if want, have := 4, len(cpuinfo); want != have {
 		t.Errorf("want number of processors %v, have %v", want, have)
@@ -360,7 +360,7 @@ func TestCPUInfoParseS390X(t *testing.T) {
 func TestCPUInfoParseMips(t *testing.T) {
 	cpuinfo, err := parseCPUInfoMips([]byte(cpuinfoMips))
 	if err != nil || cpuinfo == nil {
-		t.Fatalf("unable to parse mips cpu info: %v", err)
+		t.Fatalf("unable to read mips cpu info: %v", err)
 	}
 	if want, have := 2, len(cpuinfo); want != have {
 		t.Errorf("want number of processors %v, have %v", want, have)
@@ -376,7 +376,7 @@ func TestCPUInfoParseMips(t *testing.T) {
 func TestCPUInfoParsePPC(t *testing.T) {
 	cpuinfo, err := parseCPUInfoPPC([]byte(cpuinfoPpc64))
 	if err != nil || cpuinfo == nil {
-		t.Fatalf("unable to parse ppc cpu info: %v", err)
+		t.Fatalf("unable to read ppc cpu info: %v", err)
 	}
 	if want, have := 6, len(cpuinfo); want != have {
 		t.Errorf("want number of processors %v, have %v", want, have)
@@ -389,7 +389,7 @@ func TestCPUInfoParsePPC(t *testing.T) {
 func TestCPUInfoParseRISCV64(t *testing.T) {
 	cpuinfo, err := parseCPUInfoRISCV([]byte(cpuinfoRiscv64))
 	if err != nil || cpuinfo == nil {
-		t.Fatalf("unable to parse ppc cpu info: %v", err)
+		t.Fatalf("unable to read ppc cpu info: %v", err)
 	}
 	if want, have := 2, len(cpuinfo); want != have {
 		t.Errorf("want number of processors %v, have %v", want, have)

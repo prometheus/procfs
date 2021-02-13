@@ -29,7 +29,7 @@ func TestPowerSupplyClass(t *testing.T) {
 
 	got, err := fs.PowerSupplyClass()
 	if err != nil {
-		t.Fatalf("failed to parse power supply class: %v", err)
+		t.Fatalf("unable to read power supply class: %v", err)
 	}
 
 	var (

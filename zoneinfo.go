@@ -78,7 +78,7 @@ func (fs FS) Zoneinfo() ([]Zoneinfo, error) {
 	}
 	zoneinfo, err := parseZoneinfo(data)
 	if err != nil {
-		return nil, fmt.Errorf("error parsing zoneinfo %q: %w", fs.proc.Path("zoneinfo"), err)
+		return nil, fmt.Errorf("unable to read zoneinfo %q: %w", fs.proc.Path("zoneinfo"), err)
 	}
 	return zoneinfo, nil
 }

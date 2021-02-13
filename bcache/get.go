@@ -204,7 +204,7 @@ func (p *parser) readValue(fileName string) uint64 {
 	path := path.Join(p.currentDir, fileName)
 	byt, err := ioutil.ReadFile(path)
 	if err != nil {
-		p.err = fmt.Errorf("failed to read: %s", path)
+		p.err = fmt.Errorf("unable to read: %s", path)
 		return 0
 	}
 	// Remove trailing newline.
@@ -320,7 +320,7 @@ func (p *parser) getPriorityStats() PriorityStats {
 
 	file, err := os.Open(path)
 	if err != nil {
-		p.err = fmt.Errorf("failed to read: %s", path)
+		p.err = fmt.Errorf("unable to read: %s", path)
 		return res
 	}
 	defer file.Close()
@@ -329,12 +329,12 @@ func (p *parser) getPriorityStats() PriorityStats {
 	for scanner.Scan() {
 		err = parsePriorityStats(scanner.Text(), &res)
 		if err != nil {
-			p.err = fmt.Errorf("failed to parse path %q: %w", path, err)
+			p.err = fmt.Errorf("unable to read path %q: %w", path, err)
 			return res
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		p.err = fmt.Errorf("failed to parse path %q: %w", path, err)
+		p.err = fmt.Errorf("unable to read path %q: %w", path, err)
 		return res
 	}
 	return res
@@ -349,7 +349,7 @@ func (p *parser) getWritebackRateDebug() WritebackRateDebugStats {
 	path := path.Join(p.currentDir, "writeback_rate_debug")
 	file, err := os.Open(path)
 	if err != nil {
-		p.err = fmt.Errorf("failed to read: %s", path)
+		p.err = fmt.Errorf("unable to read: %s", path)
 		return res
 	}
 	defer file.Close()
@@ -358,12 +358,12 @@ func (p *parser) getWritebackRateDebug() WritebackRateDebugStats {
 	for scanner.Scan() {
 		err = parseWritebackRateDebug(scanner.Text(), &res)
 		if err != nil {
-			p.err = fmt.Errorf("failed to parse path %q: %w", path, err)
+			p.err = fmt.Errorf("unable to read path %q: %w", path, err)
 			return res
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		p.err = fmt.Errorf("failed to parse path %q: %w", path, err)
+		p.err = fmt.Errorf("unable to read path %q: %w", path, err)
 		return res
 	}
 	return res

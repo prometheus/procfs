@@ -98,11 +98,11 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 
 	mount.MountID, err = strconv.Atoi(mountInfo[0])
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse mount ID")
+		return nil, fmt.Errorf("unable to read mount ID")
 	}
 	mount.ParentID, err = strconv.Atoi(mountInfo[1])
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse parent ID")
+		return nil, fmt.Errorf("unable to read parent ID")
 	}
 	// Has optional fields, which is a space separated list of values.
 	// Example: shared:2 master:7

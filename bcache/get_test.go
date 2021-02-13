@@ -25,7 +25,7 @@ func TestFSBcacheStats(t *testing.T) {
 	}
 	stats, err := bcache.Stats()
 	if err != nil {
-		t.Fatalf("failed to parse bcache stats: %v", err)
+		t.Fatalf("unable to read bcache stats: %v", err)
 	}
 
 	tests := []struct {

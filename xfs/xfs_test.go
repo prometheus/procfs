@@ -27,7 +27,7 @@ func TestReadProcStat(t *testing.T) {
 	}
 	stats, err := xfs.ProcStat()
 	if err != nil {
-		t.Fatalf("failed to parse XFS stats: %v", err)
+		t.Fatalf("unable to read XFS stats: %v", err)
 	}
 
 	// Very lightweight test just to sanity check the path used
@@ -44,7 +44,7 @@ func TestReadSysStats(t *testing.T) {
 	}
 	stats, err := xfs.SysStats()
 	if err != nil {
-		t.Fatalf("failed to parse XFS stats: %v", err)
+		t.Fatalf("unable to read XFS stats: %v", err)
 	}
 
 	tests := []struct {

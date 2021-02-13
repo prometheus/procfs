@@ -59,7 +59,7 @@ func parseARPEntries(data []byte) ([]ARPEntry, error) {
 		} else if width == expectedDataWidth {
 			entry, err := parseARPEntry(columns)
 			if err != nil {
-				return []ARPEntry{}, fmt.Errorf("failed to parse ARP entry: %w", err)
+				return []ARPEntry{}, fmt.Errorf("unable to read ARP entry: %w", err)
 			}
 			entries = append(entries, entry)
 		} else {

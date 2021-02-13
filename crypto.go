@@ -60,7 +60,7 @@ func (fs FS) Crypto() ([]Crypto, error) {
 
 	crypto, err := parseCrypto(bytes.NewReader(b))
 	if err != nil {
-		return nil, fmt.Errorf("error parsing crypto %q: %w", path, err)
+		return nil, fmt.Errorf("unable to read crypto %q: %w", path, err)
 	}
 
 	return crypto, nil

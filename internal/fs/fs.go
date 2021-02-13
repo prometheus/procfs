@@ -39,7 +39,7 @@ type FS string
 func NewFS(mountPoint string) (FS, error) {
 	info, err := os.Stat(mountPoint)
 	if err != nil {
-		return "", fmt.Errorf("could not read %q: %w", mountPoint, err)
+		return "", fmt.Errorf("unable to read %q: %w", mountPoint, err)
 	}
 	if !info.IsDir() {
 		return "", fmt.Errorf("mount point %q is not a directory", mountPoint)

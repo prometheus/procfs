@@ -47,7 +47,7 @@ func TestNetUnixNoInode(t *testing.T) {
 
 	got, err := readNetUNIX(fs.proc.Path("net/unix_without_inode"))
 	if err != nil {
-		t.Fatalf("failed to read UNIX socket data: %v", err)
+		t.Fatalf("unable to read UNIX socket data: %v", err)
 	}
 
 	testNetUNIX(t, noCheckInode, got)

@@ -34,7 +34,7 @@ func TestFSBtrfsStats(t *testing.T) {
 	}
 	stats, err := btrfs.Stats()
 	if err != nil {
-		t.Fatalf("failed to parse Btrfs stats: %v", err)
+		t.Fatalf("unable to read Btrfs stats: %v", err)
 	}
 
 	tests := []testVector{

@@ -122,7 +122,7 @@ func (nc NetClass) parseNetClassIface(devicePath string) (*NetClassIface, error)
 			if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || err.Error() == "invalid argument" {
 				continue
 			}
-			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
+			return nil, fmt.Errorf("unable to read file %q: %w", name, err)
 		}
 		vp := util.NewValueParser(value)
 		switch f.Name() {

@@ -31,7 +31,7 @@ func TestZoneinfo(t *testing.T) {
 	}
 	data, err := fs.Zoneinfo()
 	if err != nil {
-		t.Fatalf("failed to parse zoneinfo: %v", err)
+		t.Fatalf("unable to read zoneinfo: %v", err)
 	}
 
 	for index, ref := range refs {

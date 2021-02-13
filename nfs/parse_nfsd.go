@@ -47,7 +47,7 @@ func ParseServerRPCStats(r io.Reader) (*ServerRPCStats, error) {
 			values, err = util.ParseUint64s(parts[1:])
 		}
 		if err != nil {
-			return nil, fmt.Errorf("error parsing NFSd metric line: %w", err)
+			return nil, fmt.Errorf("unable to read NFSd metric line: %w", err)
 		}
 
 		switch metricLine := parts[0]; metricLine {

@@ -75,7 +75,7 @@ func Test_parseLoad(t *testing.T) {
 			loadavg, err := parseLoad([]byte(tt.s))
 			if err != nil {
 				if tt.ok {
-					t.Fatalf("failed to parse loadavg: %v", err)
+					t.Fatalf("unable to read loadavg: %v", err)
 				}
 
 				t.Logf("OK error: %v", err)

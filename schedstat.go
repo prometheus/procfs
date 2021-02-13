@@ -117,5 +117,5 @@ func parseProcSchedstat(contents string) (ProcSchedstat, error) {
 		return stats, err
 	}
 
-	return stats, errors.New("could not parse schedstat")
+	return stats, errors.New("unable to read schedstat")
 }

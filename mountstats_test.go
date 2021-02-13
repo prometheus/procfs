@@ -434,7 +434,7 @@ func TestMountStatsExtendedOperationStats(t *testing.T) {
 	r := strings.NewReader(extendedOpsExampleMountstats)
 	_, err := parseMountStats(r)
 	if err != nil {
-		t.Errorf("failed to parse mount stats with extended per-op statistics: %w", err)
+		t.Errorf("unable to read mount stats with extended per-op statistics: %w", err)
 	}
 }
 

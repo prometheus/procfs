@@ -193,7 +193,7 @@ FRAG6: inuse 0 memory 0
 			stat, err := parseSockstat(strings.NewReader(strings.TrimSpace(tt.s)))
 			if err != nil {
 				if tt.ok {
-					t.Fatalf("failed to parse sockstats: %v", err)
+					t.Fatalf("unable to read sockstats: %v", err)
 				}
 
 				t.Logf("OK error: %v", err)

@@ -175,9 +175,9 @@ func parseState(s string) (uint, string, error) {
 
 // Parse rate (example: "100 Gb/sec (4X EDR)") and return it as bytes/second
 func parseRate(s string) (uint64, error) {
-	parts := strings.Split(s, "Gb/sec")
+	parts := strings.SplitAfterN(s, " ", 2)
 	if len(parts) != 2 {
-		return 0, fmt.Errorf("failed to split '%s' by 'Gb/sec'", s)
+		return 0, fmt.Errorf("failed to split %q", s)
 	}
 	value, err := strconv.ParseFloat(strings.TrimSpace(parts[0]), 32)
 	if err != nil {

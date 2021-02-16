@@ -27,6 +27,10 @@ func TestParseSlowRate(t *testing.T) {
 		want uint64
 	}{
 		{
+			rate: "0 GB/sec",
+			want: 0,
+		},
+		{
 			rate: "2.5 Gb/sec (1X SDR)",
 			want: 312500000,
 		},

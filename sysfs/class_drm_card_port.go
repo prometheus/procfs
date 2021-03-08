@@ -18,6 +18,7 @@ package sysfs
 import (
 	"errors"
 	"path/filepath"
+	"strings"
 	"syscall"
 
 	"github.com/prometheus/procfs/internal/util"
@@ -25,6 +26,7 @@ import (
 
 type ClassDrmCardPort struct {
 	Name    string
+	Card    string
 	Status  uint64
 	Dpms    uint64
 	Enabled uint64
@@ -45,7 +47,8 @@ func (fs FS) ClassDrmCardPort() ([]ClassDrmCardPort, error) {
 			}
 			return nil, err
 		}
-		portStats.Name = filepath.Base(port)
+		portStats.Name = strings.SplitN(filepath.Base(port), "-", 2)[1]
+		portStats.Card = strings.SplitN(filepath.Base(port), "-", 2)[0]
 		stats = append(stats, portStats)
 	}
 	return stats, nil

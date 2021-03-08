@@ -18,20 +18,16 @@ package sysfs
 import (
 	"errors"
 	"path/filepath"
-	"strings"
 	"syscall"
 
 	"github.com/prometheus/procfs/internal/util"
 )
 
-// ClassThermalZoneStats contains info from files in /sys/class/thermal/thermal_zone<zone>
-// for a single <zone>.
-// https://www.kernel.org/doc/Documentation/thermal/sysfs-api.txt
 type ClassDrmCardPort struct {
 	Name    string
-	Status  string
-	Dpms    string
-	Enabled string
+	Status  uint64
+	Dpms    uint64
+	Enabled uint64
 }
 
 func (fs FS) ClassDrmCardPort() ([]ClassDrmCardPort, error) {
@@ -49,30 +45,46 @@ func (fs FS) ClassDrmCardPort() ([]ClassDrmCardPort, error) {
 			}
 			return nil, err
 		}
-		portStats.Name = strings.TrimPrefix(filepath.Base(port), "port")
+		portStats.Name = filepath.Base(port)
 		stats = append(stats, portStats)
 	}
 	return stats, nil
 }
 
 func parseClassDrmCardPort(port string) (ClassDrmCardPort, error) {
-	// Required attributes.
-	portStatus, err := util.SysReadFile(filepath.Join(port, "status"))
-	if err != nil {
-		return ClassDrmCardPort{}, err
-	}
-	portDpms, err := util.SysReadFile(filepath.Join(port, "dpms"))
-	if err != nil {
-		return ClassDrmCardPort{}, err
-	}
-	portEnabled, err := util.SysReadFile(filepath.Join(port, "enabled"))
+	portStatusString, err := util.SysReadFile(filepath.Join(port, "status"))
 	if err != nil {
 		return ClassDrmCardPort{}, err
 	}
 
+	portStatus := 0
+	if portStatusString == "connected" {
+		portStatus = 1
+	}
+
+	portDpmsString, err := util.SysReadFile(filepath.Join(port, "dpms"))
+	if err != nil {
+		return ClassDrmCardPort{}, err
+	}
+
+	portDpms := 0
+	if portDpmsString == "On" {
+		portDpms = 1
+	}
+
+	portEnabledString, err := util.SysReadFile(filepath.Join(port, "enabled"))
+	if err != nil {
+		return ClassDrmCardPort{}, err
+	}
+
+	portEnabled := 0
+	if portEnabledString == "enabled" {
+		portEnabled = 1
+	}
+
 	return ClassDrmCardPort{
-		Status:  portStatus,
-		Dpms:    portDpms,
-		Enabled: portEnabled,
+		Status:  uint64(portStatus),
+		Dpms:    uint64(portDpms),
+		Enabled: uint64(portEnabled),
 	}, nil
 }

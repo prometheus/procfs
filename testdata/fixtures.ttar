@@ -1,9 +1,9 @@
 # Archive created by ttar -c -f testdata/fixtures.ttar -C testdata/ fixtures/
 Directory: fixtures
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/26231
 Mode: 755
@@ -327,7 +327,7 @@ UdpLite6RcvbufErrors            	0
 UdpLite6SndbufErrors            	0
 UdpLite6InCsumErrors            	0
 Mode: 644
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/26231/ns
 Mode: 755
@@ -688,7 +688,7 @@ Mode: 644
 Path: fixtures/proc/26231/wchan
 Lines: 1
 poll_schedule_timeoutEOF
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/26232
 Mode: 755
@@ -768,7 +768,7 @@ Mode: 644
 Path: fixtures/proc/26232/wchan
 Lines: 1
 0EOF
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/26233
 Mode: 755
@@ -2181,7 +2181,7 @@ Lines: 52
    8       0 sdc 14202 71 579164 21861 2995 1589 180500 40875 0 11628 55200 0 0 0 0 127 182
    8       1 sdc1 1027 0 13795 5021 2 0 4096 3 0 690 4579 0 0 0 0 0 0
    8       2 sdc2 13126 71 561749 16802 2830 1589 176404 40620 0 10931 50449 0 0 0 0 0 0
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/fs
 Mode: 755
@@ -2361,7 +2361,7 @@ HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:       91136 kB
 DirectMap2M:    16039936 kB
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/net
 Mode: 755
@@ -2371,7 +2371,7 @@ Lines: 3
 IP address       HW type     Flags       HW address            Mask     Device
 192.168.224.1    0x1         0x2         00:50:56:c0:00:08     *        ens33
 192.168.224.2    0x1         0x0         00:00:00:00:00:00     *        ens33
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/net/dev
 Lines: 6
@@ -3035,10 +3035,10 @@ Lines: 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys/kernel
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys/kernel/random
 Mode: 755
@@ -3072,7 +3072,7 @@ kill_process kill_thread trap errno trace log allow
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys/vm
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/sys/vm/admin_reserve_kbytes
 Lines: 1
@@ -3559,10 +3559,10 @@ Directory: fixtures/sys
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/dm-0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/dm-0/dm
 Mode: 755
@@ -3597,18 +3597,18 @@ Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/dm-0/slaves/sda
 Lines: 0
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/dm-0/stat
 Lines: 1
 6447303        0 710266738  1529043   953216        0 31201176  4557464        0   796160  6088971
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md0/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md0/md/array_state
 Lines: 1
@@ -3663,10 +3663,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md1
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md1/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md1/md/array_state
 Lines: 1
@@ -3736,10 +3736,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md10
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md10/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md10/md/array_state
 Lines: 1
@@ -3831,10 +3831,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md4
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md4/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md4/md/array_state
 Lines: 1
@@ -3915,10 +3915,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md5
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md5/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md5/md/array_state
 Lines: 1
@@ -3936,7 +3936,7 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md5/md/dev-sdaa
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md5/md/dev-sdaa/state
 Lines: 1
@@ -4007,10 +4007,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md6
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md6/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md6/md/array_state
 Lines: 1
@@ -4102,7 +4102,7 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/sda
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/sda/queue
 Mode: 755
@@ -4338,13 +4338,28 @@ Mode: 444
 Path: fixtures/sys/block/sda/stat
 Lines: 1
 9652963   396792 759304206   412943  8422549  6731723 286915323 13947418        0  5658367 19174573 1 2 3 12
-Mode: 664
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/bus
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/bus/pci
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/bus/pci/drivers
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/bus/pci/drivers/amdgpu
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/bus/pci/drivers/i915
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/block
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/block/dm-0
 SymlinkTo: ../../devices/virtual/block/dm-0
@@ -4365,10 +4380,10 @@ Path: fixtures/sys/class/block/dm-5
 SymlinkTo: ../../devices/virtual/block/dm-5
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/dmi
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/dmi/id
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/dmi/id/bios_date
 Lines: 1
@@ -4597,6 +4612,9 @@ Path: fixtures/sys/class/drm/card0/device/dma_mask_bits
 Lines: 1
 44
 Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card0/device/driver
+SymlinkTo: ../../../../bus/pci/drivers/amdgpu
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/drm/card0/device/driver_override
 Lines: 1
@@ -4933,6 +4951,124 @@ Path: fixtures/sys/class/drm/card0/device/vendor
 Lines: 1
 0x1002
 Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/drm/card1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/drm/card1/card1-DP-1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/connector_id
+Lines: 1
+103
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/dpms
+Lines: 1
+Off
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/edid
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/enabled
+Lines: 1
+disabled
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/modes
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/status
+Lines: 1
+disconnected
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/drm/card1/card1-DP-5
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/connector_id
+Lines: 1
+135
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/dpms
+Lines: 1
+On
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/edid
+Lines: 5
+NULLBYTEˇˇˇˇˇˇNULLBYTE"V)Ä4 x*¸Å§UMù%PT!NULLBYTE—¿Å¿Å@ÅÄïNULLBYTE©@≥NULLBYTE(<Ä†p∞#@0 6NULLBYTED!NULLBYTENULLBYTENULLBYTENULLBYTENULLBYTE˝NULLBYTE<PNULLBYTE
+      NULLBYTENULLBYTENULLBYTE¸NULLBYTEHP ZR2440w
+  NULLBYTENULLBYTENULLBYTEˇNULLBYTECN4218016Q
+  ÅÒLêeNULLBYTENULLBYTE#	ÉNULLBYTENULLBYTE:Äq8-@X,ENULLBYTED!NULLBYTENULLBYTE:Ä–r8-@,EÄD!NULLBYTENULLBYTENULLBYTErQ– n(UNULLBYTED!NULLBYTENULLBYTENULLBYTEºR– ∏(U@D!NULLBYTENULLBYTEå
+–ä ‡->ñNULLBYTED!NULLBYTENULLBYTENULLBYTENULLBYTENULLBYTENULLBYTENULLBYTENULLBYTE¡EOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/enabled
+Lines: 1
+enabled
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/modes
+Lines: 27
+1920x1200
+1920x1080
+1920x1080
+1920x1080
+1920x1080
+1920x1080
+1600x1200
+1680x1050
+1280x1024
+1440x900
+1280x960
+1280x720
+1280x720
+1280x720
+1280x720
+1280x720
+1024x768
+800x600
+720x576
+720x480
+720x480
+720x480
+720x480
+720x480
+640x480
+640x480
+640x480
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/status
+Lines: 1
+connected
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/drm/card1/device
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/device/driver
+SymlinkTo: ../../../../bus/pci/drivers/i915
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/device/enable
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/device/uevent
+Lines: 6
+DRIVER=i915
+PCI_CLASS=30000
+PCI_ID=8086:5917
+PCI_SUBSYS_ID=17AA:2258
+PCI_SLOT_NAME=0000:00:02.0
+MODALIAS=pci:v00008086d00005917sv000017AAsd00002258bc03sc00i00
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/fc_host
 Mode: 755
@@ -5304,7 +5440,7 @@ Mode: 755
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/1/counters/VL15_dropped
 Lines: 1
 0
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/1/counters/excessive_buffer_overrun_errors
 Lines: 1
@@ -5410,7 +5546,7 @@ Mode: 755
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/2/counters/VL15_dropped
 Lines: 1
 0
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/2/counters/excessive_buffer_overrun_errors
 Lines: 1
@@ -5783,7 +5919,7 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/net
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/net/eth0
 Mode: 755
@@ -5918,30 +6054,30 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/nvme
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/nvme/nvme0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/firmware_rev
 Lines: 1
 1B2QEXP7
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/model
 Lines: 1
 Samsung SSD 970 PRO 512GB               
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/serial
 Lines: 1
 S680HF8N190894I
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/state
 Lines: 1
 live
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/power_supply
 Mode: 755
@@ -6148,7 +6284,7 @@ Lines: 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_device
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_device/end_device-11:0:0
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:0/end_device-11:0:0/sas_device/end_device-11:0:0
@@ -6169,7 +6305,7 @@ Path: fixtures/sys/class/sas_device/expander-11:1
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:1/expander-11:1/sas_device/expander-11:1
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_end_device
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_end_device/end_device-11:0:0
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:0/end_device-11:0:0/sas_device/end_device-11:0:0
@@ -6184,7 +6320,7 @@ Path: fixtures/sys/class/sas_end_device/end_device-11:2
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:2/end_device-11:2/sas_device/end_device-11:2
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_expander
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_expander/expander-11:0
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/sas_expander/expander-11:0
@@ -6193,13 +6329,13 @@ Path: fixtures/sys/class/sas_expander/expander-11:1
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:1/expander-11:1/sas_expander/expander-11:1
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_host
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_host/host11
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/sas_host/host11
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_phy
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_phy/phy-11:0:2
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/phy-11:0:2/sas_phy/phy-11:0:2
@@ -6238,7 +6374,7 @@ Path: fixtures/sys/class/sas_phy/phy-11:9
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:9/sas_phy/phy-11:9
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_port
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_port/port-11:0
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/sas_port/port-11:0
@@ -6283,7 +6419,7 @@ Path: fixtures/sys/class/scsi_tape/st0m
 SymlinkTo: ../../devices/pci0000:00/0000:00:00.0/host0/port-0:0/end_device-0:0/target0:0:0/0:0:0:0/scsi_tape/st0m
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal/cooling_device0
 Mode: 755
@@ -6322,22 +6458,22 @@ intel_powerclamp
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal/thermal_zone0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone0/policy
 Lines: 1
 step_wise
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone0/temp
 Lines: 1
 49925
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone0/type
 Lines: 1
 bcm2835_thermal
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal/thermal_zone1
 Mode: 755
@@ -6345,33 +6481,33 @@ Mode: 755
 Path: fixtures/sys/class/thermal/thermal_zone1/mode
 Lines: 1
 enabled
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone1/passive
 Lines: 1
 0
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone1/policy
 Lines: 1
 step_wise
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone1/temp
 Lines: 1
 -44000
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone1/type
 Lines: 1
 acpitz
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/watchdog
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/watchdog/watchdog0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/watchdog/watchdog0/access_cs0
 Lines: 1
@@ -6434,7 +6570,7 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/watchdog/watchdog1
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices
 Mode: 755
@@ -13414,13 +13550,13 @@ wrong-images
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/clocksource
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/clocksource/clocksource0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/clocksource/clocksource0/available_clocksource
 Lines: 1
@@ -13433,10 +13569,10 @@ tsc
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu0/cpufreq
 SymlinkTo: ../cpufreq/policy0
@@ -13493,10 +13629,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu1
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu1/cpufreq
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/cpuinfo_cur_freq
 Lines: 1
@@ -13506,52 +13642,52 @@ Mode: 400
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/cpuinfo_max_freq
 Lines: 1
 3300000
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/cpuinfo_min_freq
 Lines: 1
 1200000
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/cpuinfo_transition_latency
 Lines: 1
 4294967295
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/related_cpus
 Lines: 1
 1
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_available_governors
 Lines: 1
 performance powersave
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_driver
 Lines: 1
 intel_pstate
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
 Lines: 1
 powersave
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
 Lines: 1
 3300000
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
 Lines: 1
 1200000
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_setspeed
 Lines: 1
 <unsupported>
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu1/cpufreq/stats
 Mode: 755
@@ -13617,13 +13753,13 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu2
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpufreq
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpufreq/policy0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpufreq/policy0/affected_cpus
 Lines: 1
@@ -13705,12 +13841,12 @@ Mode: 755
 Path: fixtures/sys/devices/system/cpu/isolated
 Lines: 1
 1,2-7,9
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/offline
 Lines: 1
 2
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/vulnerabilities
 Mode: 755
@@ -13761,7 +13897,7 @@ Not affected
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/node
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/node/node1
 Mode: 755
@@ -13790,13 +13926,13 @@ nr_zone_unevictable 12
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/virtual
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/virtual/block
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/virtual/block/dm-0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs
 Mode: 755
@@ -13813,7 +13949,7 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0
-Mode: 777
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/dirty_data
 Lines: 1
@@ -13989,7 +14125,7 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/cache0
-Mode: 777
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/cache0/io_errors
 Lines: 1

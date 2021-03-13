@@ -8,6 +8,7 @@ jobs:
     steps:
     - checkout
     - run: make check_license
+    - run: ./scripts/check_build_tags.sh
     - run: make fixtures
     - run: make update_fixtures
     - run: git diff --exit-code

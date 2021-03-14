@@ -20,7 +20,7 @@ import (
 	"testing"
 )
 
-func TestClassDRMCardStats(t *testing.T) {
+func TestClassDRMCardAMDGPUStats(t *testing.T) {
 	fs, err := NewFS(sysTestFixtures)
 	if err != nil {
 		t.Fatal(err)

@@ -20,6 +20,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -63,7 +64,7 @@ type NetClassIface struct {
 type NetClass map[string]NetClassIface
 
 // NetClassDevices scans /sys/class/net for devices and returns them as a list of names.
-func (fs FS) NetClassDevices() ([]string, error) {
+func (fs FS) NetClassDevices(ignoredDevicesPattern *regexp.Regexp) ([]string, error) {
 	var res []string
 	path := fs.sys.Path(netclassPath)
 
@@ -76,6 +77,9 @@ func (fs FS) NetClassDevices() ([]string, error) {
 		if deviceDir.Mode().IsRegular() {
 			continue
 		}
+		if ignoredDevicesPattern.MatchString(deviceDir.Name()) {
+			continue
+		}
 		res = append(res, deviceDir.Name())
 	}
 
@@ -83,8 +87,8 @@ func (fs FS) NetClassDevices() ([]string, error) {
 }
 
 // NetClass returns info for all net interfaces (iface) read from /sys/class/net/<iface>.
-func (fs FS) NetClass() (NetClass, error) {
-	devices, err := fs.NetClassDevices()
+func (fs FS) NetClass(ignoredDevicesPattern *regexp.Regexp) (NetClass, error) {
+	devices, err := fs.NetClassDevices(ignoredDevicesPattern)
 	if err != nil {
 		return nil, err
 	}

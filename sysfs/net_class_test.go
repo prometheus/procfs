@@ -17,6 +17,7 @@ package sysfs
 
 import (
 	"reflect"
+	"regexp"
 	"testing"
 )
 
@@ -26,7 +27,12 @@ func TestNewNetClassDevices(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	devices, err := fs.NetClassDevices()
+	re, err := regexp.Compile("^$")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	devices, err := fs.NetClassDevices(re)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -39,13 +45,39 @@ func TestNewNetClassDevices(t *testing.T) {
 	}
 }
 
+func TestNewNetClassDevicesFilter(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	re, err := regexp.Compile("eth")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	devices, err := fs.NetClassDevices(re)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(devices) != 0 {
+		t.Errorf("Unexpected number of devices, want %d, have %d", 0, len(devices))
+	}
+}
+
 func TestNetClass(t *testing.T) {
 	fs, err := NewFS(sysTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	nc, err := fs.NetClass()
+	re, err := regexp.Compile("^$")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	nc, err := fs.NetClass(re)
 	if err != nil {
 		t.Fatal(err)
 	}

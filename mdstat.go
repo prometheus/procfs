@@ -22,9 +22,12 @@ import (
 )
 
 var (
-	statusLineRE      = regexp.MustCompile(`(\d+) blocks .*\[(\d+)/(\d+)\] \[[U_]+\]`)
-	recoveryLineRE    = regexp.MustCompile(`\((\d+)/\d+\)`)
-	componentDeviceRE = regexp.MustCompile(`(.*)\[\d+\]`)
+	statusLineRE         = regexp.MustCompile(`(\d+) blocks .*\[(\d+)/(\d+)\] \[[U_]+\]`)
+	recoveryLineBlocksRE = regexp.MustCompile(`\((\d+)/\d+\)`)
+	recoveryLinePctRE    = regexp.MustCompile(`= (.+)%`)
+	recoveryLineFinishRE = regexp.MustCompile(`finish=(.+)min`)
+	recoveryLineSpeedRE  = regexp.MustCompile(`speed=(.+)[A-Z]`)
+	componentDeviceRE    = regexp.MustCompile(`(.*)\[\d+\]`)
 )
 
 // MDStat holds info parsed from /proc/mdstat.
@@ -45,6 +48,12 @@ type MDStat struct {
 	BlocksTotal int64
 	// Number of blocks on the device that are in sync.
 	BlocksSynced int64
+	// progress percentage of current sync
+	BlocksSyncedPct float64
+	// estimated finishing time for current sync (in minutes)
+	BlocksSyncedFinishTime float64
+	// current sync speed (in Kilobytes/sec)
+	BlocksSyncedSpeed float64
 	// Name of md component devices
 	Devices []string
 }
@@ -105,6 +114,9 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		// If device is syncing at the moment, get the number of currently
 		// synced bytes, otherwise that number equals the size of the device.
 		syncedBlocks := size
+		speed := float64(0)
+		finish := float64(0)
+		pct := float64(0)
 		recovering := strings.Contains(lines[syncLineIdx], "recovery")
 		resyncing := strings.Contains(lines[syncLineIdx], "resync")
 		checking := strings.Contains(lines[syncLineIdx], "check")
@@ -124,7 +136,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 				strings.Contains(lines[syncLineIdx], "DELAYED") {
 				syncedBlocks = 0
 			} else {
-				syncedBlocks, err = evalRecoveryLine(lines[syncLineIdx])
+				syncedBlocks, pct, finish, speed, err = evalRecoveryLine(lines[syncLineIdx])
 				if err != nil {
 					return nil, fmt.Errorf("error parsing sync line in md device %q: %w", mdName, err)
 				}
@@ -132,15 +144,18 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		}
 
 		mdStats = append(mdStats, MDStat{
-			Name:          mdName,
-			ActivityState: state,
-			DisksActive:   active,
-			DisksFailed:   fail,
-			DisksSpare:    spare,
-			DisksTotal:    total,
-			BlocksTotal:   size,
-			BlocksSynced:  syncedBlocks,
-			Devices:       evalComponentDevices(deviceFields),
+			Name:                   mdName,
+			ActivityState:          state,
+			DisksActive:            active,
+			DisksFailed:            fail,
+			DisksSpare:             spare,
+			DisksTotal:             total,
+			BlocksTotal:            size,
+			BlocksSynced:           syncedBlocks,
+			BlocksSyncedPct:        pct,
+			BlocksSyncedFinishTime: finish,
+			BlocksSyncedSpeed:      speed,
+			Devices:                evalComponentDevices(deviceFields),
 		})
 	}
 
@@ -183,18 +198,48 @@ func evalStatusLine(deviceLine, statusLine string) (active, total, size int64, e
 	return active, total, size, nil
 }
 
-func evalRecoveryLine(recoveryLine string) (syncedBlocks int64, err error) {
-	matches := recoveryLineRE.FindStringSubmatch(recoveryLine)
+func evalRecoveryLine(recoveryLine string) (syncedBlocks int64, pct float64, finish float64, speed float64, err error) {
+	matches := recoveryLineBlocksRE.FindStringSubmatch(recoveryLine)
 	if len(matches) != 2 {
-		return 0, fmt.Errorf("unexpected recoveryLine: %s", recoveryLine)
+		return 0, 0, 0, 0, fmt.Errorf("unexpected recoveryLine: %s", recoveryLine)
 	}
 
 	syncedBlocks, err = strconv.ParseInt(matches[1], 10, 64)
 	if err != nil {
-		return 0, fmt.Errorf("error parsing int from recoveryLine %q: %w", recoveryLine, err)
+		return 0, 0, 0, 0, fmt.Errorf("error parsing int from recoveryLine %q: %w", recoveryLine, err)
 	}
 
-	return syncedBlocks, nil
+	// Get percentage complete
+	matches = recoveryLinePctRE.FindStringSubmatch(recoveryLine)
+	if len(matches) != 2 {
+		return 0, 0, 0, 0, fmt.Errorf("unexpected recoveryLine matching percentage: %s", recoveryLine)
+	}
+	pct, err = strconv.ParseFloat(strings.TrimSpace(matches[1]), 64)
+	if err != nil {
+		return 0, 0, 0, 0, fmt.Errorf("error parsing float from recoveryLine %q: %w", recoveryLine, err)
+	}
+
+	// Get time expected left to complete
+	matches = recoveryLineFinishRE.FindStringSubmatch(recoveryLine)
+	if len(matches) != 2 {
+		return 0, 0, 0, 0, fmt.Errorf("unexpected recoveryLine matching est. finish time: %s", recoveryLine)
+	}
+	finish, err = strconv.ParseFloat(matches[1], 64)
+	if err != nil {
+		return 0, 0, 0, 0, fmt.Errorf("error parsing float from recoveryLine %q: %w", recoveryLine, err)
+	}
+
+	// Get recovery speed
+	matches = recoveryLineSpeedRE.FindStringSubmatch(recoveryLine)
+	if len(matches) != 2 {
+		return 0, 0, 0, 0, fmt.Errorf("unexpected recoveryLine matching speed: %s", recoveryLine)
+	}
+	speed, err = strconv.ParseFloat(matches[1], 64)
+	if err != nil {
+		return 0, 0, 0, 0, fmt.Errorf("error parsing float from recoveryLine %q: %w", recoveryLine, err)
+	}
+
+	return syncedBlocks, pct, finish, speed, nil
 }
 
 func evalComponentDevices(deviceFields []string) []string {

@@ -67,7 +67,7 @@ type IPVSBackendStatus struct {
 
 // IPVSStats reads the IPVS statistics from the specified `proc` filesystem.
 func (fs FS) IPVSStats() (IPVSStats, error) {
-	data, err := util.ReadFileNoStat(fs.proc.Path("net/ip_vs_stats"))
+	data, err := util.ReadFileNoStat(fs.proc.Path("self/net/ip_vs_stats"))
 	if err != nil {
 		return IPVSStats{}, err
 	}
@@ -125,7 +125,7 @@ func parseIPVSStats(r io.Reader) (IPVSStats, error) {
 
 // IPVSBackendStatus reads and returns the status of all (virtual,real) server pairs from the specified `proc` filesystem.
 func (fs FS) IPVSBackendStatus() ([]IPVSBackendStatus, error) {
-	file, err := os.Open(fs.proc.Path("net/ip_vs"))
+	file, err := os.Open(fs.proc.Path("self/net/ip_vs"))
 	if err != nil {
 		return nil, err
 	}

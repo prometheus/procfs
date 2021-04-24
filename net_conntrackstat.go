@@ -40,7 +40,7 @@ type ConntrackStatEntry struct {
 
 // ConntrackStat retrieves netfilter's conntrack statistics, split by CPU cores
 func (fs FS) ConntrackStat() ([]ConntrackStatEntry, error) {
-	return readConntrackStat(fs.proc.Path("net", "stat", "nf_conntrack"))
+	return readConntrackStat(fs.proc.Path("self", "net", "stat", "nf_conntrack"))
 }
 
 // Parses a slice of ConntrackStatEntries from the given filepath

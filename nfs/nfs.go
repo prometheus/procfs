@@ -297,7 +297,7 @@ func NewFS(mountPoint string) (FS, error) {
 // ClientRPCStats retrieves NFS client RPC statistics
 // from proc/net/rpc/nfs.
 func (fs FS) ClientRPCStats() (*ClientRPCStats, error) {
-	f, err := os.Open(fs.proc.Path("net/rpc/nfs"))
+	f, err := os.Open(fs.proc.Path("self/net/rpc/nfs"))
 	if err != nil {
 		return nil, err
 	}
@@ -309,7 +309,7 @@ func (fs FS) ClientRPCStats() (*ClientRPCStats, error) {
 // ServerRPCStats retrieves NFS daemon RPC statistics
 // from proc/net/rpc/nfsd.
 func (fs FS) ServerRPCStats() (*ServerRPCStats, error) {
-	f, err := os.Open(fs.proc.Path("net/rpc/nfsd"))
+	f, err := os.Open(fs.proc.Path("self/net/rpc/nfsd"))
 	if err != nil {
 		return nil, err
 	}

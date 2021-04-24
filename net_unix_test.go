@@ -45,7 +45,7 @@ func TestNetUnixNoInode(t *testing.T) {
 		t.Fatalf("failed to open procfs: %v", err)
 	}
 
-	got, err := readNetUNIX(fs.proc.Path("net/unix_without_inode"))
+	got, err := readNetUNIX(fs.proc.Path("self/net/unix_without_inode"))
 	if err != nil {
 		t.Fatalf("failed to read UNIX socket data: %v", err)
 	}

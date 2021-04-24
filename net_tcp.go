@@ -26,25 +26,25 @@ type (
 // NetTCP returns the IPv4 kernel/networking statistics for TCP datagrams
 // read from /proc/net/tcp.
 func (fs FS) NetTCP() (NetTCP, error) {
-	return newNetTCP(fs.proc.Path("net/tcp"))
+	return newNetTCP(fs.proc.Path("self/net/tcp"))
 }
 
 // NetTCP6 returns the IPv6 kernel/networking statistics for TCP datagrams
 // read from /proc/net/tcp6.
 func (fs FS) NetTCP6() (NetTCP, error) {
-	return newNetTCP(fs.proc.Path("net/tcp6"))
+	return newNetTCP(fs.proc.Path("self/net/tcp6"))
 }
 
 // NetTCPSummary returns already computed statistics like the total queue lengths
 // for TCP datagrams read from /proc/net/tcp.
 func (fs FS) NetTCPSummary() (*NetTCPSummary, error) {
-	return newNetTCPSummary(fs.proc.Path("net/tcp"))
+	return newNetTCPSummary(fs.proc.Path("self/net/tcp"))
 }
 
 // NetTCP6Summary returns already computed statistics like the total queue lengths
 // for TCP datagrams read from /proc/net/tcp6.
 func (fs FS) NetTCP6Summary() (*NetTCPSummary, error) {
-	return newNetTCPSummary(fs.proc.Path("net/tcp6"))
+	return newNetTCPSummary(fs.proc.Path("self/net/tcp6"))
 }
 
 // newNetTCP creates a new NetTCP{,6} from the contents of the given file.

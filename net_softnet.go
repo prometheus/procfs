@@ -40,7 +40,7 @@ type SoftnetStat struct {
 	TimeSqueezed uint32
 }
 
-var softNetProcFile = "net/softnet_stat"
+var softNetProcFile = "self/net/softnet_stat"
 
 // NetSoftnetStat reads data from /proc/net/softnet_stat.
 func (fs FS) NetSoftnetStat() ([]SoftnetStat, error) {

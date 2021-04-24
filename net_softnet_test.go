@@ -46,7 +46,7 @@ func TestNetSoftnet(t *testing.T) {
 }
 
 func TestBadSoftnet(t *testing.T) {
-	softNetProcFile = "net/softnet_stat.broken"
+	softNetProcFile = "self/net/softnet_stat.broken"
 	fs, err := NewFS(procTestFixtures)
 	if err != nil {
 		t.Fatal(err)

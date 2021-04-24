@@ -49,12 +49,12 @@ type NetDev map[string]NetDevLine
 
 // NetDev returns kernel/system statistics read from /proc/net/dev.
 func (fs FS) NetDev() (NetDev, error) {
-	return newNetDev(fs.proc.Path("net/dev"))
+	return newNetDev(fs.proc.Path("self/net/dev"))
 }
 
 // NetDev returns kernel/system statistics read from /proc/[pid]/net/dev.
 func (p Proc) NetDev() (NetDev, error) {
-	return newNetDev(p.path("net/dev"))
+	return newNetDev(p.path("self/net/dev"))
 }
 
 // newNetDev creates a new NetDev from the contents of the given file.

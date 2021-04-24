@@ -47,7 +47,7 @@ type NetSockstatProtocol struct {
 
 // NetSockstat retrieves IPv4 socket statistics.
 func (fs FS) NetSockstat() (*NetSockstat, error) {
-	return readSockstat(fs.proc.Path("net", "sockstat"))
+	return readSockstat(fs.proc.Path("self", "net", "sockstat"))
 }
 
 // NetSockstat6 retrieves IPv6 socket statistics.
@@ -55,7 +55,7 @@ func (fs FS) NetSockstat() (*NetSockstat, error) {
 // If IPv6 is disabled on this kernel, the returned error can be checked with
 // os.IsNotExist.
 func (fs FS) NetSockstat6() (*NetSockstat, error) {
-	return readSockstat(fs.proc.Path("net", "sockstat6"))
+	return readSockstat(fs.proc.Path("self", "net", "sockstat6"))
 }
 
 // readSockstat opens and parses a NetSockstat from the input file.

@@ -70,7 +70,7 @@ type NetUNIX struct {
 
 // NetUNIX returns data read from /proc/net/unix.
 func (fs FS) NetUNIX() (*NetUNIX, error) {
-	return readNetUNIX(fs.proc.Path("net/unix"))
+	return readNetUNIX(fs.proc.Path("self/net/unix"))
 }
 
 // readNetUNIX reads data in /proc/net/unix format from the specified file.

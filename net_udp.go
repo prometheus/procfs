@@ -26,25 +26,25 @@ type (
 // NetUDP returns the IPv4 kernel/networking statistics for UDP datagrams
 // read from /proc/net/udp.
 func (fs FS) NetUDP() (NetUDP, error) {
-	return newNetUDP(fs.proc.Path("net/udp"))
+	return newNetUDP(fs.proc.Path("self/net/udp"))
 }
 
 // NetUDP6 returns the IPv6 kernel/networking statistics for UDP datagrams
 // read from /proc/net/udp6.
 func (fs FS) NetUDP6() (NetUDP, error) {
-	return newNetUDP(fs.proc.Path("net/udp6"))
+	return newNetUDP(fs.proc.Path("self/net/udp6"))
 }
 
 // NetUDPSummary returns already computed statistics like the total queue lengths
 // for UDP datagrams read from /proc/net/udp.
 func (fs FS) NetUDPSummary() (*NetUDPSummary, error) {
-	return newNetUDPSummary(fs.proc.Path("net/udp"))
+	return newNetUDPSummary(fs.proc.Path("self/net/udp"))
 }
 
 // NetUDP6Summary returns already computed statistics like the total queue lengths
 // for UDP datagrams read from /proc/net/udp6.
 func (fs FS) NetUDP6Summary() (*NetUDPSummary, error) {
-	return newNetUDPSummary(fs.proc.Path("net/udp6"))
+	return newNetUDPSummary(fs.proc.Path("self/net/udp6"))
 }
 
 // newNetUDP creates a new NetUDP{,6} from the contents of the given file.

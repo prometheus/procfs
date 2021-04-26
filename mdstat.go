@@ -212,31 +212,31 @@ func evalRecoveryLine(recoveryLine string) (syncedBlocks int64, pct float64, fin
 	// Get percentage complete
 	matches = recoveryLinePctRE.FindStringSubmatch(recoveryLine)
 	if len(matches) != 2 {
-		return 0, 0, 0, 0, fmt.Errorf("unexpected recoveryLine matching percentage: %s", recoveryLine)
+		return syncedBlocks, 0, 0, 0, fmt.Errorf("unexpected recoveryLine matching percentage: %s", recoveryLine)
 	}
 	pct, err = strconv.ParseFloat(strings.TrimSpace(matches[1]), 64)
 	if err != nil {
-		return 0, 0, 0, 0, fmt.Errorf("error parsing float from recoveryLine %q: %w", recoveryLine, err)
+		return syncedBlocks, 0, 0, 0, fmt.Errorf("error parsing float from recoveryLine %q: %w", recoveryLine, err)
 	}
 
 	// Get time expected left to complete
 	matches = recoveryLineFinishRE.FindStringSubmatch(recoveryLine)
 	if len(matches) != 2 {
-		return 0, 0, 0, 0, fmt.Errorf("unexpected recoveryLine matching est. finish time: %s", recoveryLine)
+		return syncedBlocks, pct, 0, 0, fmt.Errorf("unexpected recoveryLine matching est. finish time: %s", recoveryLine)
 	}
 	finish, err = strconv.ParseFloat(matches[1], 64)
 	if err != nil {
-		return 0, 0, 0, 0, fmt.Errorf("error parsing float from recoveryLine %q: %w", recoveryLine, err)
+		return syncedBlocks, pct, 0, 0, fmt.Errorf("error parsing float from recoveryLine %q: %w", recoveryLine, err)
 	}
 
 	// Get recovery speed
 	matches = recoveryLineSpeedRE.FindStringSubmatch(recoveryLine)
 	if len(matches) != 2 {
-		return 0, 0, 0, 0, fmt.Errorf("unexpected recoveryLine matching speed: %s", recoveryLine)
+		return syncedBlocks, pct, finish, 0, fmt.Errorf("unexpected recoveryLine matching speed: %s", recoveryLine)
 	}
 	speed, err = strconv.ParseFloat(matches[1], 64)
 	if err != nil {
-		return 0, 0, 0, 0, fmt.Errorf("error parsing float from recoveryLine %q: %w", recoveryLine, err)
+		return syncedBlocks, pct, finish, 0, fmt.Errorf("error parsing float from recoveryLine %q: %w", recoveryLine, err)
 	}
 
 	return syncedBlocks, pct, finish, speed, nil

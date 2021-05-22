@@ -1,31 +1,37 @@
 ---
 version: 2.1
 
-commands:
-  default:
-    steps:
-    - run: make style check_license test lint
-  no-test:
-    steps:
-    - run: make style check_license lint
-
 jobs:
+  lint:
+    docker:
+    - image: cimg/go:1.16
+    steps:
+    - checkout
+    - run: make check_license
+    - run: make fixtures
+    - run: make update_fixtures
+    - run: git diff --exit-code
+
   test:
     parameters:
-      command:
-        type: string
       go_version:
         type: string
       os:
         type: string
+      run_test:
+        type: boolean
+        default: true
     docker:
     - image: circleci/golang:<< parameters.go_version >>
     environment:
       GOOS: "<< parameters.os >>"
-    working_directory: /go/src/github.com/prometheus/procfs
     steps:
     - checkout
-    - << parameters.command >>
+    - run: make style lint
+    - when:
+        condition: << parameters.run_test >>
+        steps:
+        - run: make test
 
   codespell:
     docker:
@@ -40,24 +46,26 @@ workflows:
   version: 2
   procfs:
     jobs:
+    - lint
     - test:
-        command: default
-        name: linux-1-15
+        name: test-linux
         os: linux
-        go_version: "1.15"
+        matrix:
+          parameters:
+            go_version:
+            - "1.13"
+            - "1.14"
+            - "1.15"
+            - "1.16"
     - test:
-        command: default
-        name: linux-1-14
-        os: linux
-        go_version: "1.14"
-    - test:
-        command: no-test
-        name: windows-1-15
+        name: test-windows
         os: windows
-        go_version: "1.15"
-    - test:
-        command: no-test
-        name: windows-1-14
-        os: windows
-        go_version: "1.14"
+        run_test: false
+        matrix:
+          parameters:
+            go_version:
+            - "1.13"
+            - "1.14"
+            - "1.15"
+            - "1.16"
     - codespell

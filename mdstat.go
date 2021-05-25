@@ -22,7 +22,7 @@ import (
 )
 
 var (
-	statusLineRE         = regexp.MustCompile(`(\d+) blocks .*\[(\d+)/(\d+)\] \[[U_]+\]`)
+	statusLineRE         = regexp.MustCompile(`(\d+) blocks .*\[(\d+)/(\d+)\] \[([U_]+)\]`)
 	recoveryLineBlocksRE = regexp.MustCompile(`\((\d+)/\d+\)`)
 	recoveryLinePctRE    = regexp.MustCompile(`= (.+)%`)
 	recoveryLineFinishRE = regexp.MustCompile(`finish=(.+)min`)
@@ -42,6 +42,8 @@ type MDStat struct {
 	DisksTotal int64
 	// Number of failed disks.
 	DisksFailed int64
+	// Number of "down" disks. (the _ indicator in the status line)
+	DisksDown int64
 	// Spare disks in the device.
 	DisksSpare int64
 	// Number of blocks the device holds.
@@ -100,7 +102,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		// Failed disks have the suffix (F) & Spare disks have the suffix (S).
 		fail := int64(strings.Count(line, "(F)"))
 		spare := int64(strings.Count(line, "(S)"))
-		active, total, size, err := evalStatusLine(lines[i], lines[i+1])
+		active, total, down, size, err := evalStatusLine(lines[i], lines[i+1])
 
 		if err != nil {
 			return nil, fmt.Errorf("error parsing md device lines: %w", err)
@@ -148,6 +150,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 			ActivityState:          state,
 			DisksActive:            active,
 			DisksFailed:            fail,
+			DisksDown:              down,
 			DisksSpare:             spare,
 			DisksTotal:             total,
 			BlocksTotal:            size,
@@ -162,40 +165,41 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 	return mdStats, nil
 }
 
-func evalStatusLine(deviceLine, statusLine string) (active, total, size int64, err error) {
+func evalStatusLine(deviceLine, statusLine string) (active, total, down, size int64, err error) {
 
 	sizeStr := strings.Fields(statusLine)[0]
 	size, err = strconv.ParseInt(sizeStr, 10, 64)
 	if err != nil {
-		return 0, 0, 0, fmt.Errorf("unexpected statusLine %q: %w", statusLine, err)
+		return 0, 0, 0, 0, fmt.Errorf("unexpected statusLine %q: %w", statusLine, err)
 	}
 
 	if strings.Contains(deviceLine, "raid0") || strings.Contains(deviceLine, "linear") {
 		// In the device deviceLine, only disks have a number associated with them in [].
 		total = int64(strings.Count(deviceLine, "["))
-		return total, total, size, nil
+		return total, total, 0, size, nil
 	}
 
 	if strings.Contains(deviceLine, "inactive") {
-		return 0, 0, size, nil
+		return 0, 0, 0, size, nil
 	}
 
 	matches := statusLineRE.FindStringSubmatch(statusLine)
-	if len(matches) != 4 {
-		return 0, 0, 0, fmt.Errorf("couldn't find all the substring matches: %s", statusLine)
+	if len(matches) != 5 {
+		return 0, 0, 0, 0, fmt.Errorf("couldn't find all the substring matches: %s", statusLine)
 	}
 
 	total, err = strconv.ParseInt(matches[2], 10, 64)
 	if err != nil {
-		return 0, 0, 0, fmt.Errorf("unexpected statusLine %q: %w", statusLine, err)
+		return 0, 0, 0, 0, fmt.Errorf("unexpected statusLine %q: %w", statusLine, err)
 	}
 
 	active, err = strconv.ParseInt(matches[3], 10, 64)
 	if err != nil {
-		return 0, 0, 0, fmt.Errorf("unexpected statusLine %q: %w", statusLine, err)
+		return 0, 0, 0, 0, fmt.Errorf("unexpected statusLine %q: %w", statusLine, err)
 	}
+	down = int64(strings.Count(matches[4], "_"))
 
-	return active, total, size, nil
+	return active, total, down, size, nil
 }
 
 func evalRecoveryLine(recoveryLine string) (syncedBlocks int64, pct float64, finish float64, speed float64, err error) {

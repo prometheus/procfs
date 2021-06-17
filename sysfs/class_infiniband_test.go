@@ -67,8 +67,6 @@ func TestInfiniBandClass(t *testing.T) {
 		hfi1Port1LinkDowned                   uint64
 		hfi1Port1LinkErrorRecovery            uint64
 		hfi1Port1LocalLinkIntegrityErrors     uint64
-		hfi1Port1LinkDowned                   uint64
-		hfi1Port1LinkErrorRecovery            uint64
 		hfi1Port1PortRcvConstraintErrors      uint64
 		hfi1Port1PortRcvData                  uint64 = 1380366808104
 		hfi1Port1PortRcvErrors                uint64
@@ -201,8 +199,8 @@ func TestInfiniBandClass(t *testing.T) {
 					Rate:        5000000000,
 					Counters: InfiniBandCounters{
 						ExcessiveBufferOverrunErrors: &mlx4Port2ExcessiveBufferOverrunErrors,
-						LinkDowned:                   &mlx4Port1LinkDowned,
-						LinkErrorRecovery:            &mlx4Port1LinkErrorRecovery,
+						LinkDowned:                   &mlx4Port2LinkDowned,
+						LinkErrorRecovery:            &mlx4Port2LinkErrorRecovery,
 						LocalLinkIntegrityErrors:     &mlx4Port2LocalLinkIntegrityErrors,
 						PortRcvConstraintErrors:      &mlx4Port2PortRcvConstraintErrors,
 						PortRcvData:                  &mlx4Port2PortRcvData,

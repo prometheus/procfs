@@ -39,6 +39,27 @@ func TestNewNetClassDevices(t *testing.T) {
 	}
 }
 
+func TestNewNetClassDevicesByIface(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = fs.NetClassByIface("non-existent")
+	if err == nil {
+		t.Fatal("expected error, have none")
+	}
+
+	device, err := fs.NetClassByIface("eth0")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if device.Name != "eth0" {
+		t.Errorf("Found unexpected device, want %s, have %s", "eth0", device.Name)
+	}
+}
+
 func TestNetClass(t *testing.T) {
 	fs, err := NewFS(sysTestFixtures)
 	if err != nil {

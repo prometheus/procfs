@@ -40,6 +40,7 @@ func Test_newNetUDP(t *testing.T) {
 					TxQueue:   0,
 					RxQueue:   1,
 					UID:       0,
+					Inode:     2740,
 				},
 				&netIPSocketLine{
 					Sl:        1,
@@ -51,6 +52,7 @@ func Test_newNetUDP(t *testing.T) {
 					TxQueue:   1,
 					RxQueue:   0,
 					UID:       0,
+					Inode:     2740,
 				},
 				&netIPSocketLine{
 					Sl:        2,
@@ -62,6 +64,7 @@ func Test_newNetUDP(t *testing.T) {
 					TxQueue:   1,
 					RxQueue:   1,
 					UID:       0,
+					Inode:     2740,
 				},
 			},
 			wantErr: false,
@@ -80,6 +83,7 @@ func Test_newNetUDP(t *testing.T) {
 					TxQueue:   0,
 					RxQueue:   0,
 					UID:       981,
+					Inode:     21040,
 				},
 				&netIPSocketLine{
 					Sl:        6073,
@@ -91,6 +95,7 @@ func Test_newNetUDP(t *testing.T) {
 					TxQueue:   0,
 					RxQueue:   0,
 					UID:       1000,
+					Inode:     11337031,
 				},
 			},
 			wantErr: false,

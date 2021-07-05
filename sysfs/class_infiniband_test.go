@@ -63,44 +63,98 @@ func TestInfiniBandClass(t *testing.T) {
 	}
 
 	var (
-		port1ExcessiveBufferOverrunErrors uint64
-		port1LinkDowned                   uint64
-		port1LinkErrorRecovery            uint64
-		port1LocalLinkIntegrityErrors     uint64
-		port1PortRcvConstraintErrors      uint64
-		port1PortRcvData                  uint64 = 8884894436
-		port1PortRcvErrors                uint64
-		port1PortRcvPackets               uint64 = 87169372
-		port1PortRcvRemotePhysicalErrors  uint64
-		port1PortRcvSwitchRelayErrors     uint64
-		port1PortXmitConstraintErrors     uint64
-		port1PortXmitData                 uint64 = 106036453180
-		port1PortXmitDiscards             uint64
-		port1PortXmitPackets              uint64 = 85734114
-		port1PortXmitWait                 uint64 = 3599
-		port1SymbolError                  uint64
-		port1VL15Dropped                  uint64
+		hfi1Port1ExcessiveBufferOverrunErrors uint64
+		hfi1Port1LinkDowned                   uint64
+		hfi1Port1LinkErrorRecovery            uint64
+		hfi1Port1LocalLinkIntegrityErrors     uint64
+		hfi1Port1PortRcvConstraintErrors      uint64
+		hfi1Port1PortRcvData                  uint64 = 1380366808104
+		hfi1Port1PortRcvErrors                uint64
+		hfi1Port1PortRcvPackets               uint64 = 638036947
+		hfi1Port1PortRcvRemotePhysicalErrors  uint64
+		hfi1Port1PortRcvSwitchRelayErrors     uint64
+		hfi1Port1PortXmitConstraintErrors     uint64
+		hfi1Port1PortXmitData                 uint64 = 1094233306172
+		hfi1Port1PortXmitDiscards             uint64
+		hfi1Port1PortXmitPackets              uint64 = 568318856
+		hfi1Port1PortXmitWait                 uint64
+		hfi1Port1SymbolError                  uint64
+		hfi1Port1VL15Dropped                  uint64
 
-		port2ExcessiveBufferOverrunErrors uint64
-		port2LinkDowned                   uint64
-		port2LinkErrorRecovery            uint64
-		port2LocalLinkIntegrityErrors     uint64
-		port2PortRcvConstraintErrors      uint64
-		port2PortRcvData                  uint64 = 9841747136
-		port2PortRcvErrors                uint64
-		port2PortRcvPackets               uint64 = 89332064
-		port2PortRcvRemotePhysicalErrors  uint64
-		port2PortRcvSwitchRelayErrors     uint64
-		port2PortXmitConstraintErrors     uint64
-		port2PortXmitData                 uint64 = 106161427560
-		port2PortXmitDiscards             uint64
-		port2PortXmitPackets              uint64 = 88622850
-		port2PortXmitWait                 uint64 = 3846
-		port2SymbolError                  uint64
-		port2VL15Dropped                  uint64
+		mlx4Port1ExcessiveBufferOverrunErrors uint64
+		mlx4Port1LinkDowned                   uint64
+		mlx4Port1LinkErrorRecovery            uint64
+		mlx4Port1LocalLinkIntegrityErrors     uint64
+		mlx4Port1PortRcvConstraintErrors      uint64
+		mlx4Port1PortRcvData                  uint64 = 8884894436
+		mlx4Port1PortRcvErrors                uint64
+		mlx4Port1PortRcvPackets               uint64 = 87169372
+		mlx4Port1PortRcvRemotePhysicalErrors  uint64
+		mlx4Port1PortRcvSwitchRelayErrors     uint64
+		mlx4Port1PortXmitConstraintErrors     uint64
+		mlx4Port1PortXmitData                 uint64 = 106036453180
+		mlx4Port1PortXmitDiscards             uint64
+		mlx4Port1PortXmitPackets              uint64 = 85734114
+		mlx4Port1PortXmitWait                 uint64 = 3599
+		mlx4Port1SymbolError                  uint64
+		mlx4Port1VL15Dropped                  uint64
+
+		mlx4Port2ExcessiveBufferOverrunErrors uint64
+		mlx4Port2LinkDowned                   uint64
+		mlx4Port2LinkErrorRecovery            uint64
+		mlx4Port2LocalLinkIntegrityErrors     uint64
+		mlx4Port2PortRcvConstraintErrors      uint64
+		mlx4Port2PortRcvData                  uint64 = 9841747136
+		mlx4Port2PortRcvErrors                uint64
+		mlx4Port2PortRcvPackets               uint64 = 89332064
+		mlx4Port2PortRcvRemotePhysicalErrors  uint64
+		mlx4Port2PortRcvSwitchRelayErrors     uint64
+		mlx4Port2PortXmitConstraintErrors     uint64
+		mlx4Port2PortXmitData                 uint64 = 106161427560
+		mlx4Port2PortXmitDiscards             uint64
+		mlx4Port2PortXmitPackets              uint64 = 88622850
+		mlx4Port2PortXmitWait                 uint64 = 3846
+		mlx4Port2SymbolError                  uint64
+		mlx4Port2VL15Dropped                  uint64
 	)
 
 	want := InfiniBandClass{
+		"hfi1_0": InfiniBandDevice{
+			Name:            "hfi1_0",
+			BoardID:         "HPE 100Gb 1-port OP101 QSFP28 x16 PCIe Gen3 with Intel Omni-Path Adapter",
+			FirmwareVersion: "1.27.0",
+			HCAType:         "",
+			Ports: map[uint]InfiniBandPort{
+				1: {
+					Name:        "hfi1_0",
+					Port:        1,
+					State:       "ACTIVE",
+					StateID:     4,
+					PhysState:   "LinkUp",
+					PhysStateID: 5,
+					Rate:        12500000000,
+					Counters: InfiniBandCounters{
+						ExcessiveBufferOverrunErrors: &hfi1Port1ExcessiveBufferOverrunErrors,
+						LinkDowned:                   &hfi1Port1LinkDowned,
+						LinkErrorRecovery:            &hfi1Port1LinkErrorRecovery,
+						LocalLinkIntegrityErrors:     &hfi1Port1LocalLinkIntegrityErrors,
+						PortRcvConstraintErrors:      &hfi1Port1PortRcvConstraintErrors,
+						PortRcvData:                  &hfi1Port1PortRcvData,
+						PortRcvErrors:                &hfi1Port1PortRcvErrors,
+						PortRcvPackets:               &hfi1Port1PortRcvPackets,
+						PortRcvRemotePhysicalErrors:  &hfi1Port1PortRcvRemotePhysicalErrors,
+						PortRcvSwitchRelayErrors:     &hfi1Port1PortRcvSwitchRelayErrors,
+						PortXmitConstraintErrors:     &hfi1Port1PortXmitConstraintErrors,
+						PortXmitData:                 &hfi1Port1PortXmitData,
+						PortXmitDiscards:             &hfi1Port1PortXmitDiscards,
+						PortXmitPackets:              &hfi1Port1PortXmitPackets,
+						PortXmitWait:                 &hfi1Port1PortXmitWait,
+						SymbolError:                  &hfi1Port1SymbolError,
+						VL15Dropped:                  &hfi1Port1VL15Dropped,
+					},
+				},
+			},
+		},
 		"mlx4_0": InfiniBandDevice{
 			Name:            "mlx4_0",
 			BoardID:         "SM_1141000001000",
@@ -116,23 +170,23 @@ func TestInfiniBandClass(t *testing.T) {
 					PhysStateID: 5,
 					Rate:        5000000000,
 					Counters: InfiniBandCounters{
-						ExcessiveBufferOverrunErrors: &port1ExcessiveBufferOverrunErrors,
-						LinkDowned:                   &port1LinkDowned,
-						LinkErrorRecovery:            &port1LinkErrorRecovery,
-						LocalLinkIntegrityErrors:     &port1LocalLinkIntegrityErrors,
-						PortRcvConstraintErrors:      &port1PortRcvConstraintErrors,
-						PortRcvData:                  &port1PortRcvData,
-						PortRcvErrors:                &port1PortRcvErrors,
-						PortRcvPackets:               &port1PortRcvPackets,
-						PortRcvRemotePhysicalErrors:  &port1PortRcvRemotePhysicalErrors,
-						PortRcvSwitchRelayErrors:     &port1PortRcvSwitchRelayErrors,
-						PortXmitConstraintErrors:     &port1PortXmitConstraintErrors,
-						PortXmitData:                 &port1PortXmitData,
-						PortXmitDiscards:             &port1PortXmitDiscards,
-						PortXmitPackets:              &port1PortXmitPackets,
-						PortXmitWait:                 &port1PortXmitWait,
-						SymbolError:                  &port1SymbolError,
-						VL15Dropped:                  &port1VL15Dropped,
+						ExcessiveBufferOverrunErrors: &mlx4Port1ExcessiveBufferOverrunErrors,
+						LinkDowned:                   &mlx4Port1LinkDowned,
+						LinkErrorRecovery:            &mlx4Port1LinkErrorRecovery,
+						LocalLinkIntegrityErrors:     &mlx4Port1LocalLinkIntegrityErrors,
+						PortRcvConstraintErrors:      &mlx4Port1PortRcvConstraintErrors,
+						PortRcvData:                  &mlx4Port1PortRcvData,
+						PortRcvErrors:                &mlx4Port1PortRcvErrors,
+						PortRcvPackets:               &mlx4Port1PortRcvPackets,
+						PortRcvRemotePhysicalErrors:  &mlx4Port1PortRcvRemotePhysicalErrors,
+						PortRcvSwitchRelayErrors:     &mlx4Port1PortRcvSwitchRelayErrors,
+						PortXmitConstraintErrors:     &mlx4Port1PortXmitConstraintErrors,
+						PortXmitData:                 &mlx4Port1PortXmitData,
+						PortXmitDiscards:             &mlx4Port1PortXmitDiscards,
+						PortXmitPackets:              &mlx4Port1PortXmitPackets,
+						PortXmitWait:                 &mlx4Port1PortXmitWait,
+						SymbolError:                  &mlx4Port1SymbolError,
+						VL15Dropped:                  &mlx4Port1VL15Dropped,
 					},
 				},
 				2: {
@@ -144,23 +198,23 @@ func TestInfiniBandClass(t *testing.T) {
 					PhysStateID: 5,
 					Rate:        5000000000,
 					Counters: InfiniBandCounters{
-						ExcessiveBufferOverrunErrors: &port2ExcessiveBufferOverrunErrors,
-						LinkDowned:                   &port2LinkDowned,
-						LinkErrorRecovery:            &port2LinkErrorRecovery,
-						LocalLinkIntegrityErrors:     &port2LocalLinkIntegrityErrors,
-						PortRcvConstraintErrors:      &port2PortRcvConstraintErrors,
-						PortRcvData:                  &port2PortRcvData,
-						PortRcvErrors:                &port2PortRcvErrors,
-						PortRcvPackets:               &port2PortRcvPackets,
-						PortRcvRemotePhysicalErrors:  &port2PortRcvRemotePhysicalErrors,
-						PortRcvSwitchRelayErrors:     &port2PortRcvSwitchRelayErrors,
-						PortXmitConstraintErrors:     &port2PortXmitConstraintErrors,
-						PortXmitData:                 &port2PortXmitData,
-						PortXmitDiscards:             &port2PortXmitDiscards,
-						PortXmitPackets:              &port2PortXmitPackets,
-						PortXmitWait:                 &port2PortXmitWait,
-						SymbolError:                  &port2SymbolError,
-						VL15Dropped:                  &port2VL15Dropped,
+						ExcessiveBufferOverrunErrors: &mlx4Port2ExcessiveBufferOverrunErrors,
+						LinkDowned:                   &mlx4Port2LinkDowned,
+						LinkErrorRecovery:            &mlx4Port2LinkErrorRecovery,
+						LocalLinkIntegrityErrors:     &mlx4Port2LocalLinkIntegrityErrors,
+						PortRcvConstraintErrors:      &mlx4Port2PortRcvConstraintErrors,
+						PortRcvData:                  &mlx4Port2PortRcvData,
+						PortRcvErrors:                &mlx4Port2PortRcvErrors,
+						PortRcvPackets:               &mlx4Port2PortRcvPackets,
+						PortRcvRemotePhysicalErrors:  &mlx4Port2PortRcvRemotePhysicalErrors,
+						PortRcvSwitchRelayErrors:     &mlx4Port2PortRcvSwitchRelayErrors,
+						PortXmitConstraintErrors:     &mlx4Port2PortXmitConstraintErrors,
+						PortXmitData:                 &mlx4Port2PortXmitData,
+						PortXmitDiscards:             &mlx4Port2PortXmitDiscards,
+						PortXmitPackets:              &mlx4Port2PortXmitPackets,
+						PortXmitWait:                 &mlx4Port2PortXmitWait,
+						SymbolError:                  &mlx4Port2SymbolError,
+						VL15Dropped:                  &mlx4Port2VL15Dropped,
 					},
 				},
 			},

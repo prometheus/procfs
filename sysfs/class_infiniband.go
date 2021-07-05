@@ -128,6 +128,10 @@ func (fs FS) parseInfiniBandDevice(name string) (*InfiniBandDevice, error) {
 		name := filepath.Join(path, f)
 		value, err := util.SysReadFile(name)
 		if err != nil {
+			// Not all InfiniBand drivers provide hca_type.
+			if os.IsNotExist(err) && (f == "hca_type") {
+				continue
+			}
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
 

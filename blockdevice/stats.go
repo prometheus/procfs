@@ -182,7 +182,7 @@ const (
 	procDiskstatsPath   = "diskstats"
 	procDiskstatsFormat = "%d %d %s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
 	sysBlockPath        = "block"
-	sysBlockStatFormat  = "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
+	sysBlockStatFormat  = "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
 	sysBlockQueue       = "queue"
 )
 
@@ -274,9 +274,7 @@ func (fs FS) SysBlockDevices() ([]string, error) {
 	}
 	devices := []string{}
 	for _, deviceDir := range deviceDirs {
-		if deviceDir.IsDir() {
-			devices = append(devices, deviceDir.Name())
-		}
+		devices = append(devices, deviceDir.Name())
 	}
 	return devices, nil
 }
@@ -306,6 +304,8 @@ func (fs FS) SysBlockDeviceStat(device string) (IOStats, int, error) {
 		&stat.DiscardMerges,
 		&stat.DiscardSectors,
 		&stat.DiscardTicks,
+		&stat.FlushRequestsCompleted,
+		&stat.TimeSpentFlushing,
 	)
 	// An io.EOF error is ignored because it just means we read fewer than the full 15 fields.
 	if err == io.EOF {

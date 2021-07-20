@@ -45,7 +45,7 @@ func (fs FS) NVMeClass() (NVMeClass, error) {
 
 	dirs, err := ioutil.ReadDir(path)
 	if err != nil {
-		return nil, fmt.Errorf("failed to list NVMe devices at %q: %v", path, err)
+		return nil, fmt.Errorf("failed to list NVMe devices at %q: %w", path, err)
 	}
 
 	nc := make(NVMeClass, len(dirs))
@@ -70,7 +70,7 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 		name := filepath.Join(path, f)
 		value, err := util.SysReadFile(name)
 		if err != nil {
-			return nil, fmt.Errorf("failed to read file %q: %v", name, err)
+			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
 
 		switch f {

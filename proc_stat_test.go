@@ -76,6 +76,18 @@ func TestProcStat(t *testing.T) {
 	}
 }
 
+func TestProcStatIgnored(t *testing.T) {
+	p, err := getProcFixtures(t).Proc(26232)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = p.Stat()
+	if err != nil {
+		t.Errorf("want not error, have %s", err)
+	}
+}
+
 func TestProcStatComm(t *testing.T) {
 	s1, err := testProcStat(26231)
 	if err != nil {

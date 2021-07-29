@@ -94,8 +94,8 @@ func TestProcStatLimits(t *testing.T) {
 		want int
 		have int
 	}{
-		{name: "waited-for children user time", want: math.MinInt64, have: s.CUTime},
-		{name: "waited-for children system time", want: math.MaxInt64, have: s.CSTime},
+		{name: "waited for children user time", want: math.MinInt64, have: s.CUTime},
+		{name: "waited for children system time", want: math.MaxInt64, have: s.CSTime},
 	} {
 		if test.want != test.have {
 			t.Errorf("want %s %d, have %d", test.name, test.want, test.have)

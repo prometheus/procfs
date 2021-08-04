@@ -12,6 +12,7 @@
 // limitations under the License.
 
 // +build aix darwin dragonfly freebsd linux netbsd openbsd solaris
+// +build !js
 
 package procfs
 

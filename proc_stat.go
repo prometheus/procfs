@@ -81,10 +81,10 @@ type ProcStat struct {
 	STime uint
 	// Amount of time that this process's waited-for children have been
 	// scheduled in user mode, measured in clock ticks.
-	CUTime uint
+	CUTime int
 	// Amount of time that this process's waited-for children have been
 	// scheduled in kernel mode, measured in clock ticks.
-	CSTime uint
+	CSTime int
 	// For processes running a real-time scheduling policy, this is the negated
 	// scheduling priority, minus one.
 	Priority int
@@ -141,6 +141,11 @@ func (p Proc) Stat() (ProcStat, error) {
 	}
 
 	s.Comm = string(data[l+1 : r])
+
+	// Check the following resources for the details about the particular stat
+	// fields and their data types:
+	// * https://man7.org/linux/man-pages/man5/proc.5.html
+	// * https://man7.org/linux/man-pages/man3/scanf.3.html
 	_, err = fmt.Fscan(
 		bytes.NewBuffer(data[r+2:]),
 		&s.State,

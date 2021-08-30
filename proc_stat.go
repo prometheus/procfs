@@ -128,8 +128,8 @@ func (p Proc) Stat() (ProcStat, error) {
 	}
 
 	var (
-		ignoreInt  int
-		ignoreUint uint
+		ignoreInt64  int64
+		ignoreUint64 uint64
 
 		s = ProcStat{PID: p.PID, proc: p.fs}
 		l = bytes.Index(data, []byte("("))
@@ -166,25 +166,25 @@ func (p Proc) Stat() (ProcStat, error) {
 		&s.Priority,
 		&s.Nice,
 		&s.NumThreads,
-		&ignoreInt,
+		&ignoreInt64,
 		&s.Starttime,
 		&s.VSize,
 		&s.RSS,
 		&s.RSSLimit,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreUint,
-		&ignoreInt,
-		&ignoreInt,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreUint64,
+		&ignoreInt64,
+		&ignoreInt64,
 		&s.RTPriority,
 		&s.Policy,
 		&s.DelayAcctBlkIOTicks,

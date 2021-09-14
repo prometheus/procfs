@@ -3259,6 +3259,13 @@ Lines: 1
 LVM-3zSHSR5Nbf4j7g6auAAefWY2CMaX01theZYEvQyecVsm2WtX3iY5q51qq5dWWOq7EOF
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/block/dm-0/slaves
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/block/dm-0/slaves/sda
+Lines: 0
+Mode: 664
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/dm-0/stat
 Lines: 1
 6447303        0 710266738  1529043   953216        0 31201176  4557464        0   796160  6088971

@@ -3231,6 +3231,34 @@ Mode: 775
 Directory: fixtures/sys/block/dm-0
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/block/dm-0/dm
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/block/dm-0/dm/name
+Lines: 1
+vg0--lv_rootEOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/block/dm-0/dm/rq_based_seq_io_merge_deadline
+Lines: 1
+0EOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/block/dm-0/dm/suspended
+Lines: 1
+0EOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/block/dm-0/dm/use_blk_mq
+Lines: 1
+0EOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/block/dm-0/dm/uuid
+Lines: 1
+LVM-3zSHSR5Nbf4j7g6auAAefWY2CMaX01theZYEvQyecVsm2WtX3iY5q51qq5dWWOq7EOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/dm-0/stat
 Lines: 1
 6447303        0 710266738  1529043   953216        0 31201176  4557464        0   796160  6088971
@@ -3478,6 +3506,7 @@ Mode: 664
 Directory: fixtures/sys/class
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+<<<<<<< HEAD
 Directory: fixtures/sys/class/dmi
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -3593,6 +3622,28 @@ Path: fixtures/sys/class/dmi/id/uevent
 Lines: 1
 MODALIAS=dmi:bvnDellInc.:bvr2.2.4:bd04/12/2021:br2.2:svnDellInc.:pnPowerEdgeR6515:pvr:rvnDellInc.:rn07PXPY:rvrA01:cvnDellInc.:ct23:cvr:
 Mode: 644
+=======
+Directory: fixtures/sys/class/block
+Mode: 775
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-0
+SymlinkTo: ../../devices/virtual/block/dm-0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-1
+SymlinkTo: ../../devices/virtual/block/dm-1
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-2
+SymlinkTo: ../../devices/virtual/block/dm-2
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-3
+SymlinkTo: ../../devices/virtual/block/dm-3
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-4
+SymlinkTo: ../../devices/virtual/block/dm-4
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-5
+SymlinkTo: ../../devices/virtual/block/dm-5
+>>>>>>> fdb88ff (Expose device-mapper information as DeviceMapperInfo)
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/drm
 Mode: 755
@@ -6490,6 +6541,15 @@ nr_zone_inactive_file 10
 nr_zone_active_file 11
 nr_zone_unevictable 12
 Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/virtual
+Mode: 775
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/virtual/block
+Mode: 775
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/virtual/block/dm-0
+Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs
 Mode: 755

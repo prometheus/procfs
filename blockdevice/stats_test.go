@@ -152,3 +152,29 @@ func TestBlockDevice(t *testing.T) {
 		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", blockQueueStatExpected, blockQueueStat)
 	}
 }
+
+func TestBlockDmInfo(t *testing.T) {
+	blockdevice, err := NewFS("../fixtures/proc", "../fixtures/sys")
+	if err != nil {
+		t.Fatalf("failed to access blockdevice fs: %v", err)
+	}
+	devices, err := blockdevice.SysBlockDevices()
+	if err != nil {
+		t.Fatal(err)
+	}
+	dm0Info, err := blockdevice.SysBlockDeviceMapperInfo(devices[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dm0InfoExpected := DeviceMapperInfo{
+		Name:                      "vg0--lv_root",
+		RqBasedSeqIOMergeDeadline: 0,
+		Suspended:                 0,
+		UseBlkMq:                  0,
+		Uuid:                      "LVM-3zSHSR5Nbf4j7g6auAAefWY2CMaX01theZYEvQyecVsm2WtX3iY5q51qq5dWWOq7",
+	}
+	if !reflect.DeepEqual(dm0Info, dm0InfoExpected) {
+		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", dm0InfoExpected, dm0Info)
+	}
+}

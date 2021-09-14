@@ -21,9 +21,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
-
 	"github.com/prometheus/procfs/internal/fs"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // Info contains identifying information for a block device such as a disk drive
@@ -196,6 +195,12 @@ type DeviceMapperInfo struct {
 	Uuid string
 }
 
+// UnderlyingDevices models the list of devices that this device is built from.
+type UnderlyingDeviceInfo struct {
+	// DeviceNames is the list of devices names
+	DeviceNames []string
+}
+
 const (
 	procDiskstatsPath   = "diskstats"
 	procDiskstatsFormat = "%d %d %s %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
@@ -203,6 +208,7 @@ const (
 	sysBlockStatFormat  = "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
 	sysBlockQueue       = "queue"
 	sysBlockDm          = "dm"
+	sysUnderlyingDev    = "slaves"
 )
 
 // FS represents the pseudo-filesystems proc and sys, which provides an
@@ -444,4 +450,17 @@ func (fs FS) SysBlockDeviceMapperInfo(device string) (DeviceMapperInfo, error) {
 		*p = val
 	}
 	return info, nil
+}
+
+func (fs FS) SysBlockDeviceUnderlyingDevices(device string) (UnderlyingDeviceInfo, error) {
+	underlyingDir, err := os.Open(fs.sys.Path(sysBlockPath, device, sysUnderlyingDev))
+	if err != nil {
+		return UnderlyingDeviceInfo{}, err
+	}
+	underlying, err := underlyingDir.Readdirnames(0)
+	if err != nil {
+		return UnderlyingDeviceInfo{}, err
+	}
+	return UnderlyingDeviceInfo{DeviceNames: underlying}, nil
+
 }

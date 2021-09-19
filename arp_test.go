@@ -33,11 +33,35 @@ func TestARP(t *testing.T) {
 		t.Errorf("want 192.168.224.1, got %s", got)
 	}
 
-	if want, got := net.HardwareAddr("00:50:56:c0:00:08").String(), arpFile[0].HWAddr.String(); want != got {
-		t.Errorf("want 00:50:56:c0:00:08, got %s", got)
+	if want, got := "00:50:56:c0:00:08", arpFile[0].HWAddr.String(); want != got {
+		t.Errorf("want %s, got %s", want, got)
 	}
 
 	if want, got := "ens33", arpFile[0].Device; want != got {
 		t.Errorf("want ens33, got %s", got)
+	}
+
+	if want, got := true, arpFile[0].IsComplete(); want != got {
+		t.Errorf("want %t, got %t", want, got)
+	}
+
+	if want, got := "192.168.224.2", arpFile[1].IPAddr.String(); want != got {
+		t.Errorf("want 192.168.224.2, got %s", got)
+	}
+
+	if want, got := make(net.HardwareAddr, 6).String(), arpFile[1].HWAddr.String(); want != got {
+		t.Errorf("expected empty MAC, got %s", got)
+	}
+
+	if want, got := "ens33", arpFile[1].Device; want != got {
+		t.Errorf("want %s, got %s", want, got)
+	}
+
+	if want, got := byte(0x0), arpFile[1].Flags; want != got {
+		t.Errorf("want %b, got %b", want, got)
+	}
+
+	if want, got := false, arpFile[1].IsComplete(); want != got {
+		t.Errorf("want %t, got %t", want, got)
 	}
 }

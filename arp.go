@@ -24,17 +24,17 @@ import (
 // Learned from include/uapi/linux/if_arp.h
 const (
 	// completed entry (ha valid)
-	ATF_Complete = 0x02
+	ATFComplete = 0x02
 	// permanent entry
-	ATF_Permanent = 0x04
+	ATFPermanent = 0x04
 	// Publish entry
-	ATF_Publish = 0x08
+	ATFPublish = 0x08
 	// Has requested trailers
-	ATF_UseTrailers = 0x10
+	ATFUseTrailers = 0x10
 	// Obsoleted: Want to use a netmask (only for proxy entries)
-	ATF_Netmask = 0x20
+	ATFNetmask = 0x20
 	// Don't answer this addresses
-	ATF_DontPublish = 0x40
+	ATFDontPublish = 0x40
 )
 
 // ARPEntry contains a single row of the columnar data represented in
@@ -110,6 +110,7 @@ func parseARPEntry(columns []string) (ARPEntry, error) {
 	return entry, nil
 }
 
+// IsComplete returns true if ARP entry is marked with complete flag
 func (entry *ARPEntry) IsComplete() bool {
-	return entry.Flags&ATF_Complete != 0
+	return entry.Flags&ATFComplete != 0
 }

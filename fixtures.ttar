@@ -2084,9 +2084,10 @@ Directory: fixtures/proc/net
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/net/arp
-Lines: 2
+Lines: 3
 IP address       HW type     Flags       HW address            Mask     Device
 192.168.224.1    0x1         0x2         00:50:56:c0:00:08     *        ens33
+192.168.224.2    0x1         0x0         00:00:00:00:00:00     *        ens33
 Mode: 664
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/net/dev

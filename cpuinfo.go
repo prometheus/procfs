@@ -184,6 +184,11 @@ func parseCPUInfoX86(info []byte) ([]CPUInfo, error) {
 			cpuinfo[i].PowerManagement = field[1]
 		}
 	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("failed to parse cpuinfo: %v", err)
+	}
+
 	return cpuinfo, nil
 }
 
@@ -244,6 +249,11 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 			cpuinfo[i].ModelName = field[1]
 		}
 	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("failed to parse cpuinfo: %v", err)
+	}
+
 	fields := strings.SplitN(featuresLine, ": ", 2)
 	for i := range cpuinfo {
 		cpuinfo[i].Flags = strings.Fields(fields[1])
@@ -333,6 +343,10 @@ func parseCPUInfoS390X(info []byte) ([]CPUInfo, error) {
 		}
 	}
 
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("failed to parse cpuinfo: %v", err)
+	}
+
 	return cpuinfo, nil
 }
 
@@ -376,6 +390,11 @@ func parseCPUInfoMips(info []byte) ([]CPUInfo, error) {
 			cpuinfo[i].BogoMips = v
 		}
 	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("failed to parse cpuinfo: %v", err)
+	}
+
 	return cpuinfo, nil
 }
 
@@ -421,6 +440,11 @@ func parseCPUInfoPPC(info []byte) ([]CPUInfo, error) {
 			cpuinfo[i].CPUMHz = v
 		}
 	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("failed to parse cpuinfo: %v", err)
+	}
+
 	return cpuinfo, nil
 }
 
@@ -461,6 +485,11 @@ func parseCPUInfoRISCV(info []byte) ([]CPUInfo, error) {
 			cpuinfo[i].ModelName = field[1]
 		}
 	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("failed to parse cpuinfo: %v", err)
+	}
+
 	return cpuinfo, nil
 }
 

@@ -16,6 +16,7 @@ package procfs
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"os"
 	"sort"
 	"strconv"
@@ -75,7 +76,8 @@ func newNetDev(file string) (NetDev, error) {
 
 		line, err := netDev.parseLine(s.Text())
 		if err != nil {
-			return netDev, err
+			fmt.Printf("[ERROR] failed to parse line: %v", s.Text())
+			continue
 		}
 
 		netDev[line.Name] = *line

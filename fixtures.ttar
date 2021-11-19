@@ -3513,6 +3513,27 @@ Mode: 664
 Directory: fixtures/sys/class
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/block
+Mode: 775
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-0
+SymlinkTo: ../../devices/virtual/block/dm-0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-1
+SymlinkTo: ../../devices/virtual/block/dm-1
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-2
+SymlinkTo: ../../devices/virtual/block/dm-2
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-3
+SymlinkTo: ../../devices/virtual/block/dm-3
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-4
+SymlinkTo: ../../devices/virtual/block/dm-4
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/block/dm-5
+SymlinkTo: ../../devices/virtual/block/dm-5
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/dmi
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -3628,26 +3649,6 @@ Path: fixtures/sys/class/dmi/id/uevent
 Lines: 1
 MODALIAS=dmi:bvnDellInc.:bvr2.2.4:bd04/12/2021:br2.2:svnDellInc.:pnPowerEdgeR6515:pvr:rvnDellInc.:rn07PXPY:rvrA01:cvnDellInc.:ct23:cvr:
 Mode: 644
-Directory: fixtures/sys/class/block
-Mode: 775
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/block/dm-0
-SymlinkTo: ../../devices/virtual/block/dm-0
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/block/dm-1
-SymlinkTo: ../../devices/virtual/block/dm-1
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/block/dm-2
-SymlinkTo: ../../devices/virtual/block/dm-2
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/block/dm-3
-SymlinkTo: ../../devices/virtual/block/dm-3
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/block/dm-4
-SymlinkTo: ../../devices/virtual/block/dm-4
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/block/dm-5
-SymlinkTo: ../../devices/virtual/block/dm-5
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/drm
 Mode: 755

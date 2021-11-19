@@ -189,10 +189,10 @@ type DeviceMapperInfo struct {
 	RqBasedSeqIOMergeDeadline uint64
 	// Suspended indicates if the device is suspended (1 is on, 0 is off).
 	Suspended uint64
-	// UseBlkMq indicates if the device is using the request-based blk-mq I/O path mode (1 is on, 0 is off).
-	UseBlkMq uint64
-	// Uuid is the DM-UUID string or empty string if DM-UUID is not set.
-	Uuid string
+	// UseBlkMQ indicates if the device is using the request-based blk-mq I/O path mode (1 is on, 0 is off).
+	UseBlkMQ uint64
+	// UUID is the DM-UUID string or empty string if DM-UUID is not set.
+	UUID string
 }
 
 // UnderlyingDevices models the list of devices that this device is built from.
@@ -207,7 +207,7 @@ const (
 	sysBlockPath        = "block"
 	sysBlockStatFormat  = "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d"
 	sysBlockQueue       = "queue"
-	sysBlockDm          = "dm"
+	sysBlockDM          = "dm"
 	sysUnderlyingDev    = "slaves"
 )
 
@@ -430,9 +430,9 @@ func (fs FS) SysBlockDeviceMapperInfo(device string) (DeviceMapperInfo, error) {
 	for file, p := range map[string]*uint64{
 		"rq_based_seq_io_merge_deadline": &info.RqBasedSeqIOMergeDeadline,
 		"suspended":                      &info.Suspended,
-		"use_blk_mq":                     &info.UseBlkMq,
+		"use_blk_mq":                     &info.UseBlkMQ,
 	} {
-		val, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockDm, file))
+		val, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockDM, file))
 		if err != nil {
 			return DeviceMapperInfo{}, err
 		}
@@ -441,9 +441,9 @@ func (fs FS) SysBlockDeviceMapperInfo(device string) (DeviceMapperInfo, error) {
 	// files with string fields
 	for file, p := range map[string]*string{
 		"name": &info.Name,
-		"uuid": &info.Uuid,
+		"uuid": &info.UUID,
 	} {
-		val, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockDm, file))
+		val, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockDM, file))
 		if err != nil {
 			return DeviceMapperInfo{}, err
 		}

@@ -172,8 +172,8 @@ func TestBlockDmInfo(t *testing.T) {
 		Name:                      "vg0--lv_root",
 		RqBasedSeqIOMergeDeadline: 0,
 		Suspended:                 0,
-		UseBlkMq:                  0,
-		Uuid:                      "LVM-3zSHSR5Nbf4j7g6auAAefWY2CMaX01theZYEvQyecVsm2WtX3iY5q51qq5dWWOq7",
+		UseBlkMQ:                  0,
+		UUID:                      "LVM-3zSHSR5Nbf4j7g6auAAefWY2CMaX01theZYEvQyecVsm2WtX3iY5q51qq5dWWOq7",
 	}
 	if !reflect.DeepEqual(dm0Info, dm0InfoExpected) {
 		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", dm0InfoExpected, dm0Info)

@@ -82,7 +82,7 @@ func (fs FS) Self() (Proc, error) {
 
 // NewProc returns a process for the given pid.
 //
-// Deprecated: use fs.Proc() instead
+// Deprecated: Use fs.Proc() instead.
 func (fs FS) NewProc(pid int) (Proc, error) {
 	return fs.Proc(pid)
 }
@@ -185,7 +185,7 @@ func (p Proc) Cwd() (string, error) {
 	return wd, err
 }
 
-// RootDir returns the absolute path to the process's root directory (as set by chroot)
+// RootDir returns the absolute path to the process's root directory (as set by chroot).
 func (p Proc) RootDir() (string, error) {
 	rdir, err := os.Readlink(p.path("root"))
 	if os.IsNotExist(err) {

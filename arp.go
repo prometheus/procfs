@@ -21,19 +21,19 @@ import (
 	"strings"
 )
 
-// Learned from include/uapi/linux/if_arp.h
+// Learned from include/uapi/linux/if_arp.h.
 const (
-	// completed entry (ha valid)
+	// completed entry (ha valid).
 	ATFComplete = 0x02
-	// permanent entry
+	// permanent entry.
 	ATFPermanent = 0x04
-	// Publish entry
+	// Publish entry.
 	ATFPublish = 0x08
-	// Has requested trailers
+	// Has requested trailers.
 	ATFUseTrailers = 0x10
-	// Obsoleted: Want to use a netmask (only for proxy entries)
+	// Obsoleted: Want to use a netmask (only for proxy entries).
 	ATFNetmask = 0x20
-	// Don't answer this addresses
+	// Don't answer this addresses.
 	ATFDontPublish = 0x40
 )
 
@@ -110,7 +110,7 @@ func parseARPEntry(columns []string) (ARPEntry, error) {
 	return entry, nil
 }
 
-// IsComplete returns true if ARP entry is marked with complete flag
+// IsComplete returns true if ARP entry is marked with complete flag.
 func (entry *ARPEntry) IsComplete() bool {
 	return entry.Flags&ATFComplete != 0
 }

@@ -51,8 +51,8 @@ func NewFS(mountPoint string) (FS, error) {
 	return FS{&fs}, nil
 }
 
-// Stats is a wrapper around stats()
-// It returns full available statistics
+// Stats is a wrapper around stats().
+// It returns full available statistics.
 func (fs FS) Stats() ([]*Stats, error) {
 	return fs.stats(true)
 }

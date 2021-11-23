@@ -25,17 +25,17 @@ import (
 	"github.com/prometheus/procfs/internal/fs"
 )
 
-// Info contains identifying information for a block device such as a disk drive
+// Info contains identifying information for a block device such as a disk drive.
 type Info struct {
 	MajorNumber uint32
 	MinorNumber uint32
 	DeviceName  string
 }
 
-// IOStats models the iostats data described in the kernel documentation
-// https://www.kernel.org/doc/Documentation/iostats.txt,
-// https://www.kernel.org/doc/Documentation/block/stat.txt,
-// and https://www.kernel.org/doc/Documentation/ABI/testing/procfs-diskstats
+// IOStats models the iostats data described in the kernel documentation.
+// - https://www.kernel.org/doc/Documentation/iostats.txt,
+// - https://www.kernel.org/doc/Documentation/block/stat.txt
+// - https://www.kernel.org/doc/Documentation/ABI/testing/procfs-diskstats
 type IOStats struct {
 	// ReadIOs is the number of reads completed successfully.
 	ReadIOs uint64
@@ -76,7 +76,7 @@ type IOStats struct {
 	TimeSpentFlushing uint64
 }
 
-// Diskstats combines the device Info and IOStats
+// Diskstats combines the device Info and IOStats.
 type Diskstats struct {
 	Info
 	IOStats
@@ -220,7 +220,7 @@ func NewFS(procMountPoint string, sysMountPoint string) (FS, error) {
 }
 
 // ProcDiskstats reads the diskstats file and returns
-// an array of Diskstats (one per line/device)
+// an array of Diskstats (one per line/device).
 func (fs FS) ProcDiskstats() ([]Diskstats, error) {
 	file, err := os.Open(fs.proc.Path(procDiskstatsPath))
 	if err != nil {
@@ -266,7 +266,7 @@ func (fs FS) ProcDiskstats() ([]Diskstats, error) {
 	return diskstats, scanner.Err()
 }
 
-// SysBlockDevices lists the device names from /sys/block/<dev>
+// SysBlockDevices lists the device names from /sys/block/<dev>.
 func (fs FS) SysBlockDevices() ([]string, error) {
 	deviceDirs, err := ioutil.ReadDir(fs.sys.Path(sysBlockPath))
 	if err != nil {

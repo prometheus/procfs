@@ -14,21 +14,24 @@
 package procfs
 
 import (
+	"fmt"
 	"testing"
 )
 
 func TestNetDevParseLine(t *testing.T) {
-	const rawLine = `  eth0: 1 2 3    4    5     6          7         8 9  10    11    12    13     14       15          16`
-
-	have, err := NetDev{}.parseLine(rawLine)
-	if err != nil {
-		t.Fatal(err)
+	tc := []string{"eth0", "eth0:1"}
+	for i := range tc {
+		rawLine := fmt.Sprintf(`  %v: 1 2 3    4    5     6          7         8 9  10    11    12    13     14       15          16`, tc[i])
+		have, err := NetDev{}.parseLine(rawLine)
+		if err != nil {
+			t.Fatal(err)
+		}
+		want := NetDevLine{tc[i], 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}
+		if want != *have {
+			t.Errorf("want %v, have %v", want, have)
+		}
 	}
 
-	want := NetDevLine{"eth0", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}
-	if want != *have {
-		t.Errorf("want %v, have %v", want, have)
-	}
 }
 
 func TestNetDev(t *testing.T) {

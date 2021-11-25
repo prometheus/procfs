@@ -26,8 +26,8 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
-// GetStats is the main iscsi status information func
-// building the path and prepare info for enable iscsi
+// GetStats is the main iscsi status information func for
+// building the path and prepare info for enable iscsi.
 func GetStats(iqnPath string) (*Stats, error) {
 	var istats Stats
 
@@ -58,8 +58,7 @@ func GetStats(iqnPath string) (*Stats, error) {
 	return &istats, nil
 }
 
-// isPathEnable is a utility function
-// check if the file "enable" contain enable message
+// isPathEnable checks if the file "enable" contain enable message.
 func isPathEnable(path string) (bool, error) {
 	enableReadout, err := ioutil.ReadFile(filepath.Join(path, "enable"))
 	if err != nil {
@@ -104,7 +103,7 @@ func getLunLinkTarget(lunPath string) (lunObject LUN, err error) {
 }
 
 // ReadWriteOPS read and return the stat of read and write in megabytes,
-// and total commands that send to the target
+// and total commands that send to the target.
 func ReadWriteOPS(iqnPath string, tpgt string, lun string) (readmb uint64,
 	writemb uint64, iops uint64, err error) {
 
@@ -133,7 +132,7 @@ func ReadWriteOPS(iqnPath string, tpgt string, lun string) (readmb uint64,
 }
 
 // GetFileioUdev is getting the actual info to build up
-// the FILEIO data and match with the enable target
+// the FILEIO data and match with the enable target.
 func (fs FS) GetFileioUdev(fileioNumber string, objectName string) (*FILEIO, error) {
 	fileio := FILEIO{
 		Name:       "fileio_" + fileioNumber,
@@ -155,7 +154,7 @@ func (fs FS) GetFileioUdev(fileioNumber string, objectName string) (*FILEIO, err
 }
 
 // GetIblockUdev is getting the actual info to build up
-// the IBLOCK data and match with the enable target
+// the IBLOCK data and match with the enable target.
 func (fs FS) GetIblockUdev(iblockNumber string, objectName string) (*IBLOCK, error) {
 	iblock := IBLOCK{
 		Name:       "iblock_" + iblockNumber,
@@ -177,7 +176,7 @@ func (fs FS) GetIblockUdev(iblockNumber string, objectName string) (*IBLOCK, err
 }
 
 // GetRBDMatch is getting the actual info to build up
-// the RBD data and match with the enable target
+// the RBD data and match with the enable target.
 func (fs FS) GetRBDMatch(rbdNumber string, poolImage string) (*RBD, error) {
 	rbd := RBD{
 		Name:    "rbd_" + rbdNumber,
@@ -222,7 +221,7 @@ func (fs FS) GetRBDMatch(rbdNumber string, poolImage string) (*RBD, error) {
 	return nil, nil
 }
 
-// GetRDMCPPath is getting the actual info to build up RDMCP data
+// GetRDMCPPath is getting the actual info to build up RDMCP data.
 func (fs FS) GetRDMCPPath(rdmcpNumber string, objectName string) (*RDMCP, error) {
 	rdmcp := RDMCP{
 		Name:       "rd_mcp_" + rdmcpNumber,

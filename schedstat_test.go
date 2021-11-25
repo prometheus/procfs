@@ -97,7 +97,7 @@ func TestProcSchedstatErrors(t *testing.T) {
 	}
 }
 
-// schedstat can have a 2nd line: it should be ignored
+// schedstat can have a 2nd line: it should be ignored.
 func TestProcSchedstatMultipleLines(t *testing.T) {
 	schedstat, err := parseProcSchedstat("123 456 789\n10 11\n")
 	if err != nil {

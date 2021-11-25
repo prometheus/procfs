@@ -82,7 +82,7 @@ func (fs FS) NetClassDevices() ([]string, error) {
 	return res, nil
 }
 
-// NetClassByIface returns info for a single net interfaces (iface)
+// NetClassByIface returns info for a single net interfaces (iface).
 func (fs FS) NetClassByIface(devicePath string) (*NetClassIface, error) {
 	path := fs.sys.Path(netclassPath)
 

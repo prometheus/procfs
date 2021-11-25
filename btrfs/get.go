@@ -80,7 +80,7 @@ func (fs FS) Stats() ([]*Stats, error) {
 	return stats, nil
 }
 
-// GetStats collects all Btrfs statistics from sysfs
+// GetStats collects all Btrfs statistics from sysfs.
 func GetStats(uuidPath string) (*Stats, error) {
 	r := &reader{path: uuidPath}
 	s := r.readFilesystemStats()
@@ -162,7 +162,7 @@ func (r *reader) readAllocationStats(d string) (a *AllocationStats) {
 	return
 }
 
-// readLayouts reads all Btrfs layout statistics for the current path
+// readLayouts reads all Btrfs layout statistics for the current path.
 func (r *reader) readLayouts() map[string]*LayoutUsage {
 	files, err := ioutil.ReadDir(r.path)
 	if err != nil {

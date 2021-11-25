@@ -247,7 +247,7 @@ func logOperationStats(us []uint32) (LogOperationStats, error) {
 	}, nil
 }
 
-// push_ail
+// pushAilStats handles push_ail stats.
 func pushAilStats(us []uint32) (PushAilStats, error) {
 	if l := len(us); l != 10 {
 		return PushAilStats{}, fmt.Errorf("incorrect number of values for XFS push ail stats: %d", l)
@@ -267,7 +267,7 @@ func pushAilStats(us []uint32) (PushAilStats, error) {
 	}, nil
 }
 
-// xstrat
+// xStratStats handles xstrat stats.
 func xStratStats(us []uint32) (XstratStats, error) {
 	if l := len(us); l != 2 {
 		return XstratStats{}, fmt.Errorf("incorrect number of values for XFS  xstrat stats: %d", l)
@@ -279,7 +279,7 @@ func xStratStats(us []uint32) (XstratStats, error) {
 	}, nil
 }
 
-// rw
+// readWriteStats handles rw stats.
 func readWriteStats(us []uint32) (ReadWriteStats, error) {
 	if l := len(us); l != 2 {
 		return ReadWriteStats{}, fmt.Errorf("incorrect number of values for XFS read write stats: %d", l)
@@ -417,7 +417,7 @@ func debugStats(us []uint32) (DebugStats, error) {
 	}, nil
 }
 
-// abtb2
+// btreeAllocBlocks2Stats handles abtb2 stats.
 func btreeAllocBlocks2Stats(us []uint32) (BtreeAllocBlocks2Stats, error) {
 	if l := len(us); l != 15 {
 		return BtreeAllocBlocks2Stats{}, fmt.Errorf("incorrect number of values for abtb2 stats: %d", 1)
@@ -442,7 +442,7 @@ func btreeAllocBlocks2Stats(us []uint32) (BtreeAllocBlocks2Stats, error) {
 	}, nil
 }
 
-// abtc2
+// btreeAllocContig2Stats handles abtc2 stats.
 func btreeAllocContig2Stats(us []uint32) (BtreeAllocContig2Stats, error) {
 	if l := len(us); l != 15 {
 		return BtreeAllocContig2Stats{}, fmt.Errorf("incorrect number of values for abtc2 stats: %d", 1)
@@ -467,7 +467,7 @@ func btreeAllocContig2Stats(us []uint32) (BtreeAllocContig2Stats, error) {
 	}, nil
 }
 
-// bmbt2
+// btreeBlockMap2Stats handles bmbt2 stats.
 func btreeBlockMap2Stats(us []uint32) (BtreeBlockMap2Stats, error) {
 	if l := len(us); l != 15 {
 		return BtreeBlockMap2Stats{}, fmt.Errorf("incorrect number of values for bmbt2 stats: %d", 1)
@@ -492,7 +492,7 @@ func btreeBlockMap2Stats(us []uint32) (BtreeBlockMap2Stats, error) {
 	}, nil
 }
 
-// ibt2
+// btreeInode2Stats handles ibt2 stats.
 func btreeInode2Stats(us []uint32) (BtreeInode2Stats, error) {
 	if l := len(us); l != 15 {
 		return BtreeInode2Stats{}, fmt.Errorf("incorrect number of values for ibt2 stats: %d", 1)

@@ -25,15 +25,15 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
-// CPU represents a path to a CPU located in /sys/devices/system/cpu/cpu[0-9]*
+// CPU represents a path to a CPU located in `/sys/devices/system/cpu/cpu[0-9]*`.
 type CPU string
 
-// Number returns the ID number of the given CPU
+// Number returns the ID number of the given CPU.
 func (c CPU) Number() string {
 	return strings.TrimPrefix(filepath.Base(string(c)), "cpu")
 }
 
-// CPUTopology contains data located in /sys/devices/system/cpu/cpu[0-9]*/topology
+// CPUTopology contains data located in `/sys/devices/system/cpu/cpu[0-9]*/topology`.
 type CPUTopology struct {
 	CoreID             string
 	CoreSiblingsList   string
@@ -41,13 +41,13 @@ type CPUTopology struct {
 	ThreadSiblingsList string
 }
 
-// CPUThermalThrottle contains data from /sys/devices/system/cpu/cpu[0-9]*/thermal_throttle
+// CPUThermalThrottle contains data from `/sys/devices/system/cpu/cpu[0-9]*/thermal_throttle`.
 type CPUThermalThrottle struct {
 	CoreThrottleCount    uint64
 	PackageThrottleCount uint64
 }
 
-// SystemCPUCpufreqStats contains stats from devices/system/cpu/cpu[0-9]*/cpufreq/...
+// SystemCPUCpufreqStats contains stats from `/sys/devices/system/cpu/cpu[0-9]*/cpufreq/...`.
 type SystemCPUCpufreqStats struct {
 	Name                     string
 	CpuinfoCurrentFrequency  *uint64
@@ -64,7 +64,7 @@ type SystemCPUCpufreqStats struct {
 	SetSpeed                 string
 }
 
-// CPUs returns a slice of all CPUs in /sys/devices/system/cpu
+// CPUs returns a slice of all CPUs in `/sys/devices/system/cpu`.
 func (fs FS) CPUs() ([]CPU, error) {
 	cpuPaths, err := filepath.Glob(fs.sys.Path("devices/system/cpu/cpu[0-9]*"))
 	if err != nil {
@@ -77,7 +77,7 @@ func (fs FS) CPUs() ([]CPU, error) {
 	return cpus, nil
 }
 
-// Topology gets the topology information for a single CPU from /sys/devices/system/cpu/cpuN/topology
+// Topology gets the topology information for a single CPU from `/sys/devices/system/cpu/cpuN/topology`.
 func (c CPU) Topology() (*CPUTopology, error) {
 	cpuTopologyPath := filepath.Join(string(c), "topology")
 	if _, err := os.Stat(cpuTopologyPath); err != nil {
@@ -112,7 +112,7 @@ func parseCPUTopology(cpuPath string) (*CPUTopology, error) {
 	return &t, nil
 }
 
-// ThermalThrottle gets the cpu throttle count information for a single CPU from /sys/devices/system/cpu/cpuN/thermal_throttle
+// ThermalThrottle gets the cpu throttle count information for a single CPU from `/sys/devices/system/cpu/cpuN/thermal_throttle`.
 func (c CPU) ThermalThrottle() (*CPUThermalThrottle, error) {
 	cpuPath := filepath.Join(string(c), "thermal_throttle")
 	if _, err := os.Stat(cpuPath); err != nil {

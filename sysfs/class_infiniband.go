@@ -164,7 +164,7 @@ func (fs FS) parseInfiniBandDevice(name string) (*InfiniBandDevice, error) {
 	return &device, nil
 }
 
-// Parse InfiniBand state. Expected format: "<id>: <string-representation>"
+// Parse InfiniBand state. Expected format: "<id>: <string-representation>".
 func parseState(s string) (uint, string, error) {
 	parts := strings.Split(s, ":")
 	if len(parts) != 2 {
@@ -179,7 +179,7 @@ func parseState(s string) (uint, string, error) {
 	return id, name, nil
 }
 
-// Parse rate (example: "100 Gb/sec (4X EDR)") and return it as bytes/second
+// Parse rate (example: "100 Gb/sec (4X EDR)") and return it as bytes/second.
 func parseRate(s string) (uint64, error) {
 	parts := strings.SplitAfterN(s, " ", 2)
 	if len(parts) != 2 {

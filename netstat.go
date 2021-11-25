@@ -21,13 +21,13 @@ import (
 	"strings"
 )
 
-// NetStat contains statistics for all the counters from one file
+// NetStat contains statistics for all the counters from one file.
 type NetStat struct {
 	Stats    map[string][]uint64
 	Filename string
 }
 
-// NetStat retrieves stats from /proc/net/stat/
+// NetStat retrieves stats from `/proc/net/stat/`.
 func (fs FS) NetStat() ([]NetStat, error) {
 	statFiles, err := filepath.Glob(fs.proc.Path("net/stat/*"))
 	if err != nil {

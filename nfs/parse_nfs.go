@@ -22,7 +22,7 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
-// ParseClientRPCStats returns stats read from /proc/net/rpc/nfs
+// ParseClientRPCStats returns stats read from /proc/net/rpc/nfs.
 func ParseClientRPCStats(r io.Reader) (*ClientRPCStats, error) {
 	stats := &ClientRPCStats{}
 

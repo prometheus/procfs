@@ -26,7 +26,7 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-// ProcMapPermissions contains permission settings read from /proc/[pid]/maps
+// ProcMapPermissions contains permission settings read from `/proc/[pid]/maps`.
 type ProcMapPermissions struct {
 	// mapping has the [R]ead flag set
 	Read bool
@@ -40,8 +40,8 @@ type ProcMapPermissions struct {
 	Private bool
 }
 
-// ProcMap contains the process memory-mappings of the process,
-// read from /proc/[pid]/maps
+// ProcMap contains the process memory-mappings of the process
+// read from `/proc/[pid]/maps`.
 type ProcMap struct {
 	// The start address of current mapping.
 	StartAddr uintptr
@@ -80,7 +80,7 @@ func parseDevice(s string) (uint64, error) {
 	return unix.Mkdev(uint32(major), uint32(minor)), nil
 }
 
-// parseAddress just converts a hex-string to a uintptr
+// parseAddress converts a hex-string to a uintptr.
 func parseAddress(s string) (uintptr, error) {
 	a, err := strconv.ParseUint(s, 16, 0)
 	if err != nil {
@@ -90,7 +90,7 @@ func parseAddress(s string) (uintptr, error) {
 	return uintptr(a), nil
 }
 
-// parseAddresses parses the start-end address
+// parseAddresses parses the start-end address.
 func parseAddresses(s string) (uintptr, uintptr, error) {
 	toks := strings.Split(s, "-")
 	if len(toks) < 2 {

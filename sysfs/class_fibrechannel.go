@@ -83,7 +83,7 @@ func (fs FS) FibreChannelClass() (FibreChannelClass, error) {
 	return fcc, nil
 }
 
-// Parse a single FC host
+// Parse a single FC host.
 func (fs FS) parseFibreChannelHost(name string) (*FibreChannelHost, error) {
 	path := fs.sys.Path(fibrechannelClassPath, name)
 	host := FibreChannelHost{Name: name}

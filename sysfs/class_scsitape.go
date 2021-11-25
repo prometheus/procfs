@@ -75,7 +75,7 @@ func (fs FS) SCSITapeClass() (SCSITapeClass, error) {
 	return stc, nil
 }
 
-// Parse a single scsi_tape
+// Parse a single scsi_tape.
 func (fs FS) parseSCSITape(name string) (*SCSITape, error) {
 	path := fs.sys.Path(scsiTapeClassPath, name)
 	tape := SCSITape{Name: name}

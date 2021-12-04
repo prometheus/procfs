@@ -342,7 +342,7 @@ func (fs FS) SysBlockDeviceStat(device string) (IOStats, int, error) {
 // SysBlockDeviceQueueStats returns stats for /sys/block/xxx/queue where xxx is a device name.
 func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 	stat := BlockQueueStats{}
-	// files with uint64 fields
+	// Files with uint64 fields
 	for file, p := range map[string]*uint64{
 		"add_random":             &stat.AddRandom,
 		"dax":                    &stat.DAX,
@@ -380,7 +380,7 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 		}
 		*p = val
 	}
-	// files with int64 fields
+	// Files with int64 fields
 	for file, p := range map[string]*int64{
 		"io_poll_delay": &stat.IOPollDelay,
 		"wbt_lat_usec":  &stat.WBTLatUSec,
@@ -391,7 +391,7 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 		}
 		*p = val
 	}
-	// files with string fields
+	// Files with string fields
 	for file, p := range map[string]*string{
 		"write_cache": &stat.WriteCache,
 		"zoned":       &stat.Zoned,
@@ -426,7 +426,7 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 
 func (fs FS) SysBlockDeviceMapperInfo(device string) (DeviceMapperInfo, error) {
 	info := DeviceMapperInfo{}
-	// files with uint64 fields
+	// Files with uint64 fields
 	for file, p := range map[string]*uint64{
 		"rq_based_seq_io_merge_deadline": &info.RqBasedSeqIOMergeDeadline,
 		"suspended":                      &info.Suspended,
@@ -438,7 +438,7 @@ func (fs FS) SysBlockDeviceMapperInfo(device string) (DeviceMapperInfo, error) {
 		}
 		*p = val
 	}
-	// files with string fields
+	// Files with string fields
 	for file, p := range map[string]*string{
 		"name": &info.Name,
 		"uuid": &info.UUID,

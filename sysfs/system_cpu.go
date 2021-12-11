@@ -181,6 +181,10 @@ func (fs FS) SystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 		return nil, err
 	}
 
+	if len(systemCpufreq) == 0 {
+		return nil, fmt.Errorf("could not find any cpufreq files: %w", os.ErrNotExist)
+	}
+
 	return systemCpufreq, nil
 }
 

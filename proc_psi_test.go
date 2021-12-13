@@ -19,7 +19,7 @@ import (
 )
 
 func TestPSIStats(t *testing.T) {
-	t.Run("fake", func(*testing.T) {
+	t.Run("fake", func(t *testing.T) {
 		stats, err := getProcFixtures(t).PSIStatsForResource("fake")
 		if err == nil {
 			t.Fatal("fake resource does not have PSI statistics")

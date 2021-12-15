@@ -16,8 +16,11 @@
 package sysfs
 
 import (
+	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"golang.org/x/sync/errgroup"
@@ -236,4 +239,48 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 		RelatedCpus:              stringOut[3],
 		SetSpeed:                 stringOut[4],
 	}, nil
+}
+
+func (fs FS) IsolatedCPUs() ([]uint16, error) {
+	isolcpus, err := ioutil.ReadFile(fs.sys.Path("devices/system/cpu/isolated"))
+	if err != nil {
+		return nil, fmt.Errorf("failed to read isolcpus from sysfs: %w", err)
+	}
+
+	return parseIsolCpus(isolcpus)
+}
+
+func parseIsolCpus(data []byte) ([]uint16, error) {
+	isolcpus_str := strings.TrimRight(string(data), "\n")
+
+	var isolcpus_int = []uint16{}
+
+	for _, cpu := range strings.Split(isolcpus_str, ",") {
+		if cpu == "" {
+			continue
+		}
+		if strings.Contains(cpu, "-") {
+			ranges := strings.Split(cpu, "-")
+			startRange, err := strconv.Atoi(ranges[0])
+			if err != nil {
+				return nil, err
+			}
+			endRange, err := strconv.Atoi(ranges[1])
+			if err != nil {
+				return nil, err
+			}
+
+			for i := startRange; i <= endRange; i++ {
+				isolcpus_int = append(isolcpus_int, uint16(i))
+			}
+			continue
+		}
+
+		_cpu, err := strconv.Atoi(cpu)
+		if err != nil {
+			return nil, err
+		}
+		isolcpus_int = append(isolcpus_int, uint16(_cpu))
+	}
+	return isolcpus_int, nil
 }

@@ -159,7 +159,7 @@ func TestIsolatedParsingCPU(t *testing.T) {
 		{[]byte("1,3-4,7,20-21"), []uint16{1, 3, 4, 7, 20, 21}, nil},
 
 		{[]byte("1,"), []uint16{1}, nil},
-		{[]byte("1,2-"), nil, errors.New(`invalid cpu start range: strconv.Atoi: parsing "": invalid syntax`)},
+		{[]byte("1,2-"), nil, errors.New(`invalid cpu end range: strconv.Atoi: parsing "": invalid syntax`)},
 		{[]byte("1,-3"), nil, errors.New(`invalid cpu start range: strconv.Atoi: parsing "": invalid syntax`)},
 	}
 	for _, params := range testParams {

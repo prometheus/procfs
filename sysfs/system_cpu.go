@@ -269,7 +269,7 @@ func parseIsolCPUs(data []byte) ([]uint16, error) {
 			}
 			endRange, err := strconv.Atoi(ranges[1])
 			if err != nil {
-				return nil, fmt.Errorf("invalid cpu start range: %w", err)
+				return nil, fmt.Errorf("invalid cpu end range: %w", err)
 			}
 
 			for i := startRange; i <= endRange; i++ {

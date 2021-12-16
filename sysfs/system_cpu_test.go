@@ -16,6 +16,7 @@
 package sysfs
 
 import (
+	"errors"
 	"reflect"
 	"testing"
 )
@@ -156,16 +157,24 @@ func TestIsolatedParsingCPU(t *testing.T) {
 		{[]byte("1,2-4"), []uint16{1, 2, 3, 4}, nil},
 		{[]byte("1,3-4"), []uint16{1, 3, 4}, nil},
 		{[]byte("1,3-4,7,20-21"), []uint16{1, 3, 4, 7, 20, 21}, nil},
+
+		{[]byte("1,"), []uint16{1}, nil},
+		{[]byte("1,2-"), nil, errors.New(`invalid cpu start range: strconv.Atoi: parsing "": invalid syntax`)},
+		{[]byte("1,-3"), nil, errors.New(`invalid cpu start range: strconv.Atoi: parsing "": invalid syntax`)},
 	}
 	for _, params := range testParams {
 		t.Run("blabla", func(t *testing.T) {
-			res, err := parseIsolCpus(params.in)
+			res, err := parseIsolCPUs(params.in)
 			if !reflect.DeepEqual(res, params.res) {
 				t.Fatalf("should have %v result: got %v", params.res, res)
 			}
-			if err != params.err {
+			if err != nil && params.err != nil && err.Error() != params.err.Error() {
+				t.Fatalf("should have '%v' error: got '%v'", params.err, err)
+			}
+			if (err == nil || params.err == nil) && err != params.err {
 				t.Fatalf("should have %v error: got %v", params.err, err)
 			}
+
 		})
 	}
 }

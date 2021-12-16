@@ -247,40 +247,42 @@ func (fs FS) IsolatedCPUs() ([]uint16, error) {
 		return nil, fmt.Errorf("failed to read isolcpus from sysfs: %w", err)
 	}
 
-	return parseIsolCpus(isolcpus)
+	return parseIsolCPUs(isolcpus)
 }
 
-func parseIsolCpus(data []byte) ([]uint16, error) {
-	isolcpus_str := strings.TrimRight(string(data), "\n")
+func parseIsolCPUs(data []byte) ([]uint16, error) {
 
-	var isolcpus_int = []uint16{}
+	var isolcpusInt = []uint16{}
 
-	for _, cpu := range strings.Split(isolcpus_str, ",") {
+	for _, cpu := range strings.Split(strings.TrimRight(string(data), "\n"), ",") {
 		if cpu == "" {
 			continue
 		}
 		if strings.Contains(cpu, "-") {
 			ranges := strings.Split(cpu, "-")
+			if len(ranges) != 2 {
+				return nil, fmt.Errorf("invalid cpu range: %s", cpu)
+			}
 			startRange, err := strconv.Atoi(ranges[0])
 			if err != nil {
-				return nil, err
+				return nil, fmt.Errorf("invalid cpu start range: %w", err)
 			}
 			endRange, err := strconv.Atoi(ranges[1])
 			if err != nil {
-				return nil, err
+				return nil, fmt.Errorf("invalid cpu start range: %w", err)
 			}
 
 			for i := startRange; i <= endRange; i++ {
-				isolcpus_int = append(isolcpus_int, uint16(i))
+				isolcpusInt = append(isolcpusInt, uint16(i))
 			}
 			continue
 		}
 
-		_cpu, err := strconv.Atoi(cpu)
+		cpuN, err := strconv.Atoi(cpu)
 		if err != nil {
 			return nil, err
 		}
-		isolcpus_int = append(isolcpus_int, uint16(_cpu))
+		isolcpusInt = append(isolcpusInt, uint16(cpuN))
 	}
-	return isolcpus_int, nil
+	return isolcpusInt, nil
 }

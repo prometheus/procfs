@@ -164,7 +164,7 @@ func TestIsolatedParsingCPU(t *testing.T) {
 	}
 	for _, params := range testParams {
 		t.Run("blabla", func(t *testing.T) {
-			res, err := parseIsolCPUs(params.in)
+			res, err := parseIsolatedCPUs(params.in)
 			if !reflect.DeepEqual(res, params.res) {
 				t.Fatalf("should have %v result: got %v", params.res, res)
 			}

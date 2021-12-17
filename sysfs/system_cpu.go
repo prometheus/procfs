@@ -247,10 +247,10 @@ func (fs FS) IsolatedCPUs() ([]uint16, error) {
 		return nil, fmt.Errorf("failed to read isolcpus from sysfs: %w", err)
 	}
 
-	return parseIsolCPUs(isolcpus)
+	return parseIsolatedCPUs(isolcpus)
 }
 
-func parseIsolCPUs(data []byte) ([]uint16, error) {
+func parseIsolatedCPUs(data []byte) ([]uint16, error) {
 
 	var isolcpusInt = []uint16{}
 

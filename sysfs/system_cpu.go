@@ -244,7 +244,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 func (fs FS) IsolatedCPUs() ([]uint16, error) {
 	isolcpus, err := ioutil.ReadFile(fs.sys.Path("devices/system/cpu/isolated"))
 	if err != nil {
-		return nil, fmt.Errorf("failed to read isolcpus from sysfs: %w", err)
+		return nil, err
 	}
 
 	return parseIsolatedCPUs(isolcpus)

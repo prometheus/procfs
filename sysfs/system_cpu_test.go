@@ -188,4 +188,7 @@ func TestIsolatedCPUs(t *testing.T) {
 	if !reflect.DeepEqual(isolated, expected) {
 		t.Errorf("Result not correct: want %v, have %v", expected, isolated)
 	}
+	if err != nil {
+		t.Errorf("Error not correct: want %v, have %v", nil, err)
+	}
 }

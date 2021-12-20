@@ -16,8 +16,11 @@
 package sysfs
 
 import (
+	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"golang.org/x/sync/errgroup"
@@ -236,4 +239,50 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 		RelatedCpus:              stringOut[3],
 		SetSpeed:                 stringOut[4],
 	}, nil
+}
+
+func (fs FS) IsolatedCPUs() ([]uint16, error) {
+	isolcpus, err := ioutil.ReadFile(fs.sys.Path("devices/system/cpu/isolated"))
+	if err != nil {
+		return nil, err
+	}
+
+	return parseIsolatedCPUs(isolcpus)
+}
+
+func parseIsolatedCPUs(data []byte) ([]uint16, error) {
+
+	var isolcpusInt = []uint16{}
+
+	for _, cpu := range strings.Split(strings.TrimRight(string(data), "\n"), ",") {
+		if cpu == "" {
+			continue
+		}
+		if strings.Contains(cpu, "-") {
+			ranges := strings.Split(cpu, "-")
+			if len(ranges) != 2 {
+				return nil, fmt.Errorf("invalid cpu range: %s", cpu)
+			}
+			startRange, err := strconv.Atoi(ranges[0])
+			if err != nil {
+				return nil, fmt.Errorf("invalid cpu start range: %w", err)
+			}
+			endRange, err := strconv.Atoi(ranges[1])
+			if err != nil {
+				return nil, fmt.Errorf("invalid cpu end range: %w", err)
+			}
+
+			for i := startRange; i <= endRange; i++ {
+				isolcpusInt = append(isolcpusInt, uint16(i))
+			}
+			continue
+		}
+
+		cpuN, err := strconv.Atoi(cpu)
+		if err != nil {
+			return nil, err
+		}
+		isolcpusInt = append(isolcpusInt, uint16(cpuN))
+	}
+	return isolcpusInt, nil
 }

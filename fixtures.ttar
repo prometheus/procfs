@@ -6462,6 +6462,11 @@ Mode: 644
 Directory: fixtures/sys/devices/system/cpu/cpufreq/policy1
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/cpu/isolated
+Lines: 1
+1,2-7,9
+Mode: 664
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/node
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

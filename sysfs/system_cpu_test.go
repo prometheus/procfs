@@ -16,6 +16,7 @@
 package sysfs
 
 import (
+	"errors"
 	"reflect"
 	"testing"
 )
@@ -138,5 +139,56 @@ func TestSystemCpufreq(t *testing.T) {
 
 	if !reflect.DeepEqual(systemCpufreq, c) {
 		t.Errorf("Result not correct: want %v, have %v", systemCpufreq, c)
+	}
+}
+
+func TestIsolatedParsingCPU(t *testing.T) {
+	var testParams = []struct {
+		in  []byte
+		res []uint16
+		err error
+	}{
+		{[]byte(""), []uint16{}, nil},
+		{[]byte("1\n"), []uint16{1}, nil},
+		{[]byte("1"), []uint16{1}, nil},
+		{[]byte("1,2"), []uint16{1, 2}, nil},
+		{[]byte("1-2"), []uint16{1, 2}, nil},
+		{[]byte("1-3"), []uint16{1, 2, 3}, nil},
+		{[]byte("1,2-4"), []uint16{1, 2, 3, 4}, nil},
+		{[]byte("1,3-4"), []uint16{1, 3, 4}, nil},
+		{[]byte("1,3-4,7,20-21"), []uint16{1, 3, 4, 7, 20, 21}, nil},
+
+		{[]byte("1,"), []uint16{1}, nil},
+		{[]byte("1,2-"), nil, errors.New(`invalid cpu end range: strconv.Atoi: parsing "": invalid syntax`)},
+		{[]byte("1,-3"), nil, errors.New(`invalid cpu start range: strconv.Atoi: parsing "": invalid syntax`)},
+	}
+	for _, params := range testParams {
+		t.Run("blabla", func(t *testing.T) {
+			res, err := parseIsolatedCPUs(params.in)
+			if !reflect.DeepEqual(res, params.res) {
+				t.Fatalf("should have %v result: got %v", params.res, res)
+			}
+			if err != nil && params.err != nil && err.Error() != params.err.Error() {
+				t.Fatalf("should have '%v' error: got '%v'", params.err, err)
+			}
+			if (err == nil || params.err == nil) && err != params.err {
+				t.Fatalf("should have %v error: got %v", params.err, err)
+			}
+
+		})
+	}
+}
+func TestIsolatedCPUs(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+	isolated, err := fs.IsolatedCPUs()
+	expected := []uint16{1, 2, 3, 4, 5, 6, 7, 9}
+	if !reflect.DeepEqual(isolated, expected) {
+		t.Errorf("Result not correct: want %v, have %v", expected, isolated)
+	}
+	if err != nil {
+		t.Errorf("Error not correct: want %v, have %v", nil, err)
 	}
 }

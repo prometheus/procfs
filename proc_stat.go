@@ -210,10 +210,13 @@ func (s ProcStat) ResidentMemory() int {
 func (s ProcStat) StartTime() (float64, error) {
 	fs := FS{proc: s.proc}
 	stat, err := fs.Stat()
+	if stat != nil && stat.BootTime != nil {
+		return float64(*stat.BootTime) + (float64(s.Starttime) / userHZ), nil
+	}
 	if err != nil {
 		return 0, err
 	}
-	return float64(stat.BootTime) + (float64(s.Starttime) / userHZ), nil
+	return 0, fmt.Errorf("failed to get boot time from system")
 }
 
 // CPUTime returns the total CPU user and system time in seconds.

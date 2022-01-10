@@ -14,6 +14,7 @@
 package blockdevice
 
 import (
+	"os"
 	"reflect"
 	"testing"
 )
@@ -150,5 +151,71 @@ func TestBlockDevice(t *testing.T) {
 	}
 	if !reflect.DeepEqual(blockQueueStat, blockQueueStatExpected) {
 		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", blockQueueStatExpected, blockQueueStat)
+	}
+}
+
+func TestBlockDmInfo(t *testing.T) {
+	blockdevice, err := NewFS("../fixtures/proc", "../fixtures/sys")
+	if err != nil {
+		t.Fatalf("failed to access blockdevice fs: %v", err)
+	}
+	devices, err := blockdevice.SysBlockDevices()
+	if err != nil {
+		t.Fatal(err)
+	}
+	dm0Info, err := blockdevice.SysBlockDeviceMapperInfo(devices[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dm0InfoExpected := DeviceMapperInfo{
+		Name:                      "vg0--lv_root",
+		RqBasedSeqIOMergeDeadline: 0,
+		Suspended:                 0,
+		UseBlkMQ:                  0,
+		UUID:                      "LVM-3zSHSR5Nbf4j7g6auAAefWY2CMaX01theZYEvQyecVsm2WtX3iY5q51qq5dWWOq7",
+	}
+	if !reflect.DeepEqual(dm0Info, dm0InfoExpected) {
+		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", dm0InfoExpected, dm0Info)
+	}
+
+	dm1Info, err := blockdevice.SysBlockDeviceMapperInfo(devices[1])
+	if err != nil {
+		if _, ok := err.(*os.PathError); ok {
+			// Fail the test if there's an error other than PathError.
+			if !os.IsNotExist(err) {
+				t.Fatal(err)
+			}
+		} else {
+			t.Fatal(err)
+		}
+	} else {
+		t.Fatal("SysBlockDeviceMapperInfo on sda was supposed to fail.")
+	}
+	dm1InfoExpected := DeviceMapperInfo{}
+	if !reflect.DeepEqual(dm1Info, dm1InfoExpected) {
+		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", dm0InfoExpected, dm0Info)
+	}
+}
+
+func TestSysBlockDeviceUnderlyingDevices(t *testing.T) {
+	blockdevice, err := NewFS("../fixtures/proc", "../fixtures/sys")
+	if err != nil {
+		t.Fatalf("failed to access blockdevice fs: %v", err)
+	}
+	devices, err := blockdevice.SysBlockDevices()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	underlying0, err := blockdevice.SysBlockDeviceUnderlyingDevices(devices[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+	underlying0Expected := UnderlyingDeviceInfo{
+		DeviceNames: []string{"sda"},
+	}
+	if !reflect.DeepEqual(underlying0, underlying0Expected) {
+		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", underlying0Expected, underlying0)
 	}
 }

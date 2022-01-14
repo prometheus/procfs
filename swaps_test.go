@@ -102,7 +102,7 @@ func TestParseSwapString(t *testing.T) {
 				t.Error("unexpected success")
 			}
 			if !tt.invalid && err != nil {
-				t.Errorf("unexpected error: %w", err)
+				t.Errorf("unexpected error: %v", err)
 			}
 
 			if !reflect.DeepEqual(tt.swap, swap) {

@@ -156,6 +156,125 @@ Inter-|   Receive                                                |  Transmit
   eth0:     438       5    0    0    0     0          0         0      648       8    0    0    0     0       0          0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/net/snmp
+Lines: 12
+Ip: Forwarding DefaultTTL InReceives InHdrErrors InAddrErrors ForwDatagrams InUnknownProtos InDiscards InDelivers OutRequests OutDiscards OutNoRoutes ReasmTimeout ReasmReqds ReasmOKs ReasmFails FragOKs FragFails FragCreates
+Ip: 2 64 594223 0 1 0 0 0 593186 547253 20 231 0 0 0 0 0 0 0
+Icmp: InMsgs InErrors InCsumErrors InDestUnreachs InTimeExcds InParmProbs InSrcQuenchs InRedirects InEchos InEchoReps InTimestamps InTimestampReps InAddrMasks InAddrMaskReps OutMsgs OutErrors OutDestUnreachs OutTimeExcds OutParmProbs OutSrcQuenchs OutRedirects OutEchos OutEchoReps OutTimestamps OutTimestampReps OutAddrMasks OutAddrMaskReps
+Icmp: 45 1 0 45 0 0 0 0 0 0 0 0 0 0 50 0 50 0 0 0 0 0 0 0 0 0 0
+IcmpMsg: InType3 OutType3
+IcmpMsg: 45 50
+Tcp: RtoAlgorithm RtoMin RtoMax MaxConn ActiveOpens PassiveOpens AttemptFails EstabResets CurrEstab InSegs OutSegs RetransSegs InErrs OutRsts InCsumErrors
+Tcp: 1 200 120000 -1 1103 9 8 51 15 653161 594855 348 98 1038 0
+Udp: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti
+Udp: 10179 50 0 9846 0 0 0 58
+UdpLite: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti
+UdpLite: 0 0 0 0 0 0 0 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/net/netstat
+Lines: 4
+TcpExt: SyncookiesSent SyncookiesRecv SyncookiesFailed EmbryonicRsts PruneCalled RcvPruned OfoPruned OutOfWindowIcmps LockDroppedIcmps ArpFilter TW TWRecycled TWKilled PAWSActive PAWSEstab DelayedACKs DelayedACKLocked DelayedACKLost ListenOverflows ListenDrops TCPHPHits TCPPureAcks TCPHPAcks TCPRenoRecovery TCPSackRecovery TCPSACKReneging TCPSACKReorder TCPRenoReorder TCPTSReorder TCPFullUndo TCPPartialUndo TCPDSACKUndo TCPLossUndo TCPLostRetransmit TCPRenoFailures TCPSackFailures TCPLossFailures TCPFastRetrans TCPSlowStartRetrans TCPTimeouts TCPLossProbes TCPLossProbeRecovery TCPRenoRecoveryFail TCPSackRecoveryFail TCPRcvCollapsed TCPDSACKOldSent TCPDSACKOfoSent TCPDSACKRecv TCPDSACKOfoRecv TCPAbortOnData TCPAbortOnClose TCPAbortOnMemory TCPAbortOnTimeout TCPAbortOnLinger TCPAbortFailed TCPMemoryPressures TCPMemoryPressuresChrono TCPSACKDiscard TCPDSACKIgnoredOld TCPDSACKIgnoredNoUndo TCPSpuriousRTOs TCPMD5NotFound TCPMD5Unexpected TCPMD5Failure TCPSackShifted TCPSackMerged TCPSackShiftFallback TCPBacklogDrop PFMemallocDrop TCPMinTTLDrop TCPDeferAcceptDrop IPReversePathFilter TCPTimeWaitOverflow TCPReqQFullDoCookies TCPReqQFullDrop TCPRetransFail TCPRcvCoalesce TCPOFOQueue TCPOFODrop TCPOFOMerge TCPChallengeACK TCPSYNChallenge TCPFastOpenActive TCPFastOpenActiveFail TCPFastOpenPassive TCPFastOpenPassiveFail TCPFastOpenListenOverflow TCPFastOpenCookieReqd TCPFastOpenBlackhole TCPSpuriousRtxHostQueues BusyPollRxPackets TCPAutoCorking TCPFromZeroWindowAdv TCPToZeroWindowAdv TCPWantZeroWindowAdv TCPSynRetrans TCPOrigDataSent TCPHystartTrainDetect TCPHystartTrainCwnd TCPHystartDelayDetect TCPHystartDelayCwnd TCPACKSkippedSynRecv TCPACKSkippedPAWS TCPACKSkippedSeq TCPACKSkippedFinWait2 TCPACKSkippedTimeWait TCPACKSkippedChallenge TCPWinProbe TCPKeepAlive TCPMTUPFail TCPMTUPSuccess TCPWqueueTooBig
+TcpExt: 0 0 0 1 0 0 0 0 0 0 83 0 0 0 3640 287 1 7460 0 0 134193 1335 829 0 4 0 1 0 0 0 0 1 19 0 0 0 0 3 0 32 100 4 0 0 0 7460 2421 49 1 62 6 0 23 0 7 0 0 0 0 19 2 0 0 0 0 0 6 0 0 0 0 3 0 0 0 0 92425 65515 0 2421 4 4 0 0 0 0 0 0 0 0 0 10 0 0 0 16 2221 0 0 2 45 0 0 3 0 0 0 0 456 0 0 0
+IpExt: InNoRoutes InTruncatedPkts InMcastPkts OutMcastPkts InBcastPkts OutBcastPkts InOctets OutOctets InMcastOctets OutMcastOctets InBcastOctets OutBcastOctets InCsumErrors InNoECTPkts InECT1Pkts InECT0Pkts InCEPkts ReasmOverlaps
+IpExt: 0 0 208 214 118 111 190585481 7512674 26093 25903 14546 13628 0 134215 0 0 0 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/net/snmp6
+Lines: 92
+Ip6InReceives                   	92166
+Ip6InHdrErrors                  	0
+Ip6InTooBigErrors               	0
+Ip6InNoRoutes                   	0
+Ip6InAddrErrors                 	0
+Ip6InUnknownProtos              	0
+Ip6InTruncatedPkts              	0
+Ip6InDiscards                   	0
+Ip6InDelivers                   	92053
+Ip6OutForwDatagrams             	0
+Ip6OutRequests                  	57502
+Ip6OutDiscards                  	0
+Ip6OutNoRoutes                  	169
+Ip6ReasmTimeout                 	0
+Ip6ReasmReqds                   	0
+Ip6ReasmOKs                     	0
+Ip6ReasmFails                   	0
+Ip6FragOKs                      	0
+Ip6FragFails                    	0
+Ip6FragCreates                  	0
+Ip6InMcastPkts                  	381
+Ip6OutMcastPkts                 	148
+Ip6InOctets                     	113479132
+Ip6OutOctets                    	9842685
+Ip6InMcastOctets                	65971
+Ip6OutMcastOctets               	19394
+Ip6InBcastOctets                	0
+Ip6OutBcastOctets               	0
+Ip6InNoECTPkts                  	92166
+Ip6InECT1Pkts                   	0
+Ip6InECT0Pkts                   	0
+Ip6InCEPkts                     	0
+Icmp6InMsgs                     	142
+Icmp6InErrors                   	0
+Icmp6OutMsgs                    	58
+Icmp6OutErrors                  	0
+Icmp6InCsumErrors               	0
+Icmp6InDestUnreachs             	2
+Icmp6InPktTooBigs               	0
+Icmp6InTimeExcds                	0
+Icmp6InParmProblems             	0
+Icmp6InEchos                    	0
+Icmp6InEchoReplies              	0
+Icmp6InGroupMembQueries         	0
+Icmp6InGroupMembResponses       	0
+Icmp6InGroupMembReductions      	0
+Icmp6InRouterSolicits           	0
+Icmp6InRouterAdvertisements     	111
+Icmp6InNeighborSolicits         	26
+Icmp6InNeighborAdvertisements   	1
+Icmp6InRedirects                	0
+Icmp6InMLDv2Reports             	2
+Icmp6OutDestUnreachs            	0
+Icmp6OutPktTooBigs              	0
+Icmp6OutTimeExcds               	0
+Icmp6OutParmProblems            	0
+Icmp6OutEchos                   	0
+Icmp6OutEchoReplies             	0
+Icmp6OutGroupMembQueries        	0
+Icmp6OutGroupMembResponses      	0
+Icmp6OutGroupMembReductions     	0
+Icmp6OutRouterSolicits          	2
+Icmp6OutRouterAdvertisements    	0
+Icmp6OutNeighborSolicits        	5
+Icmp6OutNeighborAdvertisements  	26
+Icmp6OutRedirects               	0
+Icmp6OutMLDv2Reports            	25
+Icmp6InType1                    	2
+Icmp6InType134                  	111
+Icmp6InType135                  	26
+Icmp6InType136                  	1
+Icmp6InType143                  	2
+Icmp6OutType133                 	2
+Icmp6OutType135                 	5
+Icmp6OutType136                 	26
+Icmp6OutType143                 	25
+Udp6InDatagrams                 	2016
+Udp6NoPorts                     	0
+Udp6InErrors                    	0
+Udp6OutDatagrams                	1546
+Udp6RcvbufErrors                	0
+Udp6SndbufErrors                	0
+Udp6InCsumErrors                	0
+Udp6IgnoredMulti                	12
+UdpLite6InDatagrams             	0
+UdpLite6NoPorts                 	0
+UdpLite6InErrors                	0
+UdpLite6OutDatagrams            	0
+UdpLite6RcvbufErrors            	0
+UdpLite6SndbufErrors            	0
+UdpLite6InCsumErrors            	0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/26231/ns
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

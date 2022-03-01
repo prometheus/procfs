@@ -2654,6 +2654,21 @@ kmem_cache_node      904    928    512   32    4 : tunables    0    0    0 : sla
 kmem_cache           904    936    832   39    8 : tunables    0    0    0 : slabdata     24     24      0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/softirqs
+Lines: 11
+                    CPU0       CPU1       
+          HI:          3          0
+       TIMER:    2776180     247490
+      NET_TX:       2419        772
+      NET_RX:      55919      28694
+       BLOCK:     174915     262755
+    IRQ_POLL:          0          0
+     TASKLET:        209         75
+       SCHED:    2278692     815209
+     HRTIMER:       1281        220
+         RCU:     605871     532783
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/stat
 Lines: 16
 cpu  301854 612 111922 8979004 3552 2 3944 0 0 0

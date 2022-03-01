@@ -21,7 +21,6 @@ import (
 	"strconv"
 	"strings"
 
-	// "github.com/prometheus/procfs/internal/fs"
 	"github.com/prometheus/procfs/internal/util"
 )
 
@@ -32,7 +31,7 @@ type Softirqs struct {
 	NetTx       []uint64
 	NetRx       []uint64
 	Block       []uint64
-	IrqPoll 		[]uint64
+	IrqPoll     []uint64
 	Tasklet     []uint64
 	Sched       []uint64
 	Hrtimer     []uint64

@@ -26,16 +26,16 @@ import (
 
 // Softirqs represents the softirq statistics.
 type Softirqs struct {
-	Hi          []uint64
-	Timer       []uint64
-	NetTx       []uint64
-	NetRx       []uint64
-	Block       []uint64
-	IrqPoll     []uint64
-	Tasklet     []uint64
-	Sched       []uint64
-	Hrtimer     []uint64
-	Rcu         []uint64
+	Hi      []uint64
+	Timer   []uint64
+	NetTx   []uint64
+	NetRx   []uint64
+	Block   []uint64
+	IrqPoll []uint64
+	Tasklet []uint64
+	Sched   []uint64
+	Hrtimer []uint64
+	Rcu     []uint64
 }
 
 func (fs FS) Softirqs() (Softirqs, error) {
@@ -47,20 +47,20 @@ func (fs FS) Softirqs() (Softirqs, error) {
 
 	reader := bytes.NewReader(data)
 
- 	return parseSoftirqs(reader)
- }
+	return parseSoftirqs(reader)
+}
 
 func parseSoftirqs(r io.Reader) (Softirqs, error) {
- 	var (
- 		softirqs = Softirqs{}
- 		scanner  = bufio.NewScanner(r)
- 	)
+	var (
+		softirqs = Softirqs{}
+		scanner  = bufio.NewScanner(r)
+	)
 
- 	if !scanner.Scan() {
- 		return Softirqs{}, fmt.Errorf("softirqs empty")
- 	}
+	if !scanner.Scan() {
+		return Softirqs{}, fmt.Errorf("softirqs empty")
+	}
 
- 	for scanner.Scan() {
+	for scanner.Scan() {
 		parts := strings.Fields(scanner.Text())
 		var err error
 
@@ -170,11 +170,11 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 				}
 			}
 		}
- 	}
+	}
 
 	if err := scanner.Err(); err != nil {
 		return Softirqs{}, fmt.Errorf("couldn't parse softirqs: %w", err)
 	}
 
- 	return softirqs, scanner.Err()
- }
+	return softirqs, scanner.Err()
+}

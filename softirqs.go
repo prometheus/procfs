@@ -73,8 +73,6 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 			perCpu := parts[1:]
 			softirqs.HI = make([]uint64, len(perCpu))
 			for i, count := range perCpu {
-				print(count)
-				print(i)
 				if softirqs.HI[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (HI%d): %w", count, i, err)
 				}
@@ -83,8 +81,6 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 			perCpu := parts[1:]
 			softirqs.TIMER = make([]uint64, len(perCpu))
 			for i, count := range perCpu {
-				print(count)
-				print(i)
 				if softirqs.TIMER[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (TIMER%d): %w", count, i, err)
 				}
@@ -93,8 +89,6 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 			perCpu := parts[1:]
 			softirqs.NETTX = make([]uint64, len(perCpu))
 			for i, count := range perCpu {
-				print(count)
-				print(i)
 				if softirqs.NETTX[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (NET_TX%d): %w", count, i, err)
 				}
@@ -103,8 +97,6 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 			perCpu := parts[1:]
 			softirqs.NETRX = make([]uint64, len(perCpu))
 			for i, count := range perCpu {
-				print(count)
-				print(i)
 				if softirqs.NETRX[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (NET_RX%d): %w", count, i, err)
 				}
@@ -113,8 +105,6 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 			perCpu := parts[1:]
 			softirqs.BLOCK = make([]uint64, len(perCpu))
 			for i, count := range perCpu {
-				print(count)
-				print(i)
 				if softirqs.BLOCK[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (BLOCK%d): %w", count, i, err)
 				}
@@ -123,8 +113,6 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 			perCpu := parts[1:]
 			softirqs.IRQPOLL = make([]uint64, len(perCpu))
 			for i, count := range perCpu {
-				print(count)
-				print(i)
 				if softirqs.IRQPOLL[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (IRQ_POLL%d): %w", count, i, err)
 				}
@@ -133,8 +121,6 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 			perCpu := parts[1:]
 			softirqs.TASKLET = make([]uint64, len(perCpu))
 			for i, count := range perCpu {
-				print(count)
-				print(i)
 				if softirqs.TASKLET[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (TASKLET%d): %w", count, i, err)
 				}
@@ -143,8 +129,6 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 			perCpu := parts[1:]
 			softirqs.SCHED = make([]uint64, len(perCpu))
 			for i, count := range perCpu {
-				print(count)
-				print(i)
 				if softirqs.SCHED[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (SCHED%d): %w", count, i, err)
 				}
@@ -153,8 +137,6 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 			perCpu := parts[1:]
 			softirqs.HRTIMER = make([]uint64, len(perCpu))
 			for i, count := range perCpu {
-				print(count)
-				print(i)
 				if softirqs.HRTIMER[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (HRTIMER%d): %w", count, i, err)
 				}
@@ -163,8 +145,6 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 			perCpu := parts[1:]
 			softirqs.RCU = make([]uint64, len(perCpu))
 			for i, count := range perCpu {
-				print(count)
-				print(i)
 				if softirqs.RCU[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (RCU%d): %w", count, i, err)
 				}

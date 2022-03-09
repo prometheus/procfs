@@ -25,7 +25,7 @@ func TestProcSnmp6(t *testing.T) {
 		{name: "Ip6InOctets", want: 113479132, have: procSnmp6.Ip6.InOctets},
 		{name: "Icmp6InMsgs", want: 142, have: procSnmp6.Icmp6.InMsgs},
 		{name: "Udp6InDatagrams", want: 2016, have: procSnmp6.Udp6.InDatagrams},
-		{name: "UdpLite6InDatagrams", want: 0, have: procSnmp6.Udp6Lite.InDatagrams},
+		{name: "UdpLite6InDatagrams", want: 0, have: procSnmp6.UdpLite6.InDatagrams},
 	} {
 		if test.want != test.have {
 			t.Errorf("want %s %f, have %f", test.name, test.want, test.have)

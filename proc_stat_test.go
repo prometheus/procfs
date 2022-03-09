@@ -14,7 +14,7 @@
 package procfs
 
 import (
-	"math"
+	"math/bits"
 	"os"
 	"testing"
 )
@@ -88,14 +88,19 @@ func TestProcStatLimits(t *testing.T) {
 		t.Errorf("want not error, have %s", err)
 	}
 
+	// architecture dependent MinInt and MaxInt constants
+	const (
+		MinInt int = ((1 << bits.UintSize) / -2)      // math.MinInt
+		MaxInt int = (((1 << bits.UintSize) / 2) - 1) // math.MaxInt
+	)
 	// max values of stat int fields
 	for _, test := range []struct {
 		name string
 		want int
 		have int
 	}{
-		{name: "waited for children user time", want: math.MinInt64, have: s.CUTime},
-		{name: "waited for children system time", want: math.MaxInt64, have: s.CSTime},
+		{name: "waited for children user time", want: MinInt, have: s.CUTime},
+		{name: "waited for children system time", want: MaxInt, have: s.CSTime},
 	} {
 		if test.want != test.have {
 			t.Errorf("want %s %d, have %d", test.name, test.want, test.have)

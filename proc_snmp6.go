@@ -22,7 +22,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mitchellh/mapstructure"
 	"github.com/prometheus/procfs/internal/util"
 )
 
@@ -33,7 +32,7 @@ type ProcSnmp6 struct {
 	Ip6
 	Icmp6
 	Udp6
-	Udp6Lite
+	UdpLite6
 }
 
 type Ip6 struct {
@@ -129,7 +128,7 @@ type Udp6 struct {
 	IgnoredMulti float64
 }
 
-type Udp6Lite struct {
+type UdpLite6 struct {
 	InDatagrams  float64
 	NoPorts      float64
 	InErrors     float64
@@ -141,39 +140,28 @@ type Udp6Lite struct {
 
 func (p Proc) Snmp6() (ProcSnmp6, error) {
 	filename := p.path("net/snmp6")
-	procSnmp6 := ProcSnmp6{PID: p.PID}
-
 	data, err := util.ReadFileNoStat(filename)
 	if err != nil {
 		// On systems with IPv6 disabled, this file won't exist.
 		// Do nothing.
 		if errors.Is(err, os.ErrNotExist) {
-			return procSnmp6, nil
+			return ProcSnmp6{PID: p.PID}, nil
 		}
 
-		return procSnmp6, err
+		return ProcSnmp6{PID: p.PID}, err
 	}
 
-	netStats, err := parseSNMP6Stats(bytes.NewReader(data))
-	if err != nil {
-		return procSnmp6, err
-	}
-
-	mapStructureErr := mapstructure.Decode(netStats, &procSnmp6)
-	if mapStructureErr != nil {
-		return procSnmp6, mapStructureErr
-	}
-
-	return procSnmp6, nil
-
+	procSnmp6, err := parseSNMP6Stats(bytes.NewReader(data))
+	procSnmp6.PID = p.PID
+	return procSnmp6, err
 }
 
 // parseSnmp6 parses the metrics from proc/<pid>/net/snmp6 file
 // and returns a map contains those metrics.
-func parseSNMP6Stats(r io.Reader) (map[string]map[string]float64, error) {
+func parseSNMP6Stats(r io.Reader) (ProcSnmp6, error) {
 	var (
-		netStats = map[string]map[string]float64{}
 		scanner  = bufio.NewScanner(r)
+		procSnmp6 = ProcSnmp6{}
 	)
 
 	for scanner.Scan() {
@@ -184,17 +172,210 @@ func parseSNMP6Stats(r io.Reader) (map[string]map[string]float64, error) {
 		// Expect to have "6" in metric name, skip line otherwise
 		if sixIndex := strings.Index(stat[0], "6"); sixIndex != -1 {
 			protocol := stat[0][:sixIndex+1]
-			name := stat[0][sixIndex+1:]
-			if _, present := netStats[protocol]; !present {
-				netStats[protocol] = map[string]float64{}
-			}
-			var err error
-			netStats[protocol][name], err = strconv.ParseFloat(stat[1], 64)
+			key := stat[0][sixIndex+1:]
+			value, err := strconv.ParseFloat(stat[1], 64)
 			if err != nil {
-				return nil, err
+				return procSnmp6, err
+			}
+
+			switch protocol {
+			case "Ip6":
+				switch key {
+				case "InReceives":
+					procSnmp6.Ip6.InReceives = value
+				case "InHdrErrors":
+					procSnmp6.Ip6.InHdrErrors = value
+				case "InTooBigErrors":
+					procSnmp6.Ip6.InTooBigErrors = value
+				case "InNoRoutes":
+					procSnmp6.Ip6.InNoRoutes = value
+				case "InAddrErrors":
+					procSnmp6.Ip6.InAddrErrors = value
+				case "InUnknownProtos":
+					procSnmp6.Ip6.InUnknownProtos = value
+				case "InTruncatedPkts":
+					procSnmp6.Ip6.InTruncatedPkts = value
+				case "InDiscards":
+					procSnmp6.Ip6.InDiscards = value
+				case "InDelivers":
+					procSnmp6.Ip6.InDelivers = value
+				case "OutForwDatagrams":
+					procSnmp6.Ip6.OutForwDatagrams = value
+				case "OutRequests":
+					procSnmp6.Ip6.OutRequests = value
+				case "OutDiscards":
+					procSnmp6.Ip6.OutDiscards = value
+				case "OutNoRoutes":
+					procSnmp6.Ip6.OutNoRoutes = value
+				case "ReasmTimeout":
+					procSnmp6.Ip6.ReasmTimeout = value
+				case "ReasmReqds":
+					procSnmp6.Ip6.ReasmReqds = value
+				case "ReasmOKs":
+					procSnmp6.Ip6.ReasmOKs = value
+				case "ReasmFails":
+					procSnmp6.Ip6.ReasmFails = value
+				case "FragOKs":
+					procSnmp6.Ip6.FragOKs = value
+				case "FragFails":
+					procSnmp6.Ip6.FragFails = value
+				case "FragCreates":
+					procSnmp6.Ip6.FragCreates = value
+				case "InMcastPkts":
+					procSnmp6.Ip6.InMcastPkts = value
+				case "OutMcastPkts":
+					procSnmp6.Ip6.OutMcastPkts = value
+				case "InOctets":
+					procSnmp6.Ip6.InOctets = value
+				case "OutOctets":
+					procSnmp6.Ip6.OutOctets = value
+				case "InMcastOctets":
+					procSnmp6.Ip6.InMcastOctets = value
+				case "OutMcastOctets":
+					procSnmp6.Ip6.OutMcastOctets = value
+				case "InBcastOctets":
+					procSnmp6.Ip6.InBcastOctets = value
+				case "OutBcastOctets":
+					procSnmp6.Ip6.OutBcastOctets = value
+				case "InNoECTPkts":
+					procSnmp6.Ip6.InNoECTPkts = value
+				case "InECT1Pkts":
+					procSnmp6.Ip6.InECT1Pkts = value
+				case "InECT0Pkts":
+					procSnmp6.Ip6.InECT0Pkts = value
+				case "InCEPkts":
+					procSnmp6.Ip6.InCEPkts = value
+
+				}
+			case "Icmp6":
+				switch key {
+				case "InMsgs":
+					procSnmp6.Icmp6.InMsgs = value
+				case "InErrors":
+					procSnmp6.Icmp6.InErrors = value
+				case "OutMsgs":
+					procSnmp6.Icmp6.OutMsgs = value
+				case "OutErrors":
+					procSnmp6.Icmp6.OutErrors = value
+				case "InCsumErrors":
+					procSnmp6.Icmp6.InCsumErrors = value
+				case "InDestUnreachs":
+					procSnmp6.Icmp6.InDestUnreachs = value
+				case "InPktTooBigs":
+					procSnmp6.Icmp6.InPktTooBigs = value
+				case "InTimeExcds":
+					procSnmp6.Icmp6.InTimeExcds = value
+				case "InParmProblems":
+					procSnmp6.Icmp6.InParmProblems = value
+				case "InEchos":
+					procSnmp6.Icmp6.InEchos = value
+				case "InEchoReplies":
+					procSnmp6.Icmp6.InEchoReplies = value
+				case "InGroupMembQueries":
+					procSnmp6.Icmp6.InGroupMembQueries = value
+				case "InGroupMembResponses":
+					procSnmp6.Icmp6.InGroupMembResponses = value
+				case "InGroupMembReductions":
+					procSnmp6.Icmp6.InGroupMembReductions = value
+				case "InRouterSolicits":
+					procSnmp6.Icmp6.InRouterSolicits = value
+				case "InRouterAdvertisements":
+					procSnmp6.Icmp6.InRouterAdvertisements = value
+				case "InNeighborSolicits":
+					procSnmp6.Icmp6.InNeighborSolicits = value
+				case "InNeighborAdvertisements":
+					procSnmp6.Icmp6.InNeighborAdvertisements = value
+				case "InRedirects":
+					procSnmp6.Icmp6.InRedirects = value
+				case "InMLDv2Reports":
+					procSnmp6.Icmp6.InMLDv2Reports = value
+				case "OutDestUnreachs":
+					procSnmp6.Icmp6.OutDestUnreachs = value
+				case "OutPktTooBigs":
+					procSnmp6.Icmp6.OutPktTooBigs = value
+				case "OutTimeExcds":
+					procSnmp6.Icmp6.OutTimeExcds = value
+				case "OutParmProblems":
+					procSnmp6.Icmp6.OutParmProblems = value
+				case "OutEchos":
+					procSnmp6.Icmp6.OutEchos = value
+				case "OutEchoReplies":
+					procSnmp6.Icmp6.OutEchoReplies = value
+				case "OutGroupMembQueries":
+					procSnmp6.Icmp6.OutGroupMembQueries = value
+				case "OutGroupMembResponses":
+					procSnmp6.Icmp6.OutGroupMembResponses = value
+				case "OutGroupMembReductions":
+					procSnmp6.Icmp6.OutGroupMembReductions = value
+				case "OutRouterSolicits":
+					procSnmp6.Icmp6.OutRouterSolicits = value
+				case "OutRouterAdvertisements":
+					procSnmp6.Icmp6.OutRouterAdvertisements = value
+				case "OutNeighborSolicits":
+					procSnmp6.Icmp6.OutNeighborSolicits = value
+				case "OutNeighborAdvertisements":
+					procSnmp6.Icmp6.OutNeighborAdvertisements = value
+				case "OutRedirects":
+					procSnmp6.Icmp6.OutRedirects = value
+				case "OutMLDv2Reports":
+					procSnmp6.Icmp6.OutMLDv2Reports = value
+				case "InType1":
+					procSnmp6.Icmp6.InType1 = value
+				case "InType134":
+					procSnmp6.Icmp6.InType134 = value
+				case "InType135":
+					procSnmp6.Icmp6.InType135 = value
+				case "InType136":
+					procSnmp6.Icmp6.InType136 = value
+				case "InType143":
+					procSnmp6.Icmp6.InType143 = value
+				case "OutType133":
+					procSnmp6.Icmp6.OutType133 = value
+				case "OutType135":
+					procSnmp6.Icmp6.OutType135 = value
+				case "OutType136":
+					procSnmp6.Icmp6.OutType136 = value
+				case "OutType143":
+					procSnmp6.Icmp6.OutType143 = value
+				}
+			case "Udp6":
+				switch key {
+				case "InDatagrams":
+					procSnmp6.Udp6.InDatagrams = value
+				case "NoPorts":
+					procSnmp6.Udp6.NoPorts = value
+				case "InErrors":
+					procSnmp6.Udp6.InErrors = value
+				case "OutDatagrams":
+					procSnmp6.Udp6.OutDatagrams = value
+				case "RcvbufErrors":
+					procSnmp6.Udp6.RcvbufErrors = value
+				case "SndbufErrors":
+					procSnmp6.Udp6.SndbufErrors = value
+				case "InCsumErrors":
+					procSnmp6.Udp6.InCsumErrors = value
+				case "IgnoredMulti":
+					procSnmp6.Udp6.IgnoredMulti = value
+				}
+			case "UdpLite6":
+				switch key {
+				case "InDatagrams":
+					procSnmp6.UdpLite6.InDatagrams = value
+				case "NoPorts":
+					procSnmp6.UdpLite6.NoPorts = value
+				case "InErrors":
+					procSnmp6.UdpLite6.InErrors = value
+				case "OutDatagrams":
+					procSnmp6.UdpLite6.OutDatagrams = value
+				case "RcvbufErrors":
+					procSnmp6.UdpLite6.RcvbufErrors = value
+				case "SndbufErrors":
+					procSnmp6.UdpLite6.SndbufErrors = value
+				case "InCsumErrors":
+					procSnmp6.UdpLite6.InCsumErrors = value
+				}
 			}
 		}
 	}
-
-	return netStats, scanner.Err()
+	return procSnmp6, scanner.Err()
 }

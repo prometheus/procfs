@@ -1,6 +1,8 @@
 package procfs
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestProcNetstat(t *testing.T) {
 	p, err := getProcFixtures(t).Proc(26231)
@@ -25,12 +27,11 @@ func TestProcNetstat(t *testing.T) {
 		{name: "TcpExt:PAWSEstab", want: 3640, have: procNetstat.TcpExt.PAWSEstab},
 
 		{name: "IpExt:InNoRoutes", want: 0, have: procNetstat.IpExt.InNoRoutes},
-		{name: "TcpExt:InMcastPkts", want: 208, have: procNetstat.IpExt.InMcastPkts},
-		{name: "TcpExt:OutMcastPkts", want: 214, have: procNetstat.IpExt.OutMcastPkts},
+		{name: "IpExt:InMcastPkts", want: 208, have: procNetstat.IpExt.InMcastPkts},
+		{name: "IpExt:OutMcastPkts", want: 214, have: procNetstat.IpExt.OutMcastPkts},
 	} {
 		if test.want != test.have {
 			t.Errorf("want %s %f, have %f", test.name, test.want, test.have)
 		}
 	}
-
 }

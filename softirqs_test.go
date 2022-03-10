@@ -22,39 +22,39 @@ func TestSoftirqs(t *testing.T) {
 	}
 
 	// hi
-	if want, have := uint64(3), s.HI[0]; want != have {
+	if want, have := uint64(3), s.Hi[0]; want != have {
 		t.Errorf("want softirq HI count %d, have %d", want, have)
 	}
 	// timer
-	if want, have := uint64(247490), s.TIMER[1]; want != have {
+	if want, have := uint64(247490), s.Timer[1]; want != have {
 		t.Errorf("want softirq TIMER count %d, have %d", want, have)
 	}
 	// net_tx
-	if want, have := uint64(2419), s.NETTX[0]; want != have {
+	if want, have := uint64(2419), s.NetTx[0]; want != have {
 		t.Errorf("want softirq NET_TX count %d, have %d", want, have)
 	}
 	// net_rx
-	if want, have := uint64(28694), s.NETRX[1]; want != have {
+	if want, have := uint64(28694), s.NetRx[1]; want != have {
 		t.Errorf("want softirq NET_RX count %d, have %d", want, have)
 	}
 	// block
-	if want, have := uint64(262755), s.BLOCK[1]; want != have {
+	if want, have := uint64(262755), s.Block[1]; want != have {
 		t.Errorf("want softirq BLOCK count %d, have %d", want, have)
 	}
 	// irq_poll
-	if want, have := uint64(0), s.IRQPOLL[0]; want != have {
+	if want, have := uint64(0), s.IRQPoll[0]; want != have {
 		t.Errorf("want softirq IRQ_POLL count %d, have %d", want, have)
 	}
 	// tasklet
-	if want, have := uint64(209), s.TASKLET[0]; want != have {
+	if want, have := uint64(209), s.Tasklet[0]; want != have {
 		t.Errorf("want softirq TASKLET count %d, have %d", want, have)
 	}
 	// sched
-	if want, have := uint64(2278692), s.SCHED[0]; want != have {
+	if want, have := uint64(2278692), s.Sched[0]; want != have {
 		t.Errorf("want softirq SCHED count %d, have %d", want, have)
 	}
 	// hrtimer
-	if want, have := uint64(1281), s.HRTIMER[0]; want != have {
+	if want, have := uint64(1281), s.HRTimer[0]; want != have {
 		t.Errorf("want softirq HRTIMER count %d, have %d", want, have)
 	}
 	// rcu

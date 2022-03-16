@@ -86,9 +86,9 @@ func ReadIntFromFile(path string) (int64, error) {
 func ParseBool(b string) *bool {
 	var truth bool
 	switch b {
-	case "enabled":
+	case "enabled", "up", "1":
 		truth = true
-	case "disabled":
+	case "disabled", "down", "0":
 		truth = false
 	default:
 		return nil

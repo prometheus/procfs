@@ -16,9 +16,12 @@
 package sysfs
 
 import (
+	"net"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 func TestNewNetClassDevices(t *testing.T) {
@@ -75,62 +78,135 @@ func TestNetClass(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	var (
-		addrAssignType   int64 = 3
-		addrLen          int64 = 6
-		carrier          int64 = 1
-		carrierChanges   int64 = 2
-		carrierDownCount int64 = 1
-		carrierUpCount   int64 = 1
-		devID            int64 = 32
-		dormant          int64 = 1
-		flags            int64 = 4867
-		ifIndex          int64 = 2
-		ifLink           int64 = 2
-		linkMode         int64 = 1
-		mtu              int64 = 1500
-		nameAssignType   int64 = 2
-		netDevGroup      int64
-		speed            int64 = 1000
-		txQueueLen       int64 = 1000
-		netType          int64 = 1
-	)
-
 	netClass := NetClass{
 		"enp3s0f0": {Name: "enp3s0f0"},
-		"eth0": {
-			Address:          "01:01:01:01:01:01",
-			AddrAssignType:   &addrAssignType,
-			AddrLen:          &addrLen,
+		"bond0": {
+			Address:          "02:02:02:02:02:02",
+			AddrAssignType:   parsers.NewValueParser("3").PInt64(),
+			AddrLen:          parsers.NewValueParser("6").PInt64(),
 			Broadcast:        "ff:ff:ff:ff:ff:ff",
-			Carrier:          &carrier,
-			CarrierChanges:   &carrierChanges,
-			CarrierDownCount: &carrierDownCount,
-			CarrierUpCount:   &carrierUpCount,
-			DevID:            &devID,
-			Dormant:          &dormant,
+			Carrier:          parsers.NewValueParser("1").PInt64(),
+			CarrierChanges:   parsers.NewValueParser("2").PInt64(),
+			CarrierDownCount: parsers.NewValueParser("1").PInt64(),
+			CarrierUpCount:   parsers.NewValueParser("1").PInt64(),
+			DevID:            parsers.NewValueParser("32").PInt64(),
+			Dormant:          parsers.NewValueParser("1").PInt64(),
 			Duplex:           "full",
-			Flags:            &flags,
+			Flags:            parsers.NewValueParser("4867").PInt64(),
 			IfAlias:          "",
-			IfIndex:          &ifIndex,
-			IfLink:           &ifLink,
-			LinkMode:         &linkMode,
-			MTU:              &mtu,
-			Name:             "eth0",
-			NameAssignType:   &nameAssignType,
-			NetDevGroup:      &netDevGroup,
+			IfIndex:          parsers.NewValueParser("2").PInt64(),
+			IfLink:           parsers.NewValueParser("2").PInt64(),
+			LinkMode:         parsers.NewValueParser("1").PInt64(),
+			MTU:              parsers.NewValueParser("1500").PInt64(),
+			Name:             "bond0",
+			NameAssignType:   parsers.NewValueParser("2").PInt64(),
+			NetDevGroup:      parsers.NewValueParser("0").PInt64(),
 			OperState:        "up",
 			PhysPortID:       "",
 			PhysPortName:     "",
 			PhysSwitchID:     "",
-			Speed:            &speed,
-			TxQueueLen:       &txQueueLen,
-			Type:             &netType,
+			Speed:            parsers.NewValueParser("1000").PInt64(),
+			TxQueueLen:       parsers.NewValueParser("1000").PInt64(),
+			Type:             parsers.NewValueParser("1").PInt64(),
+			BondAttrs: &NetClassBondAttrs{
+				AdActorKey:                             parsers.NewValueParser("15").PUInt64(),
+				AdActorSysPriority:                     parsers.NewValueParser("65535").PUInt64(),
+				AdActorSystem:                          makeMAC("00:00:00:00:00:00"),
+				AdAggregator:                           parsers.NewValueParser("1").PUInt64(),
+				AdNumPorts:                             parsers.NewValueParser("2").PUInt64(),
+				AdPartnerKey:                           parsers.NewValueParser("1034").PUInt64(),
+				AdPartnerMac:                           makeMAC("01:23:45:67:89:AB"),
+				AdSelect:                               strPTR("stable"),
+				AdSelectID:                             parsers.NewValueParser("0").PUInt64(),
+				AdUserPortKey:                          parsers.NewValueParser("0").PUInt64(),
+				AllDevicesActive:                       parsers.ParseBool("0"),
+				ARPAllTargets:                          strPTR("any"),
+				ARPAllTargetsID:                        parsers.NewValueParser("0").PUInt64(),
+				ARPInterval:                            parsers.NewValueParser("0").PInt64(),
+				ARPValidate:                            strPTR("none"),
+				ARPValidateID:                          parsers.NewValueParser("0").PUInt64(),
+				DownDelay:                              parsers.NewValueParser("200").PInt64(),
+				FailoverMac:                            strPTR("none"),
+				FailoverMacID:                          parsers.NewValueParser("0").PUInt64(),
+				LACPRate:                               strPTR("slow"),
+				LACPRateID:                             parsers.NewValueParser("0").PUInt64(),
+				LPInterval:                             parsers.NewValueParser("1").PInt64(),
+				MIIMon:                                 parsers.NewValueParser("100").PInt64(),
+				MIIStatus:                              parsers.ParseBool("1"),
+				MinLinks:                               parsers.NewValueParser("0").PUInt64(),
+				Mode:                                   strPTR("802.3ad"),
+				ModeID:                                 parsers.NewValueParser("4").PUInt64(),
+				NumberGratuitousArp:                    parsers.NewValueParser("1").PUInt64(),
+				NumberUnsolicitedNeighborAdvertisement: parsers.NewValueParser("1").PUInt64(),
+				PacketsPerDevice:                       parsers.NewValueParser("1").PInt64(),
+				PrimaryReselect:                        strPTR("always"),
+				PrimaryReselectID:                      parsers.NewValueParser("0").PUInt64(),
+				ResendIgmp:                             parsers.NewValueParser("1").PInt64(),
+				TLBDynamicLB:                           parsers.NewValueParser("1").PInt64(),
+				UpDelay:                                parsers.NewValueParser("0").PInt64(),
+				UseCarrier:                             parsers.ParseBool("1"),
+				TransmitHashPolicy:                     strPTR("layer3+4"),
+				TransmitHashPolicyID:                   parsers.NewValueParser("1").PUInt64(),
+			},
+		},
+		"eth0": {
+			Address:          "01:01:01:01:01:01",
+			AddrAssignType:   parsers.NewValueParser("3").PInt64(),
+			AddrLen:          parsers.NewValueParser("6").PInt64(),
+			Broadcast:        "ff:ff:ff:ff:ff:ff",
+			Carrier:          parsers.NewValueParser("1").PInt64(),
+			CarrierChanges:   parsers.NewValueParser("2").PInt64(),
+			CarrierDownCount: parsers.NewValueParser("1").PInt64(),
+			CarrierUpCount:   parsers.NewValueParser("1").PInt64(),
+			DevID:            parsers.NewValueParser("32").PInt64(),
+			Dormant:          parsers.NewValueParser("1").PInt64(),
+			Duplex:           "full",
+			Flags:            parsers.NewValueParser("4867").PInt64(),
+			IfAlias:          "",
+			IfIndex:          parsers.NewValueParser("2").PInt64(),
+			IfLink:           parsers.NewValueParser("2").PInt64(),
+			LinkMode:         parsers.NewValueParser("1").PInt64(),
+			MTU:              parsers.NewValueParser("1500").PInt64(),
+			Name:             "eth0",
+			NameAssignType:   parsers.NewValueParser("2").PInt64(),
+			NetDevGroup:      parsers.NewValueParser("0").PInt64(),
+			OperState:        "up",
+			PhysPortID:       "",
+			PhysPortName:     "",
+			PhysSwitchID:     "",
+			Speed:            parsers.NewValueParser("1000").PInt64(),
+			TxQueueLen:       parsers.NewValueParser("1000").PInt64(),
+			Type:             parsers.NewValueParser("1").PInt64(),
+			BondDeviceAttrs: &NetClassBondDeviceAttrs{
+				AdActorOperationalPortState:   parsers.NewValueParser("61").PUInt64(),
+				AdAggregatorID:                parsers.NewValueParser("1").PUInt64(),
+				AdPartnerOperationalPortState: parsers.NewValueParser("61").PUInt64(),
+				LinkFailureCount:              parsers.NewValueParser("0").PUInt64(),
+				MiiStatus:                     parsers.ParseBool("1"),
+				PermamentHWAddress:            makeMAC("01:01:01:01:01:01"),
+				QueueID:                       parsers.NewValueParser("0").PUInt64(),
+			},
 		},
 	}
+	bond0 := netClass["bond0"]
+	eth0 := netClass["eth0"]
+	netClass["bond0"].BondAttrs.Devices = append(netClass["bond0"].BondAttrs.Devices, &eth0)
+	queueIDs := make(map[string]uint64)
+	queueIDs["eth0"] = 0
+
+	netClass["bond0"].BondAttrs.DeviceQueueIDs = queueIDs
+	netClass["eth0"].BondDeviceAttrs.Controller = &bond0
 
 	if diff := cmp.Diff(netClass, nc); diff != "" {
 		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
+}
+
+func makeMAC(s string) *net.HardwareAddr {
+	mac, _ := net.ParseMAC(s)
+	return &mac
+}
+
+func strPTR(s string) *string {
+	return &s
 }

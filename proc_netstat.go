@@ -192,7 +192,7 @@ func parseNetstat(r io.Reader, fileName string) (ProcNetstat, error) {
 		scanner.Scan()
 		valueParts := strings.Split(scanner.Text(), " ")
 		// Remove trailing :.
-		protocol := nameParts[0][:len(nameParts[0])-1]
+		protocol := strings.TrimSuffix(nameParts[0], ":")
 		if len(nameParts) != len(valueParts) {
 			return procNetstat, fmt.Errorf("mismatch field count mismatch in %s: %s",
 				fileName, protocol)

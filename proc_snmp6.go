@@ -35,7 +35,7 @@ type ProcSnmp6 struct {
 	UdpLite6
 }
 
-type Ip6 struct {
+type Ip6 struct { // nolint:revive
 	InReceives       float64
 	InHdrErrors      float64
 	InTooBigErrors   float64
@@ -117,7 +117,7 @@ type Icmp6 struct {
 	OutType143                float64
 }
 
-type Udp6 struct {
+type Udp6 struct { // nolint:revive
 	InDatagrams  float64
 	NoPorts      float64
 	InErrors     float64
@@ -128,7 +128,7 @@ type Udp6 struct {
 	IgnoredMulti float64
 }
 
-type UdpLite6 struct {
+type UdpLite6 struct { // nolint:revive
 	InDatagrams  float64
 	NoPorts      float64
 	InErrors     float64
@@ -160,7 +160,7 @@ func (p Proc) Snmp6() (ProcSnmp6, error) {
 // and returns a map contains those metrics.
 func parseSNMP6Stats(r io.Reader) (ProcSnmp6, error) {
 	var (
-		scanner  = bufio.NewScanner(r)
+		scanner   = bufio.NewScanner(r)
 		procSnmp6 = ProcSnmp6{}
 	)
 

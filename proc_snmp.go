@@ -36,7 +36,7 @@ type ProcSnmp struct {
 	UdpLite
 }
 
-type Ip struct {
+type Ip struct { // nolint:revive
 	Forwarding      float64
 	DefaultTTL      float64
 	InReceives      float64
@@ -93,7 +93,7 @@ type IcmpMsg struct {
 	OutType3 float64
 }
 
-type Tcp struct {
+type Tcp struct { // nolint:revive
 	RtoAlgorithm float64
 	RtoMin       float64
 	RtoMax       float64
@@ -111,7 +111,7 @@ type Tcp struct {
 	InCsumErrors float64
 }
 
-type Udp struct {
+type Udp struct { // nolint:revive
 	InDatagrams  float64
 	NoPorts      float64
 	InErrors     float64
@@ -122,7 +122,7 @@ type Udp struct {
 	IgnoredMulti float64
 }
 
-type UdpLite struct {
+type UdpLite struct { // nolint:revive
 	InDatagrams  float64
 	NoPorts      float64
 	InErrors     float64

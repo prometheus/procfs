@@ -4,7 +4,7 @@ version: 2.1
 jobs:
   lint:
     docker:
-    - image: cimg/go:1.16
+    - image: cimg/go:1.18
     steps:
     - checkout
     - run: make check_license
@@ -23,7 +23,7 @@ jobs:
         type: boolean
         default: true
     docker:
-    - image: circleci/golang:<< parameters.go_version >>
+    - image: cimg/go:<< parameters.go_version >>
     environment:
       GOOS: "<< parameters.os >>"
     steps:
@@ -54,10 +54,10 @@ workflows:
         matrix:
           parameters:
             go_version:
-            - "1.13"
-            - "1.14"
             - "1.15"
             - "1.16"
+            - "1.17"
+            - "1.18"
     - test:
         name: test-windows
         os: windows
@@ -65,8 +65,8 @@ workflows:
         matrix:
           parameters:
             go_version:
-            - "1.13"
-            - "1.14"
             - "1.15"
             - "1.16"
+            - "1.17"
+            - "1.18"
     - codespell

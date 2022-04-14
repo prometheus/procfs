@@ -32,7 +32,7 @@ type ProcNetstat struct {
 	IpExt
 }
 
-type TcpExt struct {
+type TcpExt struct { // nolint:revive
 	SyncookiesSent            float64
 	SyncookiesRecv            float64
 	SyncookiesFailed          float64
@@ -147,7 +147,7 @@ type TcpExt struct {
 	TCPWqueueTooBig           float64
 }
 
-type IpExt struct {
+type IpExt struct { // nolint:revive
 	InNoRoutes      float64
 	InTruncatedPkts float64
 	InMcastPkts     float64
@@ -183,7 +183,7 @@ func (p Proc) Netstat() (ProcNetstat, error) {
 // and returns a ProcNetstat structure.
 func parseNetstat(r io.Reader, fileName string) (ProcNetstat, error) {
 	var (
-		scanner  = bufio.NewScanner(r)
+		scanner     = bufio.NewScanner(r)
 		procNetstat = ProcNetstat{}
 	)
 

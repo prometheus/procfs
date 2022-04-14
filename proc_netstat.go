@@ -183,7 +183,7 @@ func (p Proc) Netstat() (ProcNetstat, error) {
 // and returns a ProcNetstat structure.
 func parseNetstat(r io.Reader, fileName string) (ProcNetstat, error) {
 	var (
-		scanner  = bufio.NewScanner(r)
+		scanner     = bufio.NewScanner(r)
 		procNetstat = ProcNetstat{}
 	)
 

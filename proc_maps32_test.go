@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:build (aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris) && (386 || arm || mips || mipsle)
 // +build aix darwin dragonfly freebsd linux netbsd openbsd solaris
 // +build 386 arm mips mipsle
 

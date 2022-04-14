@@ -160,7 +160,7 @@ func (p Proc) Snmp6() (ProcSnmp6, error) {
 // and returns a map contains those metrics.
 func parseSNMP6Stats(r io.Reader) (ProcSnmp6, error) {
 	var (
-		scanner  = bufio.NewScanner(r)
+		scanner   = bufio.NewScanner(r)
 		procSnmp6 = ProcSnmp6{}
 	)
 

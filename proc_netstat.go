@@ -32,7 +32,7 @@ type ProcNetstat struct {
 	IpExt
 }
 
-type TcpExt struct {
+type TcpExt struct { // nolint:revive
 	SyncookiesSent            float64
 	SyncookiesRecv            float64
 	SyncookiesFailed          float64
@@ -147,7 +147,7 @@ type TcpExt struct {
 	TCPWqueueTooBig           float64
 }
 
-type IpExt struct {
+type IpExt struct { // nolint:revive
 	InNoRoutes      float64
 	InTruncatedPkts float64
 	InMcastPkts     float64

@@ -1,9 +1,9 @@
 module github.com/prometheus/procfs
 
-go 1.13
+go 1.15
 
 require (
-	github.com/google/go-cmp v0.5.4
-	golang.org/x/sync v0.0.0-20201207232520-09787c993a3a
-	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c
+	github.com/google/go-cmp v0.5.7
+	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
+	golang.org/x/sys v0.0.0-20220412211240-33da011f77ad
 )

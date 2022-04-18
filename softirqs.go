@@ -70,81 +70,81 @@ func parseSoftirqs(r io.Reader) (Softirqs, error) {
 		}
 		switch {
 		case parts[0] == "HI:":
-			perCpu := parts[1:]
-			softirqs.Hi = make([]uint64, len(perCpu))
-			for i, count := range perCpu {
+			perCPU := parts[1:]
+			softirqs.Hi = make([]uint64, len(perCPU))
+			for i, count := range perCPU {
 				if softirqs.Hi[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (HI%d): %w", count, i, err)
 				}
 			}
 		case parts[0] == "TIMER:":
-			perCpu := parts[1:]
-			softirqs.Timer = make([]uint64, len(perCpu))
-			for i, count := range perCpu {
+			perCPU := parts[1:]
+			softirqs.Timer = make([]uint64, len(perCPU))
+			for i, count := range perCPU {
 				if softirqs.Timer[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (TIMER%d): %w", count, i, err)
 				}
 			}
 		case parts[0] == "NET_TX:":
-			perCpu := parts[1:]
-			softirqs.NetTx = make([]uint64, len(perCpu))
-			for i, count := range perCpu {
+			perCPU := parts[1:]
+			softirqs.NetTx = make([]uint64, len(perCPU))
+			for i, count := range perCPU {
 				if softirqs.NetTx[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (NET_TX%d): %w", count, i, err)
 				}
 			}
 		case parts[0] == "NET_RX:":
-			perCpu := parts[1:]
-			softirqs.NetRx = make([]uint64, len(perCpu))
-			for i, count := range perCpu {
+			perCPU := parts[1:]
+			softirqs.NetRx = make([]uint64, len(perCPU))
+			for i, count := range perCPU {
 				if softirqs.NetRx[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (NET_RX%d): %w", count, i, err)
 				}
 			}
 		case parts[0] == "BLOCK:":
-			perCpu := parts[1:]
-			softirqs.Block = make([]uint64, len(perCpu))
-			for i, count := range perCpu {
+			perCPU := parts[1:]
+			softirqs.Block = make([]uint64, len(perCPU))
+			for i, count := range perCPU {
 				if softirqs.Block[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (BLOCK%d): %w", count, i, err)
 				}
 			}
 		case parts[0] == "IRQ_POLL:":
-			perCpu := parts[1:]
-			softirqs.IRQPoll = make([]uint64, len(perCpu))
-			for i, count := range perCpu {
+			perCPU := parts[1:]
+			softirqs.IRQPoll = make([]uint64, len(perCPU))
+			for i, count := range perCPU {
 				if softirqs.IRQPoll[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (IRQ_POLL%d): %w", count, i, err)
 				}
 			}
 		case parts[0] == "TASKLET:":
-			perCpu := parts[1:]
-			softirqs.Tasklet = make([]uint64, len(perCpu))
-			for i, count := range perCpu {
+			perCPU := parts[1:]
+			softirqs.Tasklet = make([]uint64, len(perCPU))
+			for i, count := range perCPU {
 				if softirqs.Tasklet[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (TASKLET%d): %w", count, i, err)
 				}
 			}
 		case parts[0] == "SCHED:":
-			perCpu := parts[1:]
-			softirqs.Sched = make([]uint64, len(perCpu))
-			for i, count := range perCpu {
+			perCPU := parts[1:]
+			softirqs.Sched = make([]uint64, len(perCPU))
+			for i, count := range perCPU {
 				if softirqs.Sched[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (SCHED%d): %w", count, i, err)
 				}
 			}
 		case parts[0] == "HRTIMER:":
-			perCpu := parts[1:]
-			softirqs.HRTimer = make([]uint64, len(perCpu))
-			for i, count := range perCpu {
+			perCPU := parts[1:]
+			softirqs.HRTimer = make([]uint64, len(perCPU))
+			for i, count := range perCPU {
 				if softirqs.HRTimer[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (HRTIMER%d): %w", count, i, err)
 				}
 			}
 		case parts[0] == "RCU:":
-			perCpu := parts[1:]
-			softirqs.RCU = make([]uint64, len(perCpu))
-			for i, count := range perCpu {
+			perCPU := parts[1:]
+			softirqs.RCU = make([]uint64, len(perCPU))
+			for i, count := range perCPU {
 				if softirqs.RCU[i], err = strconv.ParseUint(count, 10, 64); err != nil {
 					return Softirqs{}, fmt.Errorf("couldn't parse %q (RCU%d): %w", count, i, err)
 				}

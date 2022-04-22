@@ -315,7 +315,7 @@ Private_Hugetlb:       0 kB
 Swap:                  0 kB
 SwapPss:               0 kB
 Locked:                0 kB
-VmFlags: rd ex mr mw me dw sd 
+VmFlags: rd ex mr mw me dw sd
 00cb1000-016b0000 r--p 008b1000 fd:01 952273                             /bin/alertmanager
 Size:              10236 kB
 KernelPageSize:        4 kB
@@ -336,7 +336,7 @@ Private_Hugetlb:       0 kB
 Swap:                  0 kB
 SwapPss:               0 kB
 Locked:                0 kB
-VmFlags: rd mr mw me dw sd 
+VmFlags: rd mr mw me dw sd
 016b0000-0171a000 rw-p 012b0000 fd:01 952273                             /bin/alertmanager
 Size:                424 kB
 KernelPageSize:        4 kB
@@ -357,8 +357,8 @@ Private_Hugetlb:       0 kB
 Swap:                 12 kB
 SwapPss:              12 kB
 Locked:                0 kB
-VmFlags: rd wr mr mw me dw ac sd 
-0171a000-0173f000 rw-p 00000000 00:00 0 
+VmFlags: rd wr mr mw me dw ac sd
+0171a000-0173f000 rw-p 00000000 00:00 0
 Size:                148 kB
 KernelPageSize:        4 kB
 MMUPageSize:           4 kB
@@ -378,8 +378,8 @@ Private_Hugetlb:       0 kB
 Swap:                  0 kB
 SwapPss:               0 kB
 Locked:                0 kB
-VmFlags: rd wr mr mw me ac sd 
-c000000000-c000400000 rw-p 00000000 00:00 0 
+VmFlags: rd wr mr mw me ac sd
+c000000000-c000400000 rw-p 00000000 00:00 0
 Size:               4096 kB
 KernelPageSize:        4 kB
 MMUPageSize:           4 kB
@@ -399,8 +399,8 @@ Private_Hugetlb:       0 kB
 Swap:               1100 kB
 SwapPss:            1100 kB
 Locked:                0 kB
-VmFlags: rd wr mr mw me ac sd 
-c000400000-c001600000 rw-p 00000000 00:00 0 
+VmFlags: rd wr mr mw me ac sd
+c000400000-c001600000 rw-p 00000000 00:00 0
 Size:              18432 kB
 KernelPageSize:        4 kB
 MMUPageSize:           4 kB
@@ -420,8 +420,8 @@ Private_Hugetlb:       0 kB
 Swap:                440 kB
 SwapPss:             440 kB
 Locked:                0 kB
-VmFlags: rd wr mr mw me ac sd nh 
-c001600000-c004000000 rw-p 00000000 00:00 0 
+VmFlags: rd wr mr mw me ac sd nh
+c001600000-c004000000 rw-p 00000000 00:00 0
 Size:              43008 kB
 KernelPageSize:        4 kB
 MMUPageSize:           4 kB
@@ -441,8 +441,8 @@ Private_Hugetlb:       0 kB
 Swap:                  0 kB
 SwapPss:               0 kB
 Locked:                0 kB
-VmFlags: rd wr mr mw me ac sd 
-7f0ab95ca000-7f0abbb7b000 rw-p 00000000 00:00 0 
+VmFlags: rd wr mr mw me ac sd
+7f0ab95ca000-7f0abbb7b000 rw-p 00000000 00:00 0
 Size:              38596 kB
 KernelPageSize:        4 kB
 MMUPageSize:           4 kB
@@ -462,7 +462,7 @@ Private_Hugetlb:       0 kB
 Swap:                384 kB
 SwapPss:             384 kB
 Locked:                0 kB
-VmFlags: rd wr mr mw me ac sd 
+VmFlags: rd wr mr mw me ac sd
 7ffc07ecf000-7ffc07ef0000 rw-p 00000000 00:00 0                          [stack]
 Size:                132 kB
 KernelPageSize:        4 kB
@@ -483,7 +483,7 @@ Private_Hugetlb:       0 kB
 Swap:                  4 kB
 SwapPss:               4 kB
 Locked:                0 kB
-VmFlags: rd wr mr mw me gd ac 
+VmFlags: rd wr mr mw me gd ac
 7ffc07f9e000-7ffc07fa1000 r--p 00000000 00:00 0                          [vvar]
 Size:                 12 kB
 KernelPageSize:        4 kB
@@ -504,7 +504,7 @@ Private_Hugetlb:       0 kB
 Swap:                  0 kB
 SwapPss:               0 kB
 Locked:                0 kB
-VmFlags: rd mr pf io de dd sd 
+VmFlags: rd mr pf io de dd sd
 7ffc07fa1000-7ffc07fa3000 r-xp 00000000 00:00 0                          [vdso]
 Size:                  8 kB
 KernelPageSize:        4 kB
@@ -525,7 +525,7 @@ Private_Hugetlb:       0 kB
 Swap:                  0 kB
 SwapPss:               0 kB
 Locked:                0 kB
-VmFlags: rd ex mr mw me de sd 
+VmFlags: rd ex mr mw me de sd
 ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
 Size:                  4 kB
 KernelPageSize:        4 kB
@@ -546,7 +546,7 @@ Private_Hugetlb:       0 kB
 Swap:                  0 kB
 SwapPss:               0 kB
 Locked:                0 kB
-VmFlags: rd ex 
+VmFlags: rd ex
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/26231/smaps_rollup
@@ -2776,7 +2776,7 @@ Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/softirqs
 Lines: 11
-                    CPU0       CPU1       
+                    CPU0       CPU1
           HI:          3          0
        TIMER:    2776180     247490
       NET_TX:       2419        772
@@ -4026,48 +4026,48 @@ Mode: 444
 Path: fixtures/sys/class/drm/card0/device/pp_dpm_dcefclk
 Lines: 5
 0: 600Mhz *
-1: 720Mhz 
-2: 800Mhz 
-3: 847Mhz 
-4: 900Mhz 
+1: 720Mhz
+2: 800Mhz
+3: 847Mhz
+4: 900Mhz
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/drm/card0/device/pp_dpm_mclk
 Lines: 4
 0: 167Mhz *
-1: 500Mhz 
-2: 800Mhz 
-3: 945Mhz 
+1: 500Mhz
+2: 800Mhz
+3: 945Mhz
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/drm/card0/device/pp_dpm_pcie
 Lines: 2
-0: 8.0GT/s, x16 
+0: 8.0GT/s, x16
 1: 8.0GT/s, x16 *
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/drm/card0/device/pp_dpm_sclk
 Lines: 8
 0: 852Mhz *
-1: 991Mhz 
-2: 1084Mhz 
-3: 1138Mhz 
-4: 1200Mhz 
-5: 1401Mhz 
-6: 1536Mhz 
-7: 1630Mhz 
+1: 991Mhz
+2: 1084Mhz
+3: 1138Mhz
+4: 1200Mhz
+5: 1401Mhz
+6: 1536Mhz
+7: 1630Mhz
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/drm/card0/device/pp_dpm_socclk
 Lines: 8
-0: 600Mhz 
+0: 600Mhz
 1: 720Mhz *
-2: 800Mhz 
-3: 847Mhz 
-4: 900Mhz 
-5: 960Mhz 
-6: 1028Mhz 
-7: 1107Mhz 
+2: 800Mhz
+3: 847Mhz
+4: 900Mhz
+5: 960Mhz
+6: 1028Mhz
+7: 1107Mhz
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/drm/card0/device/pp_features
@@ -4879,7 +4879,7 @@ Mode: 664
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/model
 Lines: 1
-Samsung SSD 970 PRO 512GB               
+Samsung SSD 970 PRO 512GB
 Mode: 664
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/serial
@@ -6070,11 +6070,6 @@ Lines: 1
 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/devices/pci0000:00/0000:00:0d.0/ata4/host3/target3:0:0/3:0:0:0/block/sdb/bcache/stats_day/cache_readaheads
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/pci0000:00/0000:00:0d.0/ata4/host3/target3:0:0/3:0:0:0/block/sdb/bcache/stats_five_minute
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -6109,11 +6104,6 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/pci0000:00/0000:00:0d.0/ata4/host3/target3:0:0/3:0:0:0/block/sdb/bcache/stats_five_minute/cache_misses
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/devices/pci0000:00/0000:00:0d.0/ata4/host3/target3:0:0/3:0:0:0/block/sdb/bcache/stats_five_minute/cache_readaheads
 Lines: 1
 0
 Mode: 644
@@ -6156,11 +6146,6 @@ Lines: 1
 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/devices/pci0000:00/0000:00:0d.0/ata4/host3/target3:0:0/3:0:0:0/block/sdb/bcache/stats_hour/cache_readaheads
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/pci0000:00/0000:00:0d.0/ata4/host3/target3:0:0/3:0:0:0/block/sdb/bcache/stats_total
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -6195,11 +6180,6 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/pci0000:00/0000:00:0d.0/ata4/host3/target3:0:0/3:0:0:0/block/sdb/bcache/stats_total/cache_misses
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/devices/pci0000:00/0000:00:0d.0/ata4/host3/target3:0:0/3:0:0:0/block/sdb/bcache/stats_total/cache_readaheads
 Lines: 1
 0
 Mode: 644
@@ -6414,7 +6394,7 @@ Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/clocksource/clocksource0/available_clocksource
 Lines: 1
-tsc hpet acpi_pm 
+tsc hpet acpi_pm
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/clocksource/clocksource0/current_clocksource
@@ -6756,11 +6736,6 @@ Lines: 1
 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_day/cache_readaheads
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -6795,11 +6770,6 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute/cache_misses
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute/cache_readaheads
 Lines: 1
 0
 Mode: 644
@@ -6842,11 +6812,6 @@ Lines: 1
 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_hour/cache_readaheads
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -6881,11 +6846,6 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total/cache_misses
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total/cache_readaheads
 Lines: 1
 0
 Mode: 644
@@ -7009,11 +6969,6 @@ Lines: 1
 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_day/cache_readaheads
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -7048,11 +7003,6 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute/cache_misses
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute/cache_readaheads
 Lines: 1
 0
 Mode: 644
@@ -7095,11 +7045,6 @@ Lines: 1
 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_hour/cache_readaheads
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -7134,11 +7079,6 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total/cache_misses
-Lines: 1
-0
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total/cache_readaheads
 Lines: 1
 0
 Mode: 644

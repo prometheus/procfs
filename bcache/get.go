@@ -408,6 +408,7 @@ func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 	bs.Bcache.FiveMin.CacheHits = par.readValue("cache_hits")
 	bs.Bcache.FiveMin.CacheMissCollisions = par.readValue("cache_miss_collisions")
 	bs.Bcache.FiveMin.CacheMisses = par.readValue("cache_misses")
+	bs.Bcache.FiveMin.CacheReadaheads = par.readValue("cache_readaheads")
 
 	// dir <uuidPath>/stats_total
 	par.setSubDir("stats_total")
@@ -420,6 +421,7 @@ func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 	bs.Bcache.Total.CacheHits = par.readValue("cache_hits")
 	bs.Bcache.Total.CacheMissCollisions = par.readValue("cache_miss_collisions")
 	bs.Bcache.Total.CacheMisses = par.readValue("cache_misses")
+	bs.Bcache.Total.CacheReadaheads = par.readValue("cache_readaheads")
 
 	if par.err != nil {
 		return nil, par.err
@@ -454,6 +456,7 @@ func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 		bds.FiveMin.CacheHits = par.readValue("cache_hits")
 		bds.FiveMin.CacheMissCollisions = par.readValue("cache_miss_collisions")
 		bds.FiveMin.CacheMisses = par.readValue("cache_misses")
+		bds.FiveMin.CacheReadaheads = par.readValue("cache_readaheads")
 
 		// dir <uuidPath>/<bds.Name>/stats_total
 		par.setSubDir(bds.Name, "stats_total")
@@ -463,6 +466,7 @@ func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 		bds.Total.CacheHits = par.readValue("cache_hits")
 		bds.Total.CacheMissCollisions = par.readValue("cache_miss_collisions")
 		bds.Total.CacheMisses = par.readValue("cache_misses")
+		bds.Total.CacheReadaheads = par.readValue("cache_readaheads")
 	}
 
 	if par.err != nil {

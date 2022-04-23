@@ -81,6 +81,7 @@ type PeriodStats struct {
 	CacheHits           uint64
 	CacheMissCollisions uint64
 	CacheMisses         uint64
+	CacheReadaheads     uint64
 }
 
 // WritebackRateDebugStats contains bcache writeback statistics.

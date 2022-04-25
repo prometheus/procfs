@@ -197,8 +197,8 @@ func (p *parser) setSubDir(pathElements ...string) {
 	p.currentDir = path.Join(p.uuidPath, p.subDir)
 }
 
-// readValues reads a number of numerical values into an uint64 slice
-// Non-existing files are ignored
+// readValues reads a number of numerical values into an uint64 slice.
+// Non-existing files are ignored.
 func (p *parser) readValue(fileName string) uint64 {
 	if p.err != nil {
 		return 0

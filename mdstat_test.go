@@ -56,16 +56,23 @@ func TestFS_MDStat(t *testing.T) {
 }
 
 func TestInvalidMdstat(t *testing.T) {
-	invalidMount := []byte(`
+	invalidMount := [][]byte{[]byte(`
 Personalities : [invalid]
 md3 : invalid
       314159265 blocks 64k chunks
 
 unused devices: <none>
-`)
+`),
+		[]byte(`
+md12 : active raid0 sdc2[0] sdd2[1]
 
-	_, err := parseMDStat(invalidMount)
-	if err == nil {
-		t.Fatalf("parsing of invalid reference file did not find any errors")
+      3886394368 blocks super 1.2 512k chunks
+`)}
+
+	for _, invalid := range invalidMount {
+		_, err := parseMDStat(invalid)
+		if err == nil {
+			t.Fatalf("parsing of invalid reference file did not find any errors")
+		}
 	}
 }

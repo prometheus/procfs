@@ -21,8 +21,8 @@ import (
 
 const (
 	failMsgFormat  = "%v, expected %v, actual %v"
-	procfsFixtures = "../fixtures/proc"
-	sysfsFixtures  = "../fixtures/sys"
+	procfsFixtures = "testdata/fixtures/proc"
+	sysfsFixtures  = "testdata/fixtures/sys"
 )
 
 func TestDiskstats(t *testing.T) {
@@ -65,7 +65,7 @@ func TestDiskstats(t *testing.T) {
 }
 
 func TestBlockDevice(t *testing.T) {
-	blockdevice, err := NewFS("../fixtures/proc", "../fixtures/sys")
+	blockdevice, err := NewFS("testdata/fixtures/proc", "testdata/fixtures/sys")
 	if err != nil {
 		t.Fatalf("failed to access blockdevice fs: %v", err)
 	}
@@ -155,7 +155,7 @@ func TestBlockDevice(t *testing.T) {
 }
 
 func TestBlockDmInfo(t *testing.T) {
-	blockdevice, err := NewFS("../fixtures/proc", "../fixtures/sys")
+	blockdevice, err := NewFS("testdata/fixtures/proc", "testdata/fixtures/sys")
 	if err != nil {
 		t.Fatalf("failed to access blockdevice fs: %v", err)
 	}
@@ -199,7 +199,7 @@ func TestBlockDmInfo(t *testing.T) {
 }
 
 func TestSysBlockDeviceUnderlyingDevices(t *testing.T) {
-	blockdevice, err := NewFS("../fixtures/proc", "../fixtures/sys")
+	blockdevice, err := NewFS("testdata/fixtures/proc", "testdata/fixtures/sys")
 	if err != nil {
 		t.Fatalf("failed to access blockdevice fs: %v", err)
 	}

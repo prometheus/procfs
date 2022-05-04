@@ -28,7 +28,7 @@ func Test_newNetUDP(t *testing.T) {
 	}{
 		{
 			name: "udp file found, no error should come up",
-			file: "fixtures/proc/net/udp",
+			file: "testdata/fixtures/proc/net/udp",
 			want: []*netIPSocketLine{
 				&netIPSocketLine{
 					Sl:        0,
@@ -71,7 +71,7 @@ func Test_newNetUDP(t *testing.T) {
 		},
 		{
 			name: "udp6 file found, no error should come up",
-			file: "fixtures/proc/net/udp6",
+			file: "testdata/fixtures/proc/net/udp6",
 			want: []*netIPSocketLine{
 				&netIPSocketLine{
 					Sl:        1315,
@@ -108,7 +108,7 @@ func Test_newNetUDP(t *testing.T) {
 		},
 		{
 			name:    "error case - parse error",
-			file:    "fixtures/proc/net/udp_broken",
+			file:    "testdata/fixtures/proc/net/udp_broken",
 			want:    nil,
 			wantErr: true,
 		},
@@ -136,13 +136,13 @@ func Test_newNetUDPSummary(t *testing.T) {
 	}{
 		{
 			name:    "udp file found, no error should come up",
-			file:    "fixtures/proc/net/udp",
+			file:    "testdata/fixtures/proc/net/udp",
 			want:    &NetUDPSummary{TxQueueLength: 2, RxQueueLength: 2, UsedSockets: 3},
 			wantErr: false,
 		},
 		{
 			name:    "udp6 file found, no error should come up",
-			file:    "fixtures/proc/net/udp6",
+			file:    "testdata/fixtures/proc/net/udp6",
 			want:    &NetUDPSummary{TxQueueLength: 0, RxQueueLength: 0, UsedSockets: 2},
 			wantErr: false,
 		},
@@ -154,7 +154,7 @@ func Test_newNetUDPSummary(t *testing.T) {
 		},
 		{
 			name:    "error case - parse error",
-			file:    "fixtures/proc/net/udp_broken",
+			file:    "testdata/fixtures/proc/net/udp_broken",
 			want:    nil,
 			wantErr: true,
 		},

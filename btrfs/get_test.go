@@ -28,7 +28,7 @@ type alloc struct {
 }
 
 func TestFSBtrfsStats(t *testing.T) {
-	btrfs, err := NewFS("../fixtures/sys")
+	btrfs, err := NewFS("testdata/fixtures/sys")
 	if err != nil {
 		t.Fatalf("failed to access Btrfs filesystem: %v", err)
 	}

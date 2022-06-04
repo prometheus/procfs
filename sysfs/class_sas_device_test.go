@@ -34,10 +34,26 @@ func TestSASDeviceClass(t *testing.T) {
 	}
 
 	want := SASDeviceClass{
-		"end_device-11:0:0": {Name: "end_device-11:0:0", SASAddress: "0x5000ccab02009402"},
-		"end_device-11:0:1": {Name: "end_device-11:0:1", SASAddress: "0x5000cca26128b1f5"},
-		"end_device-11:0:2": {Name: "end_device-11:0:2", SASAddress: "0x5000ccab02009406"},
-		"end_device-11:2":   {Name: "end_device-11:2", SASAddress: "0x5000cca0506b5f1d"},
+		"end_device-11:0:0": {
+			Name:         "end_device-11:0:0",
+			SASAddress:   "0x5000ccab02009402",
+			BlockDevices: []string{"sdv"},
+		},
+		"end_device-11:0:1": {
+			Name:         "end_device-11:0:1",
+			SASAddress:   "0x5000cca26128b1f5",
+			BlockDevices: []string{"sdw"},
+		},
+		"end_device-11:0:2": {
+			Name:         "end_device-11:0:2",
+			SASAddress:   "0x5000ccab02009406",
+			BlockDevices: []string{"sdx"},
+		},
+		"end_device-11:2": {
+			Name:         "end_device-11:2",
+			SASAddress:   "0x5000cca0506b5f1d",
+			BlockDevices: []string{"sdp"},
+		},
 		"expander-11:0": {
 			Name:       "expander-11:0",
 			SASAddress: "0x5000ccab0200947e",
@@ -75,10 +91,26 @@ func TestSASEndDeviceClass(t *testing.T) {
 	}
 
 	want := SASDeviceClass{
-		"end_device-11:0:0": {Name: "end_device-11:0:0", SASAddress: "0x5000ccab02009402"},
-		"end_device-11:0:1": {Name: "end_device-11:0:1", SASAddress: "0x5000cca26128b1f5"},
-		"end_device-11:0:2": {Name: "end_device-11:0:2", SASAddress: "0x5000ccab02009406"},
-		"end_device-11:2":   {Name: "end_device-11:2", SASAddress: "0x5000cca0506b5f1d"},
+		"end_device-11:0:0": {
+			Name:         "end_device-11:0:0",
+			SASAddress:   "0x5000ccab02009402",
+			BlockDevices: []string{"sdv"},
+		},
+		"end_device-11:0:1": {
+			Name:         "end_device-11:0:1",
+			SASAddress:   "0x5000cca26128b1f5",
+			BlockDevices: []string{"sdw"},
+		},
+		"end_device-11:0:2": {
+			Name:         "end_device-11:0:2",
+			SASAddress:   "0x5000ccab02009406",
+			BlockDevices: []string{"sdx"},
+		},
+		"end_device-11:2": {
+			Name:         "end_device-11:2",
+			SASAddress:   "0x5000cca0506b5f1d",
+			BlockDevices: []string{"sdp"},
+		},
 	}
 
 	if diff := cmp.Diff(want, got); diff != "" {
@@ -122,4 +154,3 @@ func TestSASExpanderClass(t *testing.T) {
 		t.Fatalf("unexpected SASDevice class (-want +got):\n%s", diff)
 	}
 }
-

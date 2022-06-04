@@ -32,6 +32,7 @@ type SASDevice struct {
 	SASAddress string   // /sys/class/sas_device/<Name>/sas_address
 	SASPhys    []string // /sys/class/sas_device/<Name>/device/phy-*
 	SASPorts   []string // /sys/class/sas_device/<Name>/device/ports-*
+	BlockDevices []string  // /sys/class/sas_device/<Name>/device/target*/*/block/*
 }
 
 type SASDeviceClass map[string]SASDevice
@@ -141,5 +142,63 @@ func (fs FS) parseSASDevice(name string) (*SASDevice, error) {
 		device.SASAddress = value
 	}
 
+	device.BlockDevices, err = fs.blockSASDeviceBlockDevices(name)
+	if err != nil {
+		return &device, err
+	}
+
 	return &device, nil
+}
+
+// Identify block devices that map to a specific SAS Device
+// This info comes from (for example) /sys/class/sas_device/end_device-11:2/device/target11:0:0/11:0:0:0/block/sdp
+//
+// To find that, we have to look in the device directory for target$X
+// subdirs, then a subdir of $X, then read from directory names in the
+// 'block/' subdirectory under that.
+func (fs FS) blockSASDeviceBlockDevices(name string) ([]string, error) {
+	var devices []string
+
+	devicepath := fs.sys.Path(filepath.Join(sasDeviceClassPath, name, "device"))
+
+	dirs, err := ioutil.ReadDir(devicepath)
+	if err != nil {
+		return nil, err
+	}
+
+	targetDevice := regexp.MustCompile(`^target[0-9:]+$`)
+	targetSubDevice := regexp.MustCompile(`[0-9]+:.*`)
+
+	for _, d := range dirs {
+		if targetDevice.MatchString(d.Name()) {
+			targetdir := d.Name()
+
+			subtargets, err := ioutil.ReadDir(filepath.Join(devicepath, targetdir))
+			if err != nil {
+				return nil, err
+			}
+			
+			for _, targetsubdir := range subtargets {
+
+				if !targetSubDevice.MatchString(targetsubdir.Name()) {
+					// need to skip 'power', 'subsys', etc.
+					continue
+				}
+				
+				blocks, err := ioutil.ReadDir(filepath.Join(devicepath, targetdir, targetsubdir.Name(), "block"))
+				
+				if err != nil {
+					return nil, err
+				}
+				
+				for _, blockdevice := range blocks {
+					devices = append(devices, blockdevice.Name())
+				}
+			}
+		}
+	}
+
+	
+
+	return devices, nil
 }

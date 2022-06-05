@@ -17,9 +17,8 @@
 package sysfs
 
 import (
-	"testing"
-
 	"github.com/google/go-cmp/cmp"
+	"testing"
 )
 
 func TestSASHostClass(t *testing.T) {
@@ -36,13 +35,14 @@ func TestSASHostClass(t *testing.T) {
 	want := SASHostClass{
 		"host11": SASHost{
 			Name: "host11",
-        		SASPhys: []string{
-        			"phy-11:10", "phy-11:11", "phy-11:12", "phy-11:13",
-        			"phy-11:14", "phy-11:15", "phy-11:7", "phy-11:8", "phy-11:9",
-        		},
+			SASPhys: []string{
+				"phy-11:10", "phy-11:11", "phy-11:12", "phy-11:13",
+				"phy-11:14", "phy-11:15", "phy-11:7", "phy-11:8",
+				"phy-11:9",
+			},
 			SASPorts: []string{
-        			"port-11:0", "port-11:1", "port-11:2",
-        		},
+				"port-11:0", "port-11:1", "port-11:2",
+			},
 		},
 	}
 

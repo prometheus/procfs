@@ -1,4 +1,4 @@
-// Copyright 2021 The Prometheus Authors
+// Copyright 2022 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -28,18 +28,21 @@ const sasEndDeviceClassPath = "class/sas_end_device"
 const sasExpanderClassPath = "class/sas_expander"
 
 type SASDevice struct {
-	Name       string   // /sys/class/sas_device/<Name>
-	SASAddress string   // /sys/class/sas_device/<Name>/sas_address
-	SASPhys    []string // /sys/class/sas_device/<Name>/device/phy-*
-	SASPorts   []string // /sys/class/sas_device/<Name>/device/ports-*
-	BlockDevices []string  // /sys/class/sas_device/<Name>/device/target*/*/block/*
+	Name         string   // /sys/class/sas_device/<Name>
+	SASAddress   string   // /sys/class/sas_device/<Name>/sas_address
+	SASPhys      []string // /sys/class/sas_device/<Name>/device/phy-*
+	SASPorts     []string // /sys/class/sas_device/<Name>/device/ports-*
+	BlockDevices []string // /sys/class/sas_device/<Name>/device/target*/*/block/*
 }
 
 type SASDeviceClass map[string]SASDevice
 
-// SASDeviceClass parses devices in /sys/class/sas_device.
-func (fs FS) SASDeviceClass() (SASDeviceClass, error) {
-	path := fs.sys.Path(sasDeviceClassPath)
+// sasDeviceClasses reads all of the SAS devices from a specific set
+// of /sys/class/sas*/ entries.  The sas_device, sas_end_device, and
+// sas_expander classes are all nearly identical and can be handled by the same basic code.
+
+func (fs FS) parseSASDeviceClass(dir string) (SASDeviceClass, error) {
+	path := fs.sys.Path(dir)
 
 	dirs, err := ioutil.ReadDir(path)
 	if err != nil {
@@ -58,59 +61,28 @@ func (fs FS) SASDeviceClass() (SASDeviceClass, error) {
 	}
 
 	return sdc, nil
+}
+
+// SASDeviceClass parses devices in /sys/class/sas_device.
+func (fs FS) SASDeviceClass() (SASDeviceClass, error) {
+	return fs.parseSASDeviceClass(sasDeviceClassPath)
 }
 
 // SASEndDeviceClass parses devices in /sys/class/sas_end_device.
-// This is *almost* identical to sas_device, just with a different
-// base directory.  The major difference is that end_devices don't
-// include expanders and other infrastructure devices.
+// This is a subset of sas_device, and excludes expanders.
 func (fs FS) SASEndDeviceClass() (SASDeviceClass, error) {
-	path := fs.sys.Path(sasEndDeviceClassPath)
-
-	dirs, err := ioutil.ReadDir(path)
-	if err != nil {
-		return nil, err
-	}
-
-	sdc := make(SASDeviceClass, len(dirs))
-
-	for _, d := range dirs {
-		device, err := fs.parseSASDevice(d.Name())
-		if err != nil {
-			return nil, err
-		}
-
-		sdc[device.Name] = *device
-	}
-
-	return sdc, nil
+	return fs.parseSASDeviceClass(sasEndDeviceClassPath)
 }
 
 // SASExpanderClass parses devices in /sys/class/sas_expander.
-// This is *almost* identical to sas_device, but only includes expanders.
+// This is a subset of sas_device, but only includes expanders.
 func (fs FS) SASExpanderClass() (SASDeviceClass, error) {
-	path := fs.sys.Path(sasExpanderClassPath)
-
-	dirs, err := ioutil.ReadDir(path)
-	if err != nil {
-		return nil, err
-	}
-
-	sdc := make(SASDeviceClass, len(dirs))
-
-	for _, d := range dirs {
-		device, err := fs.parseSASDevice(d.Name())
-		if err != nil {
-			return nil, err
-		}
-
-		sdc[device.Name] = *device
-	}
-
-	return sdc, nil
+	return fs.parseSASDeviceClass(sasExpanderClassPath)
 }
 
-// Parse a single sas_device.
+// Parse a single sas_device.  This uses /sys/class/sas_device, as
+// it's a superset of the other two directories so there's no reason
+// to plumb the path through to here.
 func (fs FS) parseSASDevice(name string) (*SASDevice, error) {
 	device := SASDevice{Name: name}
 
@@ -125,37 +97,37 @@ func (fs FS) parseSASDevice(name string) (*SASDevice, error) {
 	portDevice := regexp.MustCompile(`^port-[0-9:]+$`)
 
 	for _, d := range dirs {
-		if phyDevice.Match([]byte(d.Name())) {
+		if phyDevice.MatchString(d.Name()) {
 			device.SASPhys = append(device.SASPhys, d.Name())
 		}
-		if portDevice.Match([]byte(d.Name())) {
+		if portDevice.MatchString(d.Name()) {
 			device.SASPorts = append(device.SASPorts, d.Name())
 		}
 	}
 
 	address := fs.sys.Path(sasDeviceClassPath, name, "sas_address")
 	value, err := util.SysReadFile(address)
-
 	if err != nil {
-		return &device, err
-	} else {
-		device.SASAddress = value
+		return nil, err
 	}
+	device.SASAddress = value
 
 	device.BlockDevices, err = fs.blockSASDeviceBlockDevices(name)
 	if err != nil {
-		return &device, err
+		return nil, err
 	}
 
 	return &device, nil
 }
 
 // Identify block devices that map to a specific SAS Device
-// This info comes from (for example) /sys/class/sas_device/end_device-11:2/device/target11:0:0/11:0:0:0/block/sdp
+// This info comes from (for example)
+// /sys/class/sas_device/end_device-11:2/device/target11:0:0/11:0:0:0/block/sdp
 //
 // To find that, we have to look in the device directory for target$X
-// subdirs, then a subdir of $X, then read from directory names in the
-// 'block/' subdirectory under that.
+// subdirs, then specific subdirs of $X, then read from directory
+// names in the 'block/' subdirectory under that.  This really
+// shouldn't be this hard.
 func (fs FS) blockSASDeviceBlockDevices(name string) ([]string, error) {
 	var devices []string
 
@@ -177,28 +149,26 @@ func (fs FS) blockSASDeviceBlockDevices(name string) ([]string, error) {
 			if err != nil {
 				return nil, err
 			}
-			
+
 			for _, targetsubdir := range subtargets {
 
 				if !targetSubDevice.MatchString(targetsubdir.Name()) {
 					// need to skip 'power', 'subsys', etc.
 					continue
 				}
-				
+
 				blocks, err := ioutil.ReadDir(filepath.Join(devicepath, targetdir, targetsubdir.Name(), "block"))
-				
+
 				if err != nil {
 					return nil, err
 				}
-				
+
 				for _, blockdevice := range blocks {
 					devices = append(devices, blockdevice.Name())
 				}
 			}
 		}
 	}
-
-	
 
 	return devices, nil
 }

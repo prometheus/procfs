@@ -23,8 +23,8 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 const sasPhyClassPath = "class/sas_phy"
@@ -143,8 +143,13 @@ func (fs FS) parseSASPhy(name string) (*SASPhy, error) {
 	return &phy, nil
 }
 
+// parseLinkRate turns the kernel's SAS linkrate values into floats.
+// The kernel returns values like "12.0 Gbit".  Valid speeds are
+// currently 1.5, 3.0, 6.0, 12.0, and up.  This is a float to cover
+// the 1.5 Gbps case.  A value of 0 is returned if the speed can't be
+// parsed.
 func parseLinkrate(value string) float64 {
-	f := strings.Split(value," ")[0]
+	f := strings.Split(value, " ")[0]
 	gb, err := strconv.ParseFloat(f, 64)
 	if err != nil {
 		return 0

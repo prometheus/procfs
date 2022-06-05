@@ -25,14 +25,24 @@ import (
 const sasPortClassPath = "class/sas_port"
 
 type SASPort struct {
-	Name       string   // /sys/class/sas_device/<Name>
-	SASPhys    []string // /sys/class/sas_device/<Name>/device/phy-*
-	Expanders  []string // /sys/class/sas_port/<Name>/device/expander-*
+	Name      string   // /sys/class/sas_device/<Name>
+	SASPhys   []string // /sys/class/sas_device/<Name>/device/phy-*
+	Expanders []string // /sys/class/sas_port/<Name>/device/expander-*
 }
 
 type SASPortClass map[string]SASPort
 
 // SASPortClass parses ports in /sys/class/sas_port.
+//
+// A SAS port in this context is a collection of SAS PHYs operating
+// together.  For example, it's common to have 8-lane SAS cards that
+// have 2 external connectors, each of which carries 4 SAS lanes over
+// a SFF-8088 or SFF-8644 connector.  While it's possible to split
+// those 4 lanes into 4 different cables wired directly into
+// individual drives, it's more common to connect them all to a SAS
+// expander.  This gives you 4x the bandwidth between the expander and
+// the SAS host, and is represented by a sas-port object which
+// contains 4 sas-phy objects.
 func (fs FS) SASPortClass() (SASPortClass, error) {
 	path := fs.sys.Path(sasPortClassPath)
 

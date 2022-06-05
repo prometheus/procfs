@@ -18,16 +18,16 @@ package sysfs
 
 import (
 	"io/ioutil"
-        "path/filepath"
+	"path/filepath"
 	"regexp"
 )
 
 const sasHostClassPath = "class/sas_host"
 
 type SASHost struct {
-	Name     string           // /sys/class/sas_host/<Name>
-	SASPhys []string         // /sys/class/sas_host/<Name>/device/phy-*
-	SASPorts []string       // /sys/class/sas_host/<Name>/device/ports-*
+	Name     string   // /sys/class/sas_host/<Name>
+	SASPhys  []string // /sys/class/sas_host/<Name>/device/phy-*
+	SASPorts []string // /sys/class/sas_host/<Name>/device/ports-*
 }
 
 type SASHostClass map[string]SASHost
@@ -39,7 +39,8 @@ type SASHostClass map[string]SASHost
 // The sas_host class doesn't collect any obvious statistics.  Each
 // sas_host contains a scsi_host, which seems to collect a couple
 // minor stats (ioc_reset_count and reply_queue_count), but they're
-// not worth collecting at this time.
+// not worth collecting at this time.  There are more useful SAS stats
+// in the sas_phy class.
 func (fs FS) SASHostClass() (SASHostClass, error) {
 	path := fs.sys.Path(sasHostClassPath)
 
@@ -67,7 +68,7 @@ func (fs FS) parseSASHost(name string) (*SASHost, error) {
 	//path := fs.sys.Path(sasHostClassPath, name)
 	host := SASHost{Name: name}
 
-	devicepath := fs.sys.Path(filepath.Join(sasHostClassPath,name,"device"))
+	devicepath := fs.sys.Path(filepath.Join(sasHostClassPath, name, "device"))
 
 	dirs, err := ioutil.ReadDir(devicepath)
 	if err != nil {
@@ -78,10 +79,10 @@ func (fs FS) parseSASHost(name string) (*SASHost, error) {
 	portDevice := regexp.MustCompile(`^port-[0-9:]+$`)
 
 	for _, d := range dirs {
-		if phyDevice.Match([]byte(d.Name())) {
+		if phyDevice.MatchString(d.Name()) {
 			host.SASPhys = append(host.SASPhys, d.Name())
 		}
-		if portDevice.Match([]byte(d.Name())) {
+		if portDevice.MatchString(d.Name()) {
 			host.SASPorts = append(host.SASPorts, d.Name())
 		}
 	}

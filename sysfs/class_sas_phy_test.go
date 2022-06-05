@@ -17,9 +17,8 @@
 package sysfs
 
 import (
-	"testing"
-
 	"github.com/google/go-cmp/cmp"
+	"testing"
 )
 
 func TestSASPhyClass(t *testing.T) {

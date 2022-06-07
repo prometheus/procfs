@@ -19,7 +19,7 @@ package sysfs
 import "testing"
 
 const (
-	sysTestFixtures = "../fixtures/sys"
+	sysTestFixtures = "testdata/fixtures/sys"
 )
 
 func TestNewFS(t *testing.T) {

@@ -22,7 +22,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strconv"
 	"strings"
 )
@@ -83,8 +82,7 @@ func (fs FS) parseSASPhy(name string) (*SASPhy, error) {
 	link, err := os.Readlink(fs.sys.Path(phydevicepath, "port"))
 
 	if err == nil {
-		portDevice := regexp.MustCompile(`^port-[0-9:]+$`)
-		if portDevice.MatchString(filepath.Base(link)) {
+		if sasPortDeviceRegexp.MatchString(filepath.Base(link)) {
 			phy.SASPort = filepath.Base(link)
 		}
 	}

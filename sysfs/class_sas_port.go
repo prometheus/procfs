@@ -32,6 +32,8 @@ type SASPort struct {
 
 type SASPortClass map[string]SASPort
 
+var sasExpanderDeviceRegexp = regexp.MustCompile(`^expander-[0-9:]+$`)
+
 // SASPortClass parses ports in /sys/class/sas_port.
 //
 // A SAS port in this context is a collection of SAS PHYs operating
@@ -76,14 +78,11 @@ func (fs FS) parseSASPort(name string) (*SASPort, error) {
 		return nil, err
 	}
 
-	phyDevice := regexp.MustCompile(`^phy-[0-9:]+$`)
-	expanderDevice := regexp.MustCompile(`^expander-[0-9:]+$`)
-
 	for _, d := range dirs {
-		if phyDevice.Match([]byte(d.Name())) {
+		if sasPhyDeviceRegexp.Match([]byte(d.Name())) {
 			port.SASPhys = append(port.SASPhys, d.Name())
 		}
-		if expanderDevice.Match([]byte(d.Name())) {
+		if sasExpanderDeviceRegexp.Match([]byte(d.Name())) {
 			port.Expanders = append(port.Expanders, d.Name())
 		}
 	}

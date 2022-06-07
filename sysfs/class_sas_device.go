@@ -23,9 +23,11 @@ import (
 	"regexp"
 )
 
-const sasDeviceClassPath = "class/sas_device"
-const sasEndDeviceClassPath = "class/sas_end_device"
-const sasExpanderClassPath = "class/sas_expander"
+const (
+	sasDeviceClassPath    = "class/sas_device"
+	sasEndDeviceClassPath = "class/sas_end_device"
+	sasExpanderClassPath  = "class/sas_expander"
+)
 
 type SASDevice struct {
 	Name         string   // /sys/class/sas_device/<Name>
@@ -36,6 +38,11 @@ type SASDevice struct {
 }
 
 type SASDeviceClass map[string]SASDevice
+
+var (
+	sasTargetDeviceRegexp    = regexp.MustCompile(`^target[0-9:]+$`)
+	sasTargetSubDeviceRegexp = regexp.MustCompile(`[0-9]+:.*`)
+)
 
 // sasDeviceClasses reads all of the SAS devices from a specific set
 // of /sys/class/sas*/ entries.  The sas_device, sas_end_device, and
@@ -93,14 +100,11 @@ func (fs FS) parseSASDevice(name string) (*SASDevice, error) {
 		return nil, err
 	}
 
-	phyDevice := regexp.MustCompile(`^phy-[0-9:]+$`)
-	portDevice := regexp.MustCompile(`^port-[0-9:]+$`)
-
 	for _, d := range dirs {
-		if phyDevice.MatchString(d.Name()) {
+		if sasPhyDeviceRegexp.MatchString(d.Name()) {
 			device.SASPhys = append(device.SASPhys, d.Name())
 		}
-		if portDevice.MatchString(d.Name()) {
+		if sasPortDeviceRegexp.MatchString(d.Name()) {
 			device.SASPorts = append(device.SASPorts, d.Name())
 		}
 	}
@@ -138,11 +142,8 @@ func (fs FS) blockSASDeviceBlockDevices(name string) ([]string, error) {
 		return nil, err
 	}
 
-	targetDevice := regexp.MustCompile(`^target[0-9:]+$`)
-	targetSubDevice := regexp.MustCompile(`[0-9]+:.*`)
-
 	for _, d := range dirs {
-		if targetDevice.MatchString(d.Name()) {
+		if sasTargetDeviceRegexp.MatchString(d.Name()) {
 			targetdir := d.Name()
 
 			subtargets, err := ioutil.ReadDir(filepath.Join(devicepath, targetdir))
@@ -152,7 +153,7 @@ func (fs FS) blockSASDeviceBlockDevices(name string) ([]string, error) {
 
 			for _, targetsubdir := range subtargets {
 
-				if !targetSubDevice.MatchString(targetsubdir.Name()) {
+				if !sasTargetSubDeviceRegexp.MatchString(targetsubdir.Name()) {
 					// need to skip 'power', 'subsys', etc.
 					continue
 				}

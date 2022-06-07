@@ -32,6 +32,11 @@ type SASHost struct {
 
 type SASHostClass map[string]SASHost
 
+var (
+	sasPhyDeviceRegexp  = regexp.MustCompile(`^phy-[0-9:]+$`)
+	sasPortDeviceRegexp = regexp.MustCompile(`^port-[0-9:]+$`)
+)
+
 // SASHostClass parses host[0-9]+ devices in /sys/class/sas_host.
 // This generally only exists so that it can pull in SAS Port and SAS
 // PHY entries.
@@ -75,14 +80,11 @@ func (fs FS) parseSASHost(name string) (*SASHost, error) {
 		return nil, err
 	}
 
-	phyDevice := regexp.MustCompile(`^phy-[0-9:]+$`)
-	portDevice := regexp.MustCompile(`^port-[0-9:]+$`)
-
 	for _, d := range dirs {
-		if phyDevice.MatchString(d.Name()) {
+		if sasPhyDeviceRegexp.MatchString(d.Name()) {
 			host.SASPhys = append(host.SASPhys, d.Name())
 		}
-		if portDevice.MatchString(d.Name()) {
+		if sasPortDeviceRegexp.MatchString(d.Name()) {
 			host.SASPorts = append(host.SASPorts, d.Name())
 		}
 	}

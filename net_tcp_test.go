@@ -28,7 +28,7 @@ func Test_newNetTCP(t *testing.T) {
 	}{
 		{
 			name: "tcp file found, no error should come up",
-			file: "fixtures/proc/net/tcp",
+			file: "testdata/fixtures/proc/net/tcp",
 			want: []*netIPSocketLine{
 				&netIPSocketLine{
 					Sl:        0,
@@ -71,7 +71,7 @@ func Test_newNetTCP(t *testing.T) {
 		},
 		{
 			name: "tcp6 file found, no error should come up",
-			file: "fixtures/proc/net/tcp6",
+			file: "testdata/fixtures/proc/net/tcp6",
 			want: []*netIPSocketLine{
 				&netIPSocketLine{
 					Sl:        1315,
@@ -108,7 +108,7 @@ func Test_newNetTCP(t *testing.T) {
 		},
 		{
 			name:    "error case - parse error",
-			file:    "fixtures/proc/net/tcp_broken",
+			file:    "testdata/fixtures/proc/net/tcp_broken",
 			want:    nil,
 			wantErr: true,
 		},
@@ -136,13 +136,13 @@ func Test_newNetTCPSummary(t *testing.T) {
 	}{
 		{
 			name:    "tcp file found, no error should come up",
-			file:    "fixtures/proc/net/tcp",
+			file:    "testdata/fixtures/proc/net/tcp",
 			want:    &NetTCPSummary{TxQueueLength: 2, RxQueueLength: 2, UsedSockets: 3},
 			wantErr: false,
 		},
 		{
 			name:    "tcp6 file found, no error should come up",
-			file:    "fixtures/proc/net/tcp6",
+			file:    "testdata/fixtures/proc/net/tcp6",
 			want:    &NetTCPSummary{TxQueueLength: 0, RxQueueLength: 0, UsedSockets: 2},
 			wantErr: false,
 		},
@@ -154,7 +154,7 @@ func Test_newNetTCPSummary(t *testing.T) {
 		},
 		{
 			name:    "error case - parse error",
-			file:    "fixtures/proc/net/tcp_broken",
+			file:    "testdata/fixtures/proc/net/tcp_broken",
 			want:    nil,
 			wantErr: true,
 		},

@@ -30,12 +30,12 @@ func TestGetStats(t *testing.T) {
 				Tpgt: []iscsi.TPGT{
 					{
 						Name:     "tpgt_1",
-						TpgtPath: "../fixtures/sys/kernel/config/target/iscsi/iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.8888bbbbddd0/tpgt_1",
+						TpgtPath: "testdata/fixtures/sys/kernel/config/target/iscsi/iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.8888bbbbddd0/tpgt_1",
 						IsEnable: true,
 						Luns: []iscsi.LUN{
 							{
 								Name:       "lun_0",
-								LunPath:    "../fixtures/sys/kernel/config/target/iscsi/iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.8888bbbbddd0/tpgt_1/lun/lun_0",
+								LunPath:    "testdata/fixtures/sys/kernel/config/target/iscsi/iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.8888bbbbddd0/tpgt_1/lun/lun_0",
 								Backstore:  "rd_mcp",
 								ObjectName: "ramdisk_lio_1G",
 								TypeNumber: "119",
@@ -43,7 +43,7 @@ func TestGetStats(t *testing.T) {
 						},
 					},
 				},
-				RootPath: "../fixtures/sys/kernel/config/target/iscsi",
+				RootPath: "testdata/fixtures/sys/kernel/config/target/iscsi",
 			},
 		},
 		{
@@ -52,12 +52,12 @@ func TestGetStats(t *testing.T) {
 				Tpgt: []iscsi.TPGT{
 					{
 						Name:     "tpgt_1",
-						TpgtPath: "../fixtures/sys/kernel/config/target/iscsi/iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.abcd1abcd2ab/tpgt_1",
+						TpgtPath: "testdata/fixtures/sys/kernel/config/target/iscsi/iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.abcd1abcd2ab/tpgt_1",
 						IsEnable: true,
 						Luns: []iscsi.LUN{
 							{
 								Name:       "lun_0",
-								LunPath:    "../fixtures/sys/kernel/config/target/iscsi/iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.abcd1abcd2ab/tpgt_1/lun/lun_0",
+								LunPath:    "testdata/fixtures/sys/kernel/config/target/iscsi/iqn.2003-01.org.linux-iscsi.osd1.x8664:sn.abcd1abcd2ab/tpgt_1/lun/lun_0",
 								Backstore:  "iblock",
 								ObjectName: "block_lio_rbd1",
 								TypeNumber: "0",
@@ -65,7 +65,7 @@ func TestGetStats(t *testing.T) {
 						},
 					},
 				},
-				RootPath: "../fixtures/sys/kernel/config/target/iscsi",
+				RootPath: "testdata/fixtures/sys/kernel/config/target/iscsi",
 			},
 		},
 		{
@@ -74,12 +74,12 @@ func TestGetStats(t *testing.T) {
 				Tpgt: []iscsi.TPGT{
 					{
 						Name:     "tpgt_1",
-						TpgtPath: "../fixtures/sys/kernel/config/target/iscsi/iqn.2016-11.org.linux-iscsi.igw.x86:dev.rbd0/tpgt_1",
+						TpgtPath: "testdata/fixtures/sys/kernel/config/target/iscsi/iqn.2016-11.org.linux-iscsi.igw.x86:dev.rbd0/tpgt_1",
 						IsEnable: true,
 						Luns: []iscsi.LUN{
 							{
 								Name:       "lun_0",
-								LunPath:    "../fixtures/sys/kernel/config/target/iscsi/iqn.2016-11.org.linux-iscsi.igw.x86:dev.rbd0/tpgt_1/lun/lun_0",
+								LunPath:    "testdata/fixtures/sys/kernel/config/target/iscsi/iqn.2016-11.org.linux-iscsi.igw.x86:dev.rbd0/tpgt_1/lun/lun_0",
 								Backstore:  "fileio",
 								ObjectName: "file_lio_1G",
 								TypeNumber: "1",
@@ -87,7 +87,7 @@ func TestGetStats(t *testing.T) {
 						},
 					},
 				},
-				RootPath: "../fixtures/sys/kernel/config/target/iscsi",
+				RootPath: "testdata/fixtures/sys/kernel/config/target/iscsi",
 			},
 		},
 		{
@@ -96,12 +96,12 @@ func TestGetStats(t *testing.T) {
 				Tpgt: []iscsi.TPGT{
 					{
 						Name:     "tpgt_1",
-						TpgtPath: "../fixtures/sys/kernel/config/target/iscsi/iqn.2016-11.org.linux-iscsi.igw.x86:sn.ramdemo/tpgt_1",
+						TpgtPath: "testdata/fixtures/sys/kernel/config/target/iscsi/iqn.2016-11.org.linux-iscsi.igw.x86:sn.ramdemo/tpgt_1",
 						IsEnable: true,
 						Luns: []iscsi.LUN{
 							{
 								Name:       "lun_0",
-								LunPath:    "../fixtures/sys/kernel/config/target/iscsi/iqn.2016-11.org.linux-iscsi.igw.x86:sn.ramdemo/tpgt_1/lun/lun_0",
+								LunPath:    "testdata/fixtures/sys/kernel/config/target/iscsi/iqn.2016-11.org.linux-iscsi.igw.x86:sn.ramdemo/tpgt_1/lun/lun_0",
 								Backstore:  "rbd",
 								ObjectName: "iscsi-images-demo",
 								TypeNumber: "0",
@@ -109,7 +109,7 @@ func TestGetStats(t *testing.T) {
 						},
 					},
 				},
-				RootPath: "../fixtures/sys/kernel/config/target/iscsi",
+				RootPath: "testdata/fixtures/sys/kernel/config/target/iscsi",
 			},
 		},
 	}
@@ -125,7 +125,7 @@ func TestGetStats(t *testing.T) {
 		{1504, 4733, 1234},
 	}
 
-	sysconfigfs, err := iscsi.NewFS("../fixtures/sys", "../fixtures/sys/kernel/config")
+	sysconfigfs, err := iscsi.NewFS("testdata/fixtures/sys", "testdata/fixtures/sys/kernel/config")
 	if err != nil {
 		t.Fatalf("failed to access xfs fs: %v", err)
 	}

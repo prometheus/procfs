@@ -20,7 +20,7 @@ import (
 	"testing"
 )
 
-const procfsFixtures = "fixtures/proc"
+const procfsFixtures = "testdata/fixtures/proc"
 
 func TestKernelRandom(t *testing.T) {
 	fs, err := NewFS(procfsFixtures)

@@ -16,7 +16,7 @@ package procfs
 import "testing"
 
 const (
-	procTestFixtures = "fixtures/proc"
+	procTestFixtures = "testdata/fixtures/proc"
 )
 
 func TestNewFS(t *testing.T) {

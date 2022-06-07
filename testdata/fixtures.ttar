@@ -1,4 +1,4 @@
-# Archive created by ttar -c -f fixtures.ttar fixtures/
+# Archive created by ttar -c -f testdata/fixtures.ttar -C testdata/ fixtures/
 Directory: fixtures
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

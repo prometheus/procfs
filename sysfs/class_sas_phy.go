@@ -48,7 +48,7 @@ type SASPhy struct {
 	TargetPortProtocols        []string // /sys/class/sas_phy/<Name>/target_port_protocols
 }
 
-type SASPhyClass map[string]SASPhy
+type SASPhyClass map[string]*SASPhy
 
 // SASPhyClass parses entries in /sys/class/sas_phy.
 func (fs FS) SASPhyClass() (SASPhyClass, error) {
@@ -67,7 +67,7 @@ func (fs FS) SASPhyClass() (SASPhyClass, error) {
 			return nil, err
 		}
 
-		spc[phy.Name] = *phy
+		spc[phy.Name] = phy
 	}
 
 	return spc, nil
@@ -158,4 +158,9 @@ func parseLinkrate(value string) float64 {
 		return 0
 	}
 	return gb
+}
+
+// GetByName returns the SASPhy with the provided name.
+func (spc *SASPhyClass) GetByName(name string) *SASPhy {
+	return (*spc)[name]
 }

@@ -216,3 +216,27 @@ func TestSASPhyClass(t *testing.T) {
 		t.Fatalf("unexpected SASPhy class (-want +got):\n%s", diff)
 	}
 }
+
+func TestSASPhyGetByName(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pc, err := fs.SASPhyClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "phy-11:9"
+	got := pc.GetByName("phy-11:9").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASPhy class (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := pc.GetByName("phy-12:0")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByName response: got %v want nil", got2)
+	}
+}

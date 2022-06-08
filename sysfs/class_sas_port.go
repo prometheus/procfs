@@ -31,7 +31,7 @@ type SASPort struct {
 	EndDevices []string // /sys/class/sas_port/<Name>/device/end_device-*
 }
 
-type SASPortClass map[string]SASPort
+type SASPortClass map[string]*SASPort
 
 var (
 	sasExpanderDeviceRegexp = regexp.MustCompile(`^expander-[0-9:]+$`)
@@ -65,7 +65,7 @@ func (fs FS) SASPortClass() (SASPortClass, error) {
 			return nil, err
 		}
 
-		spc[port.Name] = *port
+		spc[port.Name] = port
 	}
 
 	return spc, nil
@@ -95,4 +95,45 @@ func (fs FS) parseSASPort(name string) (*SASPort, error) {
 	}
 
 	return &port, nil
+}
+
+// GetByName returns the SASPort with the provided name.
+func (spc *SASPortClass) GetByName(name string) *SASPort {
+	return (*spc)[name]
+}
+
+// GetByPhy finds the SASPort that contains the provided PHY name.
+func (spc *SASPortClass) GetByPhy(name string) *SASPort {
+	for _, d := range *spc {
+		for _, p := range d.SASPhys {
+			if p == name {
+				return d
+			}
+		}
+	}
+	return nil
+}
+
+// GetByExpander finds the SASPort that contains the provided SAS expander name.
+func (spc *SASPortClass) GetByExpander(name string) *SASPort {
+	for _, d := range *spc {
+		for _, e := range d.Expanders {
+			if e == name {
+				return d
+			}
+		}
+	}
+	return nil
+}
+
+// GetByEndDevice finds the SASPort that contains the provided SAS end device name.
+func (spc *SASPortClass) GetByEndDevice(name string) *SASPort {
+	for _, d := range *spc {
+		for _, e := range d.EndDevices {
+			if e == name {
+				return d
+			}
+		}
+	}
+	return nil
 }

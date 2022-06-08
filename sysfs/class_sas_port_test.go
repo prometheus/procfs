@@ -65,3 +65,99 @@ func TestSASPortClass(t *testing.T) {
 		t.Fatalf("unexpected SASDevice class (-want +got):\n%s", diff)
 	}
 }
+
+func TestSASPortGetByName(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dc, err := fs.SASPortClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "port-11:0:0"
+	got := dc.GetByName("port-11:0:0").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASPort name (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := dc.GetByName("port-15")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByName response: got %v want nil", got2)
+	}
+}
+
+func TestSASPortGetByPhy(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dc, err := fs.SASPortClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "port-11:0:2"
+	got := dc.GetByPhy("phy-11:0:6").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASPort class (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := dc.GetByPhy("phy-12:0")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByPhy response: got %v want nil", got2)
+	}
+}
+
+func TestSASPortGetByExpander(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dc, err := fs.SASPortClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "port-11:0"
+	got := dc.GetByExpander("expander-11:0").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASPort class (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := dc.GetByExpander("expander-12:0")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByPhy response: got %v want nil", got2)
+	}
+}
+
+func TestSASPortGetByEndDevice(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dc, err := fs.SASPortClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "port-11:0:2"
+	got := dc.GetByEndDevice("end_device-11:0:2").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASPort class (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := dc.GetByEndDevice("end_device-12:0")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByPhy response: got %v want nil", got2)
+	}
+}

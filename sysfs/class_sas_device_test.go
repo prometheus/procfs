@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"github.com/google/go-cmp/cmp"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestSASDeviceClass(t *testing.T) {
@@ -151,5 +152,77 @@ func TestSASExpanderClass(t *testing.T) {
 
 	if diff := cmp.Diff(want, got); diff != "" {
 		t.Fatalf("unexpected SASDevice class (-want +got):\n%s", diff)
+	}
+}
+
+func TestSASDeviceGetByName(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dc, err := fs.SASDeviceClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "expander-11:0"
+	got := dc.GetByName("expander-11:0").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASDevice name (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := dc.GetByName("expander-15")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByName response: got %v want nil", got2)
+	}
+}
+
+func TestSASDeviceGetByPhy(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dc, err := fs.SASDeviceClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "expander-11:0"
+	got := dc.GetByPhy("phy-11:0:11").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASDevice class (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := dc.GetByPhy("phy-12:0")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByPhy response: got %v want nil", got2)
+	}
+}
+
+func TestSASDeviceGetByPort(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dc, err := fs.SASDeviceClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "expander-11:0"
+	got := dc.GetByPort("port-11:0:0").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASDevice class (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := dc.GetByPort("port-12:0")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByPhy response: got %v want nil", got2)
 	}
 }

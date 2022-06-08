@@ -30,7 +30,7 @@ type SASHost struct {
 	SASPorts []string // /sys/class/sas_host/<Name>/device/ports-*
 }
 
-type SASHostClass map[string]SASHost
+type SASHostClass map[string]*SASHost
 
 var (
 	sasPhyDeviceRegexp  = regexp.MustCompile(`^phy-[0-9:]+$`)
@@ -62,7 +62,7 @@ func (fs FS) SASHostClass() (SASHostClass, error) {
 			return nil, err
 		}
 
-		shc[host.Name] = *host
+		shc[host.Name] = host
 	}
 
 	return shc, nil
@@ -90,4 +90,33 @@ func (fs FS) parseSASHost(name string) (*SASHost, error) {
 	}
 
 	return &host, nil
+}
+
+// GetByName returns the SASHost with the provided name.
+func (shc *SASHostClass) GetByName(hostName string) *SASHost {
+	return (*shc)[hostName]
+}
+
+// GetByPhy finds the SASHost that contains the provided PHY name.
+func (shc *SASHostClass) GetByPhy(phyName string) *SASHost {
+	for _, h := range *shc {
+		for _, p := range h.SASPhys {
+			if p == phyName {
+				return h
+			}
+		}
+	}
+	return nil
+}
+
+// GetByPort finds the SASHost that contains the provided SAS Port name.
+func (shc *SASHostClass) GetByPort(portName string) *SASHost {
+	for _, h := range *shc {
+		for _, p := range h.SASPorts {
+			if p == portName {
+				return h
+			}
+		}
+	}
+	return nil
 }

@@ -39,7 +39,7 @@ type SASDevice struct {
 	BlockDevices []string // /sys/class/sas_device/<Name>/device/target*/*/block/*
 }
 
-type SASDeviceClass map[string]SASDevice
+type SASDeviceClass map[string]*SASDevice
 
 var (
 	sasTargetDeviceRegexp    = regexp.MustCompile(`^target[0-9:]+$`)
@@ -66,7 +66,7 @@ func (fs FS) parseSASDeviceClass(dir string) (SASDeviceClass, error) {
 			return nil, err
 		}
 
-		sdc[device.Name] = *device
+		sdc[device.Name] = device
 	}
 
 	return sdc, nil
@@ -177,4 +177,33 @@ func (fs FS) blockSASDeviceBlockDevices(name string) ([]string, error) {
 	}
 
 	return devices, nil
+}
+
+// GetByName returns the SASDevice with the provided name.
+func (sdc *SASDeviceClass) GetByName(name string) *SASDevice {
+	return (*sdc)[name]
+}
+
+// GetByPhy finds the SASDevice that contains the provided PHY name.
+func (sdc *SASDeviceClass) GetByPhy(name string) *SASDevice {
+	for _, d := range *sdc {
+		for _, p := range d.SASPhys {
+			if p == name {
+				return d
+			}
+		}
+	}
+	return nil
+}
+
+// GetByPort finds the SASDevice that contains the provided SAS Port name.
+func (sdc *SASDeviceClass) GetByPort(name string) *SASDevice {
+	for _, d := range *sdc {
+		for _, p := range d.SASPorts {
+			if p == name {
+				return d
+			}
+		}
+	}
+	return nil
 }

@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"github.com/google/go-cmp/cmp"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestSASHostClass(t *testing.T) {
@@ -33,7 +34,7 @@ func TestSASHostClass(t *testing.T) {
 	}
 
 	want := SASHostClass{
-		"host11": SASHost{
+		"host11": &SASHost{
 			Name: "host11",
 			SASPhys: []string{
 				"phy-11:10", "phy-11:11", "phy-11:12", "phy-11:13",
@@ -48,5 +49,77 @@ func TestSASHostClass(t *testing.T) {
 
 	if diff := cmp.Diff(want, got); diff != "" {
 		t.Fatalf("unexpected SASHost class (-want +got):\n%s", diff)
+	}
+}
+
+func TestSASHostGetByName(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	hc, err := fs.SASHostClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "host11"
+	got := hc.GetByName("host11").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASHost class (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := hc.GetByName("host12")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByName response: got %v want nil", got2)
+	}
+}
+
+func TestSASHostGetByPhy(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	hc, err := fs.SASHostClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "host11"
+	got := hc.GetByPhy("phy-11:11").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASHost class (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := hc.GetByPhy("phy-12:0")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByPhy response: got %v want nil", got2)
+	}
+}
+
+func TestSASHostGetByPort(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	hc, err := fs.SASHostClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := "host11"
+	got := hc.GetByPort("port-11:0").Name
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected SASHost class (-want +got):\n%s", diff)
+	}
+
+	// Doesn't exist.
+	got2 := hc.GetByPort("port-12:0")
+	if got2 != nil {
+		t.Fatalf("unexpected GetByPhy response: got %v want nil", got2)
 	}
 }

@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"github.com/google/go-cmp/cmp"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestSASPhyClass(t *testing.T) {
@@ -36,6 +37,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:0:2": {
 			Name:                       "phy-11:0:2",
 			SASAddress:                 "0x5000ccab0200947e",
+			SASPort:                    "port-11:0:0",
 			DeviceType:                 "edge expander",
 			InitiatorPortProtocols:     []string{"smp"},
 			InvalidDwordCount:          18,
@@ -52,6 +54,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:0:4": {
 			Name:                       "phy-11:0:4",
 			SASAddress:                 "0x5000ccab0200947e",
+			SASPort:                    "port-11:0:1",
 			DeviceType:                 "edge expander",
 			InitiatorPortProtocols:     []string{"smp"},
 			InvalidDwordCount:          1,
@@ -67,6 +70,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:0:6": {
 			Name:                       "phy-11:0:6",
 			SASAddress:                 "0x5000ccab0200947e",
+			SASPort:                    "port-11:0:2",
 			DeviceType:                 "edge expander",
 			InitiatorPortProtocols:     []string{"smp"},
 			InvalidDwordCount:          19,
@@ -83,6 +87,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:10": {
 			Name:                   "phy-11:10",
 			SASAddress:             "0x500062b2047b51c4",
+			SASPort:                "port-11:0",
 			DeviceType:             "end device",
 			InitiatorPortProtocols: []string{"smp", "stp", "ssp"},
 			MaximumLinkrate:        12,
@@ -96,6 +101,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:11": {
 			Name:                   "phy-11:11",
 			SASAddress:             "0x500062b2047b51c4",
+			SASPort:                "port-11:0",
 			DeviceType:             "end device",
 			InitiatorPortProtocols: []string{"smp", "stp", "ssp"},
 			MaximumLinkrate:        12,
@@ -109,6 +115,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:12": {
 			Name:                   "phy-11:12",
 			SASAddress:             "0x500062b2047b51c4",
+			SASPort:                "port-11:1",
 			DeviceType:             "end device",
 			InitiatorPortProtocols: []string{"smp", "stp", "ssp"},
 			MaximumLinkrate:        12,
@@ -122,6 +129,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:13": {
 			Name:                   "phy-11:13",
 			SASAddress:             "0x500062b2047b51c4",
+			SASPort:                "port-11:1",
 			DeviceType:             "end device",
 			InitiatorPortProtocols: []string{"smp", "stp", "ssp"},
 			MaximumLinkrate:        12,
@@ -135,6 +143,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:14": {
 			Name:                   "phy-11:14",
 			SASAddress:             "0x500062b2047b51c4",
+			SASPort:                "port-11:1",
 			DeviceType:             "end device",
 			InitiatorPortProtocols: []string{"smp", "stp", "ssp"},
 			MaximumLinkrate:        12,
@@ -148,6 +157,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:15": {
 			Name:                   "phy-11:15",
 			SASAddress:             "0x500062b2047b51c4",
+			SASPort:                "port-11:1",
 			DeviceType:             "end device",
 			InitiatorPortProtocols: []string{"smp", "stp", "ssp"},
 			MaximumLinkrate:        12,
@@ -161,6 +171,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:7": {
 			Name:                   "phy-11:7",
 			SASAddress:             "0x500062b2047b51c4",
+			SASPort:                "port-11:2",
 			DeviceType:             "end device",
 			InitiatorPortProtocols: []string{"smp", "stp", "ssp"},
 			MaximumLinkrate:        12,
@@ -174,6 +185,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:8": {
 			Name:                   "phy-11:8",
 			SASAddress:             "0x500062b2047b51c4",
+			SASPort:                "port-11:0",
 			DeviceType:             "end device",
 			InitiatorPortProtocols: []string{"smp", "stp", "ssp"},
 			MaximumLinkrate:        12,
@@ -187,6 +199,7 @@ func TestSASPhyClass(t *testing.T) {
 		"phy-11:9": {
 			Name:                   "phy-11:9",
 			SASAddress:             "0x500062b2047b51c4",
+			SASPort:                "port-11:0",
 			DeviceType:             "end device",
 			InitiatorPortProtocols: []string{"smp", "stp", "ssp"},
 			MaximumLinkrate:        12,

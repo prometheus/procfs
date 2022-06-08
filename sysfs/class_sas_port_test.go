@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"github.com/google/go-cmp/cmp"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestSASPortClass(t *testing.T) {
@@ -38,9 +39,21 @@ func TestSASPortClass(t *testing.T) {
 			SASPhys:   []string{"phy-11:10", "phy-11:11", "phy-11:8", "phy-11:9"},
 			Expanders: []string{"expander-11:0"},
 		},
-		"port-11:0:0": {Name: "port-11:0:0", SASPhys: []string{"phy-11:0:2"}},
-		"port-11:0:1": {Name: "port-11:0:1", SASPhys: []string{"phy-11:0:4"}},
-		"port-11:0:2": {Name: "port-11:0:2", SASPhys: []string{"phy-11:0:6"}},
+		"port-11:0:0": {
+			Name:       "port-11:0:0",
+			SASPhys:    []string{"phy-11:0:2"},
+			EndDevices: []string{"end_device-11:0:0"},
+		},
+		"port-11:0:1": {
+			Name:       "port-11:0:1",
+			SASPhys:    []string{"phy-11:0:4"},
+			EndDevices: []string{"end_device-11:0:1"},
+		},
+		"port-11:0:2": {
+			Name:       "port-11:0:2",
+			SASPhys:    []string{"phy-11:0:6"},
+			EndDevices: []string{"end_device-11:0:2"},
+		},
 		"port-11:1": {
 			Name:      "port-11:1",
 			SASPhys:   []string{"phy-11:12", "phy-11:13", "phy-11:14", "phy-11:15"},

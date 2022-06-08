@@ -18,12 +18,13 @@ package sysfs
 
 import (
 	"fmt"
-	"github.com/prometheus/procfs/internal/util"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"github.com/prometheus/procfs/internal/util"
 )
 
 const sasPhyClassPath = "class/sas_phy"
@@ -79,7 +80,7 @@ func (fs FS) parseSASPhy(name string) (*SASPhy, error) {
 	phypath := fs.sys.Path(filepath.Join(sasPhyClassPath, name))
 	phydevicepath := filepath.Join(phypath, "device")
 
-	link, err := os.Readlink(fs.sys.Path(phydevicepath, "port"))
+	link, err := os.Readlink(filepath.Join(phydevicepath, "port"))
 
 	if err == nil {
 		if sasPortDeviceRegexp.MatchString(filepath.Base(link)) {
@@ -97,7 +98,11 @@ func (fs FS) parseSASPhy(name string) (*SASPhy, error) {
 		if fileinfo.Mode().IsRegular() {
 			value, err := util.SysReadFile(name)
 			if err != nil {
-				return nil, fmt.Errorf("failed to read file %q: %w", name, err)
+				if os.IsPermission(err) {
+					continue
+				} else {
+					return nil, fmt.Errorf("failed to read file %q: %w", name, err)
+				}
 			}
 
 			vp := util.NewValueParser(value)

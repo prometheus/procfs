@@ -17,10 +17,12 @@
 package sysfs
 
 import (
-	"github.com/prometheus/procfs/internal/util"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"regexp"
+
+	"github.com/prometheus/procfs/internal/util"
 )
 
 const (
@@ -159,9 +161,12 @@ func (fs FS) blockSASDeviceBlockDevices(name string) ([]string, error) {
 				}
 
 				blocks, err := ioutil.ReadDir(filepath.Join(devicepath, targetdir, targetsubdir.Name(), "block"))
-
 				if err != nil {
-					return nil, err
+					if os.IsNotExist(err) {
+						continue
+					} else {
+						return nil, err
+					}
 				}
 
 				for _, blockdevice := range blocks {

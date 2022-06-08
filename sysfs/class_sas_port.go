@@ -25,14 +25,18 @@ import (
 const sasPortClassPath = "class/sas_port"
 
 type SASPort struct {
-	Name      string   // /sys/class/sas_device/<Name>
-	SASPhys   []string // /sys/class/sas_device/<Name>/device/phy-*
-	Expanders []string // /sys/class/sas_port/<Name>/device/expander-*
+	Name       string   // /sys/class/sas_device/<Name>
+	SASPhys    []string // /sys/class/sas_device/<Name>/device/phy-*
+	Expanders  []string // /sys/class/sas_port/<Name>/device/expander-*
+	EndDevices []string // /sys/class/sas_port/<Name>/device/end_device-*
 }
 
 type SASPortClass map[string]SASPort
 
-var sasExpanderDeviceRegexp = regexp.MustCompile(`^expander-[0-9:]+$`)
+var (
+	sasExpanderDeviceRegexp = regexp.MustCompile(`^expander-[0-9:]+$`)
+	sasEndDeviceRegexp      = regexp.MustCompile(`^end_device-[0-9:]+$`)
+)
 
 // SASPortClass parses ports in /sys/class/sas_port.
 //
@@ -79,11 +83,14 @@ func (fs FS) parseSASPort(name string) (*SASPort, error) {
 	}
 
 	for _, d := range dirs {
-		if sasPhyDeviceRegexp.Match([]byte(d.Name())) {
+		if sasPhyDeviceRegexp.MatchString(d.Name()) {
 			port.SASPhys = append(port.SASPhys, d.Name())
 		}
-		if sasExpanderDeviceRegexp.Match([]byte(d.Name())) {
+		if sasExpanderDeviceRegexp.MatchString(d.Name()) {
 			port.Expanders = append(port.Expanders, d.Name())
+		}
+		if sasEndDeviceRegexp.MatchString(d.Name()) {
+			port.EndDevices = append(port.EndDevices, d.Name())
 		}
 	}
 

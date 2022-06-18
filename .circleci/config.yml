@@ -54,8 +54,6 @@ workflows:
         matrix:
           parameters:
             go_version:
-            - "1.15"
-            - "1.16"
             - "1.17"
             - "1.18"
     - test:
@@ -65,8 +63,6 @@ workflows:
         matrix:
           parameters:
             go_version:
-            - "1.15"
-            - "1.16"
             - "1.17"
             - "1.18"
     - codespell

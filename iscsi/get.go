@@ -17,7 +17,6 @@ package iscsi
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -60,7 +59,7 @@ func GetStats(iqnPath string) (*Stats, error) {
 
 // isPathEnable checks if the file "enable" contain enable message.
 func isPathEnable(path string) (bool, error) {
-	enableReadout, err := ioutil.ReadFile(filepath.Join(path, "enable"))
+	enableReadout, err := os.ReadFile(filepath.Join(path, "enable"))
 	if err != nil {
 		return false, fmt.Errorf("iscsi: isPathEnable ReadFile error %w", err)
 	}
@@ -74,7 +73,7 @@ func isPathEnable(path string) (bool, error) {
 func getLunLinkTarget(lunPath string) (lunObject LUN, err error) {
 	lunObject.Name = filepath.Base(lunPath)
 	lunObject.LunPath = lunPath
-	files, err := ioutil.ReadDir(lunPath)
+	files, err := os.ReadDir(lunPath)
 	if err != nil {
 		return lunObject, fmt.Errorf("getLunLinkTarget: ReadDir path %q: %w", lunPath, err)
 	}
@@ -144,7 +143,7 @@ func (fs FS) GetFileioUdev(fileioNumber string, objectName string) (*FILEIO, err
 	if _, err := os.Stat(udevPath); os.IsNotExist(err) {
 		return nil, fmt.Errorf("iscsi: GetFileioUdev: fileio_%s is missing file name", fileio.Fnumber)
 	}
-	filename, err := ioutil.ReadFile(udevPath)
+	filename, err := os.ReadFile(udevPath)
 	if err != nil {
 		return nil, fmt.Errorf("iscsi: GetFileioUdev: Cannot read filename from udev link %q", udevPath)
 	}
@@ -166,7 +165,7 @@ func (fs FS) GetIblockUdev(iblockNumber string, objectName string) (*IBLOCK, err
 	if _, err := os.Stat(udevPath); os.IsNotExist(err) {
 		return nil, fmt.Errorf("iscsi: GetIBlockUdev: iblock_%s is missing file name", iblock.Bnumber)
 	}
-	filename, err := ioutil.ReadFile(udevPath)
+	filename, err := os.ReadFile(udevPath)
 	if err != nil {
 		return nil, fmt.Errorf("iscsi: GetIBlockUdev: Cannot read iblock from udev link %q", udevPath)
 	}
@@ -193,7 +192,7 @@ func (fs FS) GetRBDMatch(rbdNumber string, poolImage string) (*RBD, error) {
 		if _, err := os.Stat(systemPoolPath); os.IsNotExist(err) {
 			continue
 		}
-		bSystemPool, err := ioutil.ReadFile(systemPoolPath)
+		bSystemPool, err := os.ReadFile(systemPoolPath)
 		if err != nil {
 			continue
 		} else {
@@ -204,7 +203,7 @@ func (fs FS) GetRBDMatch(rbdNumber string, poolImage string) (*RBD, error) {
 		if _, err := os.Stat(systemImagePath); os.IsNotExist(err) {
 			continue
 		}
-		bSystemImage, err := ioutil.ReadFile(systemImagePath)
+		bSystemImage, err := os.ReadFile(systemImagePath)
 		if err != nil {
 			continue
 		} else {

@@ -15,8 +15,8 @@ package procfs
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -53,7 +53,7 @@ type ARPEntry struct {
 // GatherARPEntries retrieves all the ARP entries, parse the relevant columns,
 // and then return a slice of ARPEntry's.
 func (fs FS) GatherARPEntries() ([]ARPEntry, error) {
-	data, err := ioutil.ReadFile(fs.proc.Path("net/arp"))
+	data, err := os.ReadFile(fs.proc.Path("net/arp"))
 	if err != nil {
 		return nil, fmt.Errorf("error reading arp %q: %w", fs.proc.Path("net/arp"), err)
 	}

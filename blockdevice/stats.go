@@ -17,7 +17,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -293,7 +292,7 @@ func (fs FS) ProcDiskstats() ([]Diskstats, error) {
 
 // SysBlockDevices lists the device names from /sys/block/<dev>.
 func (fs FS) SysBlockDevices() ([]string, error) {
-	deviceDirs, err := ioutil.ReadDir(fs.sys.Path(sysBlockPath))
+	deviceDirs, err := os.ReadDir(fs.sys.Path(sysBlockPath))
 	if err != nil {
 		return nil, err
 	}
@@ -309,7 +308,7 @@ func (fs FS) SysBlockDevices() ([]string, error) {
 // and 11 if they are not available.
 func (fs FS) SysBlockDeviceStat(device string) (IOStats, int, error) {
 	stat := IOStats{}
-	bytes, err := ioutil.ReadFile(fs.sys.Path(sysBlockPath, device, "stat"))
+	bytes, err := os.ReadFile(fs.sys.Path(sysBlockPath, device, "stat"))
 	if err != nil {
 		return stat, 0, err
 	}

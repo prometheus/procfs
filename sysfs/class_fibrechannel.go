@@ -18,7 +18,6 @@ package sysfs
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -66,7 +65,7 @@ type FibreChannelClass map[string]FibreChannelHost
 func (fs FS) FibreChannelClass() (FibreChannelClass, error) {
 	path := fs.sys.Path(fibrechannelClassPath)
 
-	dirs, err := ioutil.ReadDir(path)
+	dirs, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
@@ -148,13 +147,13 @@ func parseFibreChannelStatistics(hostPath string) (*FibreChannelCounters, error)
 	var counters FibreChannelCounters
 
 	path := filepath.Join(hostPath, "statistics")
-	files, err := ioutil.ReadDir(path)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
 
 	for _, f := range files {
-		if !f.Mode().IsRegular() || f.Name() == "reset_statistics" {
+		if !f.Type().IsRegular() || f.Name() == "reset_statistics" {
 			continue
 		}
 

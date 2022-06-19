@@ -16,7 +16,6 @@ package bcache
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -204,7 +203,7 @@ func (p *parser) readValue(fileName string) uint64 {
 		return 0
 	}
 	path := path.Join(p.currentDir, fileName)
-	byt, err := ioutil.ReadFile(path)
+	byt, err := os.ReadFile(path)
 	if err != nil {
 		if !os.IsNotExist(err) {
 			p.err = fmt.Errorf("failed to read: %s", path)

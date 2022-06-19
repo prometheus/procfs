@@ -18,7 +18,7 @@ package sysfs
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -40,7 +40,7 @@ type RaplZone struct {
 func GetRaplZones(fs FS) ([]RaplZone, error) {
 	raplDir := fs.sys.Path("class/powercap")
 
-	files, err := ioutil.ReadDir(raplDir)
+	files, err := os.ReadDir(raplDir)
 	if err != nil {
 		return nil, fmt.Errorf("unable to read class/powercap: %w", err)
 	}
@@ -53,7 +53,7 @@ func GetRaplZones(fs FS) ([]RaplZone, error) {
 	// Loop through directory files searching for file "name" from subdirs.
 	for _, f := range files {
 		nameFile := filepath.Join(raplDir, f.Name(), "/name")
-		nameBytes, err := ioutil.ReadFile(nameFile)
+		nameBytes, err := os.ReadFile(nameFile)
 		if err == nil {
 			// Add new rapl zone since name file was found.
 			name := strings.TrimSpace(string(nameBytes))

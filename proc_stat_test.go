@@ -68,6 +68,7 @@ func TestProcStat(t *testing.T) {
 		want uint
 		have uint
 	}{
+		{name: "processor", want: 0, have: s.Processor},
 		{name: "rt_priority", want: 0, have: s.RTPriority},
 		{name: "policy", want: 0, have: s.Policy},
 	} {

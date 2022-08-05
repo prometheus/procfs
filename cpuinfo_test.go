@@ -233,6 +233,70 @@ hart		: 1
 isa		: rv64imafdcsu
 mmu		: sv48
 `
+
+	cpuinfoLoong64 = `
+system type		: generic-loongson-machine
+
+processor		: 0
+package			: 0
+core			: 0
+CPU Family		: Loongson-64bit
+Model Name		: Loongson-3A5000
+CPU Revision		: 0x10
+FPU Revision		: 0x00
+CPU MHz			: 2500.00
+BogoMIPS		: 5000.00
+TLB Entries		: 2112
+Address Sizes		: 48 bits physical, 48 bits virtual
+ISA			: loongarch32 loongarch64
+Features		: cpucfg lam ual fpu complex crypto lvz
+Hardware Watchpoint	: yes, iwatch count: 0, dwatch count: 0
+
+processor		: 1
+package			: 0
+core			: 1
+CPU Family		: Loongson-64bit
+Model Name		: Loongson-3A5000
+CPU Revision		: 0x10
+FPU Revision		: 0x00
+CPU MHz			: 2500.00
+BogoMIPS		: 5000.00
+TLB Entries		: 2112
+Address Sizes		: 48 bits physical, 48 bits virtual
+ISA			: loongarch32 loongarch64
+Features		: cpucfg lam ual fpu complex crypto lvz
+Hardware Watchpoint	: yes, iwatch count: 0, dwatch count: 0
+
+processor		: 2
+package			: 0
+core			: 2
+CPU Family		: Loongson-64bit
+Model Name		: Loongson-3A5000
+CPU Revision		: 0x10
+FPU Revision		: 0x00
+CPU MHz			: 2500.00
+BogoMIPS		: 5000.00
+TLB Entries		: 2112
+Address Sizes		: 48 bits physical, 48 bits virtual
+ISA			: loongarch32 loongarch64
+Features		: cpucfg lam ual fpu complex crypto lvz
+Hardware Watchpoint	: yes, iwatch count: 0, dwatch count: 0
+
+processor		: 3
+package			: 0
+core			: 3
+CPU Family		: Loongson-64bit
+Model Name		: Loongson-3A5000
+CPU Revision		: 0x10
+FPU Revision		: 0x00
+CPU MHz			: 2500.00
+BogoMIPS		: 5000.00
+TLB Entries		: 2112
+Address Sizes		: 48 bits physical, 48 bits virtual
+ISA			: loongarch32 loongarch64
+Features		: cpucfg lam ual fpu complex crypto lvz
+Hardware Watchpoint	: yes, iwatch count: 0, dwatch count: 0
+`
 )
 
 func TestCPUInfoX86(t *testing.T) {
@@ -400,5 +464,18 @@ func TestCPUInfoParseRISCV64(t *testing.T) {
 	}
 	if want, have := "rv64imafdcsu", cpuinfo[1].ModelName; want != have {
 		t.Errorf("want ModelName %v, have %v", want, have)
+	}
+}
+
+func TestCPUInfoParseLoong64(t *testing.T) {
+	cpuinfo, err := parseCPUInfoLoong([]byte(cpuinfoLoong64))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse loong cpu info: %v", err)
+	}
+	if want, have := 4, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := "Loongson-64bit", cpuinfo[1].CPUFamily; want != have {
+		t.Errorf("want CPUFamily '%v', have '%v'", want, have)
 	}
 }

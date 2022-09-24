@@ -41,7 +41,7 @@ jobs:
     steps:
     - checkout
     - run: sudo pip install codespell
-    - run: codespell --skip=".git,./vendor,ttar,fixtures.ttar,./fixtures,go.mod,go.sum" -L uint,packages\',ded,alo,als,te,sie,hart,hda
+    - run: codespell --skip=".git,./vendor,ttar,fixtures.ttar,./fixtures,go.mod,go.sum" -I scripts/codespell_ignore.txt
 
 workflows:
   version: 2

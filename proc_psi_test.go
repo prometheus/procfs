@@ -110,7 +110,7 @@ func TestPSIStats(t *testing.T) {
 // TestParsePSIStats tests the edge cases that we won't run into when running TestPSIStats.
 func TestParsePSIStats(t *testing.T) {
 	t.Run("unknown measurement type", func(t *testing.T) {
-		raw := "nonesense haha test=fake"
+		raw := "nonsense haha test=fake"
 		_, err := parsePSIStats("fake", strings.NewReader(raw))
 		if err != nil {
 			t.Error("unknown measurement type must be ignored")

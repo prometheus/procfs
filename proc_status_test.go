@@ -76,6 +76,20 @@ func TestProcStatusName(t *testing.T) {
 	}
 }
 
+func TestProcStatusNameTrim(t *testing.T) {
+	p, err := getProcFixtures(t).Proc(26235)
+	if err != nil {
+		t.Fatal(err)
+	}
+	s, err := p.NewStatus()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if want, have := "kube-proxy", s.Name; want != have {
+		t.Errorf("want name %s, have %s", want, have)
+	}
+}
+
 func TestProcStatusUIDs(t *testing.T) {
 	p, err := getProcFixtures(t).Proc(26231)
 	if err != nil {

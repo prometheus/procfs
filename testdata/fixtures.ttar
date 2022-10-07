@@ -748,6 +748,64 @@ Lines: 4
 40000000-40015000 r-xp 00000000 03:01 61874 /lib/ld-2.3.2.so
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/proc/26235
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26235/status
+Lines: 51
+Name:   kube-proxy
+Umask:  0022
+State:  S (sleeping)
+Tgid:   26235
+Ngid:   12345
+Pid:    26235
+PPid:   1234
+TracerPid:      0
+Uid:    0       0       0       0
+Gid:    0       0       0       0
+FDSize: 64
+Groups:
+NStgid: 26235   1
+NSpid:  26235   1
+NSpgid: 26235   1
+NSsid:  26235   1
+VmPeak:   758200 kB
+VmSize:   758200 kB
+VmLck:         0 kB
+VmPin:         0 kB
+VmHWM:     61776 kB
+VmRSS:     42652 kB
+RssAnon:           24852 kB
+RssFile:           17800 kB
+RssShmem:              0 kB
+VmData:   117136 kB
+VmStk:       132 kB
+VmExe:     21568 kB
+VmLib:         4 kB
+VmPTE:       264 kB
+VmSwap:        0 kB
+HugetlbPages:          0 kB
+Threads:        51
+SigQ:   9/511324
+SigPnd: 0000000000000000
+ShdPnd: 0000000000000000
+SigBlk: 0000000000000000
+SigIgn: 0000000000000000
+SigCgt: fffffffc7fc1feff
+CapInh: 0000003fffffffff
+CapPrm: 0000003fffffffff
+CapEff: 0000003fffffffff
+CapBnd: 0000003fffffffff
+CapAmb: 0000000000000000
+Seccomp:	0
+Cpus_allowed:	ff
+Cpus_allowed_list:	0-7
+Mems_allowed:	00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	4742839
+nonvoluntary_ctxt_switches:	1727500
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/584
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

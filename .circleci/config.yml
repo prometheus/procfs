@@ -4,13 +4,14 @@ version: 2.1
 jobs:
   lint:
     docker:
-    - image: cimg/go:1.18
+    - image: cimg/go:1.19
     steps:
     - checkout
     - run: make check_license
     - run: ./scripts/check_build_tags.sh
     - run: make fixtures
     - run: make update_fixtures
+    - run: make style
     - run: git diff --exit-code
 
   test:
@@ -28,7 +29,7 @@ jobs:
       GOOS: "<< parameters.os >>"
     steps:
     - checkout
-    - run: make style lint
+    - run: make lint
     - when:
         condition: << parameters.run_test >>
         steps:
@@ -54,8 +55,8 @@ workflows:
         matrix:
           parameters:
             go_version:
-            - "1.17"
             - "1.18"
+            - "1.19"
     - test:
         name: test-windows
         os: windows
@@ -63,6 +64,6 @@ workflows:
         matrix:
           parameters:
             go_version:
-            - "1.17"
             - "1.18"
+            - "1.19"
     - codespell

@@ -110,6 +110,7 @@ type TcpExt struct { // nolint:revive
 	TCPReqQFullDrop           *float64
 	TCPRetransFail            *float64
 	TCPRcvCoalesce            *float64
+	TCPRcvQDrop               *float64
 	TCPOFOQueue               *float64
 	TCPOFODrop                *float64
 	TCPOFOMerge               *float64
@@ -323,6 +324,8 @@ func parseProcNetstat(r io.Reader, fileName string) (ProcNetstat, error) {
 					procNetstat.TcpExt.TCPRetransFail = &value
 				case "TCPRcvCoalesce":
 					procNetstat.TcpExt.TCPRcvCoalesce = &value
+				case "TCPRcvQDrop":
+					procNetstat.TcpExt.TCPRcvQDrop = &value
 				case "TCPOFOQueue":
 					procNetstat.TcpExt.TCPOFOQueue = &value
 				case "TCPOFODrop":

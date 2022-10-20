@@ -25,15 +25,46 @@ func TestNetSoftnet(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	want := []SoftnetStat{{
-		Processed:    0x00015c73,
-		Dropped:      0x00020e76,
-		TimeSqueezed: 0xf0000769,
-	},
+	want := []SoftnetStat{
+		{
+			Processed:    0x0446fcea,
+			Dropped:      0x0012e8f8,
+			TimeSqueezed: 0x00000000,
+			CPUCollision: 0x00000000,
+			ReceivedRps: 0x015f20c8,
+			FlowLimitCount: 0x00000000,
+			SoftnetBacklogLen: 0x00000000,
+			Index: 0x00000033,
+			Width: 13,
+		},
+		{
+			Processed:    0x00031f27,
+			Dropped:      0x00020e76,
+			TimeSqueezed: 0x00000000,
+			CPUCollision: 0x00000000,
+			ReceivedRps: 0x00020e76,
+			FlowLimitCount: 0x00020e76,
+			SoftnetBacklogLen: 0x00000000,
+			Index: 0x00000001,
+			Width: 13,
+		},
+		{
+			Processed:    0x00015c73,
+			Dropped:      0x00020e76,
+			TimeSqueezed: 0xf0000769,
+			CPUCollision: 0x00000000,
+			ReceivedRps: 0x00020e76,
+			FlowLimitCount: 0x00000000,
+			Width: 11,
+		},
 		{
 			Processed:    0x01663fb2,
+			Dropped:      0x00000000,
 			TimeSqueezed: 0x0109a4,
-		}}
+			CPUCollision: 0x00020e76,
+			Width: 9,
+		},
+	}
 
 	got, err := fs.NetSoftnetStat()
 	if err != nil {

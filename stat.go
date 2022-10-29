@@ -170,12 +170,23 @@ func (fs FS) Stat() (Stat, error) {
 	if err != nil {
 		return Stat{}, err
 	}
-
-	stat := Stat{
-		CPU: make(map[int64]CPUStat),
+	procStat, err := parseStat(bytes.NewReader(data), fileName)
+	if err != nil {
+		return Stat{}, err
 	}
+	return procStat, nil
+}
 
-	scanner := bufio.NewScanner(bytes.NewReader(data))
+// parseStat parses the metrics from /proc/[pid]/stat.
+func parseStat(r io.Reader, fileName string) (Stat, error) {
+	var (
+		scanner = bufio.NewScanner(r)
+		stat    = Stat{
+			CPU: make(map[int64]CPUStat),
+		}
+		err error
+	)
+
 	for scanner.Scan() {
 		line := scanner.Text()
 		parts := strings.Fields(scanner.Text())

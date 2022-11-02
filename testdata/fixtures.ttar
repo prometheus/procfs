@@ -2258,6 +2258,99 @@ DirectMap4k:       91136 kB
 DirectMap2M:    16039936 kB
 Mode: 664
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/modules
+Lines: 89
+nft_counter 16384 4 - Live 0xffffffffc0c77000
+nft_chain_nat 16384 2 - Live 0xffffffffc0c72000
+nft_compat 20480 8 - Live 0xffffffffc0c6c000
+xt_tcpudp 20480 4 - Live 0xffffffffc0c66000
+xt_nat 16384 4 - Live 0xffffffffc0c61000
+xt_multiport 20480 0 - Live 0xffffffffc0c5b000
+xt_mark 16384 0 - Live 0xffffffffc0c56000
+xt_conntrack 16384 0 - Live 0xffffffffc0c42000
+xt_comment 16384 0 - Live 0xffffffffc0c3d000
+xt_addrtype 16384 0 - Live 0xffffffffc0c51000
+xt_MASQUERADE 20480 0 - Live 0xffffffffc0c4b000
+nf_tables 245760 19 nft_counter,nft_chain_nat,nft_compat, Live 0xffffffffc0c00000
+nfnetlink 20480 2 nft_compat,nf_tables, Live 0xffffffffc0bfa000
+ip6table_filter 16384 0 - Live 0xffffffffc0b8b000
+iptable_filter 16384 0 - Live 0xffffffffc0bde000
+ip6table_nat 16384 0 - Live 0xffffffffc0bd9000
+iptable_nat 16384 0 - Live 0xffffffffc0bf5000
+nf_nat 49152 5 nft_chain_nat,xt_nat,xt_MASQUERADE,ip6table_nat,iptable_nat, Live 0xffffffffc0be8000
+nf_conntrack 172032 4 xt_nat,xt_conntrack,xt_MASQUERADE,nf_nat, Live 0xffffffffc0bae000
+nf_defrag_ipv6 24576 1 nf_conntrack, Live 0xffffffffc0ba3000
+nf_defrag_ipv4 16384 1 nf_conntrack, Live 0xffffffffc0b9e000
+ip6_tables 32768 2 ip6table_filter,ip6table_nat, Live 0xffffffffc0b82000
+veth 32768 0 - Live 0xffffffffc0b95000
+bridge 307200 0 - Live 0xffffffffc0b36000
+stp 16384 1 bridge, Live 0xffffffffc0b2f000
+llc 16384 2 bridge,stp, Live 0xffffffffc0b26000
+tap 28672 0 - Live 0xffffffffc0b1b000
+binfmt_misc 24576 1 - Live 0xffffffffc0ad6000
+overlay 151552 0 - Live 0xffffffffc0ab0000
+isofs 53248 1 - Live 0xffffffffc09d0000
+nls_iso8859_1 16384 1 - Live 0xffffffffc097f000
+input_leds 16384 0 - Live 0xffffffffc099d000
+serio_raw 20480 0 - Live 0xffffffffc098b000
+virtio_input 20480 0 - Live 0xffffffffc0979000
+dm_multipath 40960 0 - Live 0xffffffffc093f000
+sch_fq_codel 20480 3 - Live 0xffffffffc0939000
+scsi_dh_rdac 20480 0 - Live 0xffffffffc0930000
+scsi_dh_emc 16384 0 - Live 0xffffffffc0928000
+scsi_dh_alua 20480 0 - Live 0xffffffffc0917000
+ipmi_devintf 20480 0 - Live 0xffffffffc091e000
+ipmi_msghandler 122880 1 ipmi_devintf, Live 0xffffffffc08f8000
+msr 16384 0 - Live 0xffffffffc08f0000
+efi_pstore 16384 0 - Live 0xffffffffc08eb000
+virtio_rng 16384 0 - Live 0xffffffffc0581000
+ip_tables 32768 2 iptable_filter,iptable_nat, Live 0xffffffffc0743000
+x_tables 53248 15 nft_compat,xt_tcpudp,xt_nat,xt_multiport,xt_mark,xt_conntrack,xt_comment,xt_addrtype,xt_MASQUERADE,ip6table_filter,iptable_filter,ip6table_nat,iptable_nat,ip6_tables,ip_tables, Live 0xffffffffc0735000
+autofs4 49152 2 - Live 0xffffffffc0728000
+btrfs 1552384 0 - Live 0xffffffffc0761000
+blake2b_generic 20480 0 - Live 0xffffffffc06d3000
+zstd_compress 229376 1 btrfs, Live 0xffffffffc06ef000
+raid10 69632 0 - Live 0xffffffffc06dd000
+raid456 163840 0 - Live 0xffffffffc06aa000
+async_raid6_recov 24576 1 raid456, Live 0xffffffffc06a3000
+async_memcpy 20480 2 raid456,async_raid6_recov, Live 0xffffffffc069d000
+async_pq 24576 2 raid456,async_raid6_recov, Live 0xffffffffc0696000
+async_xor 20480 3 raid456,async_raid6_recov,async_pq, Live 0xffffffffc0690000
+async_tx 20480 5 raid456,async_raid6_recov,async_memcpy,async_pq,async_xor, Live 0xffffffffc068a000
+xor 24576 2 btrfs,async_xor, Live 0xffffffffc0593000
+raid6_pq 122880 4 btrfs,raid456,async_raid6_recov,async_pq, Live 0xffffffffc066b000
+libcrc32c 16384 5 nf_tables,nf_nat,nf_conntrack,btrfs,raid456, Live 0xffffffffc0556000
+raid1 49152 0 - Live 0xffffffffc0610000
+raid0 24576 0 - Live 0xffffffffc0517000
+multipath 20480 0 - Live 0xffffffffc0501000
+linear 20480 0 - Live 0xffffffffc045b000
+virtio_gpu 69632 0 - Live 0xffffffffc05a0000
+virtio_dma_buf 16384 1 virtio_gpu, Live 0xffffffffc0536000
+crct10dif_pclmul 16384 1 - Live 0xffffffffc050e000
+drm_kms_helper 311296 3 virtio_gpu, Live 0xffffffffc061e000
+crc32_pclmul 16384 0 - Live 0xffffffffc0527000
+syscopyarea 16384 1 drm_kms_helper, Live 0xffffffffc0520000
+sysfillrect 20480 1 drm_kms_helper, Live 0xffffffffc0508000
+ghash_clmulni_intel 16384 0 - Live 0xffffffffc0456000
+sysimgblt 16384 1 drm_kms_helper, Live 0xffffffffc04fc000
+fb_sys_fops 16384 1 drm_kms_helper, Live 0xffffffffc0425000
+cec 61440 1 drm_kms_helper, Live 0xffffffffc0751000
+rc_core 65536 1 cec, Live 0xffffffffc0540000
+aesni_intel 376832 0 - Live 0xffffffffc05b3000
+crypto_simd 16384 1 aesni_intel, Live 0xffffffffc059b000
+ahci 45056 1 - Live 0xffffffffc0587000
+virtio_net 61440 0 - Live 0xffffffffc0571000
+xhci_pci 24576 0 - Live 0xffffffffc0562000
+net_failover 20480 1 virtio_net, Live 0xffffffffc055c000
+cryptd 24576 2 ghash_clmulni_intel,crypto_simd, Live 0xffffffffc052c000
+drm 622592 3 virtio_gpu,drm_kms_helper, Live 0xffffffffc0463000 (POE)
+psmouse 176128 0 - Live 0xffffffffc042a000
+libahci 45056 1 ahci, Live 0xffffffffc0419000
+virtio_blk 20480 2 - Live 0xffffffffc040f000
+xhci_pci_renesas 20480 1 xhci_pci, Live 0xffffffffc0407000
+failover 16384 1 net_failover, Live 0xffffffffc03ff000 (P)
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/net
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

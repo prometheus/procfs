@@ -27,10 +27,9 @@ import (
 // For the proc file format details,
 // See:
 // * Linux 2.6.23 https://elixir.bootlin.com/linux/v2.6.23/source/net/core/dev.c#L2343
-// * Linux 4.17 https://elixir.bootlin.com/linux/v4.17/source/net/core/net-procfs.c#L162
-// * Linux 5.10 https://elixir.bootlin.com/linux/v5.10/source/net/core/net-procfs.c#L172
-// * https://elixir.bootlin.com/linux/v4.17/source/include/linux/netdevice.h#L2810
-// * https://elixir.bootlin.com/linux/v5.10/source/include/linux/netdevice.h#L3181
+// * Linux 2.6.39 https://elixir.bootlin.com/linux/v2.6.39/source/net/core/dev.c#L4086
+// * Linux 4.18 https://elixir.bootlin.com/linux/v4.18/source/net/core/net-procfs.c#L162
+// * Linux 5.14 https://elixir.bootlin.com/linux/v5.14/source/net/core/net-procfs.c#L169
 
 // SoftnetStat contains a single row of data from /proc/net/softnet_stat.
 type SoftnetStat struct {
@@ -46,11 +45,11 @@ type SoftnetStat struct {
 	ReceivedRps uint32
 	// number of times flow limit has been reached.
 	FlowLimitCount uint32
-	// Softnet Backlog status.
+	// Softnet backlog status.
 	SoftnetBacklogLen uint32
 	// CPU id owning this softnet_data.
 	Index uint32
-	// softnet_data's Width
+	// softnet_data's Width.
 	Width int
 }
 
@@ -80,64 +79,57 @@ func parseSoftnet(r io.Reader) ([]SoftnetStat, error) {
 	for s.Scan() {
 		columns := strings.Fields(s.Text())
 		width := len(columns)
+		softnetStat := SoftnetStat{}
 
 		if width < minColumns {
 			return nil, fmt.Errorf("%d columns were detected, but at least %d were expected", width, minColumns)
 		}
 
-		// * Linux 2.6.23 https://elixir.bootlin.com/linux/v2.6.23/source/net/core/dev.c#L2343
-		if width == minColumns {
+		// Linux 2.6.23 https://elixir.bootlin.com/linux/v2.6.23/source/net/core/dev.c#L2347
+		if width >= minColumns {
 			us, err := parseHexUint32s(columns[0:9])
 			if err != nil {
 				return nil, err
 			}
 
-			stats = append(stats, SoftnetStat{
-				Processed:    us[0],
-				Dropped:      us[1],
-				TimeSqueezed: us[2],
-				CPUCollision: us[8],
-				Width:        width,
-			})
+			softnetStat.Processed = us[0]
+			softnetStat.Dropped = us[1]
+			softnetStat.TimeSqueezed = us[2]
+			softnetStat.CPUCollision = us[8]
 		}
 
-		// * Linux 4.17 https://elixir.bootlin.com/linux/v4.17/source/net/core/net-procfs.c#L162
-		if width == 11 {
-			us, err := parseHexUint32s(columns[0:11])
+		// Linux 2.6.39 https://elixir.bootlin.com/linux/v2.6.39/source/net/core/dev.c#L4086
+		if width >= 10 {
+			us, err := parseHexUint32s(columns[9:10])
 			if err != nil {
 				return nil, err
 			}
 
-			stats = append(stats, SoftnetStat{
-				Processed:      us[0],
-				Dropped:        us[1],
-				TimeSqueezed:   us[2],
-				CPUCollision:   us[8],
-				ReceivedRps:    us[9],
-				FlowLimitCount: us[10],
-				Width:          width,
-			})
+			softnetStat.ReceivedRps = us[0]
 		}
 
-		// * Linux 5.10 https://elixir.bootlin.com/linux/v5.10/source/net/core/net-procfs.c#L172
+		// Linux 4.18 https://elixir.bootlin.com/linux/v4.18/source/net/core/net-procfs.c#L162
+		if width >= 11 {
+			us, err := parseHexUint32s(columns[10:11])
+			if err != nil {
+				return nil, err
+			}
+
+			softnetStat.FlowLimitCount = us[0]
+		}
+
+		// Linux 5.14 https://elixir.bootlin.com/linux/v5.14/source/net/core/net-procfs.c#L169
 		if width >= 13 {
-			us, err := parseHexUint32s(columns[0:13])
+			us, err := parseHexUint32s(columns[11:13])
 			if err != nil {
 				return nil, err
 			}
 
-			stats = append(stats, SoftnetStat{
-				Processed:         us[0],
-				Dropped:           us[1],
-				TimeSqueezed:      us[2],
-				CPUCollision:      us[8],
-				ReceivedRps:       us[9],
-				FlowLimitCount:    us[10],
-				SoftnetBacklogLen: us[11],
-				Index:             us[12],
-				Width:             width,
-			})
+			softnetStat.SoftnetBacklogLen = us[0]
+			softnetStat.Index = us[1]
 		}
+		softnetStat.Width = width
+		stats = append(stats, softnetStat)
 	}
 
 	return stats, nil

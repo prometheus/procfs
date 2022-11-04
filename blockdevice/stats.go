@@ -15,6 +15,7 @@ package blockdevice
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -251,9 +252,15 @@ func (fs FS) ProcDiskstats() ([]Diskstats, error) {
 		return nil, err
 	}
 	defer file.Close()
+	return parseProcDiskstats(file)
+}
 
-	diskstats := []Diskstats{}
-	scanner := bufio.NewScanner(file)
+func parseProcDiskstats(r io.Reader) ([]Diskstats, error) {
+	var (
+		diskstats []Diskstats
+		scanner   = bufio.NewScanner(r)
+		err       error
+	)
 	for scanner.Scan() {
 		d := &Diskstats{}
 		d.IoStatsCount, err = fmt.Sscanf(scanner.Text(), procDiskstatsFormat,
@@ -280,7 +287,7 @@ func (fs FS) ProcDiskstats() ([]Diskstats, error) {
 		)
 		// The io.EOF error can be safely ignored because it just means we read fewer than
 		// the full 20 fields.
-		if err != nil && err != io.EOF {
+		if err != nil && !errors.Is(err, io.EOF) {
 			return diskstats, err
 		}
 		if d.IoStatsCount >= 14 {
@@ -307,12 +314,16 @@ func (fs FS) SysBlockDevices() ([]string, error) {
 // The number of stats read will be 15 if the discard stats are available (kernel 4.18+)
 // and 11 if they are not available.
 func (fs FS) SysBlockDeviceStat(device string) (IOStats, int, error) {
-	stat := IOStats{}
 	bytes, err := os.ReadFile(fs.sys.Path(sysBlockPath, device, "stat"))
 	if err != nil {
-		return stat, 0, err
+		return IOStats{}, 0, err
 	}
-	count, err := fmt.Sscanf(strings.TrimSpace(string(bytes)), sysBlockStatFormat,
+	return parseSysBlockDeviceStat(bytes)
+}
+
+func parseSysBlockDeviceStat(data []byte) (IOStats, int, error) {
+	stat := IOStats{}
+	count, err := fmt.Sscanf(strings.TrimSpace(string(data)), sysBlockStatFormat,
 		&stat.ReadIOs,
 		&stat.ReadMerges,
 		&stat.ReadSectors,
@@ -332,7 +343,7 @@ func (fs FS) SysBlockDeviceStat(device string) (IOStats, int, error) {
 		&stat.TimeSpentFlushing,
 	)
 	// An io.EOF error is ignored because it just means we read fewer than the full 15 fields.
-	if err == io.EOF {
+	if errors.Is(err, io.EOF) {
 		return stat, count, nil
 	}
 	return stat, count, err

@@ -204,6 +204,7 @@ type ServerV4Stats struct {
 // - v4.0 https://tools.ietf.org/html/rfc3010 (38 operations)
 // - v4.1 https://tools.ietf.org/html/rfc5661 (58 operations)
 // - v4.2 https://tools.ietf.org/html/draft-ietf-nfsv4-minorversion2-41 (71 operations)
+//
 //nolint:godot
 type V4Ops struct {
 	//Values       uint64 // Variable depending on v4.x sub-version. TODO: Will this always at least include the fields in this struct?

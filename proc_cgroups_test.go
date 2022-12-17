@@ -26,8 +26,8 @@ func TestParseCgroupSummaryString(t *testing.T) {
 		CgroupSummary *CgroupSummary
 	}{
 		{
-			name: "cpuset simple line",
-			s: "cpuset	7	148	1",
+			name:      "cpuset simple line",
+			s:         "cpuset	7	148	1",
 			shouldErr: false,
 			CgroupSummary: &CgroupSummary{
 				SubsysName: "cpuset",
@@ -37,8 +37,8 @@ func TestParseCgroupSummaryString(t *testing.T) {
 			},
 		},
 		{
-			name: "memory cgroup number mis format",
-			s: "memory	9	##	1",
+			name:          "memory cgroup number mis format",
+			s:             "memory	9	##	1",
 			shouldErr:     true,
 			CgroupSummary: nil,
 		},

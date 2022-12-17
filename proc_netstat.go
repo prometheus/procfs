@@ -174,14 +174,14 @@ func (p Proc) Netstat() (ProcNetstat, error) {
 	if err != nil {
 		return ProcNetstat{PID: p.PID}, err
 	}
-	procNetstat, err := parseNetstat(bytes.NewReader(data), filename)
+	procNetstat, err := parseProcNetstat(bytes.NewReader(data), filename)
 	procNetstat.PID = p.PID
 	return procNetstat, err
 }
 
-// parseNetstat parses the metrics from proc/<pid>/net/netstat file
+// parseProcNetstat parses the metrics from proc/<pid>/net/netstat file
 // and returns a ProcNetstat structure.
-func parseNetstat(r io.Reader, fileName string) (ProcNetstat, error) {
+func parseProcNetstat(r io.Reader, fileName string) (ProcNetstat, error) {
 	var (
 		scanner     = bufio.NewScanner(r)
 		procNetstat = ProcNetstat{}

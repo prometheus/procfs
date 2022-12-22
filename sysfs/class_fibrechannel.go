@@ -17,6 +17,7 @@
 package sysfs
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -161,7 +162,7 @@ func parseFibreChannelStatistics(hostPath string) (*FibreChannelCounters, error)
 		value, err := util.SysReadFile(name)
 		if err != nil {
 			// there are some write-only files in this directory; we can safely skip over them
-			if os.IsNotExist(err) || err.Error() == "operation not supported" || err.Error() == "invalid argument" {
+			if os.IsNotExist(err) || err.Error() == "operation not supported" || errors.Is(err, os.ErrInvalid) {
 				continue
 			}
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)

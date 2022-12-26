@@ -237,6 +237,17 @@ func (p Proc) FileDescriptorTargets() ([]string, error) {
 // FileDescriptorsLen returns the number of currently open file descriptors of
 // a process.
 func (p Proc) FileDescriptorsLen() (int, error) {
+	// Use fast path if available (Linux v6.2): https://github.com/torvalds/linux/commit/f1f1f2569901
+	stat, err := os.Stat(p.path("fd"))
+	if err != nil {
+		return 0, err
+	}
+
+	size := stat.Size()
+	if size > 0 {
+		return int(size), nil
+	}
+
 	fds, err := p.fileDescriptors()
 	if err != nil {
 		return 0, err

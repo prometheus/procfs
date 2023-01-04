@@ -37,7 +37,7 @@ func TestAllThreads(t *testing.T) {
 			t.Errorf("want TID %d, have %d", wantTID, haveTID)
 		}
 		wantFS := fixFS.proc.Path(strconv.Itoa(testPID), "task")
-		haveFS := string(threads[i].fs)
+		haveFS := string(threads[i].fs.proc)
 		if wantFS != haveFS {
 			t.Errorf("want fs %q, have %q", wantFS, haveFS)
 		}

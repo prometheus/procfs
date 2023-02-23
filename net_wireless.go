@@ -28,8 +28,8 @@ import (
 type Wireless struct {
 	Name string
 
-	// Status is the current status of the interface.
-	Status int
+	// Status is the current 4-digit hex value status of the interface.
+	Status uint64
 
 	// QualityLink is the link quality.
 	QualityLink int
@@ -107,7 +107,7 @@ func parseWireless(r io.Reader) ([]*Wireless, error) {
 			return nil, fmt.Errorf("invalid number of fields in line %d, expected at least 10, got %d: %q", n, len(stats), line)
 		}
 
-		status, err := strconv.Atoi(stats[0])
+		status, err := strconv.ParseUint(stats[0], 16, 16)
 		if err != nil {
 			return nil, fmt.Errorf("invalid status in line %d: %q", n, line)
 		}

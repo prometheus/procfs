@@ -45,7 +45,7 @@ func TestWireless(t *testing.T) {
 		},
 		{
 			Name:           "wlan1",
-			Status:         10,
+			Status:         16,
 			QualityLink:    9,
 			QualityLevel:   8,
 			QualityNoise:   7,

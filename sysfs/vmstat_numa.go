@@ -145,7 +145,7 @@ func parseVMStatNUMA(r []byte) (VMStat, error) {
 		case "nr_zone_active_anon":
 			vmStat.NrZoneActiveAnon = fv
 		case "nr_zone_inactive_file":
-			vmStat.NrZoneActiveFile = fv
+			vmStat.NrZoneInactiveFile = fv
 		case "nr_zone_active_file":
 			vmStat.NrZoneActiveFile = fv
 		case "nr_zone_unevictable":

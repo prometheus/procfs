@@ -142,6 +142,49 @@ func parseCPUThermalThrottle(cpuPath string) (*CPUThermalThrottle, error) {
 	return &t, nil
 }
 
+func binSearch(elem uint16, elemSlice *[]uint16) bool {
+	if len(*elemSlice) == 0 {
+		return false
+	}
+
+	if len(*elemSlice) == 1 {
+		return elem == (*elemSlice)[0]
+	}
+
+	start := 0
+	end := len(*elemSlice) - 1
+
+	var mid int
+
+	for start <= end {
+		mid = (start + end) / 2
+		if (*elemSlice)[mid] == elem {
+			return true
+		} else if (*elemSlice)[mid] > elem {
+			end = mid - 1
+		} else if (*elemSlice)[mid] < elem {
+			start = mid + 1
+		}
+	}
+
+	return false
+}
+
+func filterOfflineCPUs(offlineCpus *[]uint16, cpus *[]string) error {
+	for i, cpu := range *cpus {
+		cpuName := strings.TrimPrefix(filepath.Base(cpu), "cpu")
+		cpuNameUint16, err := strconv.Atoi(cpuName)
+		if err != nil {
+			return err
+		}
+		if binSearch(uint16(cpuNameUint16), offlineCpus) {
+			*cpus = append((*cpus)[:i], (*cpus)[i+1:]...)
+		}
+	}
+
+	return nil
+}
+
 // SystemCpufreq returns CPU frequency metrics for all CPUs.
 func (fs FS) SystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 	var g errgroup.Group
@@ -149,6 +192,25 @@ func (fs FS) SystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 	cpus, err := filepath.Glob(fs.sys.Path("devices/system/cpu/cpu[0-9]*"))
 	if err != nil {
 		return nil, err
+	}
+
+	line, err := util.ReadFileNoStat(fs.sys.Path("devices/system/cpu/offline"))
+	if err != nil {
+		return nil, err
+	}
+
+	if strings.TrimSpace(string(line)) != "" {
+		offlineCPUs, err := parseCPURange(line)
+		if err != nil {
+			return nil, err
+		}
+
+		if len(offlineCPUs) > 0 {
+			err = filterOfflineCPUs(&offlineCPUs, &cpus)
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
 
 	systemCpufreq := make([]SystemCPUCpufreqStats, len(cpus))
@@ -251,12 +313,12 @@ func (fs FS) IsolatedCPUs() ([]uint16, error) {
 		return nil, err
 	}
 
-	return parseIsolatedCPUs(isolcpus)
+	return parseCPURange(isolcpus)
 }
 
-func parseIsolatedCPUs(data []byte) ([]uint16, error) {
+func parseCPURange(data []byte) ([]uint16, error) {
 
-	var isolcpusInt = []uint16{}
+	var cpusInt = []uint16{}
 
 	for _, cpu := range strings.Split(strings.TrimRight(string(data), "\n"), ",") {
 		if cpu == "" {
@@ -277,7 +339,7 @@ func parseIsolatedCPUs(data []byte) ([]uint16, error) {
 			}
 
 			for i := startRange; i <= endRange; i++ {
-				isolcpusInt = append(isolcpusInt, uint16(i))
+				cpusInt = append(cpusInt, uint16(i))
 			}
 			continue
 		}
@@ -286,7 +348,7 @@ func parseIsolatedCPUs(data []byte) ([]uint16, error) {
 		if err != nil {
 			return nil, err
 		}
-		isolcpusInt = append(isolcpusInt, uint16(cpuN))
+		cpusInt = append(cpusInt, uint16(cpuN))
 	}
-	return isolcpusInt, nil
+	return cpusInt, nil
 }

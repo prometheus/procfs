@@ -165,7 +165,7 @@ func TestIsolatedParsingCPU(t *testing.T) {
 	}
 	for _, params := range testParams {
 		t.Run("blabla", func(t *testing.T) {
-			res, err := parseIsolatedCPUs(params.in)
+			res, err := parseCPURange(params.in)
 			if !reflect.DeepEqual(res, params.res) {
 				t.Fatalf("should have %v result: got %v", params.res, res)
 			}
@@ -191,5 +191,26 @@ func TestIsolatedCPUs(t *testing.T) {
 	}
 	if err != nil {
 		t.Errorf("Error not correct: want %v, have %v", nil, err)
+	}
+}
+
+func TestBinSearch(t *testing.T) {
+	var testParams = []struct {
+		elem  uint16
+		elems []uint16
+		res   bool
+	}{
+		{3, []uint16{1, 3, 5, 7, 9}, true},
+		{4, []uint16{1, 3, 5, 7, 9}, false},
+		{2, []uint16{}, false},
+	}
+
+	for _, param := range testParams {
+		res := binSearch(param.elem, &param.elems)
+
+		if res != param.res {
+			t.Fatalf("Result not correct: want %v, have %v", param.res, res)
+		}
+
 	}
 }

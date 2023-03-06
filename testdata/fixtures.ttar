@@ -2568,6 +2568,14 @@ Num       RefCount Protocol Flags    Type St Path
 0000000000000000: 00000003 00000000 00000000 0001 03
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/net/wireless
+Lines: 4
+Inter-| sta-|   Quality        |   Discarded packets               | Missed
+ face | tus | link level noise |  nwid  crypt   frag  retry   misc | beacon
+ wlan0: 0001    2.    3.    4.       5      6      7      8      9       10
+ wlan1: 0010    9     8.    7.       6      5      4      3      2        1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/net/xfrm_stat
 Lines: 28
 XfrmInError                     1

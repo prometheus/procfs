@@ -83,3 +83,36 @@ func TestParseConntrackStat(t *testing.T) {
 		t.Errorf("want %v, have %v", want, have)
 	}
 }
+
+func TestParseOldConntrackStat(t *testing.T) {
+	var nfConntrackStat = []byte(`entries  searched found new invalid ignore delete delete_list insert insert_failed drop early_drop icmp_error  expect_new expect_create expect_delete
+0000002b  0003159f 02e6786a 00142562 0001bf93 00e1a051 00142537 000b8fe0 000b900b 00000000 00000000 00000000 0001b46a  00000000 00000000 00000000
+`)
+	r := bytes.NewReader(nfConntrackStat)
+
+	have, err := parseConntrackStat(r)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := []ConntrackStatEntry{
+		ConntrackStatEntry{
+			Entries:       43,
+			Searched:      202143,
+			Found:         48658538,
+			New:           1320290,
+			Invalid:       114579,
+			Ignore:        14786641,
+			Delete:        1320247,
+			DeleteList:    757728,
+			Insert:        757771,
+			InsertFailed:  0,
+			Drop:          0,
+			EarlyDrop:     0,
+			SearchRestart: 0,
+		},
+	}
+	if !reflect.DeepEqual(want, have) {
+		t.Errorf("want %v, have %v", want, have)
+	}
+}

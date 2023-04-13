@@ -34,6 +34,8 @@ var (
 type MDStat struct {
 	// Name of the device.
 	Name string
+	// raid type of the device.
+	Type string
 	// activity-state of the device.
 	ActivityState string
 	// Number of active disks.
@@ -95,6 +97,13 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		mdName := deviceFields[0] // mdx
 		state := deviceFields[2]  // active or inactive
 
+		mdType := ""
+		if len(deviceFields) > 3 && strings.HasPrefix(deviceFields[3], "raid") {
+			mdType = deviceFields[3] // raid1, raid5, etc.
+		} else if len(deviceFields) > 4 && strings.HasPrefix(deviceFields[4], "raid") {
+			mdType = deviceFields[4]
+		}
+
 		if len(lines) <= i+3 {
 			return nil, fmt.Errorf("error parsing %q: too few lines for md device", mdName)
 		}
@@ -147,6 +156,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 
 		mdStats = append(mdStats, MDStat{
 			Name:                   mdName,
+			Type:                   mdType,
 			ActivityState:          state,
 			DisksActive:            active,
 			DisksFailed:            fail,

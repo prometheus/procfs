@@ -99,7 +99,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		mdName := deviceFields[0] // mdx
 		state := deviceFields[2]  // active or inactive
 
-		mdType := ""
+		mdType := "unknown"
 		if len(deviceFields) > 3 && isRaidType(deviceFields[3]) {
 			mdType = deviceFields[3] // raid1, raid5, etc.
 		} else if len(deviceFields) > 4 && isRaidType(deviceFields[4]) {

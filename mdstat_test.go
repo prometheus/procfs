@@ -238,7 +238,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdb", "sdc"}},
 		"md219": {
 			Name:                   "md219",
-			Type:                   "",
+			Type:                   "unknown",
 			ActivityState:          "inactive",
 			DisksTotal:             0,
 			DisksFailed:            0,

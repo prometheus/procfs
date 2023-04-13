@@ -30,6 +30,7 @@ func TestFS_MDStat(t *testing.T) {
 	refs := map[string]MDStat{
 		"md127": {
 			Name:                   "md127",
+			Type:                   "raid1",
 			ActivityState:          "active",
 			DisksActive:            2,
 			DisksTotal:             2,
@@ -45,6 +46,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdi2", "sdj2"}},
 		"md0": {
 			Name:                   "md0",
+			Type:                   "raid1",
 			ActivityState:          "active",
 			DisksActive:            2,
 			DisksTotal:             2,
@@ -60,6 +62,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdi1", "sdj1"}},
 		"md4": {
 			Name:                   "md4",
+			Type:                   "raid1",
 			ActivityState:          "inactive",
 			DisksActive:            0,
 			DisksTotal:             0,
@@ -75,6 +78,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sda3", "sdb3"}},
 		"md6": {
 			Name:                   "md6",
+			Type:                   "raid1",
 			ActivityState:          "recovering",
 			DisksActive:            1,
 			DisksTotal:             2,
@@ -90,6 +94,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdb2", "sdc", "sda2"}},
 		"md3": {
 			Name:                   "md3",
+			Type:                   "raid6",
 			ActivityState:          "active",
 			DisksActive:            8,
 			DisksTotal:             8,
@@ -105,6 +110,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sda1", "sdh1", "sdg1", "sdf1", "sde1", "sdd1", "sdc1", "sdb1", "sdd1", "sdd2"}},
 		"md8": {
 			Name:                   "md8",
+			Type:                   "raid1",
 			ActivityState:          "resyncing",
 			DisksActive:            2,
 			DisksTotal:             2,
@@ -120,6 +126,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdb1", "sda1", "sdc", "sde"}},
 		"md7": {
 			Name:                   "md7",
+			Type:                   "raid6",
 			ActivityState:          "active",
 			DisksActive:            3,
 			DisksTotal:             4,
@@ -135,6 +142,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdb1", "sde1", "sdd1", "sdc1"}},
 		"md9": {
 			Name:                   "md9",
+			Type:                   "raid1",
 			ActivityState:          "resyncing",
 			DisksActive:            4,
 			DisksTotal:             4,
@@ -150,6 +158,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdc2", "sdd2", "sdb2", "sda2", "sde", "sdf", "sdg"}},
 		"md10": {
 			Name:                   "md10",
+			Type:                   "raid0",
 			ActivityState:          "active",
 			DisksActive:            2,
 			DisksTotal:             2,
@@ -165,6 +174,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sda1", "sdb1"}},
 		"md11": {
 			Name:                   "md11",
+			Type:                   "raid1",
 			ActivityState:          "resyncing",
 			DisksActive:            2,
 			DisksTotal:             2,
@@ -180,6 +190,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdb2", "sdc2", "sdc3", "hda", "ssdc2"}},
 		"md12": {
 			Name:                   "md12",
+			Type:                   "raid0",
 			ActivityState:          "active",
 			DisksActive:            2,
 			DisksTotal:             2,
@@ -195,6 +206,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdc2", "sdd2"}},
 		"md120": {
 			Name:                   "md120",
+			Type:                   "",
 			ActivityState:          "active",
 			DisksActive:            2,
 			DisksTotal:             2,
@@ -210,6 +222,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sda1", "sdb1"}},
 		"md126": {
 			Name:                   "md126",
+			Type:                   "raid0",
 			ActivityState:          "active",
 			DisksActive:            2,
 			DisksTotal:             2,
@@ -225,6 +238,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdb", "sdc"}},
 		"md219": {
 			Name:                   "md219",
+			Type:                   "",
 			ActivityState:          "inactive",
 			DisksTotal:             0,
 			DisksFailed:            0,
@@ -240,6 +254,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdc", "sda"}},
 		"md00": {
 			Name:                   "md00",
+			Type:                   "raid0",
 			ActivityState:          "active",
 			DisksActive:            1,
 			DisksTotal:             1,
@@ -255,6 +270,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"xvdb"}},
 		"md101": {
 			Name:                   "md101",
+			Type:                   "raid0",
 			ActivityState:          "active",
 			DisksActive:            3,
 			DisksTotal:             3,
@@ -270,6 +286,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdb", "sdd", "sdc"}},
 		"md201": {
 			Name:                   "md201",
+			Type:                   "raid1",
 			ActivityState:          "checking",
 			DisksActive:            2,
 			DisksTotal:             2,

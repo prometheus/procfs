@@ -97,11 +97,14 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		mdName := deviceFields[0] // mdx
 		state := deviceFields[2]  // active or inactive
 
-		mdType := "unknown"
-		if len(deviceFields) > 3 && isRaidType(deviceFields[3]) {
-			mdType = deviceFields[3] // raid1, raid5, etc.
-		} else if len(deviceFields) > 4 && isRaidType(deviceFields[4]) {
-			mdType = deviceFields[4]
+		mdType := "unknown"        // raid1, raid5, etc.
+		if len(deviceFields) > 3 { // mdType may be in the 3rd or 4th field
+			if isRaidType(deviceFields[3]) {
+				mdType = deviceFields[3]
+			} else if len(deviceFields) > 4 && isRaidType(deviceFields[4]) {
+				// if the 3rd field is (...), the 4th field is the mdType
+				mdType = deviceFields[4]
+			}
 		}
 
 		if len(lines) <= i+3 {
@@ -175,8 +178,11 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 	return mdStats, nil
 }
 
+// check if a string's format is like the mdType
+// Rule 1: mdType should not be like (...)
+// Rule 2: mdType should not be like sda[0]
 func isRaidType(mdType string) bool {
-	return strings.HasPrefix(mdType, "raid") || mdType == "linear"
+	return !strings.ContainsAny(mdType, "([")
 }
 
 func evalStatusLine(deviceLine, statusLine string) (active, total, down, size int64, err error) {

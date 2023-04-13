@@ -206,7 +206,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []string{"sdc2", "sdd2"}},
 		"md120": {
 			Name:                   "md120",
-			Type:                   "",
+			Type:                   "linear",
 			ActivityState:          "active",
 			DisksActive:            2,
 			DisksTotal:             2,

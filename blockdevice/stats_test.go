@@ -73,7 +73,7 @@ func TestBlockDevice(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	expectedNumOfDevices := 2
+	expectedNumOfDevices := 8
 	if len(devices) != expectedNumOfDevices {
 		t.Fatalf(failMsgFormat, "Incorrect number of devices", expectedNumOfDevices, len(devices))
 	}
@@ -93,18 +93,18 @@ func TestBlockDevice(t *testing.T) {
 	if device0stats.WeightedIOTicks != 6088971 {
 		t.Errorf(failMsgFormat, "Incorrect time in queue", 6088971, device0stats.WeightedIOTicks)
 	}
-	device1stats, count, err := blockdevice.SysBlockDeviceStat(devices[1])
+	device7stats, count, err := blockdevice.SysBlockDeviceStat(devices[7])
 	if count != 15 {
 		t.Errorf(failMsgFormat, "Incorrect number of stats read", 15, count)
 	}
 	if err != nil {
 		t.Fatal(err)
 	}
-	if device1stats.WriteSectors != 286915323 {
-		t.Errorf(failMsgFormat, "Incorrect write merges", 286915323, device1stats.WriteSectors)
+	if device7stats.WriteSectors != 286915323 {
+		t.Errorf(failMsgFormat, "Incorrect write merges", 286915323, device7stats.WriteSectors)
 	}
-	if device1stats.DiscardTicks != 12 {
-		t.Errorf(failMsgFormat, "Incorrect discard ticks", 12, device1stats.DiscardTicks)
+	if device7stats.DiscardTicks != 12 {
+		t.Errorf(failMsgFormat, "Incorrect discard ticks", 12, device7stats.DiscardTicks)
 	}
 	blockQueueStatExpected := BlockQueueStats{
 		AddRandom:            1,
@@ -145,7 +145,7 @@ func TestBlockDevice(t *testing.T) {
 		WriteZeroesMaxBytes:  0,
 	}
 
-	blockQueueStat, err := blockdevice.SysBlockDeviceQueueStats(devices[1])
+	blockQueueStat, err := blockdevice.SysBlockDeviceQueueStats(devices[7])
 	if err != nil {
 		t.Fatal(err)
 	}

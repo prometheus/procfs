@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"strconv"
 	"strings"
 
 	"github.com/prometheus/procfs/internal/util"
@@ -78,40 +79,65 @@ func parseNetRoute(r io.Reader) ([]NetRouteLine, error) {
 }
 
 func parseNetRouteLine(fields []string) (*NetRouteLine, error) {
-	routeline := &NetRouteLine{
-		Iface: fields[0],
-	}
-	if routeline.Iface == BlackholeRepresentation {
-		routeline.Iface = BlackholeIfaceName
-	}
 	if len(fields) != RouteLineColumns {
 		return nil, fmt.Errorf("invalid routeline, num of digits: %d", len(fields))
 	}
-
-	hexss := make([]string, 0, 3)
-	hexss = append(hexss, fields[1], fields[2], fields[7])
-	uss := make([]string, 0, 7)
-	uss = append(uss, fields[3], fields[4], fields[5], fields[6], fields[8], fields[9], fields[10])
-	hex, err := util.ParseHexUint64s(hexss)
+	iface := fields[0]
+	if iface == BlackholeRepresentation {
+		iface = BlackholeIfaceName
+	}
+	destination, err := strconv.ParseUint(fields[1], 16, 32)
 	if err != nil {
 		return nil, err
 	}
-	ss, err := util.ParseUint32s(uss)
+	gateway, err := strconv.ParseUint(fields[2], 16, 32)
 	if err != nil {
 		return nil, err
 	}
-	// hex
-	routeline.Destination = uint32(*hex[0])
-	routeline.Gateway = uint32(*hex[1])
-	routeline.Mask = uint32(*hex[2])
-	// uint32
-	routeline.Flags = uint32(ss[0])
-	routeline.RefCnt = uint32(ss[1])
-	routeline.Use = uint32(ss[2])
-	routeline.Metric = uint32(ss[3])
-	routeline.MTU = uint32(ss[4])
-	routeline.Window = uint32(ss[5])
-	routeline.IRTT = uint32(ss[6])
-
+	flags, err := strconv.ParseUint(fields[3], 10, 32)
+	if err != nil {
+		return nil, err
+	}
+	refcnt, err := strconv.ParseUint(fields[4], 10, 32)
+	if err != nil {
+		return nil, err
+	}
+	use, err := strconv.ParseUint(fields[5], 10, 32)
+	if err != nil {
+		return nil, err
+	}
+	metric, err := strconv.ParseUint(fields[6], 10, 32)
+	if err != nil {
+		return nil, err
+	}
+	mask, err := strconv.ParseUint(fields[7], 16, 32)
+	if err != nil {
+		return nil, err
+	}
+	mtu, err := strconv.ParseUint(fields[8], 10, 32)
+	if err != nil {
+		return nil, err
+	}
+	window, err := strconv.ParseUint(fields[9], 10, 32)
+	if err != nil {
+		return nil, err
+	}
+	irtt, err := strconv.ParseUint(fields[10], 10, 32)
+	if err != nil {
+		return nil, err
+	}
+	routeline := &NetRouteLine{
+		Iface:       iface,
+		Destination: uint32(destination),
+		Gateway:     uint32(gateway),
+		Flags:       uint32(flags),
+		RefCnt:      uint32(refcnt),
+		Use:         uint32(use),
+		Metric:      uint32(metric),
+		Mask:        uint32(mask),
+		MTU:         uint32(mtu),
+		Window:      uint32(window),
+		IRTT:        uint32(irtt),
+	}
 	return routeline, nil
 }

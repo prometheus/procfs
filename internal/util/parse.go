@@ -113,19 +113,19 @@ func ParseBool(b string) *bool {
 	return &truth
 }
 
-// Transforms uint32 to ipv4 representation
-func uint322Ipv4(n uint32) string {
+// Transforms uint32 to IPv4 representation
+func uint32ToIPv4(n uint32) string {
 	ip := make(net.IP, 4)
 	binary.LittleEndian.PutUint32(ip, uint32(n))
 	return ip.String()
 }
 
-// Input: "00000000"
-// output: "0.0.0.0"
-func ParseIpv4FromHexString(s string) (string, error) {
+// ParseIPv4FromHexString takes a string in hex(eg. "00000000") and
+// returns a string representation of IPv4("0.0.0.0").
+func ParseIPv4FromHexString(s string) (string, error) {
 	intip, err := strconv.ParseUint(s, 16, 32)
 	if err != nil {
 		return "", err
 	}
-	return uint322Ipv4(uint32(intip)), err
+	return uint32ToIPv4(uint32(intip)), err
 }

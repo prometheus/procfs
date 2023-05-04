@@ -42,6 +42,7 @@ func (fs FS) NetStat() ([]NetStat, error) {
 		if err != nil {
 			return nil, err
 		}
+		defer file.Close()
 
 		procNetstat, err := parseNetstat(file)
 		if err != nil {

@@ -37,9 +37,7 @@ type Proc struct {
 type Procs []Proc
 
 var (
-	MountError = errors.New("Error Accessing Mount point")
-	ParseError = errors.New("Error Parsing File")
-	ReadError = errors.New("Error Reading File")
+	ErrMountPoint = errors.New("Error Accessing Mount point")
 )
 
 func (p Procs) Len() int           { return len(p) }
@@ -49,7 +47,7 @@ func (p Procs) Less(i, j int) bool { return p[i].PID < p[j].PID }
 // Self returns a process for the current process read via /proc/self.
 func Self() (Proc, error) {
 	fs, err := NewFS(DefaultMountPoint)
-	if err != nil || errors.Unwrap(err) == MountPointError {
+	if err != nil || errors.Unwrap(err) == ErrMountPoint {
 		return Proc{}, err
 	}
 	return fs.Self()
@@ -111,7 +109,7 @@ func (fs FS) AllProcs() (Procs, error) {
 
 	names, err := d.Readdirnames(-1)
 	if err != nil {
-		return Procs{}, fmt.Errorf("%w: %d", d.Name(), ReadError)
+		return Procs{}, fmt.Errorf("%w: %v: %w", ErrFileRead, d.Name(), err)
 	}
 
 	p := Procs{}
@@ -212,7 +210,7 @@ func (p Proc) FileDescriptors() ([]uintptr, error) {
 	for i, n := range names {
 		fd, err := strconv.ParseInt(n, 10, 32)
 		if err != nil {
-			return nil, fmt.Errorf("%w: fd %q", n, ParseError)
+			return nil, fmt.Errorf("%w: %v: %w", ErrFileParse, d.Name(), err)
 		}
 		fds[i] = uintptr(fd)
 	}
@@ -297,7 +295,7 @@ func (p Proc) fileDescriptors() ([]string, error) {
 
 	names, err := d.Readdirnames(-1)
 	if err != nil {
-		return nil, fmt.Errorf("%w: %q", d.Name(), ReadError)
+		return nil, fmt.Errorf("%w: %v: %w", ErrFileRead, d.Name(), err)
 	}
 
 	return names, nil
@@ -336,4 +334,3 @@ func (p Proc) Schedstat() (ProcSchedstat, error) {
 	}
 	return parseProcSchedstat(string(contents))
 }
-

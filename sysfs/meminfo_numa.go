@@ -28,7 +28,7 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
-// Meminfo represents memory statistics for NUMA node
+// Meminfo represents memory statistics for NUMA node.
 type Meminfo struct {
 	MemTotal        uint64
 	MemFree         uint64

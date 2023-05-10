@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"syscall"
 
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -117,13 +118,38 @@ func (fs FS) NetClass() (NetClass, error) {
 	return netClass, nil
 }
 
+// canIgnoreError returns true if the error is non-fatal and can be ignored.
+// Some kernels and some devices don't expose specific attributes or return
+// errors when reading those attributes; we can ignore these errors and the
+// attribute that caused them.
+func canIgnoreError(err error) bool {
+	var errno syscall.Errno
+
+	if os.IsNotExist(err) {
+		return true
+	} else if os.IsPermission(err) {
+		return true
+	} else if err.Error() == "operation not supported" {
+		return true
+	} else if errors.Is(err, os.ErrInvalid) {
+		return true
+	} else if errors.As(err, &errno) && (errno == syscall.EINVAL) {
+		return true
+	}
+	// all other errors are fatal
+	return false
+}
+
 // ParseNetClassAttribute parses a given file in /sys/class/net/<iface>
 // and sets the value in a given NetClassIface object if the value was readable.
-// It returns an error if the file cannot be read.
+// It returns an error if the file cannot be read and the error is fatal.
 func ParseNetClassAttribute(devicePath, attrName string, interfaceClass *NetClassIface) error {
 	attrPath := filepath.Join(devicePath, attrName)
 	value, err := util.SysReadFile(attrPath)
 	if err != nil {
+		if canIgnoreError(err) {
+			return nil
+		}
 		return fmt.Errorf("failed to read file %q: %w", attrPath, err)
 	}
 
@@ -202,12 +228,8 @@ func parseNetClassIface(devicePath string) (*NetClassIface, error) {
 		if !f.Type().IsRegular() {
 			continue
 		}
-		err := ParseNetClassAttribute(devicePath, f.Name(), &interfaceClass)
-		if err != nil {
-			// Return fatal errors to caller
-			if !os.IsNotExist(err) && !os.IsPermission(err) && err.Error() != "operation not supported" && !errors.Is(err, os.ErrInvalid) {
-				return nil, err
-			}
+		if err := ParseNetClassAttribute(devicePath, f.Name(), &interfaceClass); err != nil {
+			return nil, err
 		}
 	}
 

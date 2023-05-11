@@ -44,7 +44,7 @@ func parseLoad(loadavgBytes []byte) (*LoadAvg, error) {
 	loads := make([]float64, 3)
 	parts := strings.Fields(string(loadavgBytes))
 	if len(parts) < 3 {
-		return nil, fmt.Errorf("malformed loadavg line: too few fields in loadavg string: %q", string(loadavgBytes))
+		return nil, fmt.Errorf("%w: Malformed line %q: %w", ErrFileParse, string(loadavgBytes), err)
 	}
 
 	var err error

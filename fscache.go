@@ -236,7 +236,7 @@ func (fs FS) Fscacheinfo() (Fscacheinfo, error) {
 
 	m, err := parseFscacheinfo(bytes.NewReader(b))
 	if err != nil {
-		return Fscacheinfo{}, fmt.Errorf("failed to parse Fscacheinfo: %w", err)
+		return Fscacheinfo{}, fmt.Errorf("%w: %v: %w", ErrFileParse, err)
 	}
 
 	return *m, nil
@@ -245,7 +245,8 @@ func (fs FS) Fscacheinfo() (Fscacheinfo, error) {
 func setFSCacheFields(fields []string, setFields ...*uint64) error {
 	var err error
 	if len(fields) < len(setFields) {
-		return fmt.Errorf("Insufficient number of fields, expected %v, got %v", len(setFields), len(fields))
+		return fmt.Errorf("%w: Expected %v, but got %v: %w", ErrFileParse, len(setFields), len(fields), err)
+
 	}
 
 	for i := range setFields {
@@ -263,7 +264,7 @@ func parseFscacheinfo(r io.Reader) (*Fscacheinfo, error) {
 	for s.Scan() {
 		fields := strings.Fields(s.Text())
 		if len(fields) < 2 {
-			return nil, fmt.Errorf("malformed Fscacheinfo line: %q", s.Text())
+			return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, s.Text(), err)
 		}
 
 		switch fields[0] {

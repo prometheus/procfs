@@ -79,7 +79,7 @@ func parseCPUInfoX86(info []byte) ([]CPUInfo, error) {
 	// find the first "processor" line
 	firstLine := firstNonEmptyLine(scanner)
 	if !strings.HasPrefix(firstLine, "processor") || !strings.Contains(firstLine, ":") {
-		return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, firstLine, nil)
+		return nil, fmt.Errorf("%w: %q", ErrFileParse, firstLine)
 	}
 	field := strings.SplitN(firstLine, ": ", 2)
 	v, err := strconv.ParseUint(field[1], 0, 32)
@@ -194,7 +194,7 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 	firstLine := firstNonEmptyLine(scanner)
 	match, err := regexp.MatchString("^[Pp]rocessor", firstLine)
 	if !match || !strings.Contains(firstLine, ":") {
-		return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, d.NamefirstLine, err)
+		return nil, fmt.Errorf("%w: %q", ErrFileParse, firstLine)
 
 	}
 	field := strings.SplitN(firstLine, ": ", 2)
@@ -259,7 +259,7 @@ func parseCPUInfoS390X(info []byte) ([]CPUInfo, error) {
 
 	firstLine := firstNonEmptyLine(scanner)
 	if !strings.HasPrefix(firstLine, "vendor_id") || !strings.Contains(firstLine, ":") {
-		return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, firstLine, nil)
+		return nil, fmt.Errorf("%w: %q", ErrFileParse, firstLine)
 	}
 	field := strings.SplitN(firstLine, ": ", 2)
 	cpuinfo := []CPUInfo{}
@@ -284,7 +284,7 @@ func parseCPUInfoS390X(info []byte) ([]CPUInfo, error) {
 		if strings.HasPrefix(line, "processor") {
 			match := cpuinfoS390XProcessorRegexp.FindStringSubmatch(line)
 			if len(match) < 2 {
-				return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, firstLine, nil)
+				return nil, fmt.Errorf("%w: %q", ErrFileParse, firstLine)
 			}
 			cpu := commonCPUInfo
 			v, err := strconv.ParseUint(match[1], 0, 32)
@@ -344,7 +344,7 @@ func parseCPUInfoMips(info []byte) ([]CPUInfo, error) {
 	// find the first "processor" line
 	firstLine := firstNonEmptyLine(scanner)
 	if !strings.HasPrefix(firstLine, "system type") || !strings.Contains(firstLine, ":") {
-		return nil, fmt.Errorf("%w: %q %w", ErrFileParse, firstLine, nil)
+		return nil, fmt.Errorf("%w: %q", ErrFileParse, firstLine)
 	}
 	field := strings.SplitN(firstLine, ": ", 2)
 	cpuinfo := []CPUInfo{}
@@ -422,7 +422,7 @@ func parseCPUInfoPPC(info []byte) ([]CPUInfo, error) {
 
 	firstLine := firstNonEmptyLine(scanner)
 	if !strings.HasPrefix(firstLine, "processor") || !strings.Contains(firstLine, ":") {
-		return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, d.firstLine, nil)
+		return nil, fmt.Errorf("%w: %q", ErrFileParse, firstLine)
 	}
 	field := strings.SplitN(firstLine, ": ", 2)
 	v, err := strconv.ParseUint(field[1], 0, 32)
@@ -467,7 +467,7 @@ func parseCPUInfoRISCV(info []byte) ([]CPUInfo, error) {
 
 	firstLine := firstNonEmptyLine(scanner)
 	if !strings.HasPrefix(firstLine, "processor") || !strings.Contains(firstLine, ":") {
-		return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, firstLine, nil)
+		return nil, fmt.Errorf("%w: %q", ErrFileParse, firstLine)
 	}
 	field := strings.SplitN(firstLine, ": ", 2)
 	v, err := strconv.ParseUint(field[1], 0, 32)

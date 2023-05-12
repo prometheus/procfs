@@ -37,8 +37,8 @@ type Proc struct {
 type Procs []Proc
 
 var (
-	ErrFileParse = errors.New("Error Parsing File")
-	ErrFileRead = errors.New("Error Reading File")
+	ErrFileParse  = errors.New("Error Parsing File")
+	ErrFileRead   = errors.New("Error Reading File")
 	ErrMountPoint = errors.New("Error Accessing Mount point")
 )
 

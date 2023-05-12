@@ -264,7 +264,7 @@ func parseFscacheinfo(r io.Reader) (*Fscacheinfo, error) {
 	for s.Scan() {
 		fields := strings.Fields(s.Text())
 		if len(fields) < 2 {
-			return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, s.Text(), err)
+			return nil, fmt.Errorf("%w: %q", ErrFileParse, s.Text())
 		}
 
 		switch fields[0] {

@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheur Authors
+// Copyright 2018 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -90,13 +90,13 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 
 		deviceFields := strings.Fields(line)
 		if len(deviceFields) < 3 {
-			return nil, fmt.Errorf("%w: Expected 3+ lines, got %q: %w", ErrFileParse, line, err)
+			return nil, fmt.Errorf("%w: Expected 3+ lines, got %q", ErrFileParse, line)
 		}
 		mdName := deviceFields[0] // mdx
 		state := deviceFields[2]  // active or inactive
 
 		if len(lines) <= i+3 {
-			return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, mdName, err)
+			return nil, fmt.Errorf("%w: %q", ErrFileParse, mdName)
 		}
 
 		// Failed disks have the suffix (F) & Spare disks have the suffix (S).
@@ -199,7 +199,7 @@ func evalStatusLine(deviceLine, statusLine string) (active, total, down, size in
 
 	active, err = strconv.ParseInt(matches[3], 10, 64)
 	if err != nil {
-		return 0, 0, 0, 0, fmt.Errorf("%w: Unexpected statusline %q: %w", ErrFileParse, statusLine, err)
+		return 0, 0, 0, 0, fmt.Errorf("%w: Unexpected active %s: %w", ErrFileParse, active, err)
 	}
 	down = int64(strings.Count(matches[4], "_"))
 
@@ -220,27 +220,27 @@ func evalRecoveryLine(recoveryLine string) (syncedBlocks int64, pct float64, fin
 	// Get percentage complete
 	matches = recoveryLinePctRE.FindStringSubmatch(recoveryLine)
 	if len(matches) != 2 {
-		return syncedBlocks, 0, 0, 0, fmt.Errorf("%w: Unexpected recoveryLine matching percentage %s: %w", ErrFileParse, recoveryLine, err)
+		return syncedBlocks, 0, 0, 0, fmt.Errorf("%w: Unexpected recoveryLine matching percentage %s", ErrFileParse, recoveryLine)
 	}
 	pct, err = strconv.ParseFloat(strings.TrimSpace(matches[1]), 64)
 	if err != nil {
-		return syncedBlocks, 0, 0, 0, fmt.Errorf("%w: Error parsing float from recoveryLine %q: %w", ErrFileParse, recoveryLine, err)
+		return syncedBlocks, 0, 0, 0, fmt.Errorf("%w: Error parsing float from recoveryLine %q", ErrFileParse, recoveryLine)
 	}
 
 	// Get time expected left to complete
 	matches = recoveryLineFinishRE.FindStringSubmatch(recoveryLine)
 	if len(matches) != 2 {
-		return syncedBlocks, pct, 0, 0, fmt.Errorf("%w: Unexpected recoveryLine matching est. finish time: %s: %w", ErrFileParse, recoveryLine, err)
+		return syncedBlocks, pct, 0, 0, fmt.Errorf("%w: Unexpected recoveryLine matching est. finish time: %s", ErrFileParse, recoveryLine)
 	}
 	finish, err = strconv.ParseFloat(matches[1], 64)
 	if err != nil {
-		return syncedBlocks, pct, 0, 0, fmt.Errorf("%w: Unable to parse float from recoveryLine: %q: %w", ErrFileParse, recoveryLine, err)
+		return syncedBlocks, pct, 0, 0, fmt.Errorf("%w: Unable to parse float from recoveryLine: %q", ErrFileParse, recoveryLine)
 	}
 
 	// Get recovery speed
 	matches = recoveryLineSpeedRE.FindStringSubmatch(recoveryLine)
 	if len(matches) != 2 {
-		return syncedBlocks, pct, finish, 0, fmt.Errorf("%w: Unexpected recoveryLine value: %s: %w", ErrFileParse, recoveryLine, err)
+		return syncedBlocks, pct, finish, 0, fmt.Errorf("%w: Unexpected recoveryLine value: %s", ErrFileParse, recoveryLine)
 	}
 	speed, err = strconv.ParseFloat(matches[1], 64)
 	if err != nil {

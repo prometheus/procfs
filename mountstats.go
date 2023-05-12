@@ -266,7 +266,7 @@ func parseMountStats(r io.Reader) ([]*Mount, error) {
 		if len(ss) > deviceEntryLen {
 			// Only NFSv3 and v4 are supported for parsing statistics
 			if m.Type != nfs3Type && m.Type != nfs4Type {
-				return nil, fmt.Errorf("%w: Cannot parse MountStats for %q: %w", ErrFileParse, m.Type(), err)
+				return nil, fmt.Errorf("%w: Cannot parse MountStats for %q", ErrFileParse, m.Type)
 			}
 
 			statVersion := strings.TrimPrefix(ss[8], statVersionPrefix)
@@ -345,7 +345,7 @@ func parseMountStatsNFS(s *bufio.Scanner, statVersion string) (*MountStatsNFS, e
 		switch ss[0] {
 		case fieldOpts:
 			if len(ss) < 2 {
-				return nil, fmt.Errorf("not enough information for NFS stats: %v", ss)
+				return nil, fmt.Errorf("%w: Incomplete information for NFS stats: %v", ErrFileParse, ss)
 			}
 			if stats.Opts == nil {
 				stats.Opts = map[string]string{}
@@ -360,7 +360,7 @@ func parseMountStatsNFS(s *bufio.Scanner, statVersion string) (*MountStatsNFS, e
 			}
 		case fieldAge:
 			if len(ss) < 2 {
-				return nil, fmt.Errorf("not enough information for NFS stats: %v", ss)
+				return nil, fmt.Errorf("%w: Incomplete information for NFS stats: %v", ErrFileParse, ss)
 			}
 			// Age integer is in seconds
 			d, err := time.ParseDuration(ss[1] + "s")
@@ -371,7 +371,7 @@ func parseMountStatsNFS(s *bufio.Scanner, statVersion string) (*MountStatsNFS, e
 			stats.Age = d
 		case fieldBytes:
 			if len(ss) < 2 {
-				return nil, fmt.Errorf("not enough information for NFS stats: %v", ss)
+				return nil, fmt.Errorf("%w: Incomplete information for NFS stats: %v", ErrFileParse, ss)
 			}
 			bstats, err := parseNFSBytesStats(ss[1:])
 			if err != nil {
@@ -381,7 +381,7 @@ func parseMountStatsNFS(s *bufio.Scanner, statVersion string) (*MountStatsNFS, e
 			stats.Bytes = *bstats
 		case fieldEvents:
 			if len(ss) < 2 {
-				return nil, fmt.Errorf("not enough information for NFS stats: %v", ss)
+				return nil, fmt.Errorf("%w: Incomplete information for NFS events: %v", ErrFileParse, ss)
 			}
 			estats, err := parseNFSEventsStats(ss[1:])
 			if err != nil {
@@ -391,7 +391,7 @@ func parseMountStatsNFS(s *bufio.Scanner, statVersion string) (*MountStatsNFS, e
 			stats.Events = *estats
 		case fieldTransport:
 			if len(ss) < 3 {
-				return nil, fmt.Errorf("not enough information for NFS transport stats: %v", ss)
+				return nil, fmt.Errorf("%w: Incomplete information for NFS transport stats: %v", ErrFileParse, ss)
 			}
 
 			tstats, err := parseNFSTransportStats(ss[1:], statVersion)

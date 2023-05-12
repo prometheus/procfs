@@ -152,7 +152,7 @@ func (fs FS) Meminfo() (Meminfo, error) {
 
 	m, err := parseMemInfo(bytes.NewReader(b))
 	if err != nil {
-		return Meminfo{}, fmt.Errorf("%w: %q: %w", ErrFileParse, q, err)
+		return Meminfo{}, fmt.Errorf("%w: %q: %w", ErrFileParse, m, err)
 	}
 
 	return *m, nil
@@ -165,7 +165,7 @@ func parseMemInfo(r io.Reader) (*Meminfo, error) {
 		// Each line has at least a name and value; we ignore the unit.
 		fields := strings.Fields(s.Text())
 		if len(fields) < 2 {
-			return nil, fmt.Errorf("%w: Malformed line %q: %w", ErrFileParse, s.Text(), err)
+			return nil, fmt.Errorf("%w: Malformed line %q", ErrFileParse, s.Text())
 		}
 
 		v, err := strconv.ParseUint(fields[1], 0, 64)

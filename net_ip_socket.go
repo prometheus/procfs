@@ -167,7 +167,7 @@ func parseNetIPSocketLine(fields []string) (*netIPSocketLine, error) {
 	}
 
 	if line.Sl, err = strconv.ParseUint(s[0], 0, 64); err != nil {
-		return nil, fmt.Errorf("%w: Unable to parse sl field in %q: %w", ErrFileParse, line.S1, err)
+		return nil, fmt.Errorf("%w: Unable to parse sl field in %q: %w", ErrFileParse, line.Sl, err)
 	}
 	// local_address
 	l := strings.Split(fields[1], ":")

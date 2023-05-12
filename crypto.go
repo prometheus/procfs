@@ -84,7 +84,7 @@ func parseCrypto(r io.Reader) ([]Crypto, error) {
 
 		kv := strings.Split(text, ":")
 		if len(kv) != 2 {
-			return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, kv, err)
+			return nil, fmt.Errorf("%w: %q", ErrFileParse, text)
 		}
 
 		k := strings.TrimSpace(kv[0])

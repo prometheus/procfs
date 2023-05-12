@@ -266,7 +266,7 @@ func parseMountStats(r io.Reader) ([]*Mount, error) {
 		if len(ss) > deviceEntryLen {
 			// Only NFSv3 and v4 are supported for parsing statistics
 			if m.Type != nfs3Type && m.Type != nfs4Type {
-				return nil, fmt.Errorf("cannot parse MountStats for fstype %q", m.Type)
+				return nil, fmt.Errorf("%w: Cannot parse MountStats for %q: %w", ErrFileParse, m.Type(), err)
 			}
 
 			statVersion := strings.TrimPrefix(ss[8], statVersionPrefix)
@@ -290,7 +290,7 @@ func parseMountStats(r io.Reader) ([]*Mount, error) {
 //	device [device] mounted on [mount] with fstype [type]
 func parseMount(ss []string) (*Mount, error) {
 	if len(ss) < deviceEntryLen {
-		return nil, fmt.Errorf("invalid device entry: %v", ss)
+		return nil, fmt.Errorf("%w: Invalid device %v: %w", ErrFileParse, ss)
 	}
 
 	// Check for specific words appearing at specific indices to ensure
@@ -308,7 +308,7 @@ func parseMount(ss []string) (*Mount, error) {
 
 	for _, f := range format {
 		if ss[f.i] != f.s {
-			return nil, fmt.Errorf("invalid device entry: %v", ss)
+			return nil, fmt.Errorf("%w: Invalid device %v: %w", ErrFileParse, ss)
 		}
 	}
 

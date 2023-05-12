@@ -290,7 +290,7 @@ func parseMountStats(r io.Reader) ([]*Mount, error) {
 //	device [device] mounted on [mount] with fstype [type]
 func parseMount(ss []string) (*Mount, error) {
 	if len(ss) < deviceEntryLen {
-		return nil, fmt.Errorf("%w: Invalid device %v: %w", ErrFileParse, ss)
+		return nil, fmt.Errorf("%w: Invalid device %q", ErrFileParse, ss)
 	}
 
 	// Check for specific words appearing at specific indices to ensure
@@ -308,7 +308,7 @@ func parseMount(ss []string) (*Mount, error) {
 
 	for _, f := range format {
 		if ss[f.i] != f.s {
-			return nil, fmt.Errorf("%w: Invalid device %v: %w", ErrFileParse, ss)
+			return nil, fmt.Errorf("%w: Invalid device %q", ErrFileParse, ss)
 		}
 	}
 

@@ -199,7 +199,7 @@ func evalStatusLine(deviceLine, statusLine string) (active, total, down, size in
 
 	active, err = strconv.ParseInt(matches[3], 10, 64)
 	if err != nil {
-		return 0, 0, 0, 0, fmt.Errorf("%w: Unexpected active %s: %w", ErrFileParse, active, err)
+		return 0, 0, 0, 0, fmt.Errorf("%w: Unexpected active %d: %w", ErrFileParse, active, err)
 	}
 	down = int64(strings.Count(matches[4], "_"))
 

@@ -202,7 +202,7 @@ func parseNetIPSocketLine(fields []string) (*netIPSocketLine, error) {
 	q := strings.Split(fields[4], ":")
 	if len(q) != 2 {
 		return nil, fmt.Errorf(
-			"Missing colon for tx/rx queues in socket line %q",
+			"%w: Missing colon for tx/rx queues in socket line %q",
 			ErrFileParse,
 			fields[4],
 		)

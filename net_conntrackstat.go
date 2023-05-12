@@ -86,7 +86,7 @@ func parseConntrackStat(r io.Reader) ([]ConntrackStatEntry, error) {
 func parseConntrackStatEntry(fields []string) (*ConntrackStatEntry, error) {
 	entries, err := util.ParseHexUint64s(fields)
 	if err != nil {
-		return nil, fmt.Errorf("%w: %q: %w", ErrFileParse, entries, err)
+		return nil, fmt.Errorf("%w: %d: %w", ErrFileParse, entries, err)
 	}
 	numEntries := len(entries)
 	if numEntries < 16 || numEntries > 17 {

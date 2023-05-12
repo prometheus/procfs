@@ -229,8 +229,8 @@ func parseIPPort(s string) (net.IP, uint16, error) {
 
 	portString := s[len(s)-4:]
 	if len(portString) != 4 {
-		return nil, 0, 
-		fmt.Errorf("%w: Unexpected port string format %s: %w", ErrFileParse, portString, err)
+		return nil, 0,
+			fmt.Errorf("%w: Unexpected port string format %s: %w", ErrFileParse, portString, err)
 	}
 	port, err := strconv.ParseUint(portString, 16, 16)
 	if err != nil {

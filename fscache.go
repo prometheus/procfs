@@ -236,7 +236,7 @@ func (fs FS) Fscacheinfo() (Fscacheinfo, error) {
 
 	m, err := parseFscacheinfo(bytes.NewReader(b))
 	if err != nil {
-		return Fscacheinfo{}, fmt.Errorf("%w: %v: %w", ErrFileParse, err)
+		return Fscacheinfo{}, fmt.Errorf("%w: %v: %w", ErrFileParse, m, err)
 	}
 
 	return *m, nil
@@ -245,7 +245,7 @@ func (fs FS) Fscacheinfo() (Fscacheinfo, error) {
 func setFSCacheFields(fields []string, setFields ...*uint64) error {
 	var err error
 	if len(fields) < len(setFields) {
-		return fmt.Errorf("%w: Expected %v, but got %v: %w", ErrFileParse, len(setFields), len(fields), err)
+		return fmt.Errorf("%w: Expected %v, but got %v %v: %w", ErrFileParse, len(setFields), len(fields), err)
 
 	}
 

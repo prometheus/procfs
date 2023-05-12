@@ -90,7 +90,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 
 		deviceFields := strings.Fields(line)
 		if len(deviceFields) < 3 {
-			return nil, fmt.Errorf("%w: Expected 3+ lines, got %s: %w", ErrFileParse, line, err)
+			return nil, fmt.Errorf("%w: Expected 3+ lines, got %q: %w", ErrFileParse, line, err)
 		}
 		mdName := deviceFields[0] // mdx
 		state := deviceFields[2]  // active or inactive
@@ -105,7 +105,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		active, total, down, size, err := evalStatusLine(lines[i], lines[i+1])
 
 		if err != nil {
-			return nil, fmt.Errorf("%w: %v: %w", ErrFileParse, err)
+			return nil, fmt.Errorf("%w: %v: %w", ErrFileParse, active, err)
 		}
 
 		syncLineIdx := i + 2

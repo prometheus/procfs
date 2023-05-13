@@ -245,7 +245,7 @@ func (fs FS) Fscacheinfo() (Fscacheinfo, error) {
 func setFSCacheFields(fields []string, setFields ...*uint64) error {
 	var err error
 	if len(fields) < len(setFields) {
-		return fmt.Errorf("%w: Expected %d, but got %q: %w", ErrFileParse, len(setFields), len(fields), err)
+		return fmt.Errorf("%w: Expected %d, but got %d: %w", ErrFileParse, len(setFields), len(fields), err)
 	}
 
 	for i := range setFields {

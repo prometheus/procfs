@@ -58,7 +58,7 @@ func readConntrackStat(path string) ([]ConntrackStatEntry, error) {
 
 	stat, err := parseConntrackStat(bytes.NewReader(b))
 	if err != nil {
-		return nil, fmt.Errorf("%w: %v: %w", ErrFileRead, path, err)
+		return nil, fmt.Errorf("%s: %v: %w", ErrFileRead, path, err)
 	}
 
 	return stat, nil
@@ -86,13 +86,13 @@ func parseConntrackStat(r io.Reader) ([]ConntrackStatEntry, error) {
 func parseConntrackStatEntry(fields []string) (*ConntrackStatEntry, error) {
 	entries, err := util.ParseHexUint64s(fields)
 	if err != nil {
-		return nil, fmt.Errorf("%w: %d: %w", ErrFileParse, entries, err)
+		return nil, fmt.Errorf("%s: %d: %w", ErrFileParse, entries, err)
 	}
 	numEntries := len(entries)
 	if numEntries < 16 || numEntries > 17 {
 		return nil,
 			fmt.Errorf("invalid conntrackstat entry, invalid number of fields: %d", numEntries)
-		fmt.Errorf("%w: Invalid entry %d: %w", ErrFileParse, numEntries, nil)
+		fmt.Errorf("%s: Invalid entry %d: %w", ErrFileParse, numEntries, nil)
 	}
 
 	stats := &ConntrackStatEntry{

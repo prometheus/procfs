@@ -55,13 +55,13 @@ func (fs FS) Crypto() ([]Crypto, error) {
 	path := fs.proc.Path("crypto")
 	b, err := util.ReadFileNoStat(path)
 	if err != nil {
-		return nil, fmt.Errorf("%w: %v: %w", ErrFileRead, b, err)
+		return nil, fmt.Errorf("%s: %v: %w", ErrFileRead, b, err)
 
 	}
 
 	crypto, err := parseCrypto(bytes.NewReader(b))
 	if err != nil {
-		return nil, fmt.Errorf("%w: %v: %w", ErrFileParse, crypto, err)
+		return nil, fmt.Errorf("%s: %v: %w", ErrFileParse, crypto, err)
 	}
 
 	return crypto, nil

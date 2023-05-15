@@ -51,7 +51,7 @@ func parseLoad(loadavgBytes []byte) (*LoadAvg, error) {
 	for i, load := range parts[0:3] {
 		loads[i], err = strconv.ParseFloat(load, 64)
 		if err != nil {
-			return nil, fmt.Errorf("%w: %f: %w", ErrFileParse, loads[i], err)
+			return nil, fmt.Errorf("%s: %f: %w", ErrFileParse, loads[i], err)
 		}
 	}
 	return &LoadAvg{

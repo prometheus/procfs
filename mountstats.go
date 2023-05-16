@@ -430,7 +430,7 @@ func parseMountStatsNFS(s *bufio.Scanner, statVersion string) (*MountStatsNFS, e
 // integer fields.
 func parseNFSBytesStats(ss []string) (*NFSBytesStats, error) {
 	if len(ss) != fieldBytesLen {
-		return nil, fmt.Errorf("invalid NFS bytes stats: %v", ss)
+		return nil, fmt.Errorf("%w: Invalid NFS bytes stats: %v", ErrFileParse, ss)
 	}
 
 	ns := make([]uint64, 0, fieldBytesLen)
@@ -459,7 +459,7 @@ func parseNFSBytesStats(ss []string) (*NFSBytesStats, error) {
 // integer fields.
 func parseNFSEventsStats(ss []string) (*NFSEventsStats, error) {
 	if len(ss) != fieldEventsLen {
-		return nil, fmt.Errorf("invalid NFS events stats: %v", ss)
+		return nil, fmt.Errorf("%w: invalid NFS events stats: %v", ErrFileParse, ss)
 	}
 
 	ns := make([]uint64, 0, fieldEventsLen)
@@ -523,7 +523,7 @@ func parseNFSOperationStats(s *bufio.Scanner) ([]NFSOperationStats, error) {
 		}
 
 		if len(ss) < minFields {
-			return nil, fmt.Errorf("invalid NFS per-operations stats: %v", ss)
+			return nil, fmt.Errorf("%w: invalid NFS per-operations stats: %v", ErrFileParse, ss)
 		}
 
 		// Skip string operation name for integers
@@ -576,10 +576,10 @@ func parseNFSTransportStats(ss []string, statVersion string) (*NFSTransportStats
 		} else if protocol == "udp" {
 			expectedLength = fieldTransport10UDPLen
 		} else {
-			return nil, fmt.Errorf("invalid NFS protocol \"%s\" in stats 1.0 statement: %v", protocol, ss)
+			return nil, fmt.Errorf("%w: Invalid NFS protocol \"%s\" in stats 1.0 statement: %v", ErrFileParse, protocol, ss)
 		}
 		if len(ss) != expectedLength {
-			return nil, fmt.Errorf("invalid NFS transport stats 1.0 statement: %v", ss)
+			return nil, fmt.Errorf("%w: Invalid NFS transport stats 1.0 statement: %v", ErrFileParse, ss)
 		}
 	case statVersion11:
 		var expectedLength int
@@ -588,13 +588,13 @@ func parseNFSTransportStats(ss []string, statVersion string) (*NFSTransportStats
 		} else if protocol == "udp" {
 			expectedLength = fieldTransport11UDPLen
 		} else {
-			return nil, fmt.Errorf("invalid NFS protocol \"%s\" in stats 1.1 statement: %v", protocol, ss)
+			return nil, fmt.Errorf("%w: invalid NFS protocol \"%s\" in stats 1.1 statement: %v", ErrFileParse, protocol, ss)
 		}
 		if len(ss) != expectedLength {
-			return nil, fmt.Errorf("invalid NFS transport stats 1.1 statement: %v", ss)
+			return nil, fmt.Errorf("%w: invalid NFS transport stats 1.1 statement: %v", ErrFileParse, ss)
 		}
 	default:
-		return nil, fmt.Errorf("unrecognized NFS transport stats version: %q", statVersion)
+		return nil, fmt.Errorf("%s: Unrecognized NFS transport stats version: %q", ErrFileParse, statVersion)
 	}
 
 	// Allocate enough for v1.1 stats since zero value for v1.1 stats will be okay

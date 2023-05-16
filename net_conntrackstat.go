@@ -91,7 +91,7 @@ func parseConntrackStatEntry(fields []string) (*ConntrackStatEntry, error) {
 	numEntries := len(entries)
 	if numEntries < 16 || numEntries > 17 {
 		return nil,
-			fmt.Errorf("invalid conntrackstat entry, invalid number of fields: %d", numEntries)
+			fmt.Errorf("%w: invalid conntrackstat entry, invalid number of fields: %d", ErrFileParse, numEntries)
 	}
 
 	stats := &ConntrackStatEntry{

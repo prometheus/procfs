@@ -206,7 +206,6 @@ func parseNetIPSocketLine(fields []string) (*netIPSocketLine, error) {
 			ErrFileParse,
 			fields[4],
 		)
-		return nil, fmt.Errorf("%w: Unable to parse rem_address field in %q", ErrFileParse, fields[1])
 	}
 	if line.TxQueue, err = strconv.ParseUint(q[0], 16, 64); err != nil {
 		return nil, fmt.Errorf("%s: Cannot parse tx_queue value in %q: %w", ErrFileParse, line.TxQueue, err)

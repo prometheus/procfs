@@ -17,7 +17,7 @@
 package sysfs
 
 import (
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"regexp"
 )
@@ -49,7 +49,7 @@ var (
 func (fs FS) SASHostClass() (SASHostClass, error) {
 	path := fs.sys.Path(sasHostClassPath)
 
-	dirs, err := ioutil.ReadDir(path)
+	dirs, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (fs FS) parseSASHost(name string) (*SASHost, error) {
 
 	devicepath := fs.sys.Path(filepath.Join(sasHostClassPath, name, "device"))
 
-	dirs, err := ioutil.ReadDir(devicepath)
+	dirs, err := os.ReadDir(devicepath)
 	if err != nil {
 		return nil, err
 	}

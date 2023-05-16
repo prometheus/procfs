@@ -17,7 +17,7 @@
 package sysfs
 
 import (
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"regexp"
 )
@@ -52,7 +52,7 @@ var (
 func (fs FS) SASPortClass() (SASPortClass, error) {
 	path := fs.sys.Path(sasPortClassPath)
 
-	dirs, err := ioutil.ReadDir(path)
+	dirs, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (fs FS) parseSASPort(name string) (*SASPort, error) {
 
 	portpath := fs.sys.Path(filepath.Join(sasPortClassPath, name, "device"))
 
-	dirs, err := ioutil.ReadDir(portpath)
+	dirs, err := os.ReadDir(portpath)
 	if err != nil {
 		return nil, err
 	}

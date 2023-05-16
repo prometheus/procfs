@@ -18,7 +18,6 @@ package sysfs
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -54,7 +53,7 @@ type SASPhyClass map[string]*SASPhy
 func (fs FS) SASPhyClass() (SASPhyClass, error) {
 	path := fs.sys.Path(sasPhyClassPath)
 
-	dirs, err := ioutil.ReadDir(path)
+	dirs, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +87,7 @@ func (fs FS) parseSASPhy(name string) (*SASPhy, error) {
 		}
 	}
 
-	files, err := ioutil.ReadDir(phypath)
+	files, err := os.ReadDir(phypath)
 	if err != nil {
 		return nil, err
 	}

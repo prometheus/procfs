@@ -17,7 +17,6 @@
 package sysfs
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -53,7 +52,7 @@ var (
 func (fs FS) parseSASDeviceClass(dir string) (SASDeviceClass, error) {
 	path := fs.sys.Path(dir)
 
-	dirs, err := ioutil.ReadDir(path)
+	dirs, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +96,7 @@ func (fs FS) parseSASDevice(name string) (*SASDevice, error) {
 
 	devicepath := fs.sys.Path(filepath.Join(sasDeviceClassPath, name, "device"))
 
-	dirs, err := ioutil.ReadDir(devicepath)
+	dirs, err := os.ReadDir(devicepath)
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +138,7 @@ func (fs FS) blockSASDeviceBlockDevices(name string) ([]string, error) {
 
 	devicepath := fs.sys.Path(filepath.Join(sasDeviceClassPath, name, "device"))
 
-	dirs, err := ioutil.ReadDir(devicepath)
+	dirs, err := os.ReadDir(devicepath)
 	if err != nil {
 		return nil, err
 	}
@@ -148,7 +147,7 @@ func (fs FS) blockSASDeviceBlockDevices(name string) ([]string, error) {
 		if sasTargetDeviceRegexp.MatchString(d.Name()) {
 			targetdir := d.Name()
 
-			subtargets, err := ioutil.ReadDir(filepath.Join(devicepath, targetdir))
+			subtargets, err := os.ReadDir(filepath.Join(devicepath, targetdir))
 			if err != nil {
 				return nil, err
 			}
@@ -160,7 +159,7 @@ func (fs FS) blockSASDeviceBlockDevices(name string) ([]string, error) {
 					continue
 				}
 
-				blocks, err := ioutil.ReadDir(filepath.Join(devicepath, targetdir, targetsubdir.Name(), "block"))
+				blocks, err := os.ReadDir(filepath.Join(devicepath, targetdir, targetsubdir.Name(), "block"))
 				if err != nil {
 					if os.IsNotExist(err) {
 						continue

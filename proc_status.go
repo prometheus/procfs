@@ -78,7 +78,7 @@ type ProcStatus struct {
 	// GIDs of the process (Real, effective, saved set, and filesystem GIDs)
 	GIDs [4]string
 
-	// CPUSET: list of cpu cores, allowed to run process
+	// CpusAllowedList: List of cpu cores processes are allowed to run on.
 	CpusAllowedList []uint64
 }
 

@@ -70,7 +70,7 @@ func (fs FS) MDStat() ([]MDStat, error) {
 	}
 	mdstat, err := parseMDStat(data)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %v: %w", ErrFileParse, fs.proc.Path("mdstat"), err)
+		return nil, fmt.Errorf("%s: Cannot parse %v: %w", ErrFileParse, fs.proc.Path("mdstat"), err)
 	}
 	return mdstat, nil
 }
@@ -96,7 +96,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		state := deviceFields[2]  // active or inactive
 
 		if len(lines) <= i+3 {
-			return nil, fmt.Errorf("%w: %q", ErrFileParse, mdName)
+			return nil, fmt.Errorf("%w: Too few lines for md device: %q", ErrFileParse, mdName)
 		}
 
 		// Failed disks have the suffix (F) & Spare disks have the suffix (S).
@@ -105,7 +105,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		active, total, down, size, err := evalStatusLine(lines[i], lines[i+1])
 
 		if err != nil {
-			return nil, fmt.Errorf("%s: %v: %w", ErrFileParse, active, err)
+			return nil, fmt.Errorf("%s: Cannot parse md device lines: %v: %w", ErrFileParse, active, err)
 		}
 
 		syncLineIdx := i + 2
@@ -140,7 +140,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 			} else {
 				syncedBlocks, pct, finish, speed, err = evalRecoveryLine(lines[syncLineIdx])
 				if err != nil {
-					return nil, fmt.Errorf("%s: %q: %w", ErrFileParse, mdName, err)
+					return nil, fmt.Errorf("%s: Cannot parse sync line in md device: %q: %w", ErrFileParse, mdName, err)
 				}
 			}
 		}

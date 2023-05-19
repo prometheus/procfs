@@ -52,8 +52,8 @@ Node 0, zone
 	if err == nil {
 		t.Fatalf("expected error, but none occurred")
 	}
-	if want, got := "Error Parsing File: [Node 0, zone]", err.Error(); want != got {
-		t.Fatalf("Error Parsing File: [Node %q, %q]", want, got)
+	if want, got := "Error Parsing File: Invalid number of fields, found: [Node 0, zone]", err.Error(); want != got {
+		t.Fatalf("Error Parsing File: Invalid number of fields, found: [Node %q, %q]", want, got)
 	}
 }
 

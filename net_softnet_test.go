@@ -55,6 +55,7 @@ func TestNetSoftnet(t *testing.T) {
 			CPUCollision:   0x00000004,
 			ReceivedRps:    0x00000003,
 			FlowLimitCount: 0x00000002,
+			Index:          0x00000002,
 			Width:          11,
 		},
 		{
@@ -62,6 +63,7 @@ func TestNetSoftnet(t *testing.T) {
 			Dropped:      0x00000000,
 			TimeSqueezed: 0x0109a4,
 			CPUCollision: 0x00020e76,
+			Index:        0x00000003,
 			Width:        9,
 		},
 		{
@@ -70,6 +72,7 @@ func TestNetSoftnet(t *testing.T) {
 			TimeSqueezed: 0x00000011,
 			CPUCollision: 0x00000020,
 			ReceivedRps:  0x00000010,
+			Index:        0x00000004,
 			Width:        10,
 		},
 	}

@@ -14,8 +14,6 @@
 package procfs
 
 import (
-	"syscall"
-
 	"github.com/prometheus/procfs/internal/fs"
 )
 
@@ -49,16 +47,4 @@ func NewFS(mountPoint string) (FS, error) {
 	}
 
 	return FS{fs, real}, nil
-}
-
-// isRealProc determines whether supplied mountpoint is really a proc filesystem.
-func isRealProc(mountPoint string) (bool, error) {
-	stat := syscall.Statfs_t{}
-	err := syscall.Statfs(mountPoint, &stat)
-	if err != nil {
-		return false, err
-	}
-
-	// 0x9fa0 is PROC_SUPER_MAGIC: https://elixir.bootlin.com/linux/v6.1/source/include/uapi/linux/magic.h#L87
-	return stat.Type == 0x9fa0, nil
 }

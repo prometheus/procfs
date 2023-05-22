@@ -25,9 +25,9 @@ import (
 )
 
 const (
-	BlackholeRepresentation string = "*"
-	BlackholeIfaceName      string = "blackhole"
-	RouteLineColumns        int    = 11
+	blackholeRepresentation string = "*"
+	blackholeIfaceName      string = "blackhole"
+	routeLineColumns        int    = 11
 )
 
 // A NetRouteLine represents one line from net/route.

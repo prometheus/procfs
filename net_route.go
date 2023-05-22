@@ -30,7 +30,7 @@ const (
 	RouteLineColumns        int    = 11
 )
 
-// A NetRouteLine represents one line from net/route
+// A NetRouteLine represents one line from net/route.
 type NetRouteLine struct {
 	Iface       string
 	Destination uint32

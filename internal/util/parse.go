@@ -113,7 +113,7 @@ func ParseBool(b string) *bool {
 	return &truth
 }
 
-// Transforms uint32 to IPv4 representation
+// Transforms uint32 to IPv4 representation.
 func uint32ToIPv4(n uint32) string {
 	ip := make(net.IP, 4)
 	binary.LittleEndian.PutUint32(ip, uint32(n))

@@ -79,12 +79,12 @@ func parseNetRoute(r io.Reader) ([]NetRouteLine, error) {
 }
 
 func parseNetRouteLine(fields []string) (*NetRouteLine, error) {
-	if len(fields) != RouteLineColumns {
+	if len(fields) != routeLineColumns {
 		return nil, fmt.Errorf("invalid routeline, num of digits: %d", len(fields))
 	}
 	iface := fields[0]
-	if iface == BlackholeRepresentation {
-		iface = BlackholeIfaceName
+	if iface == blackholeRepresentation {
+		iface = blackholeIfaceName
 	}
 	destination, err := strconv.ParseUint(fields[1], 16, 32)
 	if err != nil {

@@ -52,8 +52,8 @@ Node 0, zone
 	if err == nil {
 		t.Fatalf("expected error, but none occurred")
 	}
-	if want, got := "invalid number of fields when parsing buddyinfo", err.Error(); want != got {
-		t.Fatalf("wrong error returned, wanted %q, got %q", want, got)
+	if want, got := "Error Parsing File: Invalid number of fields, found: [Node 0, zone]", err.Error(); want != got {
+		t.Fatalf("Error Parsing File: Invalid number of fields, found: [Node %q, %q]", want, got)
 	}
 }
 
@@ -68,7 +68,7 @@ Node 0, zone   Normal   4381   1093    185   1530    567    102      4      0   
 	if err == nil {
 		t.Fatalf("expected error, but none occurred")
 	}
-	if want, got := "mismatch in number of buddyinfo buckets", err.Error(); !strings.HasPrefix(got, want) {
-		t.Fatalf("wrong error returned, wanted prefix %q, got %q", want, got)
+	if want, got := "Error Parsing File: mismatch in number of buddyinfo buckets, previous count 11, new count 12", err.Error(); !strings.HasPrefix(got, want) {
+		t.Fatalf("Error Parsing File: mismatch in number of buddyinfo buckets, previous count %q, new count %q", want, got)
 	}
 }

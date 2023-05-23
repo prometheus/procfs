@@ -69,12 +69,12 @@ func TestSysctlIntsError(t *testing.T) {
 		sysctl string
 		want   string
 	}{
-		{"kernel.seccomp.actions_avail", "field 0 in sysctl kernel.seccomp.actions_avail is not a valid int: strconv.ParseInt: parsing \"kill_process\": invalid syntax"},
+		{"kernel.seccomp.actions_avail", "Error Parsing File: field 0 in sysctl kernel.seccomp.actions_avail is not a valid int: strconv.ParseInt: parsing \"kill_process\": invalid syntax"},
 	} {
 		t.Run(tc.sysctl, func(t *testing.T) {
 			_, err := fs.SysctlInts(tc.sysctl)
 			if err == nil {
-				t.Fatal("expected error")
+				t.Fatal("Error Parsing File: expected error")
 			}
 			if diff := cmp.Diff(tc.want, err.Error()); diff != "" {
 				t.Fatalf("unexpected syscall value(-want +got):\n%s", diff)

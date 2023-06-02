@@ -13242,6 +13242,16 @@ Lines: 1
 Not affected
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/cpu/vulnerabilities/mds
+Lines: 1
+Vulnerable
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/cpu/vulnerabilities/mmio_stale_data
+Lines: 1
+Vulnerable: Clear CPU buffers attempted, no microcode
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/vulnerabilities/retbleed
 Lines: 1
 Mitigation: untrained return thunk; SMT enabled with STIBP protection

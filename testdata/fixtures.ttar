@@ -12647,6 +12647,9 @@ Lines: 1
 1,5
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/system/cpu/cpu2
+Mode: 775
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpufreq
 Mode: 775
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -12723,7 +12726,7 @@ Mode: 664
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/offline
 Lines: 1
-2,12-15
+2
 Mode: 664
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/node

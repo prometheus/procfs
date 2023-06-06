@@ -170,19 +170,20 @@ func binSearch(elem uint16, elemSlice *[]uint16) bool {
 	return false
 }
 
-func filterOfflineCPUs(offlineCpus *[]uint16, cpus *[]string) error {
-	for i, cpu := range *cpus {
+func filterOfflineCPUs(offlineCpus *[]uint16, cpus *[]string) ([]string, error) {
+	var filteredCPUs []string
+	for _, cpu := range *cpus {
 		cpuName := strings.TrimPrefix(filepath.Base(cpu), "cpu")
 		cpuNameUint16, err := strconv.Atoi(cpuName)
 		if err != nil {
-			return err
+			return nil, err
 		}
-		if binSearch(uint16(cpuNameUint16), offlineCpus) {
-			*cpus = append((*cpus)[:i], (*cpus)[i+1:]...)
+		if !binSearch(uint16(cpuNameUint16), offlineCpus) {
+			filteredCPUs = append(filteredCPUs, cpu)
 		}
 	}
 
-	return nil
+	return filteredCPUs, nil
 }
 
 // SystemCpufreq returns CPU frequency metrics for all CPUs.
@@ -206,7 +207,7 @@ func (fs FS) SystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 		}
 
 		if len(offlineCPUs) > 0 {
-			err = filterOfflineCPUs(&offlineCPUs, &cpus)
+			cpus, err = filterOfflineCPUs(&offlineCPUs, &cpus)
 			if err != nil {
 				return nil, err
 			}

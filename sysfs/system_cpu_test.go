@@ -35,7 +35,7 @@ func TestCPUTopology(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if want, have := 2, len(cpus); want != have {
+	if want, have := 3, len(cpus); want != have {
 		t.Errorf("incorrect number of CPUs, have %v, want %v", want, have)
 	}
 	if want, have := "0", cpus[0].Number(); want != have {
@@ -72,7 +72,7 @@ func TestCPUThermalThrottle(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if want, have := 2, len(cpus); want != have {
+	if want, have := 3, len(cpus); want != have {
 		t.Errorf("incorrect number of CPUs, have %v, want %v", want, have)
 	}
 	cpu0Throttle, err := cpus[0].ThermalThrottle()

@@ -35,15 +35,6 @@ jobs:
         steps:
         - run: make test
 
-  codespell:
-    docker:
-    - image: circleci/python
-
-    steps:
-    - checkout
-    - run: sudo pip install codespell
-    - run: codespell --skip=".git,./vendor,ttar,fixtures.ttar,./fixtures,go.mod,go.sum" -I scripts/codespell_ignore.txt
-
 workflows:
   version: 2
   procfs:
@@ -66,4 +57,3 @@ workflows:
             go_version:
             - "1.19"
             - "1.20"
-    - codespell

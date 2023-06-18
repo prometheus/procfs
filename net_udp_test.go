@@ -41,6 +41,7 @@ func Test_newNetUDP(t *testing.T) {
 					RxQueue:   1,
 					UID:       0,
 					Inode:     2740,
+					Drops:     intToU64(100),
 				},
 				&netIPSocketLine{
 					Sl:        1,
@@ -53,6 +54,7 @@ func Test_newNetUDP(t *testing.T) {
 					RxQueue:   0,
 					UID:       0,
 					Inode:     2740,
+					Drops:     intToU64(100),
 				},
 				&netIPSocketLine{
 					Sl:        2,
@@ -65,6 +67,7 @@ func Test_newNetUDP(t *testing.T) {
 					RxQueue:   1,
 					UID:       0,
 					Inode:     2740,
+					Drops:     intToU64(100),
 				},
 			},
 			wantErr: false,
@@ -84,6 +87,7 @@ func Test_newNetUDP(t *testing.T) {
 					RxQueue:   0,
 					UID:       981,
 					Inode:     21040,
+					Drops:     intToU64(0),
 				},
 				&netIPSocketLine{
 					Sl:        6073,
@@ -96,6 +100,7 @@ func Test_newNetUDP(t *testing.T) {
 					RxQueue:   0,
 					UID:       1000,
 					Inode:     11337031,
+					Drops:     intToU64(0),
 				},
 			},
 			wantErr: false,
@@ -171,4 +176,10 @@ func Test_newNetUDPSummary(t *testing.T) {
 			}
 		})
 	}
+}
+
+// intToU64 convert int to uint64 and return it pointer.
+func intToU64(i int) *uint64 {
+	cast := uint64(i)
+	return &cast
 }

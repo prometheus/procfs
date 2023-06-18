@@ -24,6 +24,12 @@ import (
 	"strings"
 )
 
+var (
+	// isUDP is used to determine the type of network socket UDP or TCP.
+	// Further its value will be used to parse UDP-specific fields from /proc/net/udp{,6} files.
+	isUDP bool
+)
+
 const (
 	// readLimit is used by io.LimitReader while reading the content of the
 	// /proc/net/udp{,6} files. The number of lines inside such a file is dynamic
@@ -50,6 +56,8 @@ type (
 		// UsedSockets shows the total number of parsed lines representing the
 		// number of used sockets.
 		UsedSockets uint64
+		// Drops shows the total number of dropped packets of all UPD sockets.
+		Drops *uint64
 	}
 
 	// netIPSocketLine represents the fields parsed from a single line
@@ -111,19 +119,28 @@ func newNetIPSocketSummary(file string) (*NetIPSocketSummary, error) {
 	defer f.Close()
 
 	var netIPSocketSummary NetIPSocketSummary
+	var udpPacketDrops uint64
+
+	if strings.Contains(file, "udp") {
+		isUDP = true
+	}
 
 	lr := io.LimitReader(f, readLimit)
 	s := bufio.NewScanner(lr)
 	s.Scan() // skip first line with headers
 	for s.Scan() {
 		fields := strings.Fields(s.Text())
-		line, err := parseNetIPSocketLine(fields, false)
+		line, err := parseNetIPSocketLine(fields, isUDP)
 		if err != nil {
 			return nil, err
 		}
 		netIPSocketSummary.TxQueueLength += line.TxQueue
 		netIPSocketSummary.RxQueueLength += line.RxQueue
 		netIPSocketSummary.UsedSockets++
+		if isUDP {
+			udpPacketDrops += *line.Drops
+			netIPSocketSummary.Drops = &udpPacketDrops
+		}
 	}
 	if err := s.Err(); err != nil {
 		return nil, err

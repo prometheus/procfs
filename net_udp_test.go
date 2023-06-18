@@ -142,13 +142,13 @@ func Test_newNetUDPSummary(t *testing.T) {
 		{
 			name:    "udp file found, no error should come up",
 			file:    "testdata/fixtures/proc/net/udp",
-			want:    &NetUDPSummary{TxQueueLength: 2, RxQueueLength: 2, UsedSockets: 3},
+			want:    &NetUDPSummary{TxQueueLength: 2, RxQueueLength: 2, UsedSockets: 3, Drops: intToU64(300)},
 			wantErr: false,
 		},
 		{
 			name:    "udp6 file found, no error should come up",
 			file:    "testdata/fixtures/proc/net/udp6",
-			want:    &NetUDPSummary{TxQueueLength: 0, RxQueueLength: 0, UsedSockets: 2},
+			want:    &NetUDPSummary{TxQueueLength: 0, RxQueueLength: 0, UsedSockets: 2, Drops: intToU64(0)},
 			wantErr: false,
 		},
 		{

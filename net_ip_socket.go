@@ -24,12 +24,6 @@ import (
 	"strings"
 )
 
-var (
-	// isUDP is used to determine the type of network socket UDP or TCP.
-	// Further its value will be used to parse UDP-specific fields from /proc/net/udp{,6} files.
-	isUDP bool
-)
-
 const (
 	// readLimit is used by io.LimitReader while reading the content of the
 	// /proc/net/udp{,6} files. The number of lines inside such a file is dynamic
@@ -87,7 +81,7 @@ func newNetIPSocket(file string) (NetIPSocket, error) {
 	defer f.Close()
 
 	var netIPSocket NetIPSocket
-	var isUDP bool
+	var isUDP bool // is used to determine the type of network socket UDP or TCP
 
 	if strings.Contains(file, "udp") {
 		isUDP = true
@@ -120,6 +114,7 @@ func newNetIPSocketSummary(file string) (*NetIPSocketSummary, error) {
 
 	var netIPSocketSummary NetIPSocketSummary
 	var udpPacketDrops uint64
+	var isUDP bool // is used to determine the type of network socket UDP6 or TCP6
 
 	if strings.Contains(file, "udp") {
 		isUDP = true

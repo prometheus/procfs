@@ -110,11 +110,7 @@ func newNetIPSocketSummary(file string) (*NetIPSocketSummary, error) {
 
 	var netIPSocketSummary NetIPSocketSummary
 	var udpPacketDrops uint64
-	var isUDP bool // is used to determine the type of network socket UDP6 or TCP6
-
-	if strings.Contains(file, "udp") {
-		isUDP = true
-	}
+	isUDP := strings.Contains(file, "udp")
 
 	lr := io.LimitReader(f, readLimit)
 	s := bufio.NewScanner(lr)

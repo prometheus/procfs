@@ -81,11 +81,7 @@ func newNetIPSocket(file string) (NetIPSocket, error) {
 	defer f.Close()
 
 	var netIPSocket NetIPSocket
-	var isUDP bool // is used to determine the type of network socket UDP or TCP
-
-	if strings.Contains(file, "udp") {
-		isUDP = true
-	}
+	isUDP := strings.Contains(file, "udp")
 
 	lr := io.LimitReader(f, readLimit)
 	s := bufio.NewScanner(lr)

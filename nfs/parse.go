@@ -268,8 +268,14 @@ func parseServerV4Stats(v []uint64) (ServerV4Stats, error) {
 
 func parseV4Ops(v []uint64) (V4Ops, error) {
 	values := int(v[0])
-	if len(v[1:]) != values || values < 40 {
+	if len(v[1:]) != values || values < 39 {
 		return V4Ops{}, fmt.Errorf("invalid V4Ops line %q", v)
+	}
+
+	// nfs v2.5.x 39field and >=v2.6.x 40 field;
+	v40 := uint64(0)
+	if values > 39 {
+		v40 = v[40]
 	}
 
 	stats := V4Ops{
@@ -312,7 +318,7 @@ func parseV4Ops(v []uint64) (V4Ops, error) {
 		SetClientIdConfirm: v[37],
 		Verify:             v[38],
 		Write:              v[39],
-		RelLockOwner:       v[40],
+		RelLockOwner:       v40,
 	}
 
 	return stats, nil

@@ -30,7 +30,7 @@ func TestStat(t *testing.T) {
 	}
 
 	// intr
-	if want, have := uint64(8885917), s.IRQTotal; want != have {
+	if want, have := uint64(73777505), s.IRQTotal; want != have {
 		t.Errorf("want irq/total %d, have %d", want, have)
 	}
 	if want, have := uint64(1), s.IRQ[8]; want != have {

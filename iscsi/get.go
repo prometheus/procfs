@@ -195,9 +195,8 @@ func (fs FS) GetRBDMatch(rbdNumber string, poolImage string) (*RBD, error) {
 		bSystemPool, err := os.ReadFile(systemPoolPath)
 		if err != nil {
 			continue
-		} else {
-			systemPool = strings.TrimSpace(string(bSystemPool))
 		}
+		systemPool = strings.TrimSpace(string(bSystemPool))
 
 		systemImagePath := filepath.Join(systemRbdPath, "name")
 		if _, err := os.Stat(systemImagePath); os.IsNotExist(err) {
@@ -206,9 +205,8 @@ func (fs FS) GetRBDMatch(rbdNumber string, poolImage string) (*RBD, error) {
 		bSystemImage, err := os.ReadFile(systemImagePath)
 		if err != nil {
 			continue
-		} else {
-			systemImage = strings.TrimSpace(string(bSystemImage))
 		}
+		systemImage = strings.TrimSpace(string(bSystemImage))
 
 		if strings.Compare(strconv.FormatInt(int64(systemRbdNumber), 10), rbdNumber) == 0 &&
 			matchPoolImage(systemPool, systemImage, poolImage) {

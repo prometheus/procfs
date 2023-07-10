@@ -111,7 +111,7 @@ func TestPSIStats(t *testing.T) {
 func TestParsePSIStats(t *testing.T) {
 	t.Run("unknown measurement type", func(t *testing.T) {
 		raw := "nonsense haha test=fake"
-		_, err := parsePSIStats("fake", strings.NewReader(raw))
+		_, err := parsePSIStats(strings.NewReader(raw))
 		if err != nil {
 			t.Error("unknown measurement type must be ignored")
 		}
@@ -121,7 +121,7 @@ func TestParsePSIStats(t *testing.T) {
 		t.Run("some", func(t *testing.T) {
 			raw := `some avg10=0.10 avg60=2.00 avg300=3.85 total=oops
 full avg10=0.20 avg60=3.00 avg300=teddy total=25`
-			stats, err := parsePSIStats("fake", strings.NewReader(raw))
+			stats, err := parsePSIStats(strings.NewReader(raw))
 			if err == nil {
 				t.Error("a malformed line must result in a parse error")
 			}
@@ -133,7 +133,7 @@ full avg10=0.20 avg60=3.00 avg300=teddy total=25`
 		t.Run("full", func(t *testing.T) {
 			raw := `some avg10=0.10 avg60=2.00 avg300=3.85 total=1
 full avg10=0.20 avg60=3.00 avg300=test total=25`
-			stats, err := parsePSIStats("fake", strings.NewReader(raw))
+			stats, err := parsePSIStats(strings.NewReader(raw))
 			t.Log(err)
 			t.Log(stats)
 			if err == nil {

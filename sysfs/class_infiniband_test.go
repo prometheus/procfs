@@ -117,6 +117,53 @@ func TestInfiniBandClass(t *testing.T) {
 		mlx4Port2PortXmitWait                 uint64 = 3846
 		mlx4Port2SymbolError                  uint64
 		mlx4Port2VL15Dropped                  uint64
+
+		mlx5Port1ExcessiveBufferOverrunErrors uint64
+		mlx5Port1LinkDowned                   uint64
+		mlx5Port1LinkErrorRecovery            uint64
+		mlx5Port1LocalLinkIntegrityErrors     uint64
+		mlx5Port1MulticastRcvPackets          uint64
+		mlx5Port1MulticastXmitPackets         uint64
+		mlx5Port1PortRcvConstraintErrors      uint64
+		mlx5Port1PortRcvData                  uint64 = 72505381512
+		mlx5Port1PortRcvErrors                uint64
+		mlx5Port1PortRcvPackets               uint64 = 541889824
+		mlx5Port1PortRcvRemotePhysicalErrors  uint64
+		mlx5Port1PortRcvSwitchRelayErrors     uint64
+		mlx5Port1PortXmitConstraintErrors     uint64
+		mlx5Port1PortXmitData                 uint64 = 11523046035392
+		mlx5Port1PortXmitDiscards             uint64
+		mlx5Port1PortXmitPackets              uint64 = 10907922116
+		mlx5Port1PortXmitWait                 uint64
+		mlx5Port1SymbolError                  uint64
+		mlx5Port1UnicastRcvPackets            uint64 = 541889824
+		mlx5Port1UnicastXmitPackets           uint64 = 10907922116
+		mlx5Port1VL15Dropped                  uint64
+		mlx5Port1DuplicateRequest             uint64 = 41
+		mlx5Port1ImpliedNakSeqErr             uint64
+		mlx5Port1Lifespan                     uint64 = 10
+		mlx5Port1LocalAckTimeoutErr           uint64 = 131
+		mlx5Port1OutOfBuffer                  uint64
+		mlx5Port1OutOfSequence                uint64 = 1
+		mlx5Port1PacketSeqErr                 uint64 = 1
+		mlx5Port1ReqCqeError                  uint64 = 3481
+		mlx5Port1ReqCqeFlushError             uint64 = 80
+		mlx5Port1ReqRemoteAccessErrors        uint64
+		mlx5Port1ReqRemoteInvalidRequest      uint64
+		mlx5Port1RespCqeError                 uint64 = 8109
+		mlx5Port1RespCqeFlushError            uint64 = 4708
+		mlx5Port1RespLocalLengthError         uint64
+		mlx5Port1RespRemoteAccessErrors       uint64
+		mlx5Port1RnrNakRetryErr               uint64
+		mlx5Port1RoceAdpRetrans               uint64 = 99
+		mlx5Port1RoceAdpRetransTo             uint64 = 4
+		mlx5Port1RoceSlowRestart              uint64
+		mlx5Port1RoceSlowRestartCnps          uint64 = 131
+		mlx5Port1RoceSlowRestartTrans         uint64
+		mlx5Port1RxAtomicRequests             uint64
+		mlx5Port1RxDctConnect                 uint64
+		mlx5Port1RxReadRequests               uint64 = 175528982
+		mlx5Port1RxWriteRequests              uint64 = 742114
 	)
 
 	want := InfiniBandClass{
@@ -216,6 +263,73 @@ func TestInfiniBandClass(t *testing.T) {
 						PortXmitWait:                 &mlx4Port2PortXmitWait,
 						SymbolError:                  &mlx4Port2SymbolError,
 						VL15Dropped:                  &mlx4Port2VL15Dropped,
+					},
+				},
+			},
+		},
+		"mlx5_0": InfiniBandDevice{
+			Name:            "mlx5_0",
+			BoardID:         "SM_2001000001034",
+			FirmwareVersion: "14.28.2006",
+			HCAType:         "MT4118",
+			Ports: map[uint]InfiniBandPort{
+				1: {
+					Name:        "mlx5_0",
+					Port:        1,
+					State:       "ACTIVE",
+					StateID:     4,
+					PhysState:   "ACTIVE",
+					PhysStateID: 4,
+					Rate:        3125000000,
+					Counters: InfiniBandCounters{
+						ExcessiveBufferOverrunErrors: &mlx5Port1ExcessiveBufferOverrunErrors,
+						LinkDowned:                   &mlx5Port1LinkDowned,
+						LinkErrorRecovery:            &mlx5Port1LinkErrorRecovery,
+						LocalLinkIntegrityErrors:     &mlx5Port1LocalLinkIntegrityErrors,
+						MulticastRcvPackets:          &mlx5Port1MulticastRcvPackets,
+						MulticastXmitPackets:         &mlx5Port1MulticastXmitPackets,
+						PortRcvConstraintErrors:      &mlx5Port1PortRcvConstraintErrors,
+						PortRcvData:                  &mlx5Port1PortRcvData,
+						PortRcvErrors:                &mlx5Port1PortRcvErrors,
+						PortRcvPackets:               &mlx5Port1PortRcvPackets,
+						PortRcvRemotePhysicalErrors:  &mlx5Port1PortRcvRemotePhysicalErrors,
+						PortRcvSwitchRelayErrors:     &mlx5Port1PortRcvSwitchRelayErrors,
+						PortXmitConstraintErrors:     &mlx5Port1PortXmitConstraintErrors,
+						PortXmitData:                 &mlx5Port1PortXmitData,
+						PortXmitDiscards:             &mlx5Port1PortXmitDiscards,
+						PortXmitPackets:              &mlx5Port1PortXmitPackets,
+						PortXmitWait:                 &mlx5Port1PortXmitWait,
+						SymbolError:                  &mlx5Port1SymbolError,
+						UnicastRcvPackets:            &mlx5Port1UnicastRcvPackets,
+						UnicastXmitPackets:           &mlx5Port1UnicastXmitPackets,
+						VL15Dropped:                  &mlx5Port1VL15Dropped,
+					},
+					HwCounters: InfiniBandHwCounters{
+						DuplicateRequest:        &mlx5Port1DuplicateRequest,
+						ImpliedNakSeqErr:        &mlx5Port1ImpliedNakSeqErr,
+						Lifespan:                &mlx5Port1Lifespan,
+						LocalAckTimeoutErr:      &mlx5Port1LocalAckTimeoutErr,
+						OutOfBuffer:             &mlx5Port1OutOfBuffer,
+						OutOfSequence:           &mlx5Port1OutOfSequence,
+						PacketSeqErr:            &mlx5Port1PacketSeqErr,
+						ReqCqeError:             &mlx5Port1ReqCqeError,
+						ReqCqeFlushError:        &mlx5Port1ReqCqeFlushError,
+						ReqRemoteAccessErrors:   &mlx5Port1ReqRemoteAccessErrors,
+						ReqRemoteInvalidRequest: &mlx5Port1ReqRemoteInvalidRequest,
+						RespCqeError:            &mlx5Port1RespCqeError,
+						RespCqeFlushError:       &mlx5Port1RespCqeFlushError,
+						RespLocalLengthError:    &mlx5Port1RespLocalLengthError,
+						RespRemoteAccessErrors:  &mlx5Port1RespRemoteAccessErrors,
+						RnrNakRetryErr:          &mlx5Port1RnrNakRetryErr,
+						RoceAdpRetrans:          &mlx5Port1RoceAdpRetrans,
+						RoceAdpRetransTo:        &mlx5Port1RoceAdpRetransTo,
+						RoceSlowRestart:         &mlx5Port1RoceSlowRestart,
+						RoceSlowRestartCnps:     &mlx5Port1RoceSlowRestartCnps,
+						RoceSlowRestartTrans:    &mlx5Port1RoceSlowRestartTrans,
+						RxAtomicRequests:        &mlx5Port1RxAtomicRequests,
+						RxDctConnect:            &mlx5Port1RxDctConnect,
+						RxReadRequests:          &mlx5Port1RxReadRequests,
+						RxWriteRequests:         &mlx5Port1RxWriteRequests,
 					},
 				},
 			},

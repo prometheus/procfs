@@ -207,7 +207,7 @@ func (r *reader) calcRatio(p string) float64 {
 
 // readDeviceInfo returns the information for all devices associated with this filesystem.
 func (r *reader) readDeviceInfo(d string) map[string]*Device {
-	devs := r.listFiles("devices")
+	devs := r.listFiles(d)
 	info := make(map[string]*Device, len(devs))
 	for _, n := range devs {
 		info[n] = &Device{

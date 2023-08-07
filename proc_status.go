@@ -32,6 +32,8 @@ type ProcStatus struct {
 
 	// Thread group ID.
 	TGID int
+	// Pid namespace.
+	NSpid int
 
 	// Peak virtual memory size.
 	VmPeak uint64 // nolint:revive
@@ -127,6 +129,8 @@ func (s *ProcStatus) fillStatus(k string, vString string, vUint uint64, vUintByt
 		copy(s.UIDs[:], strings.Split(vString, "\t"))
 	case "Gid":
 		copy(s.GIDs[:], strings.Split(vString, "\t"))
+	case "NSpid":
+		s.NSpid = int(vUint)
 	case "VmPeak":
 		s.VmPeak = vUintBytes
 	case "VmSize":

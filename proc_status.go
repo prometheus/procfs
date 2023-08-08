@@ -130,7 +130,13 @@ func (s *ProcStatus) fillStatus(k string, vString string, vUint uint64, vUintByt
 	case "Gid":
 		copy(s.GIDs[:], strings.Split(vString, "\t"))
 	case "NSpid":
-		s.NSpid = int(vUint)
+		if int(vUint) == 0 {
+			// In case where NSpid has 2 values
+			nspid, _ := strconv.ParseUint(strings.Split(vString, " ")[0], 10, 64)
+			s.NSpid = int(nspid)
+		} else {
+			s.NSpid = int(vUint)
+		}
 	case "VmPeak":
 		s.VmPeak = vUintBytes
 	case "VmSize":

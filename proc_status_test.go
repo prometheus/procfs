@@ -36,7 +36,7 @@ func TestProcStatus(t *testing.T) {
 	}{
 		{name: "Pid", want: 26231, have: s.PID},
 		{name: "Tgid", want: 26231, have: s.TGID},
-		{name: "NSpid", want: 1, have: s.NSpid},
+		{name: "NSpid", want: 1, have: int(s.NSpids[0])},
 		{name: "VmPeak", want: 58472 * 1024, have: int(s.VmPeak)},
 		{name: "VmSize", want: 58440 * 1024, have: int(s.VmSize)},
 		{name: "VmLck", want: 0 * 1024, have: int(s.VmLck)},

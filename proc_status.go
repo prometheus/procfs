@@ -32,8 +32,8 @@ type ProcStatus struct {
 
 	// Thread group ID.
 	TGID int
-	// Pid namespace.
-	NSpid int
+	// List of Pid namespace.
+	NSpids []uint64
 
 	// Peak virtual memory size.
 	VmPeak uint64 // nolint:revive
@@ -130,13 +130,7 @@ func (s *ProcStatus) fillStatus(k string, vString string, vUint uint64, vUintByt
 	case "Gid":
 		copy(s.GIDs[:], strings.Split(vString, "\t"))
 	case "NSpid":
-		if int(vUint) == 0 {
-			// In case where NSpid has 2 values
-			nspid, _ := strconv.ParseUint(strings.Split(vString, " ")[0], 10, 64)
-			s.NSpid = int(nspid)
-		} else {
-			s.NSpid = int(vUint)
-		}
+		s.NSpids = calcNSPidsList(vString)
 	case "VmPeak":
 		s.VmPeak = vUintBytes
 	case "VmSize":
@@ -209,4 +203,19 @@ func calcCpusAllowedList(cpuString string) []uint64 {
 
 	sort.Slice(g, func(i, j int) bool { return g[i] < g[j] })
 	return g
+}
+
+func calcNSPidsList(nspidsString string) []uint64 {
+	s := strings.Split(nspidsString, " ")
+	var nspids []uint64
+
+	for _, nspid := range s {
+		nspid, _ := strconv.ParseUint(nspid, 10, 64)
+		if nspid == 0 {
+			continue
+		}
+		nspids = append(nspids, nspid)
+	}
+
+	return nspids
 }

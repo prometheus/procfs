@@ -275,6 +275,7 @@ type ServerRPCStats struct {
 	V3Stats        V3Stats
 	ServerV4Stats  ServerV4Stats
 	V4Ops          V4Ops
+	WdelegGetattr  uint64
 }
 
 // FS represents the pseudo-filesystem proc, which provides an interface to

@@ -246,8 +246,8 @@ type V4Ops struct {
 	SaveFH             uint64
 	SecInfo            uint64
 	SetAttr            uint64
-	SetClientId        uint64
-	SetClientIdConfirm uint64
+	SetClientID        uint64
+	SetClientIDConfirm uint64
 	Verify             uint64
 	Write              uint64
 	RelLockOwner       uint64
@@ -275,6 +275,7 @@ type ServerRPCStats struct {
 	V3Stats        V3Stats
 	ServerV4Stats  ServerV4Stats
 	V4Ops          V4Ops
+	WdelegGetattr  uint64
 }
 
 // FS represents the pseudo-filesystem proc, which provides an interface to

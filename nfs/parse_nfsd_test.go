@@ -45,6 +45,7 @@ proc2 18 2 69 0 0 4410 0 0 0 0 0 0 0 0 0 0 0 99 2
 proc3 22 2 112 0 2719 111 0 0 0 0 0 0 0 0 0 0 0 27 216 0 2 1 0
 proc4 2 2 10853
 proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150 1272 0 0 0 1236 0 0 0 0 3 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+wdeleg_getattr 16
 `,
 			stats: &nfs.ServerRPCStats{
 				ReplyCache: nfs.ReplyCache{
@@ -169,12 +170,13 @@ proc4ops 72 0 0 0 1098 2 0 0 0 0 8179 5896 0 0 0 0 5900 0 0 2 0 2 0 9609 0 2 150
 					SaveFH:             0,
 					SecInfo:            0,
 					SetAttr:            0,
-					SetClientId:        3,
-					SetClientIdConfirm: 3,
+					SetClientID:        3,
+					SetClientIDConfirm: 3,
 					Verify:             0,
 					Write:              0,
 					RelLockOwner:       0,
 				},
+				WdelegGetattr: 16,
 			},
 		}, {
 			name: "good file, proc4ops 40",
@@ -188,7 +190,9 @@ rpc 44177753 0 0 0 0
 proc2 18 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 proc3 22 747 7259760 1383711 1570520 3464939 8436 4688207 21668847 1173194 6457 2127 172 213538 1253 556401 14950 1101 56245 90790 742 367 1989658
 proc4 2 0 0
-proc4ops 40 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0`,
+proc4ops 40 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+wdeleg_getattr 9`,
+
 			stats: &nfs.ServerRPCStats{
 				ReplyCache: nfs.ReplyCache{
 					Hits:    0,
@@ -312,12 +316,13 @@ proc4ops 40 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 					SaveFH:             0,
 					SecInfo:            0,
 					SetAttr:            0,
-					SetClientId:        0,
-					SetClientIdConfirm: 0,
+					SetClientID:        0,
+					SetClientIDConfirm: 0,
 					Verify:             0,
 					Write:              0,
 					RelLockOwner:       0,
 				},
+				WdelegGetattr: 9,
 			},
 		},
 		{
@@ -332,7 +337,8 @@ rpc 742406 310 310 0 0
 proc2 18 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 proc3 22 105 71158 0 175642 184711 17103 101277 0 0 0 0 0 0 0 0 0 0 8916 102 202 0 0
 proc4 2 101 182991
-proc4ops 59 0 0 0 18112 8341 0 0 0 3239 71595 11834 0 0 0 0 107097 0 0 8344 0 5100 0 181968 0 235 5735 4406 0 0 0 652 8342 8344 0 0 134 134 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0`,
+proc4ops 59 0 0 0 18112 8341 0 0 0 3239 71595 11834 0 0 0 0 107097 0 0 8344 0 5100 0 181968 0 235 5735 4406 0 0 0 652 8342 8344 0 0 134 134 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+wdeleg_getattr 10`,
 			stats: &nfs.ServerRPCStats{
 				ReplyCache: nfs.ReplyCache{
 					Hits:    0,
@@ -456,12 +462,13 @@ proc4ops 59 0 0 0 18112 8341 0 0 0 3239 71595 11834 0 0 0 0 107097 0 0 8344 0 51
 					SaveFH:             8344,
 					SecInfo:            0,
 					SetAttr:            0,
-					SetClientId:        134,
-					SetClientIdConfirm: 134,
+					SetClientID:        134,
+					SetClientIDConfirm: 134,
 					Verify:             0,
 					Write:              0,
 					RelLockOwner:       0,
 				},
+				WdelegGetattr: 10,
 			},
 		}, {
 			name: "good file, proc4ops 39",
@@ -475,7 +482,8 @@ rpc 44177753 0 0 0 0
 proc2 18 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 proc3 22 747 7259760 1383711 1570520 3464939 8436 4688207 21668847 1173194 6457 2127 172 213538 1253 556401 14950 1101 56245 90790 742 367 1989658
 proc4 2 0 0
-proc4ops 39 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 39`,
+proc4ops 39 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 39
+wdeleg_getattr 765432`,
 			stats: &nfs.ServerRPCStats{
 				ReplyCache: nfs.ReplyCache{
 					Hits:    0,
@@ -599,12 +607,13 @@ proc4ops 39 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 					SaveFH:             0,
 					SecInfo:            0,
 					SetAttr:            0,
-					SetClientId:        0,
-					SetClientIdConfirm: 0,
+					SetClientID:        0,
+					SetClientIDConfirm: 0,
 					Verify:             0,
 					Write:              39,
 					RelLockOwner:       0,
 				},
+				WdelegGetattr: 765432,
 			},
 		},
 	}

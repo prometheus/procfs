@@ -372,6 +372,102 @@ func TestMountStats(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "NFS xprt over rdma proto",
+			s: `device <nfsserver>:<nfsmount> mounted on <mountpoint> with fstype nfs statvers=1.1
+        opts:   ro,vers=3,rsize=1048576,wsize=1048576,namlen=255,acregmin=120,acregmax=120,acdirmin=120,acdirmax=120,hard,nocto,forcerdirplus,proto=rdma,nconnect=16,port=20049,timeo=600,retrans=2,sec=sys,mountaddr=172.16.40.20,mountvers=3,mountport=0,mountproto=tcp,local_lock=none
+        age:    1270876
+        caps:   caps=0xf,wtmult=4096,dtsize=131072,bsize=0,namlen=255
+        sec:    flavor=1,pseudoflavor=1
+        events: 512052 36601115 0 68 1498583 16514 38815015 0 41584 2654459933 0 0 0 0 1527715 0 0 1498575 0 0 0 0 0 0 0 0 0
+        bytes:  3104202770327296 0 0 0 2013200952170479 0 491504202537 0
+        RPC iostats version: 1.1  p/v: 100003/3 (nfs)
+        xprt:   rdma 0 0 5808 62 0 494490723 494490687 36 10032963746 1282789 107150285 1226637531 2673889 135120843409861 135119397156505 266368832 75716996 0 7853 0 0 0 0 119328 1336431717 0 96
+        per-op statistics
+                NULL: 16 16 0 640 384 320 11 331 0
+`,
+			mounts: []*Mount{{
+				Device: "<nfsserver>:<nfsmount>",
+				Mount:  "<mountpoint>",
+				Type:   "nfs",
+				Stats: &MountStatsNFS{
+					StatVersion: "1.1",
+					Opts: map[string]string{"acdirmax": "120", "acdirmin": "120", "acregmax": "120",
+						"acregmin": "120", "forcerdirplus": "", "hard": "", "local_lock": "none",
+						"mountaddr": "172.16.40.20", "mountport": "0", "mountproto": "tcp", "mountvers": "3",
+						"namlen": "255", "nconnect": "16", "nocto": "", "port": "20049", "proto": "rdma",
+						"retrans": "2", "ro": "", "rsize": "1048576", "sec": "sys", "timeo": "600",
+						"vers": "3", "wsize": "1048576"},
+					Age: 1270876 * time.Second,
+					Bytes: NFSBytesStats{
+						Read:      3104202770327296,
+						ReadTotal: 2013200952170479,
+						ReadPages: 491504202537,
+					},
+					Events: NFSEventsStats{
+						InodeRevalidate:     512052,
+						DnodeRevalidate:     36601115,
+						AttributeInvalidate: 68,
+						VFSOpen:             1498583,
+						VFSLookup:           16514,
+						VFSAccess:           38815015,
+						VFSReadPage:         41584,
+						VFSReadPages:        2654459933,
+						VFSFlush:            1527715,
+						VFSFileRelease:      1498575,
+					},
+					Operations: []NFSOperationStats{
+						{
+							Operation:                           "NULL",
+							Requests:                            16,
+							Transmissions:                       16,
+							MajorTimeouts:                       0,
+							BytesSent:                           640,
+							BytesReceived:                       384,
+							CumulativeQueueMilliseconds:         320,
+							CumulativeTotalResponseMilliseconds: 11,
+							CumulativeTotalRequestMilliseconds:  331,
+							AverageRTTMilliseconds:              0.6875,
+							Errors:                              0,
+						},
+					},
+					Transport: NFSTransportStats{
+						Protocol:                 "rdma",
+						Port:                     0,
+						Bind:                     0,
+						Connect:                  5808,
+						ConnectIdleTime:          62,
+						IdleTimeSeconds:          0,
+						Sends:                    494490723,
+						Receives:                 494490687,
+						BadTransactionIDs:        36,
+						CumulativeActiveRequests: 10032963746,
+						CumulativeBacklog:        1282789,
+						MaximumRPCSlotsUsed:      0,
+						CumulativeSendingQueue:   0,
+						CumulativePendingQueue:   0,
+						ReadChunkCount:           107150285,
+						WriteChunkCount:          1226637531,
+						ReplyChunkCount:          2673889,
+						TotalRdmaRequest:         135120843409861,
+						PullupCopyCount:          135119397156505,
+						HardwayRegisterCount:     266368832,
+						FailedMarshalCount:       75716996,
+						BadReplyCount:            0,
+						MrsRecovered:             7853,
+						MrsOrphaned:              0,
+						MrsAllocated:             0,
+						EmptySendctxQ:            0,
+						TotalRdmaReply:           0,
+						FixupCopyCount:           119328,
+						ReplyWaitsForSend:        1336431717,
+						LocalInvNeeded:           0,
+						NomsgCallCount:           96,
+						BcallCount:               0,
+					},
+				},
+			}},
+		},
 	}
 
 	for i, tt := range tests {
@@ -518,4 +614,61 @@ device fs.example.com:/volume4/apps/home-automation/node-red-data mounted on /va
 			LOOKUPP: 0 0 0 0 0 0 0 0 0
 		LAYOUTERROR: 0 0 0 0 0 0 0 0 0
 `
+
+	extendedRDMAExampleALLMountstats = `device <nfsserver>:<nfsmount> mounted on <mountpoint> with fstype nfs statvers=1.1
+        opts:   ro,vers=3,rsize=1048576,wsize=1048576,namlen=255,acregmin=120,acregmax=120,acdirmin=120,acdirmax=120,hard,nocto,forcerdirplus,proto=rdma,nconnect=16,port=20049,timeo=600,retrans=2,sec=sys,mountaddr=172.16.40.20,mountvers=3,mountport=0,mountproto=tcp,local_lock=none
+        age:    1270876
+        caps:   caps=0xf,wtmult=4096,dtsize=131072,bsize=0,namlen=255
+        sec:    flavor=1,pseudoflavor=1
+        events: 512052 36601115 0 68 1498583 16514 38815015 0 41584 2654459933 0 0 0 0 1527715 0 0 1498575 0 0 0 0 0 0 0 0 0
+        bytes:  3104202770327296 0 0 0 2013200952170479 0 491504202537 0
+        RPC iostats version: 1.1  p/v: 100003/3 (nfs)
+        xprt:   rdma 0 0 5808 62 0 494490723 494490687 36 10032963746 1282789 107150285 1226637531 2673889 135120843409861 135119397156505 266368832 75716996 0 7853 0 0 0 0 119328 1336431717 0 96
+        xprt:   rdma 0 0 14094 145 0 492392334 492392307 27 7078693624 2509627 105561370 1280878332 2659446 142218924010291 142217463504063 276368040 94761838 0 7610 0 0 0 0 207977 1389069860 0 103
+        xprt:   rdma 0 0 16107 156 0 522755125 522755092 33 9119562599 1147699 109077860 1491898147 2566003 167152062826463 167149287506014 284931680 83011025 0 6229 0 0 0 0 221408 1603518232 0 82
+        xprt:   rdma 0 0 7808 82 0 441542046 441542010 36 7226132207 2519174 111096004 955223347 2676765 105741904708009 105740125663595 275613584 80373159 0 8893 0 0 0 0 149479 1068962768 0 76
+        xprt:   rdma 0 0 15018 167 0 508091827 508091764 63 19817677255 36702583 108265928 1258185459 2438516 138247436686102 138246196289594 270162080 74962306 0 13328 0 0 0 0 268433 1368837472 0 66
+        xprt:   rdma 0 0 14321 149 0 530246310 530246275 35 9723190432 2392024 111099700 1494204555 2589805 166691166581904 166689567426908 289995492 85067377 0 8010 0 0 0 0 214511 1607864447 0 100
+        xprt:   rdma 0 0 7863 84 0 459019689 459019642 47 11809253102 1716688 111825219 1032758664 2564226 114416685286438 114414936423706 290494252 73702102 0 6927 0 0 0 0 134453 1147121864 0 79
+        xprt:   rdma 0 0 7702 84 3 497598986 497598931 55 11816221496 3924722 106922130 1382063307 2506108 153967067193941 153965665472218 286222584 84094006 0 5875 0 0 0 0 127347 1491469045 0 66
+        xprt:   rdma 0 0 18341 202 0 477721151 477721073 78 15204400959 40562626 106645745 1291616653 3091375 144533696686651 144529688231163 278135800 73821525 0 6795 0 0 0 0 251097 1401327563 0 64
+        xprt:   rdma 0 0 8228 90 4 453155092 453155063 29 7884786894 1591225 112197590 1026006338 2742688 114591819605673 114590175821191 275541944 85857259 0 7487 0 0 0 0 143044 1140917892 0 76
+        xprt:   rdma 0 0 7843 83 0 446480377 446480324 53 12267986428 2958997 111971246 963162784 2693433 107176282309753 107174637802555 290269096 101100410 0 7825 0 0 0 0 141735 1077797328 0 83
+        xprt:   rdma 0 0 7582 86 0 423315608 423315567 41 10197484604 2076993 109207538 785978455 2650354 86090211449474 86088475571312 279912524 87676008 0 7491 0 0 0 0 137533 897807641 0 101
+        xprt:   rdma 0 0 7767 84 0 482538465 482538424 41 8935200479 1344778 112200583 1192341640 2644896 132860698423762 132858881459050 273354060 75337030 0 5941 0 0 0 0 127842 1307164736 0 97
+        xprt:   rdma 0 0 14526 148 2 537745063 537745007 56 20756072620 3970332320 109539564 1363647371 2503250 148793734936250 148791264145401 291888720 90344151 0 7471 0 0 0 0 211057 1475661285 0 82
+        xprt:   rdma 0 0 14300 151 0 495357347 495357316 31 8703101643 1451809 112315311 1303804607 2620502 145680743007170 145678880292235 288046696 98018259 0 7241 0 0 0 0 209396 1418712657 0 139
+        xprt:   rdma 0 0 7700 82 0 466611083 466611050 33 8540498291 4082864 114740300 1059770596 2523155 117376668239921 117375375683167 260927576 78437075 0 6691 0 0 0 0 130878 1177008175 1 76
+        per-op statistics
+                NULL: 16 16 0 640 384 320 11 331 0
+             GETATTR: 512052 512052 0 79823516 57349824 107131 612667 751847 0
+             SETATTR: 0 0 0 0 0 0 0 0 0
+              LOOKUP: 16713 16713 0 3040536 3706344 560 17488 20232 346
+              ACCESS: 211705 211705 0 33860920 25404600 37059 229754 283822 0
+            READLINK: 0 0 0 0 0 0 0 0 0
+                READ: 2654501510 2654501510 0 445911966900 2013540728551504 6347457114 31407021389 37927280438 0
+               WRITE: 0 0 0 0 0 0 0 0 0
+              CREATE: 0 0 0 0 0 0 0 0 0
+               MKDIR: 0 0 0 0 0 0 0 0 0
+             SYMLINK: 0 0 0 0 0 0 0 0 0
+               MKNOD: 0 0 0 0 0 0 0 0 0
+              REMOVE: 0 0 0 0 0 0 0 0 0
+               RMDIR: 0 0 0 0 0 0 0 0 0
+              RENAME: 0 0 0 0 0 0 0 0 0
+                LINK: 0 0 0 0 0 0 0 0 0
+             READDIR: 0 0 0 0 0 0 0 0 0
+         READDIRPLUS: 0 0 0 0 0 0 0 0 0
+              FSSTAT: 56356 56356 0 6243572 9467808 82068 74356 159001 0
+              FSINFO: 2 2 0 184 328 0 0 0 0
+            PATHCONF: 1 1 0 92 140 0 0 0 0
+              COMMIT: 0 0 0 0 0 0 0 0 0
+`
 )
+
+func TestMountStatsExtendedRDMAStats(t *testing.T) {
+	r := strings.NewReader(extendedRDMAExampleALLMountstats)
+	_, err := parseMountStats(r)
+	if err != nil {
+		t.Errorf("failed to parse mount stats with extended RDMA statistics: %v", err)
+	}
+}

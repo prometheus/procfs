@@ -138,3 +138,40 @@ func TestProcMaps(t *testing.T) {
 	}
 
 }
+
+var start, end uintptr
+
+func BenchmarkParseAddress(b *testing.B) {
+	b.ReportAllocs()
+	var (
+		s, e uintptr
+		err  error
+	)
+	for i := 0; i < b.N; i++ {
+		s, e, err = parseAddresses("7f7d7469e000-7f7d746a0000")
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+	// Prevent the compiler from optimizing away benchmark code.
+	start = s
+	end = e
+}
+
+var device uint64
+
+func BenchmarkParseDevice(b *testing.B) {
+	b.ReportAllocs()
+	var (
+		d   uint64
+		err error
+	)
+	for i := 0; i < b.N; i++ {
+		d, err = parseDevice("00:22")
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+	// Prevent the compiler from optimizing away benchmark code.
+	device = d
+}

@@ -121,16 +121,24 @@ func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
 }
 
 // Parse one InfiniBand device.
+// Refer to https://www.kernel.org/doc/Documentation/ABI/stable/sysfs-class-infiniband
 func (fs FS) parseInfiniBandDevice(name string) (*InfiniBandDevice, error) {
 	path := fs.sys.Path(infinibandClassPath, name)
 	device := InfiniBandDevice{Name: name}
 
-	for _, f := range [...]string{"board_id", "fw_ver", "hca_type"} {
+	// fw_ver is exposed by all InfiniBand drivers since kernel version 4.10.
+	value, err := util.SysReadFile(filepath.Join(path, "fw_ver"))
+	if err != nil {
+		return nil, fmt.Errorf("failed to read HCA firmware version: %w", err)
+	}
+	device.FirmwareVersion = value
+
+	// Not all InfiniBand drivers expose all of these.
+	for _, f := range [...]string{"board_id", "hca_type"} {
 		name := filepath.Join(path, f)
 		value, err := util.SysReadFile(name)
 		if err != nil {
-			// Not all InfiniBand drivers provide hca_type.
-			if os.IsNotExist(err) && (f == "hca_type") {
+			if os.IsNotExist(err) {
 				continue
 			}
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
@@ -139,8 +147,6 @@ func (fs FS) parseInfiniBandDevice(name string) (*InfiniBandDevice, error) {
 		switch f {
 		case "board_id":
 			device.BoardID = value
-		case "fw_ver":
-			device.FirmwareVersion = value
 		case "hca_type":
 			device.HCAType = value
 		}

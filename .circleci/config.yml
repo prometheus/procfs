@@ -4,7 +4,7 @@ version: 2.1
 jobs:
   lint:
     docker:
-    - image: cimg/go:1.20
+    - image: cimg/go:1.21
     steps:
     - checkout
     - run: make check_license
@@ -48,6 +48,7 @@ workflows:
             go_version:
             - "1.19"
             - "1.20"
+            - "1.21"
     - test:
         name: test-windows
         os: windows
@@ -57,3 +58,4 @@ workflows:
             go_version:
             - "1.19"
             - "1.20"
+            - "1.21"

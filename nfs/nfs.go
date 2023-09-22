@@ -201,51 +201,56 @@ type ServerV4Stats struct {
 // V4Ops models the "proc4ops" line: NFSv4 operations
 // Variable list.
 // See:
-// - v4.0 https://tools.ietf.org/html/rfc3010 (38 operations)
+// - v4.0 https://tools.ietf.org/html/rfc3010 (38/39 operations)
+//   - nfs == v2.5.x 38 field : https://elixir.bootlin.com/linux/v2.5.75/source/include/linux/nfs4.h#L52
+//   - nfs >= v2.6.x 39 field : https://elixir.bootlin.com/linux/v2.6.39.4/source/include/linux/nfs4.h#L233
+//
 // - v4.1 https://tools.ietf.org/html/rfc5661 (58 operations)
 // - v4.2 https://tools.ietf.org/html/draft-ietf-nfsv4-minorversion2-41 (71 operations)
 //
 //nolint:godot
 type V4Ops struct {
 	//Values       uint64 // Variable depending on v4.x sub-version. TODO: Will this always at least include the fields in this struct?
-	Op0Unused    uint64
-	Op1Unused    uint64
-	Op2Future    uint64
-	Access       uint64
-	Close        uint64
-	Commit       uint64
-	Create       uint64
-	DelegPurge   uint64
-	DelegReturn  uint64
-	GetAttr      uint64
-	GetFH        uint64
-	Link         uint64
-	Lock         uint64
-	Lockt        uint64
-	Locku        uint64
-	Lookup       uint64
-	LookupRoot   uint64
-	Nverify      uint64
-	Open         uint64
-	OpenAttr     uint64
-	OpenConfirm  uint64
-	OpenDgrd     uint64
-	PutFH        uint64
-	PutPubFH     uint64
-	PutRootFH    uint64
-	Read         uint64
-	ReadDir      uint64
-	ReadLink     uint64
-	Remove       uint64
-	Rename       uint64
-	Renew        uint64
-	RestoreFH    uint64
-	SaveFH       uint64
-	SecInfo      uint64
-	SetAttr      uint64
-	Verify       uint64
-	Write        uint64
-	RelLockOwner uint64
+	Op0Unused          uint64
+	Op1Unused          uint64
+	Op2Future          uint64
+	Access             uint64
+	Close              uint64
+	Commit             uint64
+	Create             uint64
+	DelegPurge         uint64
+	DelegReturn        uint64
+	GetAttr            uint64
+	GetFH              uint64
+	Link               uint64
+	Lock               uint64
+	Lockt              uint64
+	Locku              uint64
+	Lookup             uint64
+	LookupRoot         uint64
+	Nverify            uint64
+	Open               uint64
+	OpenAttr           uint64
+	OpenConfirm        uint64
+	OpenDgrd           uint64
+	PutFH              uint64
+	PutPubFH           uint64
+	PutRootFH          uint64
+	Read               uint64
+	ReadDir            uint64
+	ReadLink           uint64
+	Remove             uint64
+	Rename             uint64
+	Renew              uint64
+	RestoreFH          uint64
+	SaveFH             uint64
+	SecInfo            uint64
+	SetAttr            uint64
+	SetClientID        uint64
+	SetClientIDConfirm uint64
+	Verify             uint64
+	Write              uint64
+	RelLockOwner       uint64
 }
 
 // ClientRPCStats models all stats from /proc/net/rpc/nfs.
@@ -270,6 +275,7 @@ type ServerRPCStats struct {
 	V3Stats        V3Stats
 	ServerV4Stats  ServerV4Stats
 	V4Ops          V4Ops
+	WdelegGetattr  uint64
 }
 
 // FS represents the pseudo-filesystem proc, which provides an interface to

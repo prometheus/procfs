@@ -13239,7 +13239,7 @@ Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/vulnerabilities/itlb_multihit
 Lines: 1
-Not affected
+KVM: Mitigation: VMX unsupported
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/vulnerabilities/mds
@@ -13270,6 +13270,11 @@ Mode: 444
 Path: fixtures/sys/devices/system/cpu/vulnerabilities/spectre_v2
 Lines: 1
 Mitigation: Retpolines, IBPB: conditional, STIBP: always-on, RSB filling, PBRSB-eIBRS: Not affected
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/cpu/vulnerabilities/srbds
+Lines: 1
+Unknown: Dependent on hypervisor status
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/vulnerabilities/tsx_async_abort

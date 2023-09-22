@@ -73,6 +73,8 @@ func ParseServerRPCStats(r io.Reader) (*ServerRPCStats, error) {
 			stats.ServerV4Stats, err = parseServerV4Stats(values)
 		case "proc4ops":
 			stats.V4Ops, err = parseV4Ops(values)
+		case "wdeleg_getattr":
+			stats.WdelegGetattr = values[0]
 		default:
 			return nil, fmt.Errorf("unknown NFSd metric line %q", metricLine)
 		}

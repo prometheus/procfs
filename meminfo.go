@@ -184,10 +184,6 @@ type Meminfo struct {
 	ShmemPmdMappedBytes    *uint64
 	CmaTotalBytes          *uint64
 	CmaFreeBytes           *uint64
-	HugePagesTotalBytes    *uint64
-	HugePagesFreeBytes     *uint64
-	HugePagesRsvdBytes     *uint64
-	HugePagesSurpBytes     *uint64
 	HugepagesizeBytes      *uint64
 	DirectMap4kBytes       *uint64
 	DirectMap2MBytes       *uint64
@@ -363,16 +359,12 @@ func parseMemInfo(r io.Reader) (*Meminfo, error) {
 			m.CmaFreeBytes = &valBytes
 		case "HugePages_Total:":
 			m.HugePagesTotal = &val
-			m.HugePagesTotalBytes = &valBytes
 		case "HugePages_Free:":
 			m.HugePagesFree = &val
-			m.HugePagesFreeBytes = &valBytes
 		case "HugePages_Rsvd:":
 			m.HugePagesRsvd = &val
-			m.HugePagesRsvdBytes = &valBytes
 		case "HugePages_Surp:":
 			m.HugePagesSurp = &val
-			m.HugePagesSurpBytes = &valBytes
 		case "Hugepagesize:":
 			m.Hugepagesize = &val
 			m.HugepagesizeBytes = &valBytes

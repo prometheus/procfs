@@ -217,12 +217,10 @@ func parseMemInfo(r io.Reader) (*Meminfo, error) {
 		fields := strings.Fields(s.Text())
 		var val, valBytes uint64
 
-		v, err := strconv.ParseUint(fields[1], 0, 64)
+		val, err := strconv.ParseUint(fields[1], 0, 64)
 		if err != nil {
 			return nil, err
 		}
-
-		val = v
 
 		switch len(fields) {
 		case 2:

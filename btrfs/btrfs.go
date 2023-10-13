@@ -68,7 +68,7 @@ type Device struct {
 }
 
 // Number of commits and various time related statistics.
-// See Linux fs/btrfs/sysfs.c with 6.x version
+// See Linux fs/btrfs/sysfs.c with 6.x version.
 type CommitStats struct {
 	Commits       uint64
 	LastCommitMs  uint64

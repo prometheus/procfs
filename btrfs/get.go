@@ -297,10 +297,6 @@ func (r *reader) readCommitStats(p string) CommitStats {
 		default:
 			continue
 		}
-		if err != nil {
-			r.err = fmt.Errorf("errors parsing commit_stats metric line: %w", err)
-			return stats
-		}
 	}
 
 	if err := scanner.Err(); err != nil {

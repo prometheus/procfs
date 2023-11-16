@@ -126,6 +126,7 @@ type Meminfo struct {
 	VmallocUsed *uint64
 	// largest contiguous block of vmalloc area which is free
 	VmallocChunk      *uint64
+	Percpu            *uint64
 	HardwareCorrupted *uint64
 	AnonHugePages     *uint64
 	ShmemHugePages    *uint64
@@ -178,6 +179,7 @@ type Meminfo struct {
 	VmallocTotalBytes      *uint64
 	VmallocUsedBytes       *uint64
 	VmallocChunkBytes      *uint64
+	PercpuBytes            *uint64
 	HardwareCorruptedBytes *uint64
 	AnonHugePagesBytes     *uint64
 	ShmemHugePagesBytes    *uint64
@@ -339,6 +341,9 @@ func parseMemInfo(r io.Reader) (*Meminfo, error) {
 		case "VmallocChunk:":
 			m.VmallocChunk = &val
 			m.VmallocChunkBytes = &valBytes
+		case "Percpu:":
+			m.Percpu = &val
+			m.PercpuBytes = &valBytes
 		case "HardwareCorrupted:":
 			m.HardwareCorrupted = &val
 			m.HardwareCorruptedBytes = &valBytes

@@ -25,6 +25,7 @@ func Test_parseNetIPSocketLine(t *testing.T) {
 		name    string
 		want    *netIPSocketLine
 		wantErr bool
+		isUDP   bool
 	}{
 		{
 			name:   "reading valid lines, no issue should happened",
@@ -96,10 +97,17 @@ func Test_parseNetIPSocketLine(t *testing.T) {
 			want:    nil,
 			wantErr: true,
 		},
+		{
+			name:    "error case - parse Drops - not a valid uint",
+			fields:  []string{"1:", "00000000:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "10", "0", "39309", "2", "000000009bd60d72", "-5"},
+			want:    nil,
+			wantErr: true,
+			isUDP:   true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := parseNetIPSocketLine(tt.fields)
+			got, err := parseNetIPSocketLine(tt.fields, tt.isUDP)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("parseNetIPSocketLine() error = %v, wantErr %v", err, tt.wantErr)
 				return

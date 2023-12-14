@@ -2317,7 +2317,7 @@ unused devices: <none>
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/meminfo
-Lines: 42
+Lines: 43
 MemTotal:       15666184 kB
 MemFree:          440324 kB
 Buffers:         1020128 kB
@@ -2351,6 +2351,7 @@ Committed_AS:     530844 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:       36596 kB
 VmallocChunk:   34359637840 kB
+Percpu:            26176 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:     12288 kB
 HugePages_Total:       0

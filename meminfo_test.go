@@ -14,12 +14,13 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestMeminfo(t *testing.T) {
-	expected := Meminfo{
+	want := Meminfo{
 		MemTotal:          newuint64(15666184),
 		MemFree:           newuint64(440324),
 		Buffers:           newuint64(1020128),
@@ -105,14 +106,12 @@ func TestMeminfo(t *testing.T) {
 		DirectMap2MBytes:       newuint64(16424894464),
 	}
 
-	have, err := getProcFixtures(t).Meminfo()
+	got, err := getProcFixtures(t).Meminfo()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if !reflect.DeepEqual(have, expected) {
-		t.Logf("have: %+v", have)
-		t.Logf("expected: %+v", expected)
-		t.Errorf("structs are not equal")
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected Meminfo (-want +got):\n%s", diff)
 	}
 }

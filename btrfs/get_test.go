@@ -19,12 +19,20 @@ type testVector struct {
 	uuid, label        string
 	devices, features  int
 	data, meta, system alloc
+	commitstats        commit
 }
 
 type alloc struct {
 	layout string
 	size   uint64
 	ratio  float64
+}
+
+type commit struct {
+	commits       uint64
+	lastCommitMs  uint64
+	maxCommitMs   uint64
+	totalCommitMs uint64
 }
 
 func TestFSBtrfsStats(t *testing.T) {
@@ -39,22 +47,24 @@ func TestFSBtrfsStats(t *testing.T) {
 
 	tests := []testVector{
 		{
-			uuid:     "0abb23a9-579b-43e6-ad30-227ef47fcb9d",
-			label:    "fixture",
-			devices:  2,
-			features: 4,
-			data:     alloc{"raid0", 2147483648, 1},
-			meta:     alloc{"raid1", 1073741824, 2},
-			system:   alloc{"raid1", 8388608, 2},
+			uuid:        "0abb23a9-579b-43e6-ad30-227ef47fcb9d",
+			label:       "fixture",
+			devices:     2,
+			features:    4,
+			data:        alloc{"raid0", 2147483648, 1},
+			meta:        alloc{"raid1", 1073741824, 2},
+			system:      alloc{"raid1", 8388608, 2},
+			commitstats: commit{258051, 1000, 51462, 47836090},
 		},
 		{
-			uuid:     "7f07c59f-6136-449c-ab87-e1cf2328731b",
-			label:    "",
-			devices:  4,
-			features: 5,
-			data:     alloc{"raid5", 644087808, 4. / 3.},
-			meta:     alloc{"raid6", 429391872, 4. / 2.},
-			system:   alloc{"raid6", 16777216, 4. / 2.},
+			uuid:        "7f07c59f-6136-449c-ab87-e1cf2328731b",
+			label:       "",
+			devices:     4,
+			features:    5,
+			data:        alloc{"raid5", 644087808, 4. / 3.},
+			meta:        alloc{"raid6", 429391872, 4. / 2.},
+			system:      alloc{"raid6", 16777216, 4. / 2.},
+			commitstats: commit{0, 0, 0, 0},
 		},
 	}
 
@@ -97,6 +107,22 @@ func TestFSBtrfsStats(t *testing.T) {
 
 		if want, got := tt.system.ratio, stats[i].Allocation.System.Layouts[tt.system.layout].Ratio; want != got {
 			t.Errorf("fs %q unexpected system ratio:\nwant: %f\nhave: %f", tt.uuid, want, got)
+		}
+
+		if want, got := tt.commitstats.commits, stats[i].CommitStats.Commits; want != got {
+			t.Errorf("fs %q unexpected commit stats commits:\nwant: %d\nhave: %d", tt.uuid, want, got)
+		}
+
+		if want, got := tt.commitstats.lastCommitMs, stats[i].CommitStats.LastCommitMs; want != got {
+			t.Errorf("fs %q unexpected commit stats last_commit_ms:\nwant: %d\nhave: %d", tt.uuid, want, got)
+		}
+
+		if want, got := tt.commitstats.maxCommitMs, stats[i].CommitStats.MaxCommitMs; want != got {
+			t.Errorf("fs %q unexpected commit stats max_commit_ms:\nwant: %d\nhave: %d", tt.uuid, want, got)
+		}
+
+		if want, got := tt.commitstats.totalCommitMs, stats[i].CommitStats.TotalCommitMs; want != got {
+			t.Errorf("fs %q unexpected commit stats total_commit_ms:\nwant: %d\nhave: %d", tt.uuid, want, got)
 		}
 	}
 }

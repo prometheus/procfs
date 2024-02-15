@@ -25,6 +25,7 @@ type Stats struct {
 	NodeSize       uint64
 	QuotaOverride  uint64
 	SectorSize     uint64
+	CommitStats    CommitStats
 }
 
 // Allocation contains allocation statistics for data, metadata and system data.
@@ -64,4 +65,13 @@ type LayoutUsage struct {
 // Device contains information about a device that is part of a Btrfs filesystem.
 type Device struct {
 	Size uint64
+}
+
+// Number of commits and various time related statistics.
+// See Linux fs/btrfs/sysfs.c with 6.x version.
+type CommitStats struct {
+	Commits       uint64
+	LastCommitMs  uint64
+	MaxCommitMs   uint64
+	TotalCommitMs uint64
 }

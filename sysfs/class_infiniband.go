@@ -279,13 +279,16 @@ func (fs FS) parseInfiniBandPort(name string, port string) (*InfiniBandPort, err
 		return nil, fmt.Errorf("could not parse rate file in %q: %w", portPath, err)
 	}
 
-	counters, err := parseInfiniBandCounters(portPath)
-	if err != nil {
-		return nil, err
+	// Intel irdma module does not expose /sys/class/infiniband/<device>/ports/<port-num>/counters
+	if !strings.HasPrefix(ibp.Name, "irdma") {
+		counters, err := parseInfiniBandCounters(portPath)
+		if err != nil {
+			return nil, err
+		}
+		ibp.Counters = *counters
 	}
-	ibp.Counters = *counters
 
-	if strings.Contains(ibp.Name, "mlx5") {
+	if strings.HasPrefix(ibp.Name, "irdma") || strings.HasPrefix(ibp.Name, "mlx5_") {
 		hwCounters, err := parseInfiniBandHwCounters(portPath)
 		if err != nil {
 			return nil, err
@@ -296,6 +299,9 @@ func (fs FS) parseInfiniBandPort(name string, port string) (*InfiniBandPort, err
 	return &ibp, nil
 }
 
+// parseInfiniBandCounters parses the counters exposed under
+// /sys/class/infiniband/<device>/ports/<port-num>/counters, which first appeared in kernel v2.6.12.
+// Prior to kernel v4.5, 64-bit counters were exposed separately under the "counters_ext" directory.
 func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 	var counters InfiniBandCounters
 
@@ -393,7 +399,7 @@ func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 		}
 	}
 
-	// Parse legacy counters
+	// Parse pre-kernel-v4.5 64-bit counters.
 	path = filepath.Join(portPath, "counters_ext")
 	files, err = os.ReadDir(path)
 	if err != nil && !os.IsNotExist(err) {
@@ -457,6 +463,8 @@ func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 	return &counters, nil
 }
 
+// parseInfiniBandHwCounters parses the optional counters exposed under
+// /sys/class/infiniband/<device>/ports/<port-num>/hw_counters, which first appeared in kernel v4.6.
 func parseInfiniBandHwCounters(portPath string) (*InfiniBandHwCounters, error) {
 	var hwCounters InfiniBandHwCounters
 

@@ -64,6 +64,26 @@ func TestFibreChannelClass(t *testing.T) {
 				FCPPacketAborts:       0x13,
 			},
 		},
+		"host1": FibreChannelHost{
+			Name:      "host1",
+			PortState: "Online",
+			Counters: FibreChannelCounters{
+				DumpedFrames:          0,
+				ErrorFrames:           ^uint64(0),
+				InvalidCRCCount:       0x20,
+				RXFrames:              0x30,
+				RXWords:               0x40,
+				TXFrames:              0x50,
+				TXWords:               0x60,
+				SecondsSinceLastReset: 0x70,
+				InvalidTXWordCount:    0x80,
+				LinkFailureCount:      0x90,
+				LossOfSyncCount:       0x100,
+				LossOfSignalCount:     0x110,
+				NosCount:              0x120,
+				FCPPacketAborts:       0x130,
+			},
+		},
 	}
 
 	if diff := cmp.Diff(want, got); diff != "" {

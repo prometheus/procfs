@@ -93,6 +93,11 @@ func (fs FS) parseFibreChannelHost(name string) (*FibreChannelHost, error) {
 		name := filepath.Join(path, f)
 		value, err := util.SysReadFile(name)
 		if err != nil {
+			// drivers can choose not to expose some attributes to sysfs.
+			// See: https://github.com/prometheus/node_exporter/issues/2919.
+			if os.IsNotExist(err) {
+				continue
+			}
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
 

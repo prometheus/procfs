@@ -22,16 +22,18 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"k8s.io/utils/ptr"
 )
 
-const (
-	// readLimit is used by io.LimitReader while reading the content of the
+var (
+	// defaultReadLimitPtr is used by io.LimitReader while reading the content of the
 	// /proc/net/udp{,6} files. The number of lines inside such a file is dynamic
 	// as each line represents a single used socket.
 	// In theory, the number of available sockets is 65535 (2^16 - 1) per IP.
 	// With e.g. 150 Byte per line and the maximum number of 65535,
 	// the reader needs to handle 150 Byte * 65535 =~ 10 MB for a single IP.
-	readLimit = 4294967296 // Byte -> 4 GiB
+	defaultReadLimit = ptr.To(4294967296) // Byte -> 4 GiB
 )
 
 // This contains generic data structures for both udp and tcp sockets.
@@ -73,7 +75,7 @@ type (
 	}
 )
 
-func newNetIPSocket(file string) (NetIPSocket, error) {
+func newNetIPSocket(file string, readLimit *int) (NetIPSocket, error) {
 	f, err := os.Open(file)
 	if err != nil {
 		return nil, err
@@ -83,7 +85,10 @@ func newNetIPSocket(file string) (NetIPSocket, error) {
 	var netIPSocket NetIPSocket
 	isUDP := strings.Contains(file, "udp")
 
-	lr := io.LimitReader(f, readLimit)
+	if readLimit == nil {
+		readLimit = defaultReadLimit
+	}
+	lr := io.LimitReader(f, int64(*readLimit))
 	s := bufio.NewScanner(lr)
 	s.Scan() // skip first line with headers
 	for s.Scan() {
@@ -101,7 +106,7 @@ func newNetIPSocket(file string) (NetIPSocket, error) {
 }
 
 // newNetIPSocketSummary creates a new NetIPSocket{,6} from the contents of the given file.
-func newNetIPSocketSummary(file string) (*NetIPSocketSummary, error) {
+func newNetIPSocketSummary(file string, readLimit *int) (*NetIPSocketSummary, error) {
 	f, err := os.Open(file)
 	if err != nil {
 		return nil, err
@@ -112,7 +117,10 @@ func newNetIPSocketSummary(file string) (*NetIPSocketSummary, error) {
 	var udpPacketDrops uint64
 	isUDP := strings.Contains(file, "udp")
 
-	lr := io.LimitReader(f, readLimit)
+	if readLimit == nil {
+		readLimit = defaultReadLimit
+	}
+	lr := io.LimitReader(f, int64(*readLimit))
 	s := bufio.NewScanner(lr)
 	s.Scan() // skip first line with headers
 	for s.Scan() {

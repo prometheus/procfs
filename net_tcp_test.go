@@ -115,7 +115,7 @@ func Test_newNetTCP(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := newNetTCP(tt.file)
+			got, err := newNetTCP(tt.file, nil)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("newNetTCP() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -161,7 +161,7 @@ func Test_newNetTCPSummary(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := newNetTCPSummary(tt.file)
+			got, err := newNetTCPSummary(tt.file, nil)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("newNetTCPSummary() error = %v, wantErr %v", err, tt.wantErr)
 				return

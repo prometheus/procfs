@@ -14,9 +14,11 @@
 package util
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 // ParseUint32s parses a slice of strings into a slice of uint32s.
@@ -84,6 +86,11 @@ func ReadUintFromFile(path string) (uint64, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return 0, err
+	}
+	for _, c := range data {
+		if !unicode.IsDigit(rune(c)) {
+			return 0, fmt.Errorf("%w: %s", strconv.ErrSyntax, path)
+		}
 	}
 	return strconv.ParseUint(strings.TrimSpace(string(data)), 10, 64)
 }

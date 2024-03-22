@@ -103,8 +103,8 @@ func TestProcStatusUIDs(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if want, have := [4]string{"1000", "1000", "1000", "0"}, s.UIDs; want != have {
-		t.Errorf("want uids %s, have %s", want, have)
+	if want, have := [4]uint64{1000, 1000, 1000, 0}, s.UIDs; want != have {
+		t.Errorf("want uids %v, have %v", want, have)
 	}
 }
 
@@ -119,8 +119,8 @@ func TestProcStatusGIDs(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if want, have := [4]string{"1001", "1001", "1001", "0"}, s.GIDs; want != have {
-		t.Errorf("want uids %s, have %s", want, have)
+	if want, have := [4]uint64{1001, 1001, 1001, 0}, s.GIDs; want != have {
+		t.Errorf("want gids %v, have %v", want, have)
 	}
 }
 

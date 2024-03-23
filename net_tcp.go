@@ -25,37 +25,37 @@ type (
 
 // NetTCP returns the IPv4 kernel/networking statistics for TCP datagrams
 // read from /proc/net/tcp.
-func (fs FS) NetTCP() (NetTCP, error) {
-	return newNetTCP(fs.proc.Path("net/tcp"))
+func (fs FS) NetTCP(readLimit *int) (NetTCP, error) {
+	return newNetTCP(fs.proc.Path("net/tcp"), readLimit)
 }
 
 // NetTCP6 returns the IPv6 kernel/networking statistics for TCP datagrams
 // read from /proc/net/tcp6.
-func (fs FS) NetTCP6() (NetTCP, error) {
-	return newNetTCP(fs.proc.Path("net/tcp6"))
+func (fs FS) NetTCP6(readLimit *int) (NetTCP, error) {
+	return newNetTCP(fs.proc.Path("net/tcp6"), readLimit)
 }
 
 // NetTCPSummary returns already computed statistics like the total queue lengths
 // for TCP datagrams read from /proc/net/tcp.
-func (fs FS) NetTCPSummary() (*NetTCPSummary, error) {
-	return newNetTCPSummary(fs.proc.Path("net/tcp"))
+func (fs FS) NetTCPSummary(readLimit *int) (*NetTCPSummary, error) {
+	return newNetTCPSummary(fs.proc.Path("net/tcp"), readLimit)
 }
 
 // NetTCP6Summary returns already computed statistics like the total queue lengths
 // for TCP datagrams read from /proc/net/tcp6.
-func (fs FS) NetTCP6Summary() (*NetTCPSummary, error) {
-	return newNetTCPSummary(fs.proc.Path("net/tcp6"))
+func (fs FS) NetTCP6Summary(readLimit *int) (*NetTCPSummary, error) {
+	return newNetTCPSummary(fs.proc.Path("net/tcp6"), readLimit)
 }
 
 // newNetTCP creates a new NetTCP{,6} from the contents of the given file.
-func newNetTCP(file string) (NetTCP, error) {
-	n, err := newNetIPSocket(file)
+func newNetTCP(file string, readLimit *int) (NetTCP, error) {
+	n, err := newNetIPSocket(file, readLimit)
 	n1 := NetTCP(n)
 	return n1, err
 }
 
-func newNetTCPSummary(file string) (*NetTCPSummary, error) {
-	n, err := newNetIPSocketSummary(file)
+func newNetTCPSummary(file string, readLimit *int) (*NetTCPSummary, error) {
+	n, err := newNetIPSocketSummary(file, readLimit)
 	if n == nil {
 		return nil, err
 	}

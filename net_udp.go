@@ -49,13 +49,13 @@ func (fs FS) NetUDP6Summary() (*NetUDPSummary, error) {
 
 // newNetUDP creates a new NetUDP{,6} from the contents of the given file.
 func newNetUDP(file string) (NetUDP, error) {
-	n, err := newNetIPSocket(file)
+	n, err := newNetIPSocket(file, nil)
 	n1 := NetUDP(n)
 	return n1, err
 }
 
 func newNetUDPSummary(file string) (*NetUDPSummary, error) {
-	n, err := newNetIPSocketSummary(file)
+	n, err := newNetIPSocketSummary(file, nil)
 	if n == nil {
 		return nil, err
 	}

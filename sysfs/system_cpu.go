@@ -321,7 +321,7 @@ func parseCPURange(data []byte) ([]uint16, error) {
 
 	var cpusInt = []uint16{}
 
-	for _, cpu := range strings.Split(strings.TrimRight(string(data), "\n"), ",") {
+	for _, cpu := range strings.Split(strings.TrimSuffix(string(data), "\n"), ",") {
 		if cpu == "" {
 			continue
 		}

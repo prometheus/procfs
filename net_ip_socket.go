@@ -155,7 +155,7 @@ func parseIP(hexIP string) (net.IP, error) {
 		}
 		return i, nil
 	default:
-		return nil, fmt.Errorf("%w: Unable to parse IP %w: %w", ErrFileParse, hexIP, nil)
+		return nil, fmt.Errorf("%w: Unable to parse IP %s: %v", ErrFileParse, hexIP, nil)
 	}
 }
 

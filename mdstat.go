@@ -189,7 +189,7 @@ func evalStatusLine(deviceLine, statusLine string) (active, total, down, size in
 
 	matches := statusLineRE.FindStringSubmatch(statusLine)
 	if len(matches) != 5 {
-		return 0, 0, 0, 0, fmt.Errorf("%w: Could not fild all substring matches %w: %w", ErrFileParse, statusLine, err)
+		return 0, 0, 0, 0, fmt.Errorf("%w: Could not fild all substring matches %s: %w", ErrFileParse, statusLine, err)
 	}
 
 	total, err = strconv.ParseInt(matches[2], 10, 64)
@@ -209,7 +209,7 @@ func evalStatusLine(deviceLine, statusLine string) (active, total, down, size in
 func evalRecoveryLine(recoveryLine string) (syncedBlocks int64, pct float64, finish float64, speed float64, err error) {
 	matches := recoveryLineBlocksRE.FindStringSubmatch(recoveryLine)
 	if len(matches) != 2 {
-		return 0, 0, 0, 0, fmt.Errorf("%w: Unexpected recoveryLine %w: %w", ErrFileParse, recoveryLine, err)
+		return 0, 0, 0, 0, fmt.Errorf("%w: Unexpected recoveryLine %s: %w", ErrFileParse, recoveryLine, err)
 	}
 
 	syncedBlocks, err = strconv.ParseInt(matches[1], 10, 64)

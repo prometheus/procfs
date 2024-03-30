@@ -88,8 +88,11 @@ func ReadUintFromFile(path string) (uint64, error) {
 		return 0, err
 	}
 	for _, c := range data {
+		if string(c) == "\n" {
+			continue
+		}
 		if !unicode.IsDigit(rune(c)) {
-			return 0, fmt.Errorf("%w: %s", strconv.ErrSyntax, path)
+			return 0, fmt.Errorf("%w ('%s'): %s", strconv.ErrSyntax, string(c), path)
 		}
 	}
 	return strconv.ParseUint(strings.TrimSpace(string(data)), 10, 64)

@@ -13548,6 +13548,23 @@ Lines: 1
 <unsupported>
 Mode: 664
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/system/cpu/cpu1/cpufreq/stats
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/stats/time_in_state
+Lines: 5
+3600000 2089
+3400000 136
+3200000 34
+3000000 67
+2800000 172488
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/stats/total_trans
+Lines: 1
+20
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu1/thermal_throttle
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -13661,6 +13678,20 @@ Mode: 644
 Path: fixtures/sys/devices/system/cpu/cpufreq/policy0/scaling_setspeed
 Lines: 1
 <unsupported>
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/system/cpu/cpufreq/policy0/stats
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/cpu/cpufreq/policy0/stats/trans_table
+Lines: 7
+From  :    To
+        :   3600000   3400000   3200000   3000000   2800000
+3600000:         0         5         0         0         0
+3400000:         4         0         2         0         0
+3200000:         0         1         0         2         0
+3000000:         0         0         1         0         3
+2800000:         0         0         0         2         0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpufreq/policy1

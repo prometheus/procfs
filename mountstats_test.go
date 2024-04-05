@@ -339,7 +339,6 @@ func TestMountStats(t *testing.T) {
 								CumulativeQueueMilliseconds:         6,
 								CumulativeTotalResponseMilliseconds: 79386,
 								CumulativeTotalRequestMilliseconds:  79407,
-								AverageRTTMilliseconds:              61.16024653312789,
 							},
 							{
 								Operation: "WRITE",
@@ -353,7 +352,6 @@ func TestMountStats(t *testing.T) {
 								CumulativeQueueMilliseconds:         18446743919241604546,
 								CumulativeTotalResponseMilliseconds: 1667369447,
 								CumulativeTotalRequestMilliseconds:  1953587717,
-								AverageRTTMilliseconds:              0.5695744656983355,
 							},
 						},
 						Transport: NFSTransportStats{
@@ -427,7 +425,6 @@ func TestMountStats(t *testing.T) {
 							CumulativeQueueMilliseconds:         320,
 							CumulativeTotalResponseMilliseconds: 11,
 							CumulativeTotalRequestMilliseconds:  331,
-							AverageRTTMilliseconds:              0.6875,
 							Errors:                              0,
 						},
 					},

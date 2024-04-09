@@ -14,24 +14,12 @@
 package procfs
 
 import (
-	"bufio"
 	"encoding/hex"
 	"fmt"
-	"io"
 	"net"
 	"os"
 	"strconv"
 	"strings"
-)
-
-const (
-	// readLimit is used by io.LimitReader while reading the content of the
-	// /proc/net/udp{,6} files. The number of lines inside such a file is dynamic
-	// as each line represents a single used socket.
-	// In theory, the number of available sockets is 65535 (2^16 - 1) per IP.
-	// With e.g. 150 Byte per line and the maximum number of 65535,
-	// the reader needs to handle 150 Byte * 65535 =~ 10 MB for a single IP.
-	readLimit = 4294967296 // Byte -> 4 GiB
 )
 
 // This contains generic data structures for both udp and tcp sockets.
@@ -74,49 +62,50 @@ type (
 )
 
 func newNetIPSocket(file string) (NetIPSocket, error) {
-	f, err := os.Open(file)
+	var netIPSocket NetIPSocket
+	isUDP := strings.Contains(file, "udp")
+	content, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
+	lines := strings.Split(string(content), "\n")
+	if len(lines) < 1 {
+		return nil, ErrFileParse
+	}
 
-	var netIPSocket NetIPSocket
-	isUDP := strings.Contains(file, "udp")
-
-	lr := io.LimitReader(f, readLimit)
-	s := bufio.NewScanner(lr)
-	s.Scan() // skip first line with headers
-	for s.Scan() {
-		fields := strings.Fields(s.Text())
+	for _, line := range lines[1:] {
+		fields := strings.Fields(line)
+		if len(fields) == 0 {
+			continue
+		}
 		line, err := parseNetIPSocketLine(fields, isUDP)
 		if err != nil {
 			return nil, err
 		}
 		netIPSocket = append(netIPSocket, line)
 	}
-	if err := s.Err(); err != nil {
-		return nil, err
-	}
 	return netIPSocket, nil
 }
 
 // newNetIPSocketSummary creates a new NetIPSocket{,6} from the contents of the given file.
 func newNetIPSocketSummary(file string) (*NetIPSocketSummary, error) {
-	f, err := os.Open(file)
-	if err != nil {
-		return nil, err
-	}
-	defer f.Close()
-
 	var netIPSocketSummary NetIPSocketSummary
 	var udpPacketDrops uint64
 	isUDP := strings.Contains(file, "udp")
+	content, err := os.ReadFile(file)
+	if err != nil {
+		return nil, err
+	}
+	lines := strings.Split(string(content), "\n")
+	if len(lines) < 1 {
+		return nil, ErrFileParse
+	}
 
-	lr := io.LimitReader(f, readLimit)
-	s := bufio.NewScanner(lr)
-	s.Scan() // skip first line with headers
-	for s.Scan() {
-		fields := strings.Fields(s.Text())
+	for _, line := range lines[1:] {
+		fields := strings.Fields(line)
+		if len(fields) == 0 {
+			continue
+		}
 		line, err := parseNetIPSocketLine(fields, isUDP)
 		if err != nil {
 			return nil, err
@@ -128,9 +117,6 @@ func newNetIPSocketSummary(file string) (*NetIPSocketSummary, error) {
 			udpPacketDrops += *line.Drops
 			netIPSocketSummary.Drops = &udpPacketDrops
 		}
-	}
-	if err := s.Err(); err != nil {
-		return nil, err
 	}
 	return &netIPSocketSummary, nil
 }

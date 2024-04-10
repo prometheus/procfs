@@ -627,7 +627,7 @@ func parseNFSTransportStats(ss []string, statVersion string) (*NFSTransportStats
 			return nil, fmt.Errorf("%w: invalid NFS transport stats 1.1 statement: %v, protocol: %v", ErrFileParse, ss, protocol)
 		}
 	default:
-		return nil, fmt.Errorf("%s: Unrecognized NFS transport stats version: %q, protocol: %v", ErrFileParse, statVersion, protocol)
+		return nil, fmt.Errorf("%w: Unrecognized NFS transport stats version: %q, protocol: %v", ErrFileParse, statVersion, protocol)
 	}
 
 	// Allocate enough for v1.1 stats since zero value for v1.1 stats will be okay

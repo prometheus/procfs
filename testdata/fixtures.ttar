@@ -814,8 +814,8 @@ Ngid:   12345
 Pid:    26235
 PPid:   1234
 TracerPid:      0
-Uid:    0       0       0       0
-Gid:    0       0       0       0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
 FDSize: 64
 Groups:
 NStgid: 26235   1

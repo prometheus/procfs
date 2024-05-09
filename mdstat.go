@@ -34,6 +34,8 @@ var (
 type MDStat struct {
 	// Name of the device.
 	Name string
+	// raid type of the device.
+	Type string
 	// activity-state of the device.
 	ActivityState string
 	// Number of active disks.
@@ -95,6 +97,16 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 		mdName := deviceFields[0] // mdx
 		state := deviceFields[2]  // active or inactive
 
+		mdType := "unknown"        // raid1, raid5, etc.
+		if len(deviceFields) > 3 { // mdType may be in the 3rd or 4th field
+			if isRaidType(deviceFields[3]) {
+				mdType = deviceFields[3]
+			} else if len(deviceFields) > 4 && isRaidType(deviceFields[4]) {
+				// if the 3rd field is (...), the 4th field is the mdType
+				mdType = deviceFields[4]
+			}
+		}
+
 		if len(lines) <= i+3 {
 			return nil, fmt.Errorf("%w: Too few lines for md device: %q", ErrFileParse, mdName)
 		}
@@ -147,6 +159,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 
 		mdStats = append(mdStats, MDStat{
 			Name:                   mdName,
+			Type:                   mdType,
 			ActivityState:          state,
 			DisksActive:            active,
 			DisksFailed:            fail,
@@ -163,6 +176,13 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 	}
 
 	return mdStats, nil
+}
+
+// check if a string's format is like the mdType
+// Rule 1: mdType should not be like (...)
+// Rule 2: mdType should not be like sda[0]
+func isRaidType(mdType string) bool {
+	return !strings.ContainsAny(mdType, "([")
 }
 
 func evalStatusLine(deviceLine, statusLine string) (active, total, down, size int64, err error) {

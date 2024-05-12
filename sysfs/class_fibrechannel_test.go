@@ -33,55 +33,109 @@ func TestFibreChannelClass(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	// "host0" FibreChannelHost constants.
+	var (
+		name0             = "host0"
+		speed0            = "16 Gbit"
+		portState0        = "Online"
+		portType0         = "Point-To-Point (direct nport connection)"
+		portName0         = "1000e0071bce95f2"
+		symbolicName0     = "Emulex SN1100E2P FV12.4.270.3 DV12.4.0.0. HN:gotest. OS:Linux"
+		nodeName0         = "2000e0071bce95f2"
+		portID0           = "000002"
+		fabricName0       = "0"
+		devLossTMO0       = "30"
+		supportedClasses0 = "Class 3"
+		supportedSpeeds0  = "4 Gbit, 8 Gbit, 16 Gbit"
+
+		// "host0" FibreChannelHost.Counters constants.
+		dumpedFrames0          = ^uint64(0)
+		errorFrames0           = uint64(0)
+		invalidCRCCount0       = uint64(0x2)
+		rxFrames0              = uint64(0x3)
+		rxWords0               = uint64(0x4)
+		txFrames0              = uint64(0x5)
+		txWords0               = uint64(0x6)
+		secondsSinceLastReset0 = uint64(0x7)
+		invalidTXWordCount0    = uint64(0x8)
+		linkFailureCount0      = uint64(0x9)
+		lossOfSyncCount0       = uint64(0x10)
+		lossOfSignalCount0     = uint64(0x11)
+		nosCount0              = uint64(0x12)
+		fcpPacketAborts0       = uint64(0x13)
+	)
+
+	// "host1" FibreChannelHost constants.
+	var (
+		name1      = "host1"
+		portState1 = "Online"
+
+		// "host1" FibreChannelHost.Counters constants.
+		dumpedFrames1          = uint64(0)
+		errorFrames1           = ^uint64(0)
+		invalidCRCCount1       = uint64(0x20)
+		rxFrames1              = uint64(0x30)
+		rxWords1               = uint64(0x40)
+		txFrames1              = uint64(0x50)
+		txWords1               = uint64(0x60)
+		secondsSinceLastReset1 = uint64(0x70)
+		invalidTXWordCount1    = uint64(0x80)
+		linkFailureCount1      = uint64(0x90)
+		lossOfSyncCount1       = uint64(0x100)
+		lossOfSignalCount1     = uint64(0x110)
+		nosCount1              = uint64(0x120)
+		fcpPacketAborts1       = uint64(0x130)
+	)
+
 	want := FibreChannelClass{
 		"host0": FibreChannelHost{
-			Name:             "host0",
-			Speed:            "16 Gbit",
-			PortState:        "Online",
-			PortType:         "Point-To-Point (direct nport connection)",
-			PortName:         "1000e0071bce95f2",
-			SymbolicName:     "Emulex SN1100E2P FV12.4.270.3 DV12.4.0.0. HN:gotest. OS:Linux",
-			NodeName:         "2000e0071bce95f2",
-			PortID:           "000002",
-			FabricName:       "0",
-			DevLossTMO:       "30",
-			SupportedClasses: "Class 3",
-			SupportedSpeeds:  "4 Gbit, 8 Gbit, 16 Gbit",
-			Counters: FibreChannelCounters{
-				DumpedFrames:          ^uint64(0),
-				ErrorFrames:           0,
-				InvalidCRCCount:       0x2,
-				RXFrames:              0x3,
-				RXWords:               0x4,
-				TXFrames:              0x5,
-				TXWords:               0x6,
-				SecondsSinceLastReset: 0x7,
-				InvalidTXWordCount:    0x8,
-				LinkFailureCount:      0x9,
-				LossOfSyncCount:       0x10,
-				LossOfSignalCount:     0x11,
-				NosCount:              0x12,
-				FCPPacketAborts:       0x13,
+			Name:             &name0,
+			Speed:            &speed0,
+			PortState:        &portState0,
+			PortType:         &portType0,
+			PortName:         &portName0,
+			SymbolicName:     &symbolicName0,
+			NodeName:         &nodeName0,
+			PortID:           &portID0,
+			FabricName:       &fabricName0,
+			DevLossTMO:       &devLossTMO0,
+			SupportedClasses: &supportedClasses0,
+			SupportedSpeeds:  &supportedSpeeds0,
+			Counters: &FibreChannelCounters{
+				DumpedFrames:          &dumpedFrames0,
+				ErrorFrames:           &errorFrames0,
+				InvalidCRCCount:       &invalidCRCCount0,
+				RXFrames:              &rxFrames0,
+				RXWords:               &rxWords0,
+				TXFrames:              &txFrames0,
+				TXWords:               &txWords0,
+				SecondsSinceLastReset: &secondsSinceLastReset0,
+				InvalidTXWordCount:    &invalidTXWordCount0,
+				LinkFailureCount:      &linkFailureCount0,
+				LossOfSyncCount:       &lossOfSyncCount0,
+				LossOfSignalCount:     &lossOfSignalCount0,
+				NosCount:              &nosCount0,
+				FCPPacketAborts:       &fcpPacketAborts0,
 			},
 		},
 		"host1": FibreChannelHost{
-			Name:      "host1",
-			PortState: "Online",
-			Counters: FibreChannelCounters{
-				DumpedFrames:          0,
-				ErrorFrames:           ^uint64(0),
-				InvalidCRCCount:       0x20,
-				RXFrames:              0x30,
-				RXWords:               0x40,
-				TXFrames:              0x50,
-				TXWords:               0x60,
-				SecondsSinceLastReset: 0x70,
-				InvalidTXWordCount:    0x80,
-				LinkFailureCount:      0x90,
-				LossOfSyncCount:       0x100,
-				LossOfSignalCount:     0x110,
-				NosCount:              0x120,
-				FCPPacketAborts:       0x130,
+			Name:      &name1,
+			PortState: &portState1,
+			Counters: &FibreChannelCounters{
+				DumpedFrames:          &dumpedFrames1,
+				ErrorFrames:           &errorFrames1,
+				InvalidCRCCount:       &invalidCRCCount1,
+				RXFrames:              &rxFrames1,
+				RXWords:               &rxWords1,
+				TXFrames:              &txFrames1,
+				TXWords:               &txWords1,
+				SecondsSinceLastReset: &secondsSinceLastReset1,
+				InvalidTXWordCount:    &invalidTXWordCount1,
+				LinkFailureCount:      &linkFailureCount1,
+				LossOfSyncCount:       &lossOfSyncCount1,
+				LossOfSignalCount:     &lossOfSignalCount1,
+				NosCount:              &nosCount1,
+				FCPPacketAborts:       &fcpPacketAborts1,
 			},
 		},
 	}

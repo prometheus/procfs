@@ -22,8 +22,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	"k8s.io/utils/ptr"
 )
 
 var (
@@ -33,7 +31,7 @@ var (
 	// In theory, the number of available sockets is 65535 (2^16 - 1) per IP.
 	// With e.g. 150 Byte per line and the maximum number of 65535,
 	// the reader needs to handle 150 Byte * 65535 =~ 10 MB for a single IP.
-	defaultReadLimit = ptr.To(4294967296) // Byte -> 4 GiB
+	defaultReadLimit = ptrTo(4294967296) // Byte -> 4 GiB
 )
 
 // This contains generic data structures for both udp and tcp sockets.

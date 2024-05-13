@@ -11,9 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package procfs
+package util
 
-// To returns a pointer to the given value.
-func ptrTo[T any](v T) *T {
+// PtrTo returns a pointer to the given value.
+func PtrTo[T any](v T) *T {
 	return &v
 }

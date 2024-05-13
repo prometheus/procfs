@@ -297,7 +297,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	}
 
 	// "total_trans" is the total number of times the CPU has changed frequency.
-	var cpuinfoFrequencyTransitionsTotal *uint64 = nil
+	var cpuinfoFrequencyTransitionsTotal *uint64
 	cpuinfoFrequencyTransitionsTotalUint, err := util.ReadUintFromFile(filepath.Join(cpuPath, "stats", "total_trans"))
 	if err != nil {
 		if !(os.IsNotExist(err) || os.IsPermission(err)) {
@@ -308,7 +308,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	}
 
 	// "time_in_state" is the total time spent at each frequency.
-	var cpuinfoFrequencyDuration *map[uint64]uint64 = nil
+	var cpuinfoFrequencyDuration *map[uint64]uint64
 	cpuinfoFrequencyDurationString, err := util.ReadFileNoStat(filepath.Join(cpuPath, "stats", "time_in_state"))
 	if err != nil {
 		if !(os.IsNotExist(err) || os.IsPermission(err)) {
@@ -337,7 +337,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	}
 
 	// "trans_table" contains information about all the CPU frequency transitions.
-	var cpuinfoTransitionTable *[][]uint64 = nil
+	var cpuinfoTransitionTable *[][]uint64
 	cpuinfoTransitionTableString, err := util.ReadFileNoStat(filepath.Join(cpuPath, "stats", "trans_table"))
 	if err != nil {
 		if !(os.IsNotExist(err) || os.IsPermission(err)) {

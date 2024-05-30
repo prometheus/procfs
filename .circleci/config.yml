@@ -46,6 +46,7 @@ workflows:
         matrix:
           parameters:
             go_version:
+            - "1.20"
             - "1.21"
             - "1.22"
     - test:
@@ -55,5 +56,6 @@ workflows:
         matrix:
           parameters:
             go_version:
+            - "1.20"
             - "1.21"
             - "1.22"

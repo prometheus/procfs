@@ -30,7 +30,7 @@ func Test_newNetUDP(t *testing.T) {
 			name: "udp file found, no error should come up",
 			file: "testdata/fixtures/proc/net/udp",
 			want: []*netIPSocketLine{
-				&netIPSocketLine{
+				{
 					Sl:        0,
 					LocalAddr: net.IP{10, 0, 0, 5},
 					LocalPort: 22,
@@ -43,7 +43,7 @@ func Test_newNetUDP(t *testing.T) {
 					Inode:     2740,
 					Drops:     intToU64(100),
 				},
-				&netIPSocketLine{
+				{
 					Sl:        1,
 					LocalAddr: net.IP{0, 0, 0, 0},
 					LocalPort: 22,
@@ -56,7 +56,7 @@ func Test_newNetUDP(t *testing.T) {
 					Inode:     2740,
 					Drops:     intToU64(100),
 				},
-				&netIPSocketLine{
+				{
 					Sl:        2,
 					LocalAddr: net.IP{0, 0, 0, 0},
 					LocalPort: 22,
@@ -76,7 +76,7 @@ func Test_newNetUDP(t *testing.T) {
 			name: "udp6 file found, no error should come up",
 			file: "testdata/fixtures/proc/net/udp6",
 			want: []*netIPSocketLine{
-				&netIPSocketLine{
+				{
 					Sl:        1315,
 					LocalAddr: net.IP{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					LocalPort: 5355,
@@ -89,7 +89,7 @@ func Test_newNetUDP(t *testing.T) {
 					Inode:     21040,
 					Drops:     intToU64(0),
 				},
-				&netIPSocketLine{
+				{
 					Sl:        6073,
 					LocalAddr: net.IP{254, 128, 0, 0, 0, 0, 0, 0, 86, 225, 173, 255, 254, 124, 102, 9},
 					LocalPort: 51073,

@@ -34,7 +34,7 @@ func TestParseConntrackStat(t *testing.T) {
 	}
 
 	want := []ConntrackStatEntry{
-		ConntrackStatEntry{
+		{
 			Entries:       33,
 			Found:         0,
 			Invalid:       3,
@@ -45,7 +45,7 @@ func TestParseConntrackStat(t *testing.T) {
 			EarlyDrop:     0,
 			SearchRestart: 0,
 		},
-		ConntrackStatEntry{
+		{
 			Entries:       33,
 			Found:         0,
 			Invalid:       2,
@@ -56,7 +56,7 @@ func TestParseConntrackStat(t *testing.T) {
 			EarlyDrop:     0,
 			SearchRestart: 2,
 		},
-		ConntrackStatEntry{
+		{
 			Entries:       33,
 			Found:         0,
 			Invalid:       1,
@@ -67,7 +67,7 @@ func TestParseConntrackStat(t *testing.T) {
 			EarlyDrop:     0,
 			SearchRestart: 1,
 		},
-		ConntrackStatEntry{
+		{
 			Entries:       33,
 			Found:         0,
 			Invalid:       47,
@@ -96,7 +96,7 @@ func TestParseOldConntrackStat(t *testing.T) {
 	}
 
 	want := []ConntrackStatEntry{
-		ConntrackStatEntry{
+		{
 			Entries:       43,
 			Searched:      202143,
 			Found:         48658538,

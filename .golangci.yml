@@ -3,6 +3,8 @@ linters:
   enable:
   - errcheck
   - godot
+  - gofmt
+  - goimports
   - gosimple
   - govet
   - ineffassign
@@ -18,5 +20,7 @@ linter-settings:
     exclude:
     # Ignore "See: URL"
     - 'See:'
+  goimports:
+      local-prefixes: github.com/prometheus/procfs
   misspell:
     locale: US

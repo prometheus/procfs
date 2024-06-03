@@ -13,8 +13,11 @@
 
 package procfs
 
-import "testing"
-import "github.com/google/go-cmp/cmp"
+import (
+	"testing"
+
+	"github.com/google/go-cmp/cmp"
+)
 
 func TestFS_MDStat(t *testing.T) {
 	fs := getProcFixtures(t)

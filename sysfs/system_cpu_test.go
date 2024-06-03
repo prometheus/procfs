@@ -18,6 +18,7 @@ package sysfs
 
 import (
 	"errors"
+	"os"
 	"reflect"
 	"testing"
 )
@@ -60,6 +61,34 @@ func TestCPUTopology(t *testing.T) {
 	}
 	if want, have := "1,5", cpu1Topology.ThreadSiblingsList; want != have {
 		t.Errorf("incorrect thread siblings list, have %v, want %v", want, have)
+	}
+}
+
+func TestCPUOnline(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+	cpus, err := fs.CPUs()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if want, have := 3, len(cpus); want != have {
+		t.Errorf("incorrect number of CPUs, have %v, want %v", want, have)
+	}
+	cpu0Online, err := cpus[0].Online()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if want, have := true, cpu0Online; want != have {
+		t.Errorf("incorrect online status, have %v, want %v", want, have)
+	}
+	cpu1Online, err := cpus[1].Online()
+	if err != nil && !errors.Is(err, os.ErrNotExist) {
+		t.Fatal(err)
+	}
+	if want, have := false, cpu1Online; want != have {
+		t.Errorf("incorrect online status, have %v, want %v", want, have)
 	}
 }
 

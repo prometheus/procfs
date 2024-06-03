@@ -13441,6 +13441,11 @@ Mode: 775
 Path: fixtures/sys/devices/system/cpu/cpu0/cpufreq
 SymlinkTo: ../cpufreq/policy0
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/cpu/cpu0/online
+Lines: 1
+1EOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu0/thermal_throttle
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

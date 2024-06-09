@@ -4958,6 +4958,34 @@ Mode: 755
 Directory: fixtures/sys/class/drm/card1/card1-DP-1
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/connector_id
+Lines: 1
+103
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/dpms
+Lines: 1
+Off
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/edid
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/enabled
+Lines: 1
+disabled
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/modes
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/status
+Lines: 1
+disconnected
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/drm/card1/card1-DP-5
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

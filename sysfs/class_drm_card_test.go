@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestClassDRMCard(t *testing.T) {
@@ -27,25 +28,38 @@ func TestClassDRMCard(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	drmCardTest, err := fs.ClassDrmCard()
+	got, err := fs.DrmCardClass()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	classDrmCard := []ClassDrmCard{
-		{
+	want := DrmCardClass{
+		"card0": DrmCard{
 			Name:   "card0",
-			Enable: 1,
 			Driver: "amdgpu",
+			Ports:  map[string]DrmCardPort{},
 		},
-		{
+		"card1": DrmCard{
 			Name:   "card1",
-			Enable: 1,
 			Driver: "i915",
+			Ports: map[string]DrmCardPort{
+				"card1-DP-1": {
+					Name:    "card1-DP-1",
+					Dpms:    "Off",
+					Enabled: "disabled",
+					Status:  "disconnected",
+				},
+				"card1-DP-5": {
+					Name:    "card1-DP-5",
+					Dpms:    "On",
+					Enabled: "enabled",
+					Status:  "connected",
+				},
+			},
 		},
 	}
 
-	if !reflect.DeepEqual(classDrmCard, drmCardTest) {
-		t.Errorf("Result not correct: want %v, have %v", classDrmCard, drmCardTest)
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected DrmCard class (-want +got):\n%s", diff)
 	}
 }

@@ -818,10 +818,10 @@ Uid:	0	0	0	0
 Gid:	0	0	0	0
 FDSize: 64
 Groups:
-NStgid: 26235   1
-NSpid:  26235   1
-NSpgid: 26235   1
-NSsid:  26235   1
+NStgid: 26235	1
+NSpid:  26235	1
+NSpgid: 26235	1
+NSsid:  26235	1
 VmPeak:   758200 kB
 VmSize:   758200 kB
 VmLck:         0 kB

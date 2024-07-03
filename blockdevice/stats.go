@@ -479,9 +479,5 @@ func (fs FS) SysBlockDeviceUnderlyingDevices(device string) (UnderlyingDeviceInf
 // SysBlockDeviceSize returns the size of the block device from /sys/block/<device>/size.
 // Note that this needs to be multiplied by LogicalBlockSize to get the size in bytes.
 func (fs FS) SysBlockDeviceSize(device string) (uint64, error) {
-	size, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockSize))
-	if err != nil {
-		return 0, err
-	}
-	return size, nil
+	return util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockSize))
 }

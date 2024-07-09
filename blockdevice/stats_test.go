@@ -229,12 +229,12 @@ func TestSysBlockDeviceSize(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	size7, err := blockdevice.SysBlockDeviceSize(devices[7])
+	sizeBytes7, err := blockdevice.SysBlockDeviceSizeBytes(devices[7])
 	if err != nil {
 		t.Fatal(err)
 	}
-	size7Expected := uint64(3750748848)
-	if size7 != size7Expected {
-		t.Errorf("Incorrect BlockDeviceSize, expected: \n%+v, got: \n%+v", size7Expected, size7)
+	sizeBytes7Expected := uint64(3750748848)
+	if sizeBytes7 != sizeBytes7Expected {
+		t.Errorf("Incorrect BlockDeviceSize, expected: \n%+v, got: \n%+v", sizeBytes7Expected, sizeBytes7)
 	}
 }

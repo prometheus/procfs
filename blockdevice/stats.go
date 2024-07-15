@@ -210,6 +210,7 @@ const (
 	sysBlockDM          = "dm"
 	sysUnderlyingDev    = "slaves"
 	sysBlockSize        = "size"
+	sectorSize          = 512
 )
 
 // FS represents the pseudo-filesystems proc and sys, which provides an
@@ -483,5 +484,5 @@ func (fs FS) SysBlockDeviceSizeBytes(device string) (uint64, error) {
 	if err != nil {
 		return 0, err
 	}
-	return 512 * size, nil
+	return sectorSize * size, nil
 }

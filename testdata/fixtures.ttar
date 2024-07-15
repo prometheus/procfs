@@ -5060,6 +5060,16 @@ Lines: 1
 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/device/uevent
+Lines: 6
+DRIVER=i915
+PCI_CLASS=30000
+PCI_ID=8086:5917
+PCI_SUBSYS_ID=17AA:2258
+PCI_SLOT_NAME=0000:00:02.0
+MODALIAS=pci:v00008086d00005917sv000017AAsd00002258bc03sc00i00
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/fc_host
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

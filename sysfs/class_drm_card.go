@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright 2024 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -25,33 +25,33 @@ import (
 
 const drmClassPath = "class/drm"
 
-// DrmCard contains info from files in /sys/class/drm for a
+// DRMCard contains info from files in /sys/class/drm for a
 // single DRM Card device.
-type DrmCard struct {
+type DRMCard struct {
 	Name   string
 	Driver string
-	Ports  map[string]DrmCardPort
+	Ports  map[string]DRMCardPort
 }
 
-// DrmCardPort contains info from files in
+// DRMCardPort contains info from files in
 // /sys/class/drm/<Card>/<Card>-<Name>
-// for a single port of one DrmCard device.
-type DrmCardPort struct {
+// for a single port of one DRMCard device.
+type DRMCardPort struct {
 	Name    string
 	Status  string
-	Dpms    string
+	DPMS    string
 	Enabled string
 }
 
-// DrmCardClass is a collection of every Card device in
+// DRMCardClass is a collection of every Card device in
 // /sys/class/drm.
 //
 // The map keys are the names of the InfiniBand devices.
-type DrmCardClass map[string]DrmCard
+type DRMCardClass map[string]DRMCard
 
-// DrmCardClass returns infos for all Drm devices read from
+// DRMCardClass returns infos for all DRM devices read from
 // /sys/class/drm.
-func (fs FS) DrmCardClass() (DrmCardClass, error) {
+func (fs FS) DRMCardClass() (DRMCardClass, error) {
 
 	cards, err := filepath.Glob(fs.sys.Path("class/drm/card[0-9]"))
 
@@ -59,9 +59,9 @@ func (fs FS) DrmCardClass() (DrmCardClass, error) {
 		return nil, fmt.Errorf("failed to list DRM card ports at %q: %w", cards, err)
 	}
 
-	drmCardClass := make(DrmCardClass, len(cards))
+	drmCardClass := make(DRMCardClass, len(cards))
 	for _, c := range cards {
-		card, err := fs.parseDrmCard(filepath.Base(c))
+		card, err := fs.parseDRMCard(filepath.Base(c))
 		if err != nil {
 			return nil, err
 		}
@@ -72,10 +72,10 @@ func (fs FS) DrmCardClass() (DrmCardClass, error) {
 	return drmCardClass, nil
 }
 
-// Parse one DrmCard.
-func (fs FS) parseDrmCard(name string) (*DrmCard, error) {
+// Parse one DRMCard.
+func (fs FS) parseDRMCard(name string) (*DRMCard, error) {
 	path := fs.sys.Path(drmClassPath, name)
-	card := DrmCard{Name: name}
+	card := DRMCard{Name: name}
 
 	// Read the kernel module of the card
 	cardDriverPath, err := filepath.EvalSymlinks(filepath.Join(path, "device/driver"))
@@ -90,9 +90,9 @@ func (fs FS) parseDrmCard(name string) (*DrmCard, error) {
 		return nil, fmt.Errorf("failed to list DRM card ports at %q: %w", portsPath, err)
 	}
 
-	card.Ports = make(map[string]DrmCardPort, len(portsPath))
+	card.Ports = make(map[string]DRMCardPort, len(portsPath))
 	for _, d := range portsPath {
-		port, err := parseDrmCardPort(d)
+		port, err := parseDRMCardPort(d)
 		if err != nil {
 			return nil, err
 		}
@@ -103,20 +103,20 @@ func (fs FS) parseDrmCard(name string) (*DrmCard, error) {
 	return &card, nil
 }
 
-func parseDrmCardPort(port string) (*DrmCardPort, error) {
+func parseDRMCardPort(port string) (*DRMCardPort, error) {
 	portStatus, err := util.SysReadFile(filepath.Join(port, "status"))
 	if err != nil {
 		return nil, err
 	}
 
-	drmCardPort := DrmCardPort{Name: filepath.Base(port), Status: portStatus}
+	drmCardPort := DRMCardPort{Name: filepath.Base(port), Status: portStatus}
 
-	portDpms, err := util.SysReadFile(filepath.Join(port, "dpms"))
+	portDPMS, err := util.SysReadFile(filepath.Join(port, "dpms"))
 	if err != nil {
 		return nil, err
 	}
 
-	drmCardPort.Dpms = portDpms
+	drmCardPort.DPMS = portDPMS
 
 	portEnabled, err := util.SysReadFile(filepath.Join(port, "enabled"))
 	if err != nil {

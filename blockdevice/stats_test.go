@@ -219,3 +219,22 @@ func TestSysBlockDeviceUnderlyingDevices(t *testing.T) {
 		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", underlying0Expected, underlying0)
 	}
 }
+
+func TestSysBlockDeviceSize(t *testing.T) {
+	blockdevice, err := NewFS("testdata/fixtures/proc", "testdata/fixtures/sys")
+	if err != nil {
+		t.Fatalf("failed to access blockdevice fs: %v", err)
+	}
+	devices, err := blockdevice.SysBlockDevices()
+	if err != nil {
+		t.Fatal(err)
+	}
+	sizeBytes7, err := blockdevice.SysBlockDeviceSizeBytes(devices[7])
+	if err != nil {
+		t.Fatal(err)
+	}
+	sizeBytes7Expected := uint64(3750748848)
+	if sizeBytes7 != sizeBytes7Expected {
+		t.Errorf("Incorrect BlockDeviceSize, expected: \n%+v, got: \n%+v", sizeBytes7Expected, sizeBytes7)
+	}
+}

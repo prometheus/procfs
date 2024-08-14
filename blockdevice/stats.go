@@ -209,6 +209,8 @@ const (
 	sysBlockQueue       = "queue"
 	sysBlockDM          = "dm"
 	sysUnderlyingDev    = "slaves"
+	sysBlockSize        = "size"
+	sectorSize          = 512
 )
 
 // FS represents the pseudo-filesystems proc and sys, which provides an
@@ -473,4 +475,14 @@ func (fs FS) SysBlockDeviceUnderlyingDevices(device string) (UnderlyingDeviceInf
 	}
 	return UnderlyingDeviceInfo{DeviceNames: underlying}, nil
 
+}
+
+// SysBlockDeviceSize returns the size of the block device from /sys/block/<device>/size.
+// in bytes by multiplying the value by the Linux sector length of 512.
+func (fs FS) SysBlockDeviceSize(device string) (uint64, error) {
+	size, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockSize))
+	if err != nil {
+		return 0, err
+	}
+	return sectorSize * size, nil
 }

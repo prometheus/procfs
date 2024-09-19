@@ -32,10 +32,21 @@ func TestLimits(t *testing.T) {
 		have uint64
 	}{
 		{name: "cpu time", want: 18446744073709551615, have: l.CPUTime},
+		{name: "file size", want: 18446744073709551615, have: l.FileSize},
+		{name: "data size", want: 18446744073709551615, have: l.DataSize},
+		{name: "stack size", want: 8388608, have: l.StackSize},
+		{name: "core file size", want: 0, have: l.CoreFileSize},
+		{name: "resident set", want: 18446744073709551615, have: l.ResidentSet},
+		{name: "processes", want: 62898, have: l.Processes},
 		{name: "open files", want: 2048, have: l.OpenFiles},
+		{name: "locked memory", want: 18446744073708503040, have: l.LockedMemory},
+		{name: "address space", want: 8589934592, have: l.AddressSpace},
+		{name: "file locks", want: 18446744073709551615, have: l.FileLocks},
+		{name: "pending signals", want: 62898, have: l.PendingSignals},
 		{name: "msgqueue size", want: 819200, have: l.MsqqueueSize},
 		{name: "nice priority", want: 0, have: l.NicePriority},
-		{name: "address space", want: 8589934592, have: l.AddressSpace},
+		{name: "realtime priority", want: 0, have: l.RealtimePriority},
+		{name: "realtime timeout", want: 18446744073709551615, have: l.RealtimeTimeout},
 	} {
 		if test.want != test.have {
 			t.Errorf("want %s %d, have %d", test.name, test.want, test.have)

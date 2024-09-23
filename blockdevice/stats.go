@@ -21,6 +21,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/prometheus/procfs/btrfs"
 	"github.com/prometheus/procfs/internal/fs"
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -210,7 +211,6 @@ const (
 	sysBlockDM          = "dm"
 	sysUnderlyingDev    = "slaves"
 	sysBlockSize        = "size"
-	sectorSize          = 512
 )
 
 // FS represents the pseudo-filesystems proc and sys, which provides an
@@ -484,5 +484,5 @@ func (fs FS) SysBlockDeviceSize(device string) (uint64, error) {
 	if err != nil {
 		return 0, err
 	}
-	return sectorSize * size, nil
+	return btrfs.SectorSize * size, nil
 }

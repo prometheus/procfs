@@ -2,6 +2,7 @@
 linters:
   enable:
   - errcheck
+  - forbidigo
   - godot
   - gofmt
   - goimports
@@ -15,6 +16,10 @@ linters:
   - unused
 
 linter-settings:
+  forbidigo:
+    forbid:
+      - p: ^fmt\.Print.*$
+        msg: Do not commit print statements.
   godot:
     capital: true
     exclude:

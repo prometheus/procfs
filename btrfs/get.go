@@ -22,6 +22,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/prometheus/procfs"
 	"github.com/prometheus/procfs/internal/fs"
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -208,7 +209,7 @@ func (r *reader) readDeviceInfo(d string) map[string]*Device {
 	info := make(map[string]*Device, len(devs))
 	for _, n := range devs {
 		info[n] = &Device{
-			Size: fs.SectorSize * r.readValue("devices/"+n+"/size"),
+			Size: procfs.SectorSize * r.readValue("devices/"+n+"/size"),
 		}
 	}
 

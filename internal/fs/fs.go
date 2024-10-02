@@ -31,10 +31,6 @@ const (
 
 	// DefaultSelinuxMountPoint is the common mount point of the selinuxfs.
 	DefaultSelinuxMountPoint = "/sys/fs/selinux"
-
-	// SectorSize represents the size of a sector in bytes.
-	// It is specific to Linux block I/O operations.
-	SectorSize = 512
 )
 
 // FS represents a pseudo-filesystem, normally /proc or /sys, which provides an

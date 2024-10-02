@@ -21,7 +21,8 @@ import (
 	"os"
 	"strings"
 
-	filesystem "github.com/prometheus/procfs/internal/fs"
+	"github.com/prometheus/procfs"
+	"github.com/prometheus/procfs/internal/fs"
 	"github.com/prometheus/procfs/internal/util"
 )
 
@@ -215,30 +216,30 @@ const (
 // FS represents the pseudo-filesystems proc and sys, which provides an
 // interface to kernel data structures.
 type FS struct {
-	proc *filesystem.FS
-	sys  *filesystem.FS
+	proc *fs.FS
+	sys  *fs.FS
 }
 
 // NewDefaultFS returns a new blockdevice fs using the default mountPoints for proc and sys.
 // It will error if either of these mount points can't be read.
 func NewDefaultFS() (FS, error) {
-	return NewFS(filesystem.DefaultProcMountPoint, filesystem.DefaultSysMountPoint)
+	return NewFS(fs.DefaultProcMountPoint, fs.DefaultSysMountPoint)
 }
 
 // NewFS returns a new blockdevice fs using the given mountPoints for proc and sys.
 // It will error if either of these mount points can't be read.
 func NewFS(procMountPoint string, sysMountPoint string) (FS, error) {
 	if strings.TrimSpace(procMountPoint) == "" {
-		procMountPoint = filesystem.DefaultProcMountPoint
+		procMountPoint = fs.DefaultProcMountPoint
 	}
-	procfs, err := filesystem.NewFS(procMountPoint)
+	procfs, err := fs.NewFS(procMountPoint)
 	if err != nil {
 		return FS{}, err
 	}
 	if strings.TrimSpace(sysMountPoint) == "" {
-		sysMountPoint = filesystem.DefaultSysMountPoint
+		sysMountPoint = fs.DefaultSysMountPoint
 	}
-	sysfs, err := filesystem.NewFS(sysMountPoint)
+	sysfs, err := fs.NewFS(sysMountPoint)
 	if err != nil {
 		return FS{}, err
 	}
@@ -483,5 +484,5 @@ func (fs FS) SysBlockDeviceSize(device string) (uint64, error) {
 	if err != nil {
 		return 0, err
 	}
-	return filesystem.SectorSize * size, nil
+	return procfs.SectorSize * size, nil
 }

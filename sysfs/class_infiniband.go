@@ -124,6 +124,7 @@ type InfiniBandDevice struct {
 	Name            string
 	BoardID         string // /sys/class/infiniband/<Name>/board_id
 	FirmwareVersion string // /sys/class/infiniband/<Name>/fw_ver
+	NodeGUID        string // /sys/class/infiniband/<Name>/node_guid
 	HCAType         string // /sys/class/infiniband/<Name>/hca_type
 	Ports           map[uint]InfiniBandPort
 }
@@ -171,7 +172,7 @@ func (fs FS) parseInfiniBandDevice(name string) (*InfiniBandDevice, error) {
 	device.FirmwareVersion = value
 
 	// Not all InfiniBand drivers expose all of these.
-	for _, f := range [...]string{"board_id", "hca_type"} {
+	for _, f := range [...]string{"board_id", "hca_type", "node_guid"} {
 		name := filepath.Join(path, f)
 		value, err := util.SysReadFile(name)
 		if err != nil {
@@ -186,6 +187,8 @@ func (fs FS) parseInfiniBandDevice(name string) (*InfiniBandDevice, error) {
 			device.BoardID = value
 		case "hca_type":
 			device.HCAType = value
+		case "node_guid":
+			device.NodeGUID = value
 		}
 	}
 

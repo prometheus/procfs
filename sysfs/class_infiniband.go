@@ -83,7 +83,6 @@ type InfiniBandHwCounters struct {
 	BadRespErr              *uint64 // hw_counters/bad_resp_err
 	DbFifoRegister          *uint64 // hw_counters/db_fifo_register
 	DuplicateRequest        *uint64 // hw_counters/duplicate_request
-	//DupReq                  *uint64 // hw_counters/dup_req // this has to be the same as DuplicateRequest
 	ImpliedNakSeqErr        *uint64 // hw_counters/implied_nak_seq_err
 	Lifespan                *uint64 // hw_counters/lifespan
 	LocalAckTimeoutErr      *uint64 // hw_counters/local_ack_timeout_err

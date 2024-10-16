@@ -46,6 +46,8 @@ type MDStat struct {
 	DisksDown int64
 	// Spare disks in the device.
 	DisksSpare int64
+	// Number of "recovering" disks. eg. when running "mdadm /dev/md0 --replace /dev/sdb1 --with /dev/sde1" - disk sde1 is "recovering" until done.
+	DisksRecovering int64
 	// Number of blocks the device holds.
 	BlocksTotal int64
 	// Number of blocks on the device that are in sync.
@@ -101,9 +103,10 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 			return nil, fmt.Errorf("%w: Too few lines for md device: %q", ErrFileParse, mdName)
 		}
 
-		// Failed disks have the suffix (F) & Spare disks have the suffix (S).
+		// Failed disks have the suffix (F), Spare disks have the suffix (S) & Recovering disks have (R).
 		fail := int64(strings.Count(line, "(F)"))
 		spare := int64(strings.Count(line, "(S)"))
+		disksRecovering := int64(strings.Count(line, "(R)"))
 		active, total, down, size, err := evalStatusLine(lines[i], lines[i+1])
 
 		if err != nil {
@@ -155,6 +158,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 			DisksFailed:            fail,
 			DisksDown:              down,
 			DisksSpare:             spare,
+			DisksRecovering:        disksRecovering,
 			DisksTotal:             total,
 			BlocksTotal:            size,
 			BlocksSynced:           blocksSynced,

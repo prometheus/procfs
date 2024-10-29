@@ -50,7 +50,7 @@ type (
 		// UsedSockets shows the total number of parsed lines representing the
 		// number of used sockets.
 		UsedSockets uint64
-		// Drops shows the total number of dropped packets of all UPD sockets.
+		// Drops shows the total number of dropped packets of all UDP sockets.
 		Drops *uint64
 	}
 

@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"regexp"
+	"strings"
 	"syscall"
 
 	"github.com/prometheus/procfs/internal/util"
@@ -29,6 +30,10 @@ import (
 const (
 	// Supported device drivers.
 	deviceDriverAMDGPU = "amdgpu"
+)
+
+var (
+	hwmonInvalidMetricChars = regexp.MustCompile("[^a-z0-9:_]")
 )
 
 // ClassDRMCardAMDGPUStats contains info from files in
@@ -47,6 +52,38 @@ type ClassDRMCardAMDGPUStats struct {
 	MemoryVRAMVendor              string // The VRAM vendor name.
 	PowerDPMForcePerformanceLevel string // The current power performance level.
 	UniqueID                      string // The unique ID of the GPU that will persist from machine to machine.
+	HWmonChip                     string // The hwmon chip.
+}
+
+func cleanChipName(name string) string {
+	lower := strings.ToLower(name)
+	replaced := hwmonInvalidMetricChars.ReplaceAllLiteralString(lower, "_")
+	cleaned := strings.Trim(replaced, "_")
+	return cleaned
+}
+
+func readHWmonChip(dir string) (string, error) {
+	// generate a name for a sensor path
+	// construct a name based on device name, always unique
+	// can be used to relate to hwmon sensor metrics
+	devicePath, devErr := filepath.EvalSymlinks(filepath.Join(dir, "device"))
+	if devErr == nil {
+		devPathPrefix, devName := filepath.Split(devicePath)
+		_, devType := filepath.Split(strings.TrimRight(devPathPrefix, "/"))
+
+		cleanDevName := cleanChipName(devName)
+		cleanDevType := cleanChipName(devType)
+
+		if cleanDevType != "" && cleanDevName != "" {
+			return cleanDevType + "_" + cleanDevName, nil
+		}
+
+		if cleanDevName != "" {
+			return cleanDevName, nil
+		}
+	}
+
+	return "", devErr
 }
 
 // ClassDRMCardAMDGPUStats returns DRM card metrics for all amdgpu cards.
@@ -65,8 +102,10 @@ func (fs FS) ClassDRMCardAMDGPUStats() ([]ClassDRMCardAMDGPUStats, error) {
 			}
 			return nil, err
 		}
-		cardStats.Name = filepath.Base(card)
-		stats = append(stats, cardStats)
+		if cardStats != (ClassDRMCardAMDGPUStats{}) {
+			cardStats.Name = filepath.Base(card)
+			stats = append(stats, cardStats)
+		}
 	}
 	return stats, nil
 }
@@ -116,6 +155,9 @@ func parseClassDRMAMDGPUCard(card string) (ClassDRMCardAMDGPUStats, error) {
 	}
 	if v, err := readDRMCardField(card, "unique_id"); err == nil {
 		stats.UniqueID = v
+	}
+	if v, err := readHWmonChip(card); err == nil {
+		stats.HWmonChip = v
 	}
 
 	return stats, nil

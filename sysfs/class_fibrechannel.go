@@ -153,6 +153,9 @@ func parseFibreChannelStatistics(hostPath string) (*FibreChannelCounters, error)
 	var counters FibreChannelCounters
 
 	path := filepath.Join(hostPath, "statistics")
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return &counters, nil
+	}
 	files, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err

@@ -179,6 +179,11 @@ type BlockQueueStats struct {
 	WriteZeroesMaxBytes uint64
 }
 
+type IODeviceStats struct {
+	IODoneCount uint64
+	IOErrCount  uint64
+}
+
 // DeviceMapperInfo models the devicemapper files that are located in the sysfs tree for each block device
 // and described in the kernel documentation:
 // https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-block-dm
@@ -211,6 +216,7 @@ const (
 	sysBlockDM          = "dm"
 	sysUnderlyingDev    = "slaves"
 	sysBlockSize        = "size"
+	sysDevicePath       = "device"
 )
 
 // FS represents the pseudo-filesystems proc and sys, which provides an
@@ -485,4 +491,26 @@ func (fs FS) SysBlockDeviceSize(device string) (uint64, error) {
 		return 0, err
 	}
 	return procfs.SectorSize * size, nil
+}
+
+// SysBlockDeviceIO returns stats for the block device io counters
+// IO done count: /sys/block/<disk>/device/iodone_cnt
+// IO error count: /sys/block/<disk>/device/ioerr_cnt.
+func (fs FS) SysBlockDeviceIOStat(device string) (IODeviceStats, error) {
+	var (
+		ioDeviceStats IODeviceStats
+		err           error
+	)
+	for file, p := range map[string]*uint64{
+		"iodone_cnt": &ioDeviceStats.IODoneCount,
+		"ioerr_cnt":  &ioDeviceStats.IOErrCount,
+	} {
+		var val uint64
+		val, err = util.ReadHexFromFile(fs.sys.Path(sysBlockPath, device, sysDevicePath, file))
+		if err != nil {
+			return IODeviceStats{}, err
+		}
+		*p = val
+	}
+	return ioDeviceStats, nil
 }

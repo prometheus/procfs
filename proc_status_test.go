@@ -139,3 +139,19 @@ func TestCpusAllowedList(t *testing.T) {
 		t.Errorf("want CpusAllowedList %v, have %v", want, have)
 	}
 }
+
+func TestNsPids(t *testing.T) {
+	p, err := getProcFixtures(t).Proc(26235)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	s, err := p.NewStatus()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if want, have := []uint64{26235, 1}, s.NSpids; !reflect.DeepEqual(want, have) {
+		t.Errorf("want NsPids %v, have %v", want, have)
+	}
+}

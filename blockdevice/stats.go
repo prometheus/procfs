@@ -21,6 +21,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/prometheus/procfs"
 	"github.com/prometheus/procfs/internal/fs"
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -214,6 +215,7 @@ const (
 	sysBlockQueue       = "queue"
 	sysBlockDM          = "dm"
 	sysUnderlyingDev    = "slaves"
+	sysBlockSize        = "size"
 	sysDevicePath       = "device"
 )
 
@@ -479,6 +481,16 @@ func (fs FS) SysBlockDeviceUnderlyingDevices(device string) (UnderlyingDeviceInf
 	}
 	return UnderlyingDeviceInfo{DeviceNames: underlying}, nil
 
+}
+
+// SysBlockDeviceSize returns the size of the block device from /sys/block/<device>/size.
+// in bytes by multiplying the value by the Linux sector length of 512.
+func (fs FS) SysBlockDeviceSize(device string) (uint64, error) {
+	size, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockSize))
+	if err != nil {
+		return 0, err
+	}
+	return procfs.SectorSize * size, nil
 }
 
 // SysBlockDeviceIO returns stats for the block device io counters

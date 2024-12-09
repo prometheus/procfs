@@ -62,7 +62,7 @@ func TestAerCounters(t *testing.T) {
 				CorrIntErr:  7,
 				HeaderOF:    8,
 			},
-			Fatal: NonCorrectableAerCounters{
+			Fatal: UncorrectableAerCounters{
 				Undefined:        10,
 				DLP:              11,
 				SDES:             12,
@@ -82,7 +82,7 @@ func TestAerCounters(t *testing.T) {
 				TLPBlockedErr:    26,
 				PoisonTLPBlocked: 27,
 			},
-			NonFatal: NonCorrectableAerCounters{
+			NonFatal: UncorrectableAerCounters{
 				Undefined:        30,
 				DLP:              31,
 				SDES:             32,

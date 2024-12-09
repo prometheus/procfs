@@ -38,9 +38,9 @@ type CorrectableAerCounters struct {
 	HeaderOF    uint64
 }
 
-// NonCorrectableAerCounters contains values from /sys/class/net/<iface>/device/aer_dev_[non]fatal
+// UncorrectableAerCounters contains values from /sys/class/net/<iface>/device/aer_dev_[non]fatal
 // for single interface (iface).
-type NonCorrectableAerCounters struct {
+type UncorrectableAerCounters struct {
 	Undefined        uint64
 	DLP              uint64
 	SDES             uint64
@@ -66,8 +66,8 @@ type NonCorrectableAerCounters struct {
 type AerCounters struct {
 	Name        string // Interface name
 	Correctable CorrectableAerCounters
-	Fatal       NonCorrectableAerCounters
-	NonFatal    NonCorrectableAerCounters
+	Fatal       UncorrectableAerCounters
+	NonFatal    UncorrectableAerCounters
 }
 
 // AllAerCounters is collection of AER counters for every interface (iface) in /sys/class/net.
@@ -185,7 +185,7 @@ func parseCorrectableAerCounters(devicePath string, counters *CorrectableAerCoun
 // parseUncorrectableAerCounters parses uncorrectable error counters in
 // /sys/class/net/<iface>/device/aer_dev_[non]fatal.
 func parseUncorrectableAerCounters(devicePath string, counterType string,
-	counters *NonCorrectableAerCounters) error {
+	counters *UncorrectableAerCounters) error {
 	path := filepath.Join(devicePath, "device", "aer_dev_"+counterType)
 	value, err := util.ReadFileNoStat(path)
 	if err != nil {

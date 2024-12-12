@@ -279,8 +279,8 @@ func (fs FS) parseInfiniBandPort(name string, port string) (*InfiniBandPort, err
 		return nil, fmt.Errorf("could not parse rate file in %q: %w", portPath, err)
 	}
 
-	// Intel irdma module does not expose /sys/class/infiniband/<device>/ports/<port-num>/counters
-	if !strings.HasPrefix(ibp.Name, "irdma") {
+	// Intel irdma and Broadcom RoCE does not expose /sys/class/infiniband/<device>/ports/<port-num>/counters
+	if !strings.HasPrefix(ibp.Name, "irdma") && !strings.HasPrefix(ibp.Name, "bnxt_re") {
 		counters, err := parseInfiniBandCounters(portPath)
 		if err != nil {
 			return nil, err

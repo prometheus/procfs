@@ -272,6 +272,7 @@ func TestInfiniBandClass(t *testing.T) {
 			BoardID:         "SM_2001000001034",
 			FirmwareVersion: "14.28.2006",
 			HCAType:         "MT4118",
+			NodeGUID:        "0a7f:bc12:45ef:d23b",
 			Ports: map[uint]InfiniBandPort{
 				1: {
 					Name:        "mlx5_0",

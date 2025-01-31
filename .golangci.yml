@@ -15,7 +15,7 @@ linters:
   - testifylint
   - unused
 
-linter-settings:
+linters-settings:
   forbidigo:
     forbid:
       - p: ^fmt\.Print.*$

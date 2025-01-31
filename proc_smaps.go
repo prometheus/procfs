@@ -28,7 +28,7 @@ import (
 )
 
 var (
-	// match the header line before each mapped zone in `/proc/pid/smaps`.
+	// Match the header line before each mapped zone in `/proc/pid/smaps`.
 	procSMapsHeaderLine = regexp.MustCompile(`^[a-f0-9].*$`)
 )
 

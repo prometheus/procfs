@@ -483,7 +483,7 @@ func (fs FS) SysBlockDeviceUnderlyingDevices(device string) (UnderlyingDeviceInf
 
 }
 
-// SysBlockDeviceSize returns the size of the block device from /sys/block/<device>/size.
+// SysBlockDeviceSize returns the size of the block device from /sys/block/<device>/size
 // in bytes by multiplying the value by the Linux sector length of 512.
 func (fs FS) SysBlockDeviceSize(device string) (uint64, error) {
 	size, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockSize))

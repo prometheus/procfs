@@ -283,6 +283,21 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedFinishTime: 0.2,
 			BlocksSyncedSpeed:      114176,
 			Devices:                []string{"sda3", "sdb3"}},
+		"md42": {
+			Name:                   "md42",
+			ActivityState:          "reshaping",
+			DisksActive:            2,
+			DisksTotal:             3,
+			DisksFailed:            0,
+			DisksDown:              1,
+			DisksSpare:             1,
+			BlocksTotal:            1953381440,
+			BlocksSynced:           1096879076,
+			BlocksToBeSynced:       1953381440,
+			BlocksSyncedPct:        56.1,
+			BlocksSyncedFinishTime: 1868.1,
+			BlocksSyncedSpeed:      7640,
+			Devices:                []string{"sda1", "sdd1", "sde1"}},
 	}
 
 	if want, have := len(refs), len(mdStats); want != have {

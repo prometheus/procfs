@@ -51,7 +51,7 @@ func (fs FS) ClassThermalZoneStats() ([]ClassThermalZoneStats, error) {
 	for _, zone := range zones {
 		zoneStats, err := parseClassThermalZone(zone)
 		if err != nil {
-			if errors.Is(err, syscall.ENODATA) || errors.As(err, new(*fsp.PathError)) {
+			if errors.Is(err, syscall.ENODATA) || errors.As(err, new(*fsp.PathError)) || errors.Is(err, syscall.EAGAIN) {
 				continue
 			}
 			return nil, err
@@ -72,7 +72,7 @@ func parseClassThermalZone(zone string) (ClassThermalZoneStats, error) {
 	if err != nil {
 		return ClassThermalZoneStats{}, err
 	}
-	zoneTemp, err := util.ReadIntFromFile(filepath.Join(zone, "temp"))
+	zoneTemp, err := util.SysReadIntFromFile(filepath.Join(zone, "temp"))
 	if err != nil {
 		return ClassThermalZoneStats{}, err
 	}
@@ -85,7 +85,7 @@ func parseClassThermalZone(zone string) (ClassThermalZoneStats, error) {
 	zoneMode := util.ParseBool(mode)
 
 	var zonePassive *uint64
-	passive, err := util.ReadUintFromFile(filepath.Join(zone, "passive"))
+	passive, err := util.SysReadUintFromFile(filepath.Join(zone, "passive"))
 	if os.IsNotExist(err) || os.IsPermission(err) {
 		zonePassive = nil
 	} else if err != nil {

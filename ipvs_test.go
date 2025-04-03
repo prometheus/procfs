@@ -181,7 +181,7 @@ func TestParseIPPort(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !(gotIP.Equal(ip) && port == gotPort) {
+	if !gotIP.Equal(ip) || port != gotPort {
 		t.Errorf("want %s:%d, have %s:%d", ip, port, gotIP, gotPort)
 	}
 }
@@ -211,7 +211,7 @@ func TestParseIPPortIPv6(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !(gotIP.Equal(ip) && port == gotPort) {
+	if !gotIP.Equal(ip) || port != gotPort {
 		t.Errorf("want %s:%d, have %s:%d", ip, port, gotIP, gotPort)
 	}
 }

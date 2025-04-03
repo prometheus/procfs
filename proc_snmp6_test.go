@@ -32,11 +32,11 @@ func TestProcSnmp6(t *testing.T) {
 		have float64
 	}{
 		{name: "pid", want: 26231, have: float64(procSnmp6.PID)},
-		{name: "Ip6InReceives", want: 92166, have: *procSnmp6.Ip6.InReceives},
-		{name: "Ip6InDelivers", want: 92053, have: *procSnmp6.Ip6.InDelivers},
-		{name: "Ip6OutNoRoutes", want: 169, have: *procSnmp6.Ip6.OutNoRoutes},
-		{name: "Ip6InOctets", want: 113479132, have: *procSnmp6.Ip6.InOctets},
-		{name: "Icmp6InMsgs", want: 142, have: *procSnmp6.Icmp6.InMsgs},
+		{name: "Ip6InReceives", want: 92166, have: *procSnmp6.InReceives},
+		{name: "Ip6InDelivers", want: 92053, have: *procSnmp6.InDelivers},
+		{name: "Ip6OutNoRoutes", want: 169, have: *procSnmp6.OutNoRoutes},
+		{name: "Ip6InOctets", want: 113479132, have: *procSnmp6.InOctets},
+		{name: "Icmp6InMsgs", want: 142, have: *procSnmp6.InMsgs},
 		{name: "Udp6InDatagrams", want: 2016, have: *procSnmp6.Udp6.InDatagrams},
 		{name: "UdpLite6InDatagrams", want: 0, have: *procSnmp6.UdpLite6.InDatagrams},
 	} {

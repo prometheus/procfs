@@ -107,6 +107,7 @@ type InfiniBandHwCounters struct {
 // /sys/class/infiniband/<Name>/ports/<Port>
 // for a single port of one InfiniBand device.
 type InfiniBandPort struct {
+	LinkLayer   string
 	Name        string
 	Port        uint
 	State       string // String representation from /sys/class/infiniband/<Name>/ports/<Port>/state
@@ -248,6 +249,13 @@ func (fs FS) parseInfiniBandPort(name string, port string) (*InfiniBandPort, err
 	ibp := InfiniBandPort{Name: name, Port: uint(portNumber)}
 
 	portPath := fs.sys.Path(infinibandClassPath, name, "ports", port)
+
+	linkLayer, err := os.ReadFile(filepath.Join(portPath, "link_layer"))
+	if err != nil {
+		return nil, err
+	}
+	ibp.LinkLayer = strings.TrimSpace(string(linkLayer))
+
 	content, err := os.ReadFile(filepath.Join(portPath, "state"))
 	if err != nil {
 		return nil, err

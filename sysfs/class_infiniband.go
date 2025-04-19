@@ -23,6 +23,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -283,7 +284,6 @@ func (fs FS) parseInfiniBandPort(name string, port string) (*InfiniBandPort, err
 	// device, and thus do not know what type(s) of counters should be present. Attempt to parse
 	// either / both "counters" (and potentially also "counters_ext"), and "hw_counters", subject
 	// to their availability on the system - irrespective of HCA naming convention.
-
 	if _, err := os.Stat(filepath.Join(portPath, "counters")); err == nil {
 		counters, err := parseInfiniBandCounters(portPath)
 		if err != nil {
@@ -323,7 +323,7 @@ func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 		name := filepath.Join(path, f.Name())
 		value, err := util.SysReadFile(name)
 		if err != nil {
-			if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || errors.Is(err, os.ErrInvalid) {
+			if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || errors.Is(err, os.ErrInvalid) || errors.Is(err, syscall.EINVAL) {
 				continue
 			}
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)

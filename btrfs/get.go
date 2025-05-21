@@ -194,6 +194,10 @@ func (r *reader) calcRatio(p string) float64 {
 		return 1
 	case "dup", "raid1", "raid10":
 		return 2
+	case "raid1c3":
+		return 3
+	case "raid1c4":
+		return 4
 	case "raid5":
 		return float64(r.devCount) / (float64(r.devCount) - 1)
 	case "raid6":

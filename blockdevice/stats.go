@@ -442,6 +442,15 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 	return stat, nil
 }
 
+// SysBlockDeviceQueueStat returns a single stat from /sys/block/xxx/queue where xxx is a device name and stat is a file.
+func (fs FS) SysBlockDeviceQueueStat(device string, file string) (string, error) {
+	stat, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
+	if err != nil {
+		return "", err
+	}
+	return stat, nil
+}
+
 func (fs FS) SysBlockDeviceMapperInfo(device string) (DeviceMapperInfo, error) {
 	info := DeviceMapperInfo{}
 	// Files with uint64 fields

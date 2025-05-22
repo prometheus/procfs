@@ -38,7 +38,7 @@ func TestNewNFSClientRPCStats(t *testing.T) {
 rpc 1218785755 374636 1218815394
 proc2 18 16 57 74 52 71 73 45 86 0 52 83 61 17 53 50 23 70 82
 proc3 22 0 1061909262 48906 4077635 117661341 5 29391916 2570425 2993289 590 0 0 7815 15 1130 0 3983 92385 13332 2 1 23729
-proc4 48 98 51 54 83 85 23 24 1 28 73 68 83 12 84 39 68 59 58 88 29 74 69 96 21 84 15 53 86 54 66 56 97 36 49 32 85 81 11 58 32 67 13 28 35 90 1 26 1337
+proc4 48 98 51 54 83 85 23 24 1 28 73 68 83 12 84 39 68 59 58 88 29 74 69 96 21 84 15 53 86 54 66 56 97 36 49 32 85 81 11 58 32 67 13 28 35 1 90 26 1337
 `,
 			stats: &nfs.ClientRPCStats{
 				Network: nfs.Network{
@@ -140,8 +140,8 @@ proc4 48 98 51 54 83 85 23 24 1 28 73 68 83 12 84 39 68 59 58 88 29 74 69 96 21 
 					Sequence:           13,
 					GetLeaseTime:       28,
 					ReclaimComplete:    35,
-					LayoutGet:          90,
 					GetDeviceInfo:      1,
+					LayoutGet:          90,
 					LayoutCommit:       26,
 					LayoutReturn:       1337,
 					SecinfoNoName:      0,
@@ -266,8 +266,8 @@ proc4 61 1 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 					Sequence:           0,
 					GetLeaseTime:       0,
 					ReclaimComplete:    0,
-					LayoutGet:          0,
 					GetDeviceInfo:      0,
+					LayoutGet:          0,
 					LayoutCommit:       0,
 					LayoutReturn:       0,
 					SecinfoNoName:      0,

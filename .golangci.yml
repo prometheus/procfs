@@ -1,34 +1,3 @@
-version: "2"
-linters:
-  enable:
-    - forbidigo
-    - godot
-    - misspell
-    - revive
-    - testifylint
-  settings:
-    forbidigo:
-      forbid:
-        - pattern: ^fmt\.Print.*$
-          msg: Do not commit print statements.
-    godot:
-      exclude:
-        # Ignore "See: URL".
-        - 'See:'
-      capital: true
-    misspell:
-      locale: US
-  exclusions:
-    generated: lax
-    presets:
-      - comments
-      - common-false-positives
-      - legacy
-      - std-error-handling
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
 formatters:
   enable:
     - gofmt
@@ -37,9 +6,31 @@ formatters:
     goimports:
       local-prefixes:
         - github.com/prometheus/procfs
+linters:
+  enable:
+    - forbidigo
+    - godot
+    - misspell
+    - revive
+    - testifylint
   exclusions:
-    generated: lax
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
+    generated: strict
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    warn-unused: true
+  settings:
+    forbidigo:
+      forbid:
+        - pattern: ^fmt\.Print.*$
+          msg: Do not commit print statements.
+    godot:
+      capital: true
+      exclude:
+        # Ignore "See: URL".
+        - 'See:'
+    misspell:
+      locale: US
+version: "2"

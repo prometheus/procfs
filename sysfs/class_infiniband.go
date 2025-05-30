@@ -280,7 +280,7 @@ func (fs FS) parseInfiniBandPort(name string, port string) (*InfiniBandPort, err
 	}
 
 	// Intel irdma module does not expose /sys/class/infiniband/<device>/ports/<port-num>/counters
-	if !strings.HasPrefix(ibp.Name, "irdma") {
+	if !strings.HasPrefix(ibp.Name, "irdma") && !strings.HasPrefix(ibp.Name, "nvs_"){
 		counters, err := parseInfiniBandCounters(portPath)
 		if err != nil {
 			return nil, err

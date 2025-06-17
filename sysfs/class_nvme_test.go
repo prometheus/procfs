@@ -40,6 +40,7 @@ func TestNVMeClass(t *testing.T) {
 			Model:            "Samsung SSD 970 PRO 512GB",
 			Serial:           "S680HF8N190894I",
 			State:            "live",
+			ControllerId:     "1997", 
 		},
 	}
 

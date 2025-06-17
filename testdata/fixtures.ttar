@@ -6412,6 +6412,11 @@ Mode: 755
 Directory: fixtures/sys/class/nvme/nvme0
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/cntlid
+Lines: 1
+1997
+Mode: 666
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/firmware_rev
 Lines: 1
 1B2QEXP7
@@ -6425,11 +6430,6 @@ Mode: 644
 Path: fixtures/sys/class/nvme/nvme0/serial
 Lines: 1
 S680HF8N190894I
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/nvme/nvme0/cntlid
-Lines: 1
-1997
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/state

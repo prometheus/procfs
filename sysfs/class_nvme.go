@@ -33,7 +33,7 @@ type NVMeDevice struct {
 	Model            string // /sys/class/nvme/<Name>/model
 	State            string // /sys/class/nvme/<Name>/state
 	FirmwareRevision string // /sys/class/nvme/<Name>/firmware_rev
-	ControllerId     string // /sys/class/nvme/<Name>/cntlid
+	ControllerID     string // /sys/class/nvme/<Name>/cntlid
 }
 
 // NVMeClass is a collection of every NVMe device in /sys/class/nvme.
@@ -85,7 +85,7 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 		case "state":
 			device.State = value
 		case "cntlid":
-			device.ControllerId = value
+			device.ControllerID = value
 		}
 	}
 

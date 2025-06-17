@@ -87,7 +87,6 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 		case "cntlid":
 			device.ControllerId = value
 		}
-		
 	}
 
 	return &device, nil

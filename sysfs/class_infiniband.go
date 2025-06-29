@@ -23,6 +23,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -282,8 +283,11 @@ func (fs FS) parseInfiniBandPort(name string, port string) (*InfiniBandPort, err
 		return nil, fmt.Errorf("could not parse rate file in %q: %w", portPath, err)
 	}
 
-	// Intel irdma module does not expose /sys/class/infiniband/<device>/ports/<port-num>/counters
-	if !strings.HasPrefix(ibp.Name, "irdma") {
+	// Since the HCA may have been renamed by systemd, we cannot infer the kernel driver used by the
+	// device, and thus do not know what type(s) of counters should be present. Attempt to parse
+	// either / both "counters" (and potentially also "counters_ext"), and "hw_counters", subject
+	// to their availability on the system - irrespective of HCA naming convention.
+	if _, err := os.Stat(filepath.Join(portPath, "counters")); err == nil {
 		counters, err := parseInfiniBandCounters(portPath)
 		if err != nil {
 			return nil, err
@@ -291,7 +295,7 @@ func (fs FS) parseInfiniBandPort(name string, port string) (*InfiniBandPort, err
 		ibp.Counters = *counters
 	}
 
-	if strings.HasPrefix(ibp.Name, "irdma") || strings.HasPrefix(ibp.Name, "mlx5_") {
+	if _, err := os.Stat(filepath.Join(portPath, "hw_counters")); err == nil {
 		hwCounters, err := parseInfiniBandHwCounters(portPath)
 		if err != nil {
 			return nil, err
@@ -322,7 +326,7 @@ func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 		name := filepath.Join(path, f.Name())
 		value, err := util.SysReadFile(name)
 		if err != nil {
-			if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || errors.Is(err, os.ErrInvalid) {
+			if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || errors.Is(err, os.ErrInvalid) || errors.Is(err, syscall.EINVAL) {
 				continue
 			}
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)

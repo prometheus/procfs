@@ -159,7 +159,8 @@ func TestGetStats(t *testing.T) {
 			if !reflect.DeepEqual(readTests[i].iops, iops) {
 				t.Errorf("unexpected iSCSI iops data :\nwant:\n%v\nhave:\n%v", readTests[i].iops, iops)
 			}
-			if stat.Tpgt[0].Luns[0].Backstore == "rd_mcp" {
+			switch stat.Tpgt[0].Luns[0].Backstore {
+			case "rd_mcp":
 				haveRdmcp, err := sysconfigfs.GetRDMCPPath("119", "ramdisk_lio_1G")
 				if err != nil {
 					t.Errorf("fail rdmcp error %v", err)
@@ -170,7 +171,7 @@ func TestGetStats(t *testing.T) {
 				if !reflect.DeepEqual(wantRdmcp, haveRdmcp) {
 					t.Errorf("unexpected rdmcp data :\nwant:\n%v\nhave:\n%v", wantRdmcp, haveRdmcp)
 				}
-			} else if stat.Tpgt[0].Luns[0].Backstore == "iblock" {
+			case "iblock":
 				haveIblock, err := sysconfigfs.GetIblockUdev("0", "block_lio_rbd1")
 				if err != nil {
 					t.Errorf("fail iblock error %v", err)
@@ -180,7 +181,7 @@ func TestGetStats(t *testing.T) {
 				if !reflect.DeepEqual(wantIblock, haveIblock) {
 					t.Errorf("unexpected iblock data :\nwant:\n%v\nhave:\n%v", wantIblock, haveIblock)
 				}
-			} else if stat.Tpgt[0].Luns[0].Backstore == "fileio" {
+			case "fileio":
 				haveFileIO, err := sysconfigfs.GetFileioUdev("1", "file_lio_1G")
 				if err != nil {
 					t.Errorf("fail fileio error %v", err)
@@ -190,7 +191,7 @@ func TestGetStats(t *testing.T) {
 				if !reflect.DeepEqual(wantFileIO, haveFileIO) {
 					t.Errorf("unexpected fileio data :\nwant:\n%v\nhave:\n%v", wantFileIO, haveFileIO)
 				}
-			} else if stat.Tpgt[0].Luns[0].Backstore == "rbd" {
+			case "rbd":
 				haveRBD, err := sysconfigfs.GetRBDMatch("0", "iscsi-images-demo")
 				if err != nil {
 					t.Errorf("fail rbd error %v", err)

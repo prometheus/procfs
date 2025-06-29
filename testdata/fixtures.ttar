@@ -1,9 +1,9 @@
 # Archive created by ttar -c -f testdata/fixtures.ttar -C testdata/ fixtures/
 Directory: fixtures
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/26231
 Mode: 755
@@ -209,6 +209,180 @@ Inter-|   Receive                                                |  Transmit
   eth0:     438       5    0    0    0     0          0         0      648       8    0    0    0     0       0          0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/proc/26231/net/dev_snmp6
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/net/dev_snmp6/eth0
+Lines: 83
+ifIndex                         	1
+Ip6InReceives                   	3057229
+Ip6InHdrErrors                  	0
+Ip6InTooBigErrors               	0
+Ip6InNoRoutes                   	0
+Ip6InAddrErrors                 	0
+Ip6InUnknownProtos              	0
+Ip6InTruncatedPkts              	0
+Ip6InDiscards                   	0
+Ip6InDelivers                   	3056375
+Ip6OutForwDatagrams             	0
+Ip6OutRequests                  	2359950
+Ip6OutDiscards                  	0
+Ip6OutNoRoutes                  	0
+Ip6ReasmTimeout                 	0
+Ip6ReasmReqds                   	0
+Ip6ReasmOKs                     	0
+Ip6ReasmFails                   	0
+Ip6FragOKs                      	0
+Ip6FragFails                    	5
+Ip6FragCreates                  	0
+Ip6InMcastPkts                  	40895
+Ip6OutMcastPkts                 	6221
+Ip6InOctets                     	14064059261
+Ip6OutOctets                    	811213622
+Ip6InMcastOctets                	3425239
+Ip6OutMcastOctets               	791888
+Ip6InBcastOctets                	0
+Ip6OutBcastOctets               	0
+Ip6InNoECTPkts                  	10518218
+Ip6InECT1Pkts                   	0
+Ip6InECT0Pkts                   	179561
+Ip6InCEPkts                     	0
+Ip6OutTransmits                 	2359950
+Icmp6InMsgs                     	53293
+Icmp6InErrors                   	0
+Icmp6OutMsgs                    	20400
+Icmp6OutErrors                  	0
+Icmp6InCsumErrors               	0
+Icmp6OutRateLimitHost           	0
+Icmp6InDestUnreachs             	306
+Icmp6InPktTooBigs               	12
+Icmp6InTimeExcds                	0
+Icmp6InParmProblems             	0
+Icmp6InEchos                    	11
+Icmp6InEchoReplies              	0
+Icmp6InGroupMembQueries         	0
+Icmp6InGroupMembResponses       	0
+Icmp6InGroupMembReductions      	0
+Icmp6InRouterSolicits           	0
+Icmp6InRouterAdvertisements     	16615
+Icmp6InNeighborSolicits         	8892
+Icmp6InNeighborAdvertisements   	27457
+Icmp6InRedirects                	0
+Icmp6InMLDv2Reports             	0
+Icmp6OutDestUnreachs            	275
+Icmp6OutPktTooBigs              	5
+Icmp6OutTimeExcds               	0
+Icmp6OutParmProblems            	0
+Icmp6OutEchos                   	0
+Icmp6OutEchoReplies             	11
+Icmp6OutGroupMembQueries        	0
+Icmp6OutGroupMembResponses      	0
+Icmp6OutGroupMembReductions     	0
+Icmp6OutRouterSolicits          	1
+Icmp6OutRouterAdvertisements    	0
+Icmp6OutNeighborSolicits        	5864
+Icmp6OutNeighborAdvertisements  	8891
+Icmp6OutRedirects               	0
+Icmp6OutMLDv2Reports            	5353
+Icmp6InType1                    	306
+Icmp6InType2                    	12
+Icmp6InType128                  	11
+Icmp6InType134                  	16615
+Icmp6InType135                  	8892
+Icmp6InType136                  	27457
+Icmp6OutType1                   	275
+Icmp6OutType2                   	5
+Icmp6OutType129                 	11
+Icmp6OutType133                 	1
+Icmp6OutType135                 	5864
+Icmp6OutType136                 	8891
+Icmp6OutType143                 	5353
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/26231/net/dev_snmp6/eth1
+Lines: 80
+ifIndex                         	2
+Ip6InReceives                   	234373162
+Ip6InHdrErrors                  	12
+Ip6InTooBigErrors               	0
+Ip6InNoRoutes                   	48
+Ip6InAddrErrors                 	0
+Ip6InUnknownProtos              	0
+Ip6InTruncatedPkts              	0
+Ip6InDiscards                   	0
+Ip6InDelivers                   	2023911
+Ip6OutForwDatagrams             	43716990
+Ip6OutRequests                  	2185080
+Ip6OutDiscards                  	0
+Ip6OutNoRoutes                  	0
+Ip6ReasmTimeout                 	0
+Ip6ReasmReqds                   	0
+Ip6ReasmOKs                     	0
+Ip6ReasmFails                   	0
+Ip6FragOKs                      	0
+Ip6FragFails                    	0
+Ip6FragCreates                  	0
+Ip6InMcastPkts                  	7648
+Ip6OutMcastPkts                 	15218
+Ip6InOctets                     	303177290674
+Ip6OutOctets                    	29245052746
+Ip6InMcastOctets                	805916
+Ip6OutMcastOctets               	2976102
+Ip6InBcastOctets                	0
+Ip6OutBcastOctets               	0
+Ip6InNoECTPkts                  	152608869
+Ip6InECT1Pkts                   	73833
+Ip6InECT0Pkts                   	81686963
+Ip6InCEPkts                     	3497
+Ip6OutTransmits                 	47151828
+Icmp6InMsgs                     	37911
+Icmp6InErrors                   	3
+Icmp6OutMsgs                    	114015
+Icmp6OutErrors                  	0
+Icmp6InCsumErrors               	0
+Icmp6OutRateLimitHost           	1899
+Icmp6InDestUnreachs             	12
+Icmp6InPktTooBigs               	0
+Icmp6InTimeExcds                	0
+Icmp6InParmProblems             	0
+Icmp6InEchos                    	0
+Icmp6InEchoReplies              	0
+Icmp6InGroupMembQueries         	0
+Icmp6InGroupMembResponses       	0
+Icmp6InGroupMembReductions      	0
+Icmp6InRouterSolicits           	0
+Icmp6InRouterAdvertisements     	7521
+Icmp6InNeighborSolicits         	13184
+Icmp6InNeighborAdvertisements   	17194
+Icmp6InRedirects                	0
+Icmp6InMLDv2Reports             	0
+Icmp6OutDestUnreachs            	68537
+Icmp6OutPktTooBigs              	0
+Icmp6OutTimeExcds               	12
+Icmp6OutParmProblems            	0
+Icmp6OutEchos                   	0
+Icmp6OutEchoReplies             	0
+Icmp6OutGroupMembQueries        	0
+Icmp6OutGroupMembResponses      	0
+Icmp6OutGroupMembReductions     	0
+Icmp6OutRouterSolicits          	7
+Icmp6OutRouterAdvertisements    	0
+Icmp6OutNeighborSolicits        	17216
+Icmp6OutNeighborAdvertisements  	13184
+Icmp6OutRedirects               	0
+Icmp6OutMLDv2Reports            	15059
+Icmp6InType1                    	12
+Icmp6InType134                  	7521
+Icmp6InType135                  	13184
+Icmp6InType136                  	17194
+Icmp6OutType1                   	68537
+Icmp6OutType3                   	12
+Icmp6OutType133                 	7
+Icmp6OutType135                 	17216
+Icmp6OutType136                 	13184
+Icmp6OutType143                 	15059
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/26231/net/netstat
 Lines: 4
 TcpExt: SyncookiesSent SyncookiesRecv SyncookiesFailed EmbryonicRsts PruneCalled RcvPruned OfoPruned OutOfWindowIcmps LockDroppedIcmps ArpFilter TW TWRecycled TWKilled PAWSActive PAWSEstab DelayedACKs DelayedACKLocked DelayedACKLost ListenOverflows ListenDrops TCPHPHits TCPPureAcks TCPHPAcks TCPRenoRecovery TCPSackRecovery TCPSACKReneging TCPSACKReorder TCPRenoReorder TCPTSReorder TCPFullUndo TCPPartialUndo TCPDSACKUndo TCPLossUndo TCPLostRetransmit TCPRenoFailures TCPSackFailures TCPLossFailures TCPFastRetrans TCPSlowStartRetrans TCPTimeouts TCPLossProbes TCPLossProbeRecovery TCPRenoRecoveryFail TCPSackRecoveryFail TCPRcvCollapsed TCPDSACKOldSent TCPDSACKOfoSent TCPDSACKRecv TCPDSACKOfoRecv TCPAbortOnData TCPAbortOnClose TCPAbortOnMemory TCPAbortOnTimeout TCPAbortOnLinger TCPAbortFailed TCPMemoryPressures TCPMemoryPressuresChrono TCPSACKDiscard TCPDSACKIgnoredOld TCPDSACKIgnoredNoUndo TCPSpuriousRTOs TCPMD5NotFound TCPMD5Unexpected TCPMD5Failure TCPSackShifted TCPSackMerged TCPSackShiftFallback TCPBacklogDrop PFMemallocDrop TCPMinTTLDrop TCPDeferAcceptDrop IPReversePathFilter TCPTimeWaitOverflow TCPReqQFullDoCookies TCPReqQFullDrop TCPRetransFail TCPRcvCoalesce TCPRcvQDrop TCPOFOQueue TCPOFODrop TCPOFOMerge TCPChallengeACK TCPSYNChallenge TCPFastOpenActive TCPFastOpenActiveFail TCPFastOpenPassive TCPFastOpenPassiveFail TCPFastOpenListenOverflow TCPFastOpenCookieReqd TCPFastOpenBlackhole TCPSpuriousRtxHostQueues BusyPollRxPackets TCPAutoCorking TCPFromZeroWindowAdv TCPToZeroWindowAdv TCPWantZeroWindowAdv TCPSynRetrans TCPOrigDataSent TCPHystartTrainDetect TCPHystartTrainCwnd TCPHystartDelayDetect TCPHystartDelayCwnd TCPACKSkippedSynRecv TCPACKSkippedPAWS TCPACKSkippedSeq TCPACKSkippedFinWait2 TCPACKSkippedTimeWait TCPACKSkippedChallenge TCPWinProbe TCPKeepAlive TCPMTUPFail TCPMTUPSuccess TCPWqueueTooBig
@@ -327,7 +501,7 @@ UdpLite6RcvbufErrors            	0
 UdpLite6SndbufErrors            	0
 UdpLite6InCsumErrors            	0
 Mode: 644
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/26231/ns
 Mode: 755
@@ -688,7 +862,7 @@ Mode: 644
 Path: fixtures/proc/26231/wchan
 Lines: 1
 poll_schedule_timeoutEOF
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/26232
 Mode: 755
@@ -768,7 +942,7 @@ Mode: 644
 Path: fixtures/proc/26232/wchan
 Lines: 1
 0EOF
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/26233
 Mode: 755
@@ -2181,7 +2355,7 @@ Lines: 52
    8       0 sdc 14202 71 579164 21861 2995 1589 180500 40875 0 11628 55200 0 0 0 0 127 182
    8       1 sdc1 1027 0 13795 5021 2 0 4096 3 0 690 4579 0 0 0 0 0 0
    8       2 sdc2 13126 71 561749 16802 2830 1589 176404 40620 0 10931 50449 0 0 0 0 0 0
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/fs
 Mode: 755
@@ -2361,7 +2535,7 @@ HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:       91136 kB
 DirectMap2M:    16039936 kB
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/net
 Mode: 755
@@ -2371,7 +2545,7 @@ Lines: 3
 IP address       HW type     Flags       HW address            Mask     Device
 192.168.224.1    0x1         0x2         00:50:56:c0:00:08     *        ens33
 192.168.224.2    0x1         0x0         00:00:00:00:00:00     *        ens33
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/net/dev
 Lines: 6
@@ -2381,6 +2555,180 @@ vethf345468:     648       8    0    0    0     0          0         0      438 
     lo: 1664039048 1566805    0    0    0     0          0         0 1664039048 1566805    0    0    0     0       0          0
 docker0:    2568      38    0    0    0     0          0         0      438       5    0    0    0     0       0          0
   eth0: 874354587 1036395    0    0    0     0          0         0 563352563  732147    0    0    0     0       0          0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/proc/net/dev_snmp6
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/net/dev_snmp6/eth0
+Lines: 83
+ifIndex                         	1
+Ip6InReceives                   	3057229
+Ip6InHdrErrors                  	0
+Ip6InTooBigErrors               	0
+Ip6InNoRoutes                   	0
+Ip6InAddrErrors                 	0
+Ip6InUnknownProtos              	0
+Ip6InTruncatedPkts              	0
+Ip6InDiscards                   	0
+Ip6InDelivers                   	3056375
+Ip6OutForwDatagrams             	0
+Ip6OutRequests                  	2359950
+Ip6OutDiscards                  	0
+Ip6OutNoRoutes                  	0
+Ip6ReasmTimeout                 	0
+Ip6ReasmReqds                   	0
+Ip6ReasmOKs                     	0
+Ip6ReasmFails                   	0
+Ip6FragOKs                      	0
+Ip6FragFails                    	5
+Ip6FragCreates                  	0
+Ip6InMcastPkts                  	40895
+Ip6OutMcastPkts                 	6221
+Ip6InOctets                     	14064059261
+Ip6OutOctets                    	811213622
+Ip6InMcastOctets                	3425239
+Ip6OutMcastOctets               	791888
+Ip6InBcastOctets                	0
+Ip6OutBcastOctets               	0
+Ip6InNoECTPkts                  	10518218
+Ip6InECT1Pkts                   	0
+Ip6InECT0Pkts                   	179561
+Ip6InCEPkts                     	0
+Ip6OutTransmits                 	2359950
+Icmp6InMsgs                     	53293
+Icmp6InErrors                   	0
+Icmp6OutMsgs                    	20400
+Icmp6OutErrors                  	0
+Icmp6InCsumErrors               	0
+Icmp6OutRateLimitHost           	0
+Icmp6InDestUnreachs             	306
+Icmp6InPktTooBigs               	12
+Icmp6InTimeExcds                	0
+Icmp6InParmProblems             	0
+Icmp6InEchos                    	11
+Icmp6InEchoReplies              	0
+Icmp6InGroupMembQueries         	0
+Icmp6InGroupMembResponses       	0
+Icmp6InGroupMembReductions      	0
+Icmp6InRouterSolicits           	0
+Icmp6InRouterAdvertisements     	16615
+Icmp6InNeighborSolicits         	8892
+Icmp6InNeighborAdvertisements   	27457
+Icmp6InRedirects                	0
+Icmp6InMLDv2Reports             	0
+Icmp6OutDestUnreachs            	275
+Icmp6OutPktTooBigs              	5
+Icmp6OutTimeExcds               	0
+Icmp6OutParmProblems            	0
+Icmp6OutEchos                   	0
+Icmp6OutEchoReplies             	11
+Icmp6OutGroupMembQueries        	0
+Icmp6OutGroupMembResponses      	0
+Icmp6OutGroupMembReductions     	0
+Icmp6OutRouterSolicits          	1
+Icmp6OutRouterAdvertisements    	0
+Icmp6OutNeighborSolicits        	5864
+Icmp6OutNeighborAdvertisements  	8891
+Icmp6OutRedirects               	0
+Icmp6OutMLDv2Reports            	5353
+Icmp6InType1                    	306
+Icmp6InType2                    	12
+Icmp6InType128                  	11
+Icmp6InType134                  	16615
+Icmp6InType135                  	8892
+Icmp6InType136                  	27457
+Icmp6OutType1                   	275
+Icmp6OutType2                   	5
+Icmp6OutType129                 	11
+Icmp6OutType133                 	1
+Icmp6OutType135                 	5864
+Icmp6OutType136                 	8891
+Icmp6OutType143                 	5353
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/net/dev_snmp6/eth1
+Lines: 80
+ifIndex                         	2
+Ip6InReceives                   	234373162
+Ip6InHdrErrors                  	12
+Ip6InTooBigErrors               	0
+Ip6InNoRoutes                   	48
+Ip6InAddrErrors                 	0
+Ip6InUnknownProtos              	0
+Ip6InTruncatedPkts              	0
+Ip6InDiscards                   	0
+Ip6InDelivers                   	2023911
+Ip6OutForwDatagrams             	43716990
+Ip6OutRequests                  	2185080
+Ip6OutDiscards                  	0
+Ip6OutNoRoutes                  	0
+Ip6ReasmTimeout                 	0
+Ip6ReasmReqds                   	0
+Ip6ReasmOKs                     	0
+Ip6ReasmFails                   	0
+Ip6FragOKs                      	0
+Ip6FragFails                    	0
+Ip6FragCreates                  	0
+Ip6InMcastPkts                  	7648
+Ip6OutMcastPkts                 	15218
+Ip6InOctets                     	303177290674
+Ip6OutOctets                    	29245052746
+Ip6InMcastOctets                	805916
+Ip6OutMcastOctets               	2976102
+Ip6InBcastOctets                	0
+Ip6OutBcastOctets               	0
+Ip6InNoECTPkts                  	152608869
+Ip6InECT1Pkts                   	73833
+Ip6InECT0Pkts                   	81686963
+Ip6InCEPkts                     	3497
+Ip6OutTransmits                 	47151828
+Icmp6InMsgs                     	37911
+Icmp6InErrors                   	3
+Icmp6OutMsgs                    	114015
+Icmp6OutErrors                  	0
+Icmp6InCsumErrors               	0
+Icmp6OutRateLimitHost           	1899
+Icmp6InDestUnreachs             	12
+Icmp6InPktTooBigs               	0
+Icmp6InTimeExcds                	0
+Icmp6InParmProblems             	0
+Icmp6InEchos                    	0
+Icmp6InEchoReplies              	0
+Icmp6InGroupMembQueries         	0
+Icmp6InGroupMembResponses       	0
+Icmp6InGroupMembReductions      	0
+Icmp6InRouterSolicits           	0
+Icmp6InRouterAdvertisements     	7521
+Icmp6InNeighborSolicits         	13184
+Icmp6InNeighborAdvertisements   	17194
+Icmp6InRedirects                	0
+Icmp6InMLDv2Reports             	0
+Icmp6OutDestUnreachs            	68537
+Icmp6OutPktTooBigs              	0
+Icmp6OutTimeExcds               	12
+Icmp6OutParmProblems            	0
+Icmp6OutEchos                   	0
+Icmp6OutEchoReplies             	0
+Icmp6OutGroupMembQueries        	0
+Icmp6OutGroupMembResponses      	0
+Icmp6OutGroupMembReductions     	0
+Icmp6OutRouterSolicits          	7
+Icmp6OutRouterAdvertisements    	0
+Icmp6OutNeighborSolicits        	17216
+Icmp6OutNeighborAdvertisements  	13184
+Icmp6OutRedirects               	0
+Icmp6OutMLDv2Reports            	15059
+Icmp6InType1                    	12
+Icmp6InType134                  	7521
+Icmp6InType135                  	13184
+Icmp6InType136                  	17194
+Icmp6OutType1                   	68537
+Icmp6OutType3                   	12
+Icmp6OutType133                 	7
+Icmp6OutType135                 	17216
+Icmp6OutType136                 	13184
+Icmp6OutType143                 	15059
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/net/ip_vs
@@ -3035,10 +3383,10 @@ Lines: 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys/kernel
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys/kernel/random
 Mode: 755
@@ -3072,7 +3420,7 @@ kill_process kill_thread trap errno trace log allow
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys/vm
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/sys/vm/admin_reserve_kbytes
 Lines: 1
@@ -3559,10 +3907,10 @@ Directory: fixtures/sys
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/dm-0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/dm-0/dm
 Mode: 755
@@ -3597,18 +3945,18 @@ Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/dm-0/slaves/sda
 Lines: 0
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/dm-0/stat
 Lines: 1
 6447303        0 710266738  1529043   953216        0 31201176  4557464        0   796160  6088971
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md0/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md0/md/array_state
 Lines: 1
@@ -3663,10 +4011,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md1
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md1/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md1/md/array_state
 Lines: 1
@@ -3736,10 +4084,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md10
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md10/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md10/md/array_state
 Lines: 1
@@ -3831,10 +4179,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md4
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md4/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md4/md/array_state
 Lines: 1
@@ -3915,10 +4263,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md5
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md5/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md5/md/array_state
 Lines: 1
@@ -3936,7 +4284,7 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md5/md/dev-sdaa
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md5/md/dev-sdaa/state
 Lines: 1
@@ -4007,10 +4355,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md6
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/md6/md
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/md6/md/array_state
 Lines: 1
@@ -4102,7 +4450,7 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/sda
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/block/sda/queue
 Mode: 755
@@ -4335,16 +4683,36 @@ Lines: 1
 none
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/block/sda/size
+Lines: 1
+3750748848EOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/block/sda/stat
 Lines: 1
 9652963   396792 759304206   412943  8422549  6731723 286915323 13947418        0  5658367 19174573 1 2 3 12
-Mode: 664
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/bus
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/bus/pci
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/bus/pci/drivers
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/bus/pci/drivers/amdgpu
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/bus/pci/drivers/i915
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/block
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/block/dm-0
 SymlinkTo: ../../devices/virtual/block/dm-0
@@ -4365,10 +4733,10 @@ Path: fixtures/sys/class/block/dm-5
 SymlinkTo: ../../devices/virtual/block/dm-5
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/dmi
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/dmi/id
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/dmi/id/bios_date
 Lines: 1
@@ -4597,6 +4965,9 @@ Path: fixtures/sys/class/drm/card0/device/dma_mask_bits
 Lines: 1
 44
 Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card0/device/driver
+SymlinkTo: ../../../../bus/pci/drivers/amdgpu
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/drm/card0/device/driver_override
 Lines: 1
@@ -4933,6 +5304,124 @@ Path: fixtures/sys/class/drm/card0/device/vendor
 Lines: 1
 0x1002
 Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/drm/card1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/drm/card1/card1-DP-1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/connector_id
+Lines: 1
+103
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/dpms
+Lines: 1
+Off
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/edid
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/enabled
+Lines: 1
+disabled
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/modes
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-1/status
+Lines: 1
+disconnected
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/drm/card1/card1-DP-5
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/connector_id
+Lines: 1
+135
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/dpms
+Lines: 1
+On
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/edid
+Lines: 5
+NULLBYTEˇˇˇˇˇˇNULLBYTE"V)Ä4 x*¸Å§UMù%PT!NULLBYTE—¿Å¿Å@ÅÄïNULLBYTE©@≥NULLBYTE(<Ä†p∞#@0 6NULLBYTED!NULLBYTENULLBYTENULLBYTENULLBYTENULLBYTE˝NULLBYTE<PNULLBYTE
+      NULLBYTENULLBYTENULLBYTE¸NULLBYTEHP ZR2440w
+  NULLBYTENULLBYTENULLBYTEˇNULLBYTECN4218016Q
+  ÅÒLêeNULLBYTENULLBYTE#	ÉNULLBYTENULLBYTE:Äq8-@X,ENULLBYTED!NULLBYTENULLBYTE:Ä–r8-@,EÄD!NULLBYTENULLBYTENULLBYTErQ– n(UNULLBYTED!NULLBYTENULLBYTENULLBYTEºR– ∏(U@D!NULLBYTENULLBYTEå
+–ä ‡->ñNULLBYTED!NULLBYTENULLBYTENULLBYTENULLBYTENULLBYTENULLBYTENULLBYTENULLBYTE¡EOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/enabled
+Lines: 1
+enabled
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/modes
+Lines: 27
+1920x1200
+1920x1080
+1920x1080
+1920x1080
+1920x1080
+1920x1080
+1600x1200
+1680x1050
+1280x1024
+1440x900
+1280x960
+1280x720
+1280x720
+1280x720
+1280x720
+1280x720
+1024x768
+800x600
+720x576
+720x480
+720x480
+720x480
+720x480
+720x480
+640x480
+640x480
+640x480
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/card1-DP-5/status
+Lines: 1
+connected
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/drm/card1/device
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/device/driver
+SymlinkTo: ../../../../bus/pci/drivers/i915
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/device/enable
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/drm/card1/device/uevent
+Lines: 6
+DRIVER=i915
+PCI_CLASS=30000
+PCI_ID=8086:5917
+PCI_SUBSYS_ID=17AA:2258
+PCI_SLOT_NAME=0000:00:02.0
+MODALIAS=pci:v00008086d00005917sv000017AAsd00002258bc03sc00i00
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/fc_host
 Mode: 755
@@ -5304,7 +5793,7 @@ Mode: 755
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/1/counters/VL15_dropped
 Lines: 1
 0
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/1/counters/excessive_buffer_overrun_errors
 Lines: 1
@@ -5410,7 +5899,7 @@ Mode: 755
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/2/counters/VL15_dropped
 Lines: 1
 0
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/2/counters/excessive_buffer_overrun_errors
 Lines: 1
@@ -5788,7 +6277,7 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/net
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/net/eth0
 Mode: 755
@@ -5923,30 +6412,30 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/nvme
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/nvme/nvme0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/firmware_rev
 Lines: 1
 1B2QEXP7
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/model
 Lines: 1
 Samsung SSD 970 PRO 512GB               
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/serial
 Lines: 1
 S680HF8N190894I
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/state
 Lines: 1
 live
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/power_supply
 Mode: 755
@@ -6153,7 +6642,7 @@ Lines: 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_device
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_device/end_device-11:0:0
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:0/end_device-11:0:0/sas_device/end_device-11:0:0
@@ -6174,7 +6663,7 @@ Path: fixtures/sys/class/sas_device/expander-11:1
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:1/expander-11:1/sas_device/expander-11:1
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_end_device
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_end_device/end_device-11:0:0
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:0/end_device-11:0:0/sas_device/end_device-11:0:0
@@ -6189,7 +6678,7 @@ Path: fixtures/sys/class/sas_end_device/end_device-11:2
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:2/end_device-11:2/sas_device/end_device-11:2
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_expander
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_expander/expander-11:0
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/sas_expander/expander-11:0
@@ -6198,13 +6687,13 @@ Path: fixtures/sys/class/sas_expander/expander-11:1
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:1/expander-11:1/sas_expander/expander-11:1
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_host
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_host/host11
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/sas_host/host11
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_phy
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_phy/phy-11:0:2
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/phy-11:0:2/sas_phy/phy-11:0:2
@@ -6243,7 +6732,7 @@ Path: fixtures/sys/class/sas_phy/phy-11:9
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:9/sas_phy/phy-11:9
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/sas_port
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/sas_port/port-11:0
 SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/sas_port/port-11:0
@@ -6288,7 +6777,7 @@ Path: fixtures/sys/class/scsi_tape/st0m
 SymlinkTo: ../../devices/pci0000:00/0000:00:00.0/host0/port-0:0/end_device-0:0/target0:0:0/0:0:0:0/scsi_tape/st0m
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal/cooling_device0
 Mode: 755
@@ -6327,22 +6816,22 @@ intel_powerclamp
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal/thermal_zone0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone0/policy
 Lines: 1
 step_wise
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone0/temp
 Lines: 1
 49925
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone0/type
 Lines: 1
 bcm2835_thermal
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal/thermal_zone1
 Mode: 755
@@ -6350,33 +6839,33 @@ Mode: 755
 Path: fixtures/sys/class/thermal/thermal_zone1/mode
 Lines: 1
 enabled
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone1/passive
 Lines: 1
 0
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone1/policy
 Lines: 1
 step_wise
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone1/temp
 Lines: 1
 -44000
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/thermal_zone1/type
 Lines: 1
 acpitz
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/watchdog
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/watchdog/watchdog0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/watchdog/watchdog0/access_cs0
 Lines: 1
@@ -6439,7 +6928,7 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/watchdog/watchdog1
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices
 Mode: 755
@@ -13267,6 +13756,65 @@ Mode: 644
 Directory: fixtures/sys/devices/pci0000:00/0000:00:1f.6
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:00/0000:00:1f.6/aer_dev_correctable
+Lines: 9
+RxErr 1
+BadTLP 2
+BadDLLP 3
+Rollover 4
+Timeout 5
+NonFatalErr 6
+CorrIntErr 7
+HeaderOF 8
+TOTAL_ERR_COR 9
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:00/0000:00:1f.6/aer_dev_fatal
+Lines: 19
+Undefined 10
+DLP 11
+SDES 12
+TLP 13
+FCP 14
+CmpltTO 15
+CmpltAbrt 16
+UnxCmplt 17
+RxOF 18
+MalfTLP 19
+ECRC 20
+UnsupReq 21
+ACSViol 22
+UncorrIntErr 23
+BlockedTLP 24
+AtomicOpBlocked 25
+TLPBlockedErr 26
+PoisonTLPBlocked 27
+TOTAL_ERR_FATAL 28
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:00/0000:00:1f.6/aer_dev_nonfatal
+Lines: 19
+Undefined 30
+DLP 31
+SDES 32
+TLP 33
+FCP 34
+CmpltTO 35
+CmpltAbrt 36
+UnxCmplt 37
+RxOF 38
+MalfTLP 39
+ECRC 40
+UnsupReq 41
+ACSViol 42
+UncorrIntErr 43
+BlockedTLP 44
+AtomicOpBlocked 45
+TLPBlockedErr 46
+PoisonTLPBlocked 47
+TOTAL_ERR_FATAL 48
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/pci0000:00/0000:00:1f.6/ari_enabled
 Lines: 1
 0
@@ -13419,13 +13967,13 @@ wrong-images
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/clocksource
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/clocksource/clocksource0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/clocksource/clocksource0/available_clocksource
 Lines: 1
@@ -13438,10 +13986,10 @@ tsc
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu0/cpufreq
 SymlinkTo: ../cpufreq/policy0
@@ -13498,10 +14046,10 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu1
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu1/cpufreq
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/cpuinfo_cur_freq
 Lines: 1
@@ -13511,52 +14059,52 @@ Mode: 400
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/cpuinfo_max_freq
 Lines: 1
 3300000
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/cpuinfo_min_freq
 Lines: 1
 1200000
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/cpuinfo_transition_latency
 Lines: 1
 4294967295
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/related_cpus
 Lines: 1
 1
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_available_governors
 Lines: 1
 performance powersave
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_driver
 Lines: 1
 intel_pstate
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_governor
 Lines: 1
 powersave
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
 Lines: 1
 3300000
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
 Lines: 1
 1200000
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_setspeed
 Lines: 1
 <unsupported>
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu1/cpufreq/stats
 Mode: 755
@@ -13622,13 +14170,13 @@ Lines: 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpu2
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpufreq
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/cpufreq/policy0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpufreq/policy0/affected_cpus
 Lines: 1
@@ -13710,12 +14258,12 @@ Mode: 755
 Path: fixtures/sys/devices/system/cpu/isolated
 Lines: 1
 1,2-7,9
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/offline
 Lines: 1
 2
-Mode: 664
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/cpu/vulnerabilities
 Mode: 755
@@ -13766,7 +14314,7 @@ Not affected
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/node
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/node/node1
 Mode: 755
@@ -13795,13 +14343,13 @@ nr_zone_unevictable 12
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/virtual
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/virtual/block
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/virtual/block/dm-0
-Mode: 775
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs
 Mode: 755
@@ -13818,7 +14366,7 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0
-Mode: 777
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/dirty_data
 Lines: 1
@@ -13994,7 +14542,7 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/cache0
-Mode: 777
+Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/cache0/io_errors
 Lines: 1

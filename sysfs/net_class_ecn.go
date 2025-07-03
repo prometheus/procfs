@@ -135,7 +135,7 @@ func (fs FS) EcnByIface(devicePath string) (*EcnIface, error) {
 	}
 	if !validPath {
 		// this device doesn't have ECN values at this path
-		return nil, fmt.Errorf("Does not have ECN values: %q", devicePath)
+		return nil, fmt.Errorf("does not have ECN values: %q", devicePath)
 	}
 
 	ecnIface, err := ParseEcnIfaceInfo(ecnPath)
@@ -362,11 +362,12 @@ func ParseEcnEnable(path string) (map[uint8]bool, error) {
 
 		vp := util.NewValueParser(value)
 		fileValue := *vp.PUInt64()
-		if fileValue == 0 {
+		switch fileValue {
+		case 0:
 			ecn[uint8(filenameInt)] = false
-		} else if fileValue == 1 {
+		case 1:
 			ecn[uint8(filenameInt)] = true
-		} else {
+		default:
 			return nil, fmt.Errorf("failed to parse file %q: %q", filename, value)
 		}
 	}

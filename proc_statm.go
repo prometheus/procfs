@@ -24,7 +24,7 @@ import (
 // - https://man7.org/linux/man-pages/man5/proc_pid_statm.5.html
 
 // ProcStatm Provides memory usage information for a process, measured in memory pages.
-// read from /proc/[pid]/statm.
+// Read from /proc/[pid]/statm.
 type ProcStatm struct {
 	// The process ID.
 	PID int

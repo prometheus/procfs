@@ -174,6 +174,7 @@ func TestInfiniBandClass(t *testing.T) {
 			HCAType:         "",
 			Ports: map[uint]InfiniBandPort{
 				1: {
+					LinkLayer:   "InfiniBand",
 					Name:        "hfi1_0",
 					Port:        1,
 					State:       "ACTIVE",
@@ -210,6 +211,7 @@ func TestInfiniBandClass(t *testing.T) {
 			HCAType:         "MT4099",
 			Ports: map[uint]InfiniBandPort{
 				1: {
+					LinkLayer:   "InfiniBand",
 					Name:        "mlx4_0",
 					Port:        1,
 					State:       "ACTIVE",
@@ -238,6 +240,7 @@ func TestInfiniBandClass(t *testing.T) {
 					},
 				},
 				2: {
+					LinkLayer:   "InfiniBand",
 					Name:        "mlx4_0",
 					Port:        2,
 					State:       "ACTIVE",
@@ -275,6 +278,7 @@ func TestInfiniBandClass(t *testing.T) {
 			NodeGUID:        "0a7f:bc12:45ef:d23b",
 			Ports: map[uint]InfiniBandPort{
 				1: {
+					LinkLayer:   "InfiniBand",
 					Name:        "mlx5_0",
 					Port:        1,
 					State:       "ACTIVE",

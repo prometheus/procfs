@@ -307,6 +307,7 @@ func TestFS_MDStat(t *testing.T) {
 			Devices:                []MDStatComponent{{Name: "sda3", DescriptorIndex: 0}, {Name: "sdb3", DescriptorIndex: 1}}},
 		"md42": {
 			Name:                   "md42",
+			Type:                   "raid5",
 			ActivityState:          "reshaping",
 			DisksActive:            2,
 			DisksTotal:             3,

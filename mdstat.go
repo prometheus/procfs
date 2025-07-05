@@ -226,6 +226,7 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 // check if a string's format is like the mdType
 // Rule 1: mdType should not be like (...)
 // Rule 2: mdType should not be like sda[0]
+// .
 func isRaidType(mdType string, knownRaidTypes map[string]bool) bool {
 	_, ok := knownRaidTypes[mdType]
 	return !strings.ContainsAny(mdType, "([") && ok

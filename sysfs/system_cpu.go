@@ -310,7 +310,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	var cpuinfoFrequencyTransitionsTotal *uint64
 	cpuinfoFrequencyTransitionsTotalUint, err := util.ReadUintFromFile(filepath.Join(cpuPath, "stats", "total_trans"))
 	if err != nil {
-		if !(os.IsNotExist(err) || os.IsPermission(err)) {
+		if !os.IsNotExist(err) && !os.IsPermission(err) {
 			return &SystemCPUCpufreqStats{}, err
 		}
 	} else {
@@ -321,7 +321,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	var cpuinfoFrequencyDuration *map[uint64]uint64
 	cpuinfoFrequencyDurationString, err := util.ReadFileNoStat(filepath.Join(cpuPath, "stats", "time_in_state"))
 	if err != nil {
-		if !(os.IsNotExist(err) || os.IsPermission(err)) {
+		if !os.IsNotExist(err) && !os.IsPermission(err) {
 			return &SystemCPUCpufreqStats{}, err
 		}
 	} else {
@@ -350,7 +350,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	var cpuinfoTransitionTable *[][]uint64
 	cpuinfoTransitionTableString, err := util.ReadFileNoStat(filepath.Join(cpuPath, "stats", "trans_table"))
 	if err != nil {
-		if !(os.IsNotExist(err) || os.IsPermission(err)) {
+		if !os.IsNotExist(err) && !os.IsPermission(err) {
 			return &SystemCPUCpufreqStats{}, err
 		}
 	} else {

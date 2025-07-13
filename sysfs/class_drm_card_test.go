@@ -1,4 +1,4 @@
-// Copyright 2021 The Prometheus Authors
+// Copyright 2024 The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,29 +22,44 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func TestNVMeClass(t *testing.T) {
+func TestClassDRMCard(t *testing.T) {
 	fs, err := NewFS(sysTestFixtures)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	got, err := fs.NVMeClass()
+	got, err := fs.DRMCardClass()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	want := NVMeClass{
-		"nvme0": NVMeDevice{
-			Name:             "nvme0",
-			FirmwareRevision: "1B2QEXP7",
-			Model:            "Samsung SSD 970 PRO 512GB",
-			Serial:           "S680HF8N190894I",
-			State:            "live",
-			ControllerID:     "1997",
+	want := DRMCardClass{
+		"card0": DRMCard{
+			Name:   "card0",
+			Driver: "amdgpu",
+			Ports:  map[string]DRMCardPort{},
+		},
+		"card1": DRMCard{
+			Name:   "card1",
+			Driver: "i915",
+			Ports: map[string]DRMCardPort{
+				"card1-DP-1": {
+					Name:    "card1-DP-1",
+					DPMS:    "Off",
+					Enabled: "disabled",
+					Status:  "disconnected",
+				},
+				"card1-DP-5": {
+					Name:    "card1-DP-5",
+					DPMS:    "On",
+					Enabled: "enabled",
+					Status:  "connected",
+				},
+			},
 		},
 	}
 
 	if diff := cmp.Diff(want, got); diff != "" {
-		t.Fatalf("unexpected NVMe class (-want +got):\n%s", diff)
+		t.Fatalf("unexpected DRMCard class (-want +got):\n%s", diff)
 	}
 }

@@ -16,7 +16,7 @@ package procfs
 import (
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/finomosec/procfs/internal/util"
 )
 
 // Environ reads process environments from `/proc/<pid>/environ`.

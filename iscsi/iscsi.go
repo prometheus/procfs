@@ -18,7 +18,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/fs"
+	"github.com/finomosec/procfs/internal/fs"
 )
 
 // iscsi target started with /sys/kernel/config/target/iscsi/iqn*

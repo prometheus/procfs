@@ -18,7 +18,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/prometheus/procfs/xfs"
+	"github.com/finomosec/procfs/xfs"
 )
 
 func TestParseStats(t *testing.T) {

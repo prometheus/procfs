@@ -23,7 +23,7 @@ import (
 	"regexp"
 	"syscall"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/finomosec/procfs/internal/util"
 )
 
 const (

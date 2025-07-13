@@ -16,7 +16,7 @@ package procfs
 import (
 	"fmt"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/finomosec/procfs/internal/util"
 )
 
 // ProcIO models the content of /proc/<pid>/io.

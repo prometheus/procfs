@@ -3398,6 +3398,11 @@ Mode: 755
 Directory: fixtures/proc/sys/kernel
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/sys/kernel/hung_task_detect_count
+Lines: 1
+6
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys/kernel/random
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -60,15 +60,16 @@ func (p Proc) FDInfo(fd string) (*ProcFDInfo, error) {
 	scanner := bufio.NewScanner(bytes.NewReader(data))
 	for scanner.Scan() {
 		text = scanner.Text()
-		if rPos.MatchString(text) {
+		switch {
+		case rPos.MatchString(text):
 			pos = rPos.FindStringSubmatch(text)[1]
-		} else if rFlags.MatchString(text) {
+		case rFlags.MatchString(text):
 			flags = rFlags.FindStringSubmatch(text)[1]
-		} else if rMntID.MatchString(text) {
+		case rMntID.MatchString(text):
 			mntid = rMntID.FindStringSubmatch(text)[1]
-		} else if rIno.MatchString(text) {
+		case rIno.MatchString(text):
 			ino = rIno.FindStringSubmatch(text)[1]
-		} else if rInotify.MatchString(text) {
+		case rInotify.MatchString(text):
 			newInotify, err := parseInotifyInfo(text)
 			if err != nil {
 				return nil, err

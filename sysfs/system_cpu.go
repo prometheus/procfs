@@ -172,11 +172,12 @@ func binSearch(elem uint16, elemSlice *[]uint16) bool {
 
 	for start <= end {
 		mid = (start + end) / 2
-		if (*elemSlice)[mid] == elem {
+		switch {
+		case (*elemSlice)[mid] == elem:
 			return true
-		} else if (*elemSlice)[mid] > elem {
+		case (*elemSlice)[mid] > elem:
 			end = mid - 1
-		} else if (*elemSlice)[mid] < elem {
+		case (*elemSlice)[mid] < elem:
 			start = mid + 1
 		}
 	}

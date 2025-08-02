@@ -388,20 +388,21 @@ func parseFscacheinfo(r io.Reader) (*Fscacheinfo, error) {
 				}
 			}
 		case "CacheOp:":
-			if strings.Split(fields[1], "=")[0] == "alo" {
+			switch strings.Split(fields[1], "=")[0] {
+			case "alo":
 				err := setFSCacheFields(fields[1:], &m.CacheopAllocationsinProgress, &m.CacheopLookupObjectInProgress,
 					&m.CacheopLookupCompleteInPorgress, &m.CacheopGrabObjectInProgress)
 				if err != nil {
 					return &m, err
 				}
-			} else if strings.Split(fields[1], "=")[0] == "inv" {
+			case "inv":
 				err := setFSCacheFields(fields[1:], &m.CacheopInvalidations, &m.CacheopUpdateObjectInProgress,
 					&m.CacheopDropObjectInProgress, &m.CacheopPutObjectInProgress, &m.CacheopAttributeChangeInProgress,
 					&m.CacheopSyncCacheInProgress)
 				if err != nil {
 					return &m, err
 				}
-			} else {
+			default:
 				err := setFSCacheFields(fields[1:], &m.CacheopReadOrAllocPageInProgress, &m.CacheopReadOrAllocPagesInProgress,
 					&m.CacheopAllocatePageInProgress, &m.CacheopAllocatePagesInProgress, &m.CacheopWritePagesInProgress,
 					&m.CacheopUncachePagesInProgress, &m.CacheopDissociatePagesInProgress)

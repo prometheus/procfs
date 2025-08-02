@@ -154,7 +154,7 @@ func parseCorrectableAerCounters(devicePath string, counters *CorrectableAerCoun
 		counterName := fields[0]
 		value, err := strconv.ParseUint(fields[1], 10, 64)
 		if err != nil {
-			return fmt.Errorf("error parsing value for %s: %v", counterName, err)
+			return fmt.Errorf("error parsing value for %s: %w", counterName, err)
 		}
 
 		switch counterName {
@@ -206,7 +206,7 @@ func parseUncorrectableAerCounters(devicePath string, counterType string,
 		counterName := fields[0]
 		value, err := strconv.ParseUint(fields[1], 10, 64)
 		if err != nil {
-			return fmt.Errorf("error parsing value for %s: %v", counterName, err)
+			return fmt.Errorf("error parsing value for %s: %w", counterName, err)
 		}
 
 		switch counterName {

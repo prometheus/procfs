@@ -225,7 +225,7 @@ func TestIsolatedParsingCPU(t *testing.T) {
 			if err != nil && params.err != nil && err.Error() != params.err.Error() {
 				t.Fatalf("should have '%v' error: got '%v'", params.err, err)
 			}
-			if (err == nil || params.err == nil) && err != params.err {
+			if (err == nil || params.err == nil) && !errors.Is(err, params.err) {
 				t.Fatalf("should have %v error: got %v", params.err, err)
 			}
 

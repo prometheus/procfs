@@ -25,7 +25,6 @@ linters:
         - paramTypeCombine
         - rangeValCopy
         - sloppyReassign
-        - stringsCompare
         - stringXbytes
         - tooManyResultsChecker
         - unnamedResult

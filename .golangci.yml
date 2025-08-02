@@ -24,7 +24,6 @@ linters:
         - importShadow
         - paramTypeCombine
         - rangeValCopy
-        - sloppyReassign
         - tooManyResultsChecker
         - unnamedResult
         - whyNoLint

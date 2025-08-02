@@ -24,7 +24,6 @@ linters:
         - importShadow
         - paramTypeCombine
         - rangeValCopy
-        - regexpSimplify
         - sloppyReassign
         - stringsCompare
         - stringXbytes

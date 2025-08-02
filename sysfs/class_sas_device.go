@@ -42,7 +42,7 @@ type SASDeviceClass map[string]*SASDevice
 
 var (
 	sasTargetDeviceRegexp    = regexp.MustCompile(`^target[0-9:]+$`)
-	sasTargetSubDeviceRegexp = regexp.MustCompile(`[0-9]+:.*`)
+	sasTargetSubDeviceRegexp = regexp.MustCompile(`\d+:.*`)
 )
 
 // sasDeviceClasses reads all of the SAS devices from a specific set

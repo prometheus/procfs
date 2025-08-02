@@ -16,7 +16,6 @@ linters:
     gocritic:
       enable-all: true
       disabled-checks:
-        - captLocal
         - commentFormatting
         - commentedOutCode
         - deferInLoop

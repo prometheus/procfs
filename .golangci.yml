@@ -19,7 +19,6 @@ linters:
         - commentFormatting
         - commentedOutCode
         - deferInLoop
-        - emptyStringTest
         - filepathJoin
         - hugeParam
         - ifElseChain

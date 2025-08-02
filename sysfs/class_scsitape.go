@@ -62,7 +62,7 @@ func (fs FS) SCSITapeClass() (SCSITapeClass, error) {
 	validDevice := regexp.MustCompile(`^st\d+$`)
 
 	for _, d := range dirs {
-		if !validDevice.Match([]byte(d.Name())) {
+		if !validDevice.MatchString(d.Name()) {
 			continue
 		}
 		tape, err := fs.parseSCSITape(d.Name())

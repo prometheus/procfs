@@ -73,15 +73,16 @@ func parseARPEntries(data []byte) ([]ARPEntry, error) {
 		columns := strings.Fields(line)
 		width := len(columns)
 
-		if width == expectedHeaderWidth || width == 0 {
+		switch width {
+		case expectedHeaderWidth, 0:
 			continue
-		} else if width == expectedDataWidth {
+		case expectedDataWidth:
 			entry, err := parseARPEntry(columns)
 			if err != nil {
 				return []ARPEntry{}, fmt.Errorf("%w: Failed to parse ARP entry: %v: %w", ErrFileParse, entry, err)
 			}
 			entries = append(entries, entry)
-		} else {
+		default:
 			return []ARPEntry{}, fmt.Errorf("%w: %d columns found, but expected %d: %w", ErrFileParse, width, expectedDataWidth, err)
 		}
 

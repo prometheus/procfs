@@ -129,13 +129,14 @@ func parseMDStat(mdStatData []byte) ([]MDStat, error) {
 
 		// Append recovery and resyncing state info.
 		if recovering || resyncing || checking || reshaping {
-			if recovering {
+			switch {
+			case recovering:
 				state = "recovering"
-			} else if reshaping {
+			case reshaping:
 				state = "reshaping"
-			} else if checking {
+			case checking:
 				state = "checking"
-			} else {
+			default:
 				state = "resyncing"
 			}
 

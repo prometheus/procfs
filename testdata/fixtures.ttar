@@ -16825,6 +16825,45 @@ Mode: 755
 Directory: fixtures/sys/devices/system/node/node1
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/node/node1/meminfo
+Lines: 35
+Node 1 MemTotal:        101 kB
+Node 1 MemFree:         102 kB
+Node 1 MemUsed:         103 kB
+Node 1 SwapCached:      104 kB
+Node 1 Active:          105 kB
+Node 1 Inactive:        106 kB
+Node 1 Active(anon):    107 kB
+Node 1 Inactive(anon):  108 kB
+Node 1 Active(file):    109 kB
+Node 1 Inactive(file):  110 kB
+Node 1 Unevictable:     111 kB
+Node 1 Mlocked:         112 kB
+Node 1 Dirty:           113 kB
+Node 1 Writeback:       114 kB
+Node 1 FilePages:       115 kB
+Node 1 Mapped:          116 kB
+Node 1 AnonPages:       117 kB
+Node 1 Shmem:           118 kB
+Node 1 KernelStack:     119 kB
+Node 1 PageTables:      120 kB
+Node 1 NFS_Unstable:    121 kB
+Node 1 Bounce:          122 kB
+Node 1 WritebackTmp:    123 kB
+Node 1 KReclaimable:    124 kB
+Node 1 Slab:            125 kB
+Node 1 SReclaimable:    126 kB
+Node 1 SUnreclaim:      127 kB
+Node 1 AnonHugePages:   128 kB
+Node 1 ShmemHugePages:  129 kB
+Node 1 ShmemPmdMapped:  130 kB
+Node 1 FileHugePages:   131 kB
+Node 1 FilePmdMapped:   132 kB
+Node 1 HugePages_Total: 133
+Node 1 HugePages_Free:  134
+Node 1 HugePages_Surp:  135EOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/node/node1/vmstat
 Lines: 6
 nr_free_pages 1
@@ -16837,6 +16876,45 @@ Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/node/node2
 Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/node/node2/meminfo
+Lines: 35
+Node 2 MemTotal:        201 kB
+Node 2 MemFree:         202 kB
+Node 2 MemUsed:         203 kB
+Node 2 SwapCached:      204 kB
+Node 2 Active:          205 kB
+Node 2 Inactive:        206 kB
+Node 2 Active(anon):    207 kB
+Node 2 Inactive(anon):  208 kB
+Node 2 Active(file):    209 kB
+Node 2 Inactive(file):  210 kB
+Node 2 Unevictable:     211 kB
+Node 2 Mlocked:         212 kB
+Node 2 Dirty:           213 kB
+Node 2 Writeback:       214 kB
+Node 2 FilePages:       215 kB
+Node 2 Mapped:          216 kB
+Node 2 AnonPages:       217 kB
+Node 2 Shmem:           218 kB
+Node 2 KernelStack:     219 kB
+Node 2 PageTables:      220 kB
+Node 2 NFS_Unstable:    221 kB
+Node 2 Bounce:          222 kB
+Node 2 WritebackTmp:    223 kB
+Node 2 KReclaimable:    224 kB
+Node 2 Slab:            225 kB
+Node 2 SReclaimable:    226 kB
+Node 2 SUnreclaim:      227 kB
+Node 2 AnonHugePages:   228 kB
+Node 2 ShmemHugePages:  229 kB
+Node 2 ShmemPmdMapped:  230 kB
+Node 2 FileHugePages:   231 kB
+Node 2 FilePmdMapped:   232 kB
+Node 2 HugePages_Total: 233
+Node 2 HugePages_Free:  234
+Node 2 HugePages_Surp:  235EOF
+Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/node/node2/vmstat
 Lines: 6

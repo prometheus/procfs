@@ -21,16 +21,10 @@ import (
 	"bytes"
 	"fmt"
 	"path/filepath"
-	"regexp"
 	"strconv"
 	"strings"
 
 	"github.com/prometheus/procfs/internal/util"
-)
-
-var (
-	nodePattern      = "devices/system/node/node[0-9]*"
-	nodeNumberRegexp = regexp.MustCompile(`.*devices/system/node/node([0-9]*)`)
 )
 
 type VMStat struct {

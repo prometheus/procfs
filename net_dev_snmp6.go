@@ -18,6 +18,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -56,7 +57,9 @@ func newNetDevSNMP6(dir string) (NetDevSNMP6, error) {
 	}
 
 	for _, iFaceFile := range ifaceFiles {
-		f, err := os.Open(dir + "/" + iFaceFile.Name())
+		filePath := filepath.Join(dir, iFaceFile.Name())
+
+		f, err := os.Open(filePath)
 		if err != nil {
 			return netDevSNMP6, err
 		}

@@ -25,7 +25,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/finomosec/procfs/internal/util"
 )
 
 // CPUInfo contains general information about a system CPU found in /proc/cpuinfo.

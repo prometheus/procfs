@@ -30,7 +30,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/finomosec/procfs/internal/util"
 )
 
 const lineFormat = "avg10=%f avg60=%f avg300=%f total=%d"

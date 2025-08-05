@@ -25,7 +25,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/finomosec/procfs/internal/util"
 )
 
 const infinibandClassPath = "class/infiniband"

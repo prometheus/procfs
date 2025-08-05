@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/finomosec/procfs/internal/util"
 )
 
 // Proc provides information about a running process.

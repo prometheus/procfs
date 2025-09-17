@@ -1,4 +1,4 @@
-module github.com/finomosec/procfs
+module github.com/prometheus/procfs
 
 go 1.23.0
 
@@ -8,4 +8,3 @@ require (
 	golang.org/x/sys v0.33.0
 )
 
-require github.com/prometheus/procfs v0.17.0

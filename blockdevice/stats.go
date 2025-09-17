@@ -21,9 +21,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/prometheus/procfs"
 	"github.com/finomosec/procfs/internal/fs"
 	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs"
 )
 
 // Info contains identifying information for a block device such as a disk drive.

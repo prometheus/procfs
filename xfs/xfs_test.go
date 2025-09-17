@@ -17,7 +17,7 @@ package xfs_test
 import (
 	"testing"
 
-	"github.com/finomosec/procfs/xfs"
+	"github.com/prometheus/procfs/xfs"
 )
 
 func TestReadProcStat(t *testing.T) {

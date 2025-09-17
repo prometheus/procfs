@@ -18,7 +18,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/finomosec/procfs/nfs"
+	"github.com/prometheus/procfs/nfs"
 )
 
 func TestNewNFSClientRPCStats(t *testing.T) {

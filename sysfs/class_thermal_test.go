@@ -20,7 +20,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 func TestClassThermalZoneStats(t *testing.T) {

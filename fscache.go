@@ -21,7 +21,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // Fscacheinfo represents fscache statistics.

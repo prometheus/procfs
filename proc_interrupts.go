@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // Interrupt represents a single interrupt line.

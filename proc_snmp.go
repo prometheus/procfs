@@ -21,7 +21,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // ProcSnmp models the content of /proc/<pid>/net/snmp.

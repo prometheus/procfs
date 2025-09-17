@@ -19,7 +19,7 @@ package procfs
 import (
 	"os"
 
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // KernelRandom contains information about to the kernel's random number generator.

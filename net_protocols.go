@@ -20,7 +20,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // NetProtocolStats stores the contents from /proc/net/protocols.

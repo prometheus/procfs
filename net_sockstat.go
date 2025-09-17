@@ -20,7 +20,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // A NetSockstat contains the output of /proc/net/sockstat{,6} for IPv4 or IPv6,

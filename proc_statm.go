@@ -18,7 +18,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // - https://man7.org/linux/man-pages/man5/proc_pid_statm.5.html

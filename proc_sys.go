@@ -17,7 +17,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 func sysctlToPath(sysctl string) string {

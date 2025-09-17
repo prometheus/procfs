@@ -18,7 +18,7 @@ import (
 	"os"
 	"strconv"
 
-	fsi "github.com/finomosec/procfs/internal/fs"
+	fsi "github.com/prometheus/procfs/internal/fs"
 )
 
 // Provide access to /proc/PID/task/TID files, for thread specific values. Since

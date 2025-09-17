@@ -20,7 +20,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // Crypto holds info parsed from /proc/crypto.

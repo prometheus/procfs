@@ -21,8 +21,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/finomosec/procfs/internal/fs"
-	"github.com/finomosec/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/fs"
+	"github.com/prometheus/procfs/internal/util"
 
 	"github.com/prometheus/procfs"
 )

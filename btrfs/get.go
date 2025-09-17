@@ -22,10 +22,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/finomosec/procfs/internal/fs"
-	"github.com/finomosec/procfs/internal/util"
-
 	"github.com/prometheus/procfs"
+	"github.com/prometheus/procfs/internal/fs"
+	"github.com/prometheus/procfs/internal/util"
 )
 
 // FS represents the pseudo-filesystem sys, which provides an interface to

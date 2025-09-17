@@ -7,4 +7,3 @@ require (
 	golang.org/x/sync v0.15.0
 	golang.org/x/sys v0.33.0
 )
-

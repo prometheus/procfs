@@ -7,3 +7,5 @@ require (
 	golang.org/x/sync v0.15.0
 	golang.org/x/sys v0.33.0
 )
+
+require github.com/prometheus/procfs v0.17.0

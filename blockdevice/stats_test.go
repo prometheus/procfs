@@ -14,6 +14,7 @@
 package blockdevice
 
 import (
+	"errors"
 	"os"
 	"reflect"
 	"testing"
@@ -181,9 +182,10 @@ func TestBlockDmInfo(t *testing.T) {
 
 	dm1Info, err := blockdevice.SysBlockDeviceMapperInfo(devices[1])
 	if err != nil {
-		if _, ok := err.(*os.PathError); ok {
+		var pErr *os.PathError
+		if errors.As(err, &pErr) {
 			// Fail the test if there's an error other than PathError.
-			if !os.IsNotExist(err) {
+			if !os.IsNotExist(pErr) {
 				t.Fatal(err)
 			}
 		} else {

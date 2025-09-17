@@ -51,7 +51,7 @@ func TestProcStatmLimits(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// max values of stat int fields
+	// max values of statm int fields
 	for _, test := range []struct {
 		name string
 		want uint64

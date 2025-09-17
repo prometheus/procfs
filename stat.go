@@ -16,6 +16,7 @@ package procfs
 import (
 	"bufio"
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"strconv"
@@ -92,7 +93,7 @@ func parseCPUStat(line string) (CPUStat, int64, error) {
 		&cpuStat.Iowait, &cpuStat.IRQ, &cpuStat.SoftIRQ, &cpuStat.Steal,
 		&cpuStat.Guest, &cpuStat.GuestNice)
 
-	if err != nil && err != io.EOF {
+	if err != nil && !errors.Is(err, io.EOF) {
 		return CPUStat{}, -1, fmt.Errorf("%w: couldn't parse %q (cpu): %w", ErrFileParse, line, err)
 	}
 	if count == 0 {

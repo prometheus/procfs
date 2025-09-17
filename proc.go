@@ -49,7 +49,7 @@ func (p Procs) Less(i, j int) bool { return p[i].PID < p[j].PID }
 // Self returns a process for the current process read via /proc/self.
 func Self() (Proc, error) {
 	fs, err := NewFS(DefaultMountPoint)
-	if err != nil || errors.Unwrap(err) == ErrMountPoint {
+	if err != nil || errors.Is(err, ErrMountPoint) {
 		return Proc{}, err
 	}
 	return fs.Self()

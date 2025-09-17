@@ -1,6 +1,7 @@
 version: "2"
 linters:
   enable:
+    - errorlint
     - forbidigo
     - godot
     - misspell
@@ -19,16 +20,12 @@ linters:
     misspell:
       locale: US
   exclusions:
-    generated: lax
     presets:
       - comments
       - common-false-positives
       - legacy
       - std-error-handling
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
+    warn-unused: true
 formatters:
   enable:
     - gofmt
@@ -37,9 +34,3 @@ formatters:
     goimports:
       local-prefixes:
         - github.com/prometheus/procfs
-  exclusions:
-    generated: lax
-    paths:
-      - third_party$
-      - builtin$
-      - examples$

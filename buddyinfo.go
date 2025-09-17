@@ -64,10 +64,8 @@ func parseBuddyInfo(r io.Reader) ([]BuddyInfo, error) {
 
 		if bucketCount == -1 {
 			bucketCount = arraySize
-		} else {
-			if bucketCount != arraySize {
-				return nil, fmt.Errorf("%w: mismatch in number of buddyinfo buckets, previous count %d, new count %d", ErrFileParse, bucketCount, arraySize)
-			}
+		} else if bucketCount != arraySize {
+			return nil, fmt.Errorf("%w: mismatch in number of buddyinfo buckets, previous count %d, new count %d", ErrFileParse, bucketCount, arraySize)
 		}
 
 		sizes := make([]float64, arraySize)

@@ -357,7 +357,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			device.SriovVfDevice = &v
 
 		case "sriov_vf_total_msix":
-			value, err := strconv.ParseInt(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 64)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}

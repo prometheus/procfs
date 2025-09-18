@@ -317,7 +317,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			device.SriovDriversAutoprobe = &v
 
 		case "sriov_numvfs":
-			value, err := strconv.ParseUint(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 32)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}
@@ -325,7 +325,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			device.SriovNumvfs = &v
 
 		case "sriov_offset":
-			value, err := strconv.ParseUint(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 32)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}
@@ -333,7 +333,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			device.SriovOffset = &v
 
 		case "sriov_stride":
-			value, err := strconv.ParseUint(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 32)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}
@@ -341,7 +341,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			device.SriovStride = &v
 
 		case "sriov_totalvfs":
-			value, err := strconv.ParseUint(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 32)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}
@@ -349,7 +349,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			device.SriovTotalvfs = &v
 
 		case "sriov_vf_device":
-			value, err := strconv.ParseUint(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 32)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}

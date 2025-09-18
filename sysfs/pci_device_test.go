@@ -41,11 +41,11 @@ func TestPciDevices(t *testing.T) {
 
 		// SR-IOV test values
 		SriovDriversAutoprobe = true
-		SriovNumvfs           = 0
-		SriovOffset           = 8
-		SriovStride           = 1
-		SriovTotalvfs         = 128
-		SriovVfDevice         = 1889
+		SriovNumvfs           = uint32(0)
+		SriovOffset           = uint32(8)
+		SriovStride           = uint32(1)
+		SriovTotalvfs         = uint32(128)
+		SriovVfDevice         = uint32(1889)
 		SriovVfTotalMsix      = uint64(4294967033)
 
 		// Optional device test values

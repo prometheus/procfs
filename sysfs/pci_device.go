@@ -88,11 +88,11 @@ type PciDevice struct {
 	CurrentLinkWidth *float64 // /sys/bus/pci/devices/<Location>/current_link_width
 
 	SriovDriversAutoprobe *bool   // /sys/bus/pci/devices/<Location>/sriov_drivers_autoprobe
-	SriovNumvfs           *int    // /sys/bus/pci/devices/<Location>/sriov_numvfs
-	SriovOffset           *int    // /sys/bus/pci/devices/<Location>/sriov_offset
-	SriovStride           *int    // /sys/bus/pci/devices/<Location>/sriov_stride
-	SriovTotalvfs         *int    // /sys/bus/pci/devices/<Location>/sriov_totalvfs
-	SriovVfDevice         *int    // /sys/bus/pci/devices/<Location>/sriov_vf_device
+	SriovNumvfs           *uint32 // /sys/bus/pci/devices/<Location>/sriov_numvfs
+	SriovOffset           *uint32 // /sys/bus/pci/devices/<Location>/sriov_offset
+	SriovStride           *uint32 // /sys/bus/pci/devices/<Location>/sriov_stride
+	SriovTotalvfs         *uint32 // /sys/bus/pci/devices/<Location>/sriov_totalvfs
+	SriovVfDevice         *uint32 // /sys/bus/pci/devices/<Location>/sriov_vf_device
 	SriovVfTotalMsix      *uint64 // /sys/bus/pci/devices/<Location>/sriov_vf_total_msix
 
 	D3coldAllowed *bool          // /sys/bus/pci/devices/<Location>/d3cold_allowed
@@ -317,43 +317,43 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			device.SriovDriversAutoprobe = &v
 
 		case "sriov_numvfs":
-			value, err := strconv.ParseInt(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 64)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}
-			v := int(value)
+			v := uint32(value)
 			device.SriovNumvfs = &v
 
 		case "sriov_offset":
-			value, err := strconv.ParseInt(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 64)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}
-			v := int(value)
+			v := uint32(value)
 			device.SriovOffset = &v
 
 		case "sriov_stride":
-			value, err := strconv.ParseInt(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 64)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}
-			v := int(value)
+			v := uint32(value)
 			device.SriovStride = &v
 
 		case "sriov_totalvfs":
-			value, err := strconv.ParseInt(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 64)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}
-			v := int(value)
+			v := uint32(value)
 			device.SriovTotalvfs = &v
 
 		case "sriov_vf_device":
-			value, err := strconv.ParseInt(valueStr, 10, 64)
+			value, err := strconv.ParseUint(valueStr, 10, 64)
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
 			}
-			v := int(value)
+			v := uint32(value)
 			device.SriovVfDevice = &v
 
 		case "sriov_vf_total_msix":

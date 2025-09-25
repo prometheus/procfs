@@ -17,11 +17,13 @@
 package sysfs
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -97,7 +99,7 @@ func (fs FS) parseSASPhy(name string) (*SASPhy, error) {
 		if fileinfo.Mode().IsRegular() {
 			value, err := util.SysReadFile(name)
 			if err != nil {
-				if os.IsPermission(err) {
+				if os.IsPermission(err) || errors.Is(err, syscall.EINVAL) {
 					continue
 				}
 				return nil, fmt.Errorf("failed to read file %q: %w", name, err)

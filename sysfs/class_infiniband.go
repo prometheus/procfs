@@ -107,9 +107,9 @@ type InfiniBandHwCounters struct {
 // /sys/class/infiniband/<Name>/ports/<Port>
 // for a single port of one InfiniBand device.
 type InfiniBandPort struct {
-	LinkLayer   string
 	Name        string
 	Port        uint
+	LinkLayer   string // String representation from /sys/class/infiniband/<Name>/ports/<Port>/link_layer
 	State       string // String representation from /sys/class/infiniband/<Name>/ports/<Port>/state
 	StateID     uint   // ID from /sys/class/infiniband/<Name>/ports/<Port>/state
 	PhysState   string // String representation from /sys/class/infiniband/<Name>/ports/<Port>/phys_state

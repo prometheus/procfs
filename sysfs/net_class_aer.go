@@ -143,7 +143,7 @@ func parseCorrectableAerCounters(devicePath string, counters *CorrectableAerCoun
 		return fmt.Errorf("failed to read file %q: %w", path, err)
 	}
 
-	for _, line := range strings.Split(string(value), "\n") {
+	for line := range strings.SplitSeq(string(value), "\n") {
 		if line == "" {
 			continue
 		}
@@ -195,7 +195,7 @@ func parseUncorrectableAerCounters(devicePath string, counterType string,
 		return fmt.Errorf("failed to read file %q: %w", path, err)
 	}
 
-	for _, line := range strings.Split(string(value), "\n") {
+	for line := range strings.SplitSeq(string(value), "\n") {
 		if line == "" {
 			continue
 		}

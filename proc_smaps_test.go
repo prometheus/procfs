@@ -31,8 +31,7 @@ func BenchmarkProcSMapsRollup(b *testing.B) {
 		b.Fatal(err)
 	}
 
-	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
+	for b.Loop() {
 		_, _ = p.ProcSMapsRollup()
 	}
 }

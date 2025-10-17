@@ -20,6 +20,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -185,10 +186,8 @@ func (sdc *SASDeviceClass) GetByName(name string) *SASDevice {
 // GetByPhy finds the SASDevice that contains the provided PHY name.
 func (sdc *SASDeviceClass) GetByPhy(name string) *SASDevice {
 	for _, d := range *sdc {
-		for _, p := range d.SASPhys {
-			if p == name {
-				return d
-			}
+		if slices.Contains(d.SASPhys, name) {
+			return d
 		}
 	}
 	return nil
@@ -197,10 +196,8 @@ func (sdc *SASDeviceClass) GetByPhy(name string) *SASDevice {
 // GetByPort finds the SASDevice that contains the provided SAS Port name.
 func (sdc *SASDeviceClass) GetByPort(name string) *SASDevice {
 	for _, d := range *sdc {
-		for _, p := range d.SASPorts {
-			if p == name {
-				return d
-			}
+		if slices.Contains(d.SASPorts, name) {
+			return d
 		}
 	}
 	return nil

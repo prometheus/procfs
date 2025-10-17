@@ -383,7 +383,7 @@ func parseMountStatsNFS(s *bufio.Scanner, statVersion string) (*MountStatsNFS, e
 			if stats.Opts == nil {
 				stats.Opts = map[string]string{}
 			}
-			for _, opt := range strings.Split(ss[1], ",") {
+			for opt := range strings.SplitSeq(ss[1], ",") {
 				split := strings.Split(opt, "=")
 				if len(split) == 2 {
 					stats.Opts[split[0]] = split[1]

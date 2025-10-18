@@ -139,9 +139,6 @@ func parseSockstatKVs(kvs []string) (map[string]int, error) {
 func parseSockstatProtocol(kvs map[string]int) NetSockstatProtocol {
 	var nsp NetSockstatProtocol
 	for k, v := range kvs {
-		// Capture the range variable to ensure we get unique pointers for
-		// each of the optional fields.
-		v := v
 		switch k {
 		case "inuse":
 			nsp.InUse = v

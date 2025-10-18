@@ -326,7 +326,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 		}
 	} else {
 		cpuinfoFrequencyDuration = &map[uint64]uint64{}
-		for _, line := range strings.Split(string(cpuinfoFrequencyDurationString), "\n") {
+		for line := range strings.SplitSeq(string(cpuinfoFrequencyDurationString), "\n") {
 			if line == "" {
 				continue
 			}
@@ -409,7 +409,7 @@ func parseCPURange(data []byte) ([]uint16, error) {
 
 	var cpusInt = []uint16{}
 
-	for _, cpu := range strings.Split(strings.TrimSuffix(string(data), "\n"), ",") {
+	for cpu := range strings.SplitSeq(strings.TrimSuffix(string(data), "\n"), ",") {
 		if cpu == "" {
 			continue
 		}

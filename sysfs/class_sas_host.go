@@ -20,6 +20,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 )
 
 const sasHostClassPath = "class/sas_host"
@@ -100,10 +101,8 @@ func (shc *SASHostClass) GetByName(hostName string) *SASHost {
 // GetByPhy finds the SASHost that contains the provided PHY name.
 func (shc *SASHostClass) GetByPhy(phyName string) *SASHost {
 	for _, h := range *shc {
-		for _, p := range h.SASPhys {
-			if p == phyName {
-				return h
-			}
+		if slices.Contains(h.SASPhys, phyName) {
+			return h
 		}
 	}
 	return nil
@@ -112,10 +111,8 @@ func (shc *SASHostClass) GetByPhy(phyName string) *SASHost {
 // GetByPort finds the SASHost that contains the provided SAS Port name.
 func (shc *SASHostClass) GetByPort(portName string) *SASHost {
 	for _, h := range *shc {
-		for _, p := range h.SASPorts {
-			if p == portName {
-				return h
-			}
+		if slices.Contains(h.SASPorts, portName) {
+			return h
 		}
 	}
 	return nil

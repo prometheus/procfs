@@ -147,7 +147,7 @@ func BenchmarkParseAddress(b *testing.B) {
 		s, e uintptr
 		err  error
 	)
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		s, e, err = parseAddresses("7f7d7469e000-7f7d746a0000")
 		if err != nil {
 			b.Fatal(err)
@@ -166,7 +166,7 @@ func BenchmarkParseDevice(b *testing.B) {
 		d   uint64
 		err error
 	)
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		d, err = parseDevice("00:22")
 		if err != nil {
 			b.Fatal(err)

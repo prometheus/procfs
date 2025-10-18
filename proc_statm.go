@@ -80,7 +80,7 @@ func (p Proc) Statm() (ProcStatm, error) {
 func parseStatm(data []byte) ([]uint64, error) {
 	var statmSlice []uint64
 	statmItems := strings.Fields(string(data))
-	for i := 0; i < len(statmItems); i++ {
+	for i := range statmItems {
 		statmItem, err := strconv.ParseUint(statmItems[i], 10, 64)
 		if err != nil {
 			return nil, err

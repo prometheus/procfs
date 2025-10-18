@@ -108,7 +108,7 @@ func testNetUNIX(t *testing.T, testInode bool, got *NetUNIX) {
 	// Enable the fixtures to be used for multiple tests by clearing the inode
 	// field when appropriate.
 	if !testInode {
-		for i := 0; i < len(want); i++ {
+		for i := range want {
 			want[i].Inode = 0
 		}
 	}

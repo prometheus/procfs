@@ -425,8 +425,7 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 		return BlockQueueStats{}, err
 	}
 	var schedulers []string
-	xs := strings.Split(scheduler, " ")
-	for _, s := range xs {
+	for s := range strings.SplitSeq(scheduler, " ") {
 		if strings.HasPrefix(s, "[") && strings.HasSuffix(s, "]") {
 			s = s[1 : len(s)-1]
 			stat.SchedulerCurrent = s

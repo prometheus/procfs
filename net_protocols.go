@@ -169,7 +169,7 @@ func (pc *NetProtocolCapabilities) parseCapabilities(capabilities []string) erro
 		&pc.EnterMemoryPressure,
 	}
 
-	for i := 0; i < len(capabilities); i++ {
+	for i := range capabilities {
 		switch capabilities[i] {
 		case "y":
 			*capabilityFields[i] = true

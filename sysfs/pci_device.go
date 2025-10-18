@@ -26,6 +26,24 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
+// PciPowerState represents the power state of a PCI device.
+type PciPowerState string
+
+const (
+	PciPowerStateUnknown PciPowerState = "unknown"
+	PciPowerStateError   PciPowerState = "error"
+	PciPowerStateD0      PciPowerState = "D0"
+	PciPowerStateD1      PciPowerState = "D1"
+	PciPowerStateD2      PciPowerState = "D2"
+	PciPowerStateD3Hot   PciPowerState = "D3hot"
+	PciPowerStateD3Cold  PciPowerState = "D3cold"
+)
+
+// String returns the string representation of the power state.
+func (p PciPowerState) String() string {
+	return string(p)
+}
+
 const pciDevicesPath = "bus/pci/devices"
 
 // PciDeviceLocation represents the location of the device attached.
@@ -63,10 +81,23 @@ type PciDevice struct {
 	SubsystemDevice uint32 // /sys/bus/pci/devices/<Location>/subsystem_device
 	Revision        uint32 // /sys/bus/pci/devices/<Location>/revision
 
+	NumaNode *int32 // /sys/bus/pci/devices/<Location>/numa_node
+
 	MaxLinkSpeed     *float64 // /sys/bus/pci/devices/<Location>/max_link_speed
 	MaxLinkWidth     *float64 // /sys/bus/pci/devices/<Location>/max_link_width
 	CurrentLinkSpeed *float64 // /sys/bus/pci/devices/<Location>/current_link_speed
 	CurrentLinkWidth *float64 // /sys/bus/pci/devices/<Location>/current_link_width
+
+	SriovDriversAutoprobe *bool   // /sys/bus/pci/devices/<Location>/sriov_drivers_autoprobe
+	SriovNumvfs           *uint32 // /sys/bus/pci/devices/<Location>/sriov_numvfs
+	SriovOffset           *uint32 // /sys/bus/pci/devices/<Location>/sriov_offset
+	SriovStride           *uint32 // /sys/bus/pci/devices/<Location>/sriov_stride
+	SriovTotalvfs         *uint32 // /sys/bus/pci/devices/<Location>/sriov_totalvfs
+	SriovVfDevice         *uint32 // /sys/bus/pci/devices/<Location>/sriov_vf_device
+	SriovVfTotalMsix      *uint64 // /sys/bus/pci/devices/<Location>/sriov_vf_total_msix
+
+	D3coldAllowed *bool          // /sys/bus/pci/devices/<Location>/d3cold_allowed
+	PowerState    *PciPowerState // /sys/bus/pci/devices/<Location>/power_state
 }
 
 func (pd PciDevice) Name() string {
@@ -204,7 +235,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 		}
 	}
 
-	for _, f := range [...]string{"max_link_speed", "max_link_width", "current_link_speed", "current_link_width"} {
+	for _, f := range [...]string{"max_link_speed", "max_link_width", "current_link_speed", "current_link_width", "numa_node"} {
 		name := filepath.Join(path, f)
 		valueStr, err := util.SysReadFile(name)
 		if err != nil {
@@ -254,6 +285,123 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			case "current_link_width":
 				device.CurrentLinkWidth = &v
 			}
+
+		case "numa_node":
+			value, err := strconv.ParseInt(valueStr, 10, 32)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse %s %q: %w", f, valueStr, err)
+			}
+			v := int32(value)
+			device.NumaNode = &v
+		}
+	}
+
+	// Parse SR-IOV files (these are optional and may not exist for all devices)
+	for _, f := range [...]string{"sriov_drivers_autoprobe", "sriov_numvfs", "sriov_offset", "sriov_stride", "sriov_totalvfs", "sriov_vf_device", "sriov_vf_total_msix"} {
+		name := filepath.Join(path, f)
+		valueStr, err := util.SysReadFile(name)
+		if err != nil {
+			if os.IsNotExist(err) {
+				continue // SR-IOV files are optional
+			}
+			return nil, fmt.Errorf("failed to read SR-IOV file %q: %w", name, err)
+		}
+
+		valueStr = strings.TrimSpace(valueStr)
+		if valueStr == "" {
+			continue
+		}
+
+		switch f {
+		case "sriov_drivers_autoprobe":
+			// sriov_drivers_autoprobe is a boolean (0 or 1)
+			value, err := strconv.ParseInt(valueStr, 10, 32)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse SR-IOV boolean %q: %w", valueStr, err)
+			}
+			v := value != 0
+			device.SriovDriversAutoprobe = &v
+
+		case "sriov_numvfs":
+			value, err := strconv.ParseUint(valueStr, 10, 32)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+			}
+			v := uint32(value)
+			device.SriovNumvfs = &v
+
+		case "sriov_offset":
+			value, err := strconv.ParseUint(valueStr, 10, 32)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+			}
+			v := uint32(value)
+			device.SriovOffset = &v
+
+		case "sriov_stride":
+			value, err := strconv.ParseUint(valueStr, 10, 32)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+			}
+			v := uint32(value)
+			device.SriovStride = &v
+
+		case "sriov_totalvfs":
+			value, err := strconv.ParseUint(valueStr, 10, 32)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+			}
+			v := uint32(value)
+			device.SriovTotalvfs = &v
+
+		case "sriov_vf_device":
+			value, err := strconv.ParseUint(valueStr, 10, 32)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+			}
+			v := uint32(value)
+			device.SriovVfDevice = &v
+
+		case "sriov_vf_total_msix":
+			value, err := strconv.ParseUint(valueStr, 10, 64)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+			}
+			v := uint64(value)
+			device.SriovVfTotalMsix = &v
+		}
+	}
+
+	// Parse power management files (these are optional and may not exist for all devices)
+	for _, f := range [...]string{"d3cold_allowed", "power_state"} {
+		name := filepath.Join(path, f)
+		valueStr, err := util.SysReadFile(name)
+		if err != nil {
+			if os.IsNotExist(err) {
+				continue // Power management files are optional
+			}
+			return nil, fmt.Errorf("failed to read power management file %q: %w", name, err)
+		}
+
+		valueStr = strings.TrimSpace(valueStr)
+		if valueStr == "" {
+			continue
+		}
+
+		switch f {
+		case "d3cold_allowed":
+			// d3cold_allowed is a boolean (0 or 1)
+			value, err := strconv.ParseInt(valueStr, 10, 32)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse d3cold_allowed boolean %q: %w", valueStr, err)
+			}
+			v := value != 0
+			device.D3coldAllowed = &v
+
+		case "power_state":
+			// power_state is a string (one of: "unknown", "error", "D0", "D1", "D2", "D3hot", "D3cold")
+			powerState := PciPowerState(valueStr)
+			device.PowerState = &powerState
 		}
 	}
 

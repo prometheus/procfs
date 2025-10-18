@@ -80,7 +80,8 @@ type PciDevice struct {
 	SubsystemVendor uint32 // /sys/bus/pci/devices/<Location>/subsystem_vendor
 	SubsystemDevice uint32 // /sys/bus/pci/devices/<Location>/subsystem_device
 	Revision        uint32 // /sys/bus/pci/devices/<Location>/revision
-	NumaNode        *int32 // /sys/bus/pci/devices/<Location>/numa_node
+
+	NumaNode *int32 // /sys/bus/pci/devices/<Location>/numa_node
 
 	MaxLinkSpeed     *float64 // /sys/bus/pci/devices/<Location>/max_link_speed
 	MaxLinkWidth     *float64 // /sys/bus/pci/devices/<Location>/max_link_width
@@ -205,7 +206,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 	}
 
 	// These files must exist in a device directory.
-	for _, f := range [...]string{"class", "vendor", "device", "subsystem_vendor", "subsystem_device", "revision", "numa_node"} {
+	for _, f := range [...]string{"class", "vendor", "device", "subsystem_vendor", "subsystem_device", "revision"} {
 		name := filepath.Join(path, f)
 		valueStr, err := util.SysReadFile(name)
 		if err != nil {
@@ -229,15 +230,12 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			device.SubsystemDevice = uint32(value)
 		case "revision":
 			device.Revision = uint32(value)
-		case "numa_node":
-			v := int32(value)
-			device.NumaNode = &v
 		default:
 			return nil, fmt.Errorf("unknown file %q", f)
 		}
 	}
 
-	for _, f := range [...]string{"max_link_speed", "max_link_width", "current_link_speed", "current_link_width"} {
+	for _, f := range [...]string{"max_link_speed", "max_link_width", "current_link_speed", "current_link_width", "numa_node"} {
 		name := filepath.Join(path, f)
 		valueStr, err := util.SysReadFile(name)
 		if err != nil {
@@ -287,6 +285,14 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			case "current_link_width":
 				device.CurrentLinkWidth = &v
 			}
+
+		case "numa_node":
+			value, err := strconv.ParseInt(valueStr, 10, 32)
+			if err != nil {
+				return nil, fmt.Errorf("failed to parse %s %q: %w", f, valueStr, err)
+			}
+			v := int32(value)
+			device.NumaNode = &v
 		}
 	}
 

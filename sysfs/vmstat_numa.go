@@ -30,7 +30,7 @@ import (
 
 var (
 	nodePattern      = "devices/system/node/node[0-9]*"
-	nodeNumberRegexp = regexp.MustCompile(`.*devices/system/node/node([0-9]*)`)
+	nodeNumberRegexp = regexp.MustCompile(`.*devices/system/node/node(\d*)`)
 )
 
 type VMStat struct {

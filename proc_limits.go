@@ -74,7 +74,7 @@ const (
 )
 
 var (
-	limitsMatch = regexp.MustCompile(`(Max \w+\s{0,1}?\w*\s{0,1}\w*)\s{2,}(\w+)\s+(\w+)`)
+	limitsMatch = regexp.MustCompile(`(Max \w+\s??\w*\s?\w*)\s{2,}(\w+)\s+(\w+)`)
 )
 
 // NewLimits returns the current soft limits of the process.

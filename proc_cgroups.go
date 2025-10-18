@@ -40,13 +40,13 @@ type CgroupSummary struct {
 
 // parseCgroupSummary parses each line of the /proc/cgroup file
 // Line format is `subsys_name	hierarchy	num_cgroups	enabled`.
-func parseCgroupSummaryString(CgroupSummaryStr string) (*CgroupSummary, error) {
+func parseCgroupSummaryString(cgroupSummaryStr string) (*CgroupSummary, error) {
 	var err error
 
-	fields := strings.Fields(CgroupSummaryStr)
+	fields := strings.Fields(cgroupSummaryStr)
 	// require at least 4 fields
 	if len(fields) < 4 {
-		return nil, fmt.Errorf("%w: 4+ fields required, found %d fields in cgroup info string: %s", ErrFileParse, len(fields), CgroupSummaryStr)
+		return nil, fmt.Errorf("%w: 4+ fields required, found %d fields in cgroup info string: %s", ErrFileParse, len(fields), cgroupSummaryStr)
 	}
 
 	CgroupSummary := &CgroupSummary{

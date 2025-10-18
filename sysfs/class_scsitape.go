@@ -59,10 +59,10 @@ func (fs FS) SCSITapeClass() (SCSITapeClass, error) {
 	// There are n?st[0-9]+[a-b]? variants depending on device features.
 	// n/2 is probably overestimated but never underestimated
 	stc := make(SCSITapeClass, len(dirs)/2)
-	validDevice := regexp.MustCompile(`^st[0-9]+$`)
+	validDevice := regexp.MustCompile(`^st\d+$`)
 
 	for _, d := range dirs {
-		if !validDevice.Match([]byte(d.Name())) {
+		if !validDevice.MatchString(d.Name()) {
 			continue
 		}
 		tape, err := fs.parseSCSITape(d.Name())

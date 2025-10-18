@@ -284,11 +284,12 @@ func ParseRoceRpEcnAttribute(ecnPath string, attrName string, ecn *RoceRpEcn) er
 	vp := util.NewValueParser(value)
 	switch attrName {
 	case "clamp_tgt_rate":
-		if *vp.PUInt64() == 0 {
+		switch *vp.PUInt64() {
+		case 0:
 			ecn.ClampTgtRate = false
-		} else if *vp.PUInt64() == 1 {
+		case 1:
 			ecn.ClampTgtRate = true
-		} else {
+		default:
 			return fmt.Errorf("failed to parse file %q: %w", attrPath, err)
 		}
 	case "dce_tcp_g":

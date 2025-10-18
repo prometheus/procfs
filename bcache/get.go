@@ -111,7 +111,7 @@ func parsePseudoFloat(str string) (float64, error) {
 	// v4.12-rc3).
 
 	// Restore the proper order:
-	fracPart = fracPart / 10.24
+	fracPart /= 10.24
 	return intPart + fracPart, nil
 }
 

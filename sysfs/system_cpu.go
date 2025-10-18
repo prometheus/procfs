@@ -172,11 +172,12 @@ func binSearch(elem uint16, elemSlice *[]uint16) bool {
 
 	for start <= end {
 		mid = (start + end) / 2
-		if (*elemSlice)[mid] == elem {
+		switch {
+		case (*elemSlice)[mid] == elem:
 			return true
-		} else if (*elemSlice)[mid] > elem {
+		case (*elemSlice)[mid] > elem:
 			end = mid - 1
-		} else if (*elemSlice)[mid] < elem {
+		case (*elemSlice)[mid] < elem:
 			start = mid + 1
 		}
 	}
@@ -254,7 +255,8 @@ func (fs FS) SystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 		})
 	}
 
-	if err = g.Wait(); err != nil {
+	err = g.Wait()
+	if err != nil {
 		return nil, err
 	}
 
@@ -364,7 +366,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 			fields[0] = strings.TrimSuffix(fields[0], ":")
 			cpuinfoTransitionTableRow := make([]uint64, len(fields))
 			for i := range fields {
-				if len(fields[i]) == 0 {
+				if fields[i] == "" {
 					continue
 				}
 				f, err := strconv.ParseUint(fields[i], 10, 64)

@@ -4723,6 +4723,9 @@ SymlinkTo: ../../../devices/pci0000:00/0000:00:02.1
 Path: fixtures/sys/bus/pci/devices/0000:01:00.0
 SymlinkTo: ../../../devices/pci0000:00/0000:00:02.1/0000:01:00.0
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/bus/pci/devices/0000:a2:00.0
+SymlinkTo: ../../../devices/pci0000:a2/0000:a2:00.0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/bus/pci/drivers
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -16447,6 +16450,875 @@ Path: fixtures/sys/devices/pci0000:00/0000:00:1f.6/vendor
 Lines: 1
 0x8086
 Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/aer_dev_correctable
+Lines: 9
+RxErr 0
+BadTLP 0
+BadDLLP 0
+Rollover 0
+Timeout 0
+NonFatalErr 0
+CorrIntErr 0
+HeaderOF 0
+TOTAL_ERR_COR 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/aer_dev_fatal
+Lines: 19
+Undefined 0
+DLP 0
+SDES 0
+TLP 0
+FCP 0
+CmpltTO 0
+CmpltAbrt 0
+UnxCmplt 0
+RxOF 0
+MalfTLP 0
+ECRC 0
+UnsupReq 0
+ACSViol 0
+UncorrIntErr 0
+BlockedTLP 0
+AtomicOpBlocked 0
+TLPBlockedErr 0
+PoisonTLPBlocked 0
+TOTAL_ERR_FATAL 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/aer_dev_nonfatal
+Lines: 19
+Undefined 0
+DLP 0
+SDES 0
+TLP 0
+FCP 0
+CmpltTO 0
+CmpltAbrt 0
+UnxCmplt 0
+RxOF 0
+MalfTLP 0
+ECRC 0
+UnsupReq 0
+ACSViol 0
+UncorrIntErr 0
+BlockedTLP 0
+AtomicOpBlocked 0
+TLPBlockedErr 0
+PoisonTLPBlocked 0
+TOTAL_ERR_NONFATAL 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ari_enabled
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/broken_parity_status
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/class
+Lines: 1
+0x020000
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/consistent_dma_mask_bits
+Lines: 1
+64
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/current_link_speed
+Lines: 1
+16.0 GT/s PCIe
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/current_link_width
+Lines: 1
+8
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/d3cold_allowed
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/device
+Lines: 1
+0x159b
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/dma_mask_bits
+Lines: 1
+64
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/driver
+SymlinkTo: ../../../../../../../../bus/pci/drivers/ice
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/driver_override
+Lines: 1
+(null)
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/enable
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/driver
+SymlinkTo: ../../../../../../../../../bus/auxiliary/drivers/ice.ptp_aux_dev_162_0_clk0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/power
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/power/async
+Lines: 1
+disabled
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/power/autosuspend_delay_ms
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/power/control
+Lines: 1
+auto
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/power/runtime_active_kids
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/power/runtime_active_time
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/power/runtime_enabled
+Lines: 1
+disabled
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/power/runtime_status
+Lines: 1
+unsupported
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/power/runtime_suspended_time
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/power/runtime_usage
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/subsystem
+SymlinkTo: ../../../../../../../../../bus/auxiliary
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ice.ptp_aux_dev_162_0_clk0.0/uevent
+Lines: 2
+DRIVER=ice.ptp_aux_dev_162_0_clk0
+MODALIAS=auxiliary:ice.ptp_aux_dev_162_0_clk0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/irq
+Lines: 1
+73
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/link
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/local_cpulist
+Lines: 1
+64-127
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/local_cpus
+Lines: 1
+ffffffff,ffffffff,00000000,00000000
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/max_link_speed
+Lines: 1
+16.0 GT/s PCIe
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/max_link_width
+Lines: 1
+8
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/modalias
+Lines: 1
+pci:v00008086d0000159Bsv00008086sd00000003bc02sc00i00
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/msi_bus
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/msi_irqs
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/addr_assign_type
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/addr_len
+Lines: 1
+6
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/address
+Lines: 1
+30:3e:a7:01:1a:5a
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/broadcast
+Lines: 1
+ff:ff:ff:ff:ff:ff
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/carrier
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/carrier_changes
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/carrier_down_count
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/carrier_up_count
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/dev_id
+Lines: 1
+0x0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/dev_port
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/device
+SymlinkTo: ../../../0000:a2:00.0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/dormant
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/duplex
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/flags
+Lines: 1
+0x1003
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/gro_flush_timeout
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/ifalias
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/ifindex
+Lines: 1
+4
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/iflink
+Lines: 1
+4
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/link_mode
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/mtu
+Lines: 1
+1500
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/name_assign_type
+Lines: 1
+4
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/napi_defer_hard_irqs
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/netdev_group
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/operstate
+Lines: 1
+down
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/phys_port_id
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/phys_port_name
+Lines: 1
+p0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/phys_switch_id
+Lines: 1
+303ea7ffff011a5a
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/power
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/power/async
+Lines: 1
+disabled
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/power/autosuspend_delay_ms
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/power/control
+Lines: 1
+auto
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/power/runtime_active_kids
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/power/runtime_active_time
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/power/runtime_enabled
+Lines: 1
+disabled
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/power/runtime_status
+Lines: 1
+unsupported
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/power/runtime_suspended_time
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/power/runtime_usage
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/proto_down
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/speed
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/collisions
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/multicast
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_bytes
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_compressed
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_crc_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_dropped
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_fifo_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_frame_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_length_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_missed_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_nohandler
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_over_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/rx_packets
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/tx_aborted_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/tx_bytes
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/tx_carrier_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/tx_compressed
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/tx_dropped
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/tx_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/tx_fifo_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/tx_heartbeat_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/tx_packets
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/statistics/tx_window_errors
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/subsystem
+SymlinkTo: ../../../../../../../../../../class/net
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/testing
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/threaded
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/tx_queue_len
+Lines: 1
+1000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/type
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/net/enp162s0f0np0/uevent
+Lines: 2
+INTERFACE=enp162s0f0np0
+IFINDEX=4
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/numa_node
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/async
+Lines: 1
+enabled
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/autosuspend_delay_ms
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/control
+Lines: 1
+on
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/runtime_active_kids
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/runtime_active_time
+Lines: 1
+6720171979
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/runtime_enabled
+Lines: 1
+forbidden
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/runtime_status
+Lines: 1
+active
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/runtime_suspended_time
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/runtime_usage
+Lines: 1
+2
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/wakeup
+Lines: 1
+disabled
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/wakeup_abort_count
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/wakeup_active
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/wakeup_active_count
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/wakeup_count
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/wakeup_expire_count
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/wakeup_last_time_ms
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/wakeup_max_time_ms
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power/wakeup_total_time_ms
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/power_state
+Lines: 1
+D0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/clock_name
+Lines: 1
+ice-0000:a2:00.0-clk
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/dev
+Lines: 1
+246:2
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/device
+SymlinkTo: ../../../0000:a2:00.0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/fifo
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/max_adjustment
+Lines: 1
+100000000
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/max_vclocks
+Lines: 1
+20
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/n_alarms
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/n_external_timestamps
+Lines: 1
+3
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/n_periodic_outputs
+Lines: 1
+4
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/n_programmable_pins
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/n_vclocks
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/power
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/power/async
+Lines: 1
+disabled
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/power/autosuspend_delay_ms
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/power/control
+Lines: 1
+auto
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/power/runtime_active_kids
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/power/runtime_active_time
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/power/runtime_enabled
+Lines: 1
+disabled
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/power/runtime_status
+Lines: 1
+unsupported
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/power/runtime_suspended_time
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/power/runtime_usage
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/pps_available
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/subsystem
+SymlinkTo: ../../../../../../../../../../class/ptp
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ptp/ptp2/uevent
+Lines: 3
+MAJOR=246
+MINOR=2
+DEVNAME=ptp2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/reset_method
+Lines: 1
+flr bus
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/revision
+Lines: 1
+0x02
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/sriov_drivers_autoprobe
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/sriov_numvfs
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/sriov_offset
+Lines: 1
+8
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/sriov_stride
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/sriov_totalvfs
+Lines: 1
+128
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/sriov_vf_device
+Lines: 1
+1889
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/sriov_vf_total_msix
+Lines: 1
+4294967033
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/subsystem
+SymlinkTo: ../../../../../../../../bus/pci
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/subsystem_device
+Lines: 1
+0x0003
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/subsystem_vendor
+Lines: 1
+0x8086
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/uevent
+Lines: 6
+DRIVER=ice
+PCI_CLASS=20000
+PCI_ID=8086:159B
+PCI_SUBSYS_ID=8086:0003
+PCI_SLOT_NAME=0000:a2:00.0
+MODALIAS=pci:v00008086d0000159Bsv00008086sd00000003bc02sc00i00
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/vendor
+Lines: 1
+0x8086
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/vpd
+Lines: 0
+Mode: 600
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/rbd
 Mode: 755

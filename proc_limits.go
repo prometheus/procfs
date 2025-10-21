@@ -19,6 +19,7 @@ import (
 	"os"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 // ProcLimits represents the soft limits for each of the process's resource
@@ -106,7 +107,7 @@ func (p Proc) Limits() (ProcLimits, error) {
 			return ProcLimits{}, fmt.Errorf("%w: couldn't parse %q line %q", ErrFileParse, f.Name(), s.Text())
 		}
 
-		switch fields[1] {
+		switch strings.TrimSpace(fields[1]) {
 		case "Max cpu time":
 			l.CPUTime, err = parseUint(fields[2])
 		case "Max file size":

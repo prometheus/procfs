@@ -15,6 +15,8 @@ package procfs
 import (
 	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestMountInfo(t *testing.T) {
@@ -180,5 +182,190 @@ func TestMountInfo(t *testing.T) {
 		if want, have := test.mount, mount; !reflect.DeepEqual(want, have) {
 			t.Errorf("mounts:\nwant:\n%+v\nhave:\n%+v", want, have)
 		}
+	}
+}
+
+func TestFSMountInfo(t *testing.T) {
+	fs, err := NewFS(procTestFixtures)
+	if err != nil {
+		t.Fatalf("failed to open procfs: %v", err)
+	}
+
+	want := []*MountInfo{
+		{
+			MountID:        1,
+			ParentID:       1,
+			MajorMinorVer:  "0:5",
+			Root:           "/",
+			Options:        map[string]string{"/root": ""},
+			OptionalFields: map[string]string{"shared": "8"},
+			FSType:         "rootfs",
+			Source:         "rootfs",
+			SuperOptions:   map[string]string{"rw": ""},
+		},
+		{
+			MountID:        16,
+			ParentID:       21,
+			MajorMinorVer:  "0:16",
+			Root:           "/",
+			MountPoint:     "/sys",
+			Options:        map[string]string{"nodev": "", "noexec": "", "nosuid": "", "relatime": "", "rw": ""},
+			OptionalFields: map[string]string{"shared": "7"},
+			FSType:         "sysfs",
+			Source:         "sysfs",
+			SuperOptions:   map[string]string{"rw": ""},
+		},
+		{
+			MountID:        17,
+			ParentID:       21,
+			MajorMinorVer:  "0:4",
+			Root:           "/",
+			MountPoint:     "/proc",
+			Options:        map[string]string{"nodev": "", "noexec": "", "nosuid": "", "relatime": "", "rw": ""},
+			OptionalFields: map[string]string{"shared": "12"},
+			FSType:         "proc",
+			Source:         "proc",
+			SuperOptions:   map[string]string{"rw": ""},
+		},
+		{
+			MountID:        21,
+			MajorMinorVer:  "8:1",
+			Root:           "/",
+			MountPoint:     "/",
+			Options:        map[string]string{"relatime": "", "rw": ""},
+			OptionalFields: map[string]string{"shared": "1"},
+			FSType:         "ext4",
+			Source:         "/dev/sda1",
+			SuperOptions:   map[string]string{"data": "ordered", "errors": "remount-ro", "rw": ""},
+		},
+		{
+			MountID:        194,
+			ParentID:       21,
+			MajorMinorVer:  "0:42",
+			Root:           "/",
+			MountPoint:     "/mnt/nfs/test",
+			Options:        map[string]string{"rw": ""},
+			OptionalFields: map[string]string{"shared": "144"},
+			FSType:         "nfs4",
+			Source:         "192.168.1.1:/srv/test",
+			SuperOptions: map[string]string{
+				"acdirmax":   "60",
+				"acdirmin":   "30",
+				"acregmax":   "60",
+				"acregmin":   "3",
+				"addr":       "192.168.1.1",
+				"clientaddr": "192.168.1.5",
+				"hard":       "",
+				"local_lock": "none",
+				"namlen":     "255",
+				"port":       "0",
+				"proto":      "tcp",
+				"retrans":    "2",
+				"rsize":      "1048576",
+				"rw":         "",
+				"sec":        "sys",
+				"timeo":      "600",
+				"vers":       "4.0",
+				"wsize":      "1048576",
+			},
+		},
+		{
+			MountID:        177,
+			ParentID:       21,
+			MajorMinorVer:  "0:42",
+			Root:           "/",
+			MountPoint:     "/mnt/nfs/test",
+			Options:        map[string]string{"rw": ""},
+			OptionalFields: map[string]string{"shared": "130"},
+			FSType:         "nfs4",
+			Source:         "192.168.1.1:/srv/test",
+			SuperOptions: map[string]string{
+				"acdirmax":   "60",
+				"acdirmin":   "30",
+				"acregmax":   "60",
+				"acregmin":   "3",
+				"addr":       "192.168.1.1",
+				"clientaddr": "192.168.1.5",
+				"hard":       "",
+				"local_lock": "none",
+				"namlen":     "255",
+				"port":       "0",
+				"proto":      "tcp",
+				"retrans":    "2",
+				"rsize":      "1048576",
+				"rw":         "",
+				"sec":        "sys",
+				"timeo":      "600",
+				"vers":       "4.0",
+				"wsize":      "1048576",
+			},
+		},
+		{
+			MountID:        1398,
+			ParentID:       798,
+			MajorMinorVer:  "0:44",
+			Root:           "/",
+			MountPoint:     "/mnt/nfs/test",
+			Options:        map[string]string{"relatime": "", "rw": ""},
+			OptionalFields: map[string]string{"shared": "1154"},
+			FSType:         "nfs",
+			Source:         "192.168.1.1:/srv/test",
+			SuperOptions: map[string]string{
+				"addr":       "192.168.1.1",
+				"hard":       "",
+				"local_lock": "none",
+				"mountaddr":  "192.168.1.1",
+				"mountport":  "49602",
+				"mountproto": "udp",
+				"mountvers":  "3",
+				"namlen":     "255",
+				"proto":      "udp",
+				"retrans":    "3",
+				"rsize":      "32768",
+				"rw":         "",
+				"sec":        "sys",
+				"timeo":      "11",
+				"vers":       "3",
+				"wsize":      "32768",
+			},
+		},
+		{
+			MountID:        1128,
+			ParentID:       67,
+			MajorMinorVer:  "253:0",
+			Root:           "/var/lib/containers/storage/overlay",
+			MountPoint:     "/var/lib/containers/storage/overlay",
+			Options:        map[string]string{"relatime": "", "rw": ""},
+			OptionalFields: map[string]string{},
+			FSType:         "xfs",
+			Source:         "/dev/mapper/rhel-root",
+			SuperOptions: map[string]string{
+				"attr2":    "",
+				"inode64":  "",
+				"logbsize": "32k",
+				"logbufs":  "8",
+				"noquota":  "",
+				"rw":       "",
+				"seclabel": "",
+			},
+		},
+	}
+
+	got, err := fs.GetMounts()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected mountpoints (-want +got):\n%s", diff)
+	}
+
+	got, err = fs.GetProcMounts(26231)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected mountpoints (-want +got):\n%s", diff)
 	}
 }

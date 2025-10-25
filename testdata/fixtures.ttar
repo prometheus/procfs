@@ -5787,6 +5787,11 @@ Lines: 1
 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/infiniband/hfi1_0/ports/1/link_layer
+Lines: 1
+InfiniBand
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/infiniband/hfi1_0/ports/1/phys_state
 Lines: 1
 5: LinkUp
@@ -5914,6 +5919,11 @@ Lines: 1
 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/infiniband/mlx4_0/ports/1/link_layer
+Lines: 1
+InfiniBand
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/1/phys_state
 Lines: 1
 5: LinkUp
@@ -6018,6 +6028,12 @@ Mode: 644
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/2/counters/symbol_error
 Lines: 1
 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/infiniband/mlx4_0/ports/2/link_layer
+Lines: 2
+InfiniBand
+
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/infiniband/mlx4_0/ports/2/phys_state
@@ -6298,6 +6314,11 @@ Mode: 644
 Path: fixtures/sys/class/infiniband/mlx5_0/ports/1/hw_counters/rx_write_requests
 Lines: 1
 742114
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/infiniband/mlx5_0/ports/1/link_layer
+Lines: 1
+InfiniBand
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/infiniband/mlx5_0/ports/1/phys_state

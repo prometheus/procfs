@@ -15,8 +15,9 @@ package procfs
 
 import (
 	"bytes"
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestParseNetRoute(t *testing.T) {
@@ -54,7 +55,7 @@ eno16780032      0000A8C0     00000000  0001   0       0    100     0000FFFF  0 
 			IRTT:        0,
 		},
 	}
-	if !reflect.DeepEqual(want, parsed) {
-		t.Errorf("want %v, parsed %v", want, parsed)
+	if diff := cmp.Diff(want, parsed); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

@@ -18,6 +18,8 @@ import (
 	"sort"
 	"strconv"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 var (
@@ -33,13 +35,13 @@ func TestAllThreads(t *testing.T) {
 	}
 	sort.Sort(threads)
 	for i, tid := range testTIDS {
-		if wantTID, haveTID := tid, threads[i].PID; wantTID != haveTID {
-			t.Errorf("want TID %d, have %d", wantTID, haveTID)
+		if diff := cmp.Diff(tid, threads[i].PID); diff != "" {
+			t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 		}
 		wantFS := fixFS.proc.Path(strconv.Itoa(testPID), "task")
 		haveFS := string(threads[i].fs.proc)
-		if wantFS != haveFS {
-			t.Errorf("want fs %q, have %q", wantFS, haveFS)
+		if diff := cmp.Diff(wantFS, haveFS); diff != "" {
+			t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 		}
 	}
 }

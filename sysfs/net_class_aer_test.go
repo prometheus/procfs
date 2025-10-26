@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestAerCountersByIface(t *testing.T) {
@@ -105,7 +106,7 @@ func TestAerCounters(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(aerCounters, ac) {
-		t.Errorf("Result not correct: want %v, have %v", aerCounters, ac)
+	if diff := cmp.Diff(aerCounters, ac); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

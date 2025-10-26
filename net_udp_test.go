@@ -15,8 +15,9 @@ package procfs
 
 import (
 	"net"
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func Test_newNetUDP(t *testing.T) {
@@ -125,8 +126,8 @@ func Test_newNetUDP(t *testing.T) {
 				t.Errorf("newNetUDP() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("newNetUDP() = %v, want %v", got, tt.want)
+			if diff := cmp.Diff(got, tt.want); diff != "" {
+				t.Fatalf("unexpected newNetUDP() (-want +got):\n%s", diff)
 			}
 		})
 	}
@@ -171,8 +172,8 @@ func Test_newNetUDPSummary(t *testing.T) {
 				t.Errorf("newNetUDPSummary() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("newNetUDPSummary() = %v, want %v", got, tt.want)
+			if diff := cmp.Diff(got, tt.want); diff != "" {
+				t.Fatalf("unexpected newNetUDPSummary() (-want +got):\n%s", diff)
 			}
 		})
 	}

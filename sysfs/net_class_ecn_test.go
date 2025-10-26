@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestEcnByIface(t *testing.T) {
@@ -96,7 +97,7 @@ func TestEcnDevices(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(ed, allEcnDevices) {
-		t.Errorf("Result not correct: want %v, have %v", allEcnDevices, ed)
+	if diff := cmp.Diff(ed, allEcnDevices); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

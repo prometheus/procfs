@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestClassDRMCardAMDGPUStats(t *testing.T) {
@@ -58,7 +59,7 @@ func TestClassDRMCardAMDGPUStats(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(classDRMCardStats, drmTest) {
-		t.Errorf("Result not correct: want %v, have %v", classDRMCardStats, drmTest)
+	if diff := cmp.Diff(classDRMCardStats, drmTest); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

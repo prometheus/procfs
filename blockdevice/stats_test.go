@@ -16,8 +16,9 @@ package blockdevice
 import (
 	"errors"
 	"os"
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 const (
@@ -150,8 +151,8 @@ func TestBlockDevice(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !reflect.DeepEqual(blockQueueStat, blockQueueStatExpected) {
-		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", blockQueueStatExpected, blockQueueStat)
+	if diff := cmp.Diff(blockQueueStat, blockQueueStatExpected); diff != "" {
+		t.Fatalf("unexpected BlockQueueStat (-want +got):\n%s", diff)
 	}
 }
 
@@ -176,8 +177,8 @@ func TestBlockDmInfo(t *testing.T) {
 		UseBlkMQ:                  0,
 		UUID:                      "LVM-3zSHSR5Nbf4j7g6auAAefWY2CMaX01theZYEvQyecVsm2WtX3iY5q51qq5dWWOq7",
 	}
-	if !reflect.DeepEqual(dm0Info, dm0InfoExpected) {
-		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", dm0InfoExpected, dm0Info)
+	if diff := cmp.Diff(dm0Info, dm0InfoExpected); diff != "" {
+		t.Fatalf("unexpected BlockQueueStat (-want +got):\n%s", diff)
 	}
 
 	dm1Info, err := blockdevice.SysBlockDeviceMapperInfo(devices[1])
@@ -195,8 +196,8 @@ func TestBlockDmInfo(t *testing.T) {
 		t.Fatal("SysBlockDeviceMapperInfo on sda was supposed to fail.")
 	}
 	dm1InfoExpected := DeviceMapperInfo{}
-	if !reflect.DeepEqual(dm1Info, dm1InfoExpected) {
-		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", dm0InfoExpected, dm0Info)
+	if diff := cmp.Diff(dm1Info, dm1InfoExpected); diff != "" {
+		t.Fatalf("unexpected BlockQueueStat (-want +got):\n%s", diff)
 	}
 }
 
@@ -217,8 +218,8 @@ func TestSysBlockDeviceUnderlyingDevices(t *testing.T) {
 	underlying0Expected := UnderlyingDeviceInfo{
 		DeviceNames: []string{"sda"},
 	}
-	if !reflect.DeepEqual(underlying0, underlying0Expected) {
-		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", underlying0Expected, underlying0)
+	if diff := cmp.Diff(underlying0, underlying0Expected); diff != "" {
+		t.Fatalf("unexpected BlockQueueStat (-want +got):\n%s", diff)
 	}
 }
 

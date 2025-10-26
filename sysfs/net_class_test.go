@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestNewNetClassDevices(t *testing.T) {
@@ -125,7 +126,7 @@ func TestNetClass(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(netClass, nc) {
-		t.Errorf("Result not correct: want %v, have %v", netClass, nc)
+	if diff := cmp.Diff(netClass, nc); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

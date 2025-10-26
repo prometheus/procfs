@@ -13,7 +13,6 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -179,8 +178,8 @@ func TestMountInfo(t *testing.T) {
 			t.Errorf("unexpected error: %v", err)
 		}
 
-		if want, have := test.mount, mount; !reflect.DeepEqual(want, have) {
-			t.Errorf("mounts:\nwant:\n%+v\nhave:\n%+v", want, have)
+		if diff := cmp.Diff(test.mount, mount); diff != "" {
+			t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 		}
 	}
 }

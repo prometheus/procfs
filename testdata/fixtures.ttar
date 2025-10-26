@@ -2513,7 +2513,7 @@ unused devices: <none>
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/meminfo
-Lines: 43
+Lines: 45
 MemTotal:       15666184 kB
 MemFree:          440324 kB
 Buffers:         1020128 kB
@@ -2529,6 +2529,8 @@ Unevictable:           0 kB
 Mlocked:               0 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
+Zswap:             22414 kB
+Zswapped:          10502 kB
 Dirty:               768 kB
 Writeback:             0 kB
 AnonPages:        266216 kB

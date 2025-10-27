@@ -14,9 +14,10 @@
 package nfs_test
 
 import (
-	"reflect"
 	"strings"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 
 	"github.com/prometheus/procfs/nfs"
 )
@@ -297,8 +298,8 @@ proc4 61 1 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 				t.Fatalf("unexpected error: %v", err)
 			}
 
-			if want, have := tt.stats, stats; !reflect.DeepEqual(want, have) {
-				t.Fatalf("unexpected NFS stats:\nwant:\n%v\nhave:\n%v", want, have)
+			if diff := cmp.Diff(tt.stats, stats); diff != "" {
+				t.Fatalf("unexpected NFS stats (-want +got):\n%s", diff)
 			}
 		})
 	}

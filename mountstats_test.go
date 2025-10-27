@@ -14,11 +14,11 @@
 package procfs
 
 import (
-	"fmt"
-	"reflect"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestMountStats(t *testing.T) {
@@ -503,38 +503,10 @@ func TestMountStats(t *testing.T) {
 			t.Errorf("unexpected error: %v", err)
 		}
 
-		if want, have := tt.mounts, mounts; !reflect.DeepEqual(want, have) {
-			t.Errorf("mounts:\nwant:\n%v\nhave:\n%v", mountsStr(want), mountsStr(have))
+		if diff := cmp.Diff(tt.mounts, mounts); diff != "" {
+			t.Fatalf("unexpected mounts (-want +got):\n%s", diff)
 		}
 	}
-}
-
-func mountsStr(mounts []*Mount) string {
-	var out string
-	for i, m := range mounts {
-		out += fmt.Sprintf("[%d] %q on %q (%q)", i, m.Device, m.Mount, m.Type)
-
-		stats, ok := m.Stats.(*MountStatsNFS)
-		if !ok {
-			out += "\n"
-			continue
-		}
-
-		out += fmt.Sprintf("\n\t- opts: %s", stats.Opts)
-		out += fmt.Sprintf("\n\t- v%s, age: %s", stats.StatVersion, stats.Age)
-		out += fmt.Sprintf("\n\t- bytes: %v", stats.Bytes)
-		out += fmt.Sprintf("\n\t- events: %v", stats.Events)
-		out += fmt.Sprintf("\n\t- transport: %v", stats.Transport)
-		out += "\n\t- per-operation stats:"
-
-		for _, o := range stats.Operations {
-			out += fmt.Sprintf("\n\t\t- %v", o)
-		}
-
-		out += "\n"
-	}
-
-	return out
 }
 
 func TestMountStatsExtendedOperationStats(t *testing.T) {

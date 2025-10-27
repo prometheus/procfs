@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestNewClocksource(t *testing.T) {
@@ -40,7 +41,7 @@ func TestNewClocksource(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(clocksources, c) {
-		t.Errorf("Result not correct: want %v, have %v", clocksources, c)
+	if diff := cmp.Diff(clocksources, c); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

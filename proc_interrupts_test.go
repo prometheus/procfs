@@ -14,8 +14,9 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestProcInterrupts(t *testing.T) {
@@ -83,8 +84,8 @@ func TestProcInterrupts(t *testing.T) {
 				if value.Devices != test.want.Devices {
 					t.Errorf("devices: want %s, have %s", test.want.Devices, value.Devices)
 				}
-				if !reflect.DeepEqual(value.Values, test.want.Values) {
-					t.Errorf("values: want %v, have %v", test.want.Values, value.Values)
+				if diff := cmp.Diff(test.want.Values, value.Values); diff != "" {
+					t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 				}
 			} else {
 				t.Errorf("IRQ %s not found", test.irq)

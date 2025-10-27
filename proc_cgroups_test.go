@@ -14,8 +14,9 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestParseCgroupSummaryString(t *testing.T) {
@@ -56,9 +57,8 @@ func TestParseCgroupSummaryString(t *testing.T) {
 			t.Errorf("%s: unexpected error: %v", test.name, err)
 		}
 
-		if want, have := test.CgroupSummary, CgroupSummary; !reflect.DeepEqual(want, have) {
-			t.Errorf("cgroup:\nwant:\n%+v\nhave:\n%+v", want, have)
+		if diff := cmp.Diff(test.CgroupSummary, CgroupSummary); diff != "" {
+			t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 		}
 	}
-
 }

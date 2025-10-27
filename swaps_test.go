@@ -14,8 +14,9 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestSwaps(t *testing.T) {
@@ -105,8 +106,8 @@ func TestParseSwapString(t *testing.T) {
 				t.Errorf("unexpected error: %v", err)
 			}
 
-			if !reflect.DeepEqual(tt.swap, swap) {
-				t.Errorf("swap:\nwant:\n%+v\nhave:\n%+v", tt.swap, swap)
+			if diff := cmp.Diff(tt.swap, swap); diff != "" {
+				t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 			}
 		})
 	}

@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestClassCoolingDeviceStats(t *testing.T) {
@@ -47,7 +48,7 @@ func TestClassCoolingDeviceStats(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(classCoolingDeviceStats, coolingDeviceTest) {
-		t.Errorf("Result not correct: want %v, have %v", classCoolingDeviceStats, coolingDeviceTest)
+	if diff := cmp.Diff(classCoolingDeviceStats, coolingDeviceTest); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

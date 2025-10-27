@@ -14,9 +14,10 @@
 package xfs_test
 
 import (
-	"reflect"
 	"strings"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 
 	"github.com/prometheus/procfs/xfs"
 )
@@ -748,8 +749,8 @@ func TestParseStats(t *testing.T) {
 			t.Errorf("unexpected error: %v", err)
 		}
 
-		if want, have := tt.stats, stats; !reflect.DeepEqual(want, have) {
-			t.Errorf("unexpected XFS stats:\nwant:\n%v\nhave:\n%v", want, have)
+		if diff := cmp.Diff(tt.stats, stats); diff != "" {
+			t.Fatalf("unexpected XFS stats (-want +got):\n%s", diff)
 		}
 	}
 }

@@ -17,8 +17,9 @@
 package sysfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -56,7 +57,7 @@ func TestClassThermalZoneStats(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(classThermalZoneStats, thermalTest) {
-		t.Errorf("Result not correct: want %v, have %v", classThermalZoneStats, thermalTest)
+	if diff := cmp.Diff(classThermalZoneStats, thermalTest); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

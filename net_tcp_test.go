@@ -15,8 +15,9 @@ package procfs
 
 import (
 	"net"
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func Test_newNetTCP(t *testing.T) {
@@ -120,8 +121,8 @@ func Test_newNetTCP(t *testing.T) {
 				t.Errorf("newNetTCP() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("newNetTCP() = %v, want %v", got, tt.want)
+			if diff := cmp.Diff(tt.want, got); diff != "" {
+				t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 			}
 		})
 	}
@@ -166,8 +167,8 @@ func Test_newNetTCPSummary(t *testing.T) {
 				t.Errorf("newNetTCPSummary() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("newNetTCPSummary() = %v, want %v", got, tt.want)
+			if diff := cmp.Diff(tt.want, got); diff != "" {
+				t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 			}
 		})
 	}

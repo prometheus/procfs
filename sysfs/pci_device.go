@@ -214,7 +214,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 		}
 		value, err := strconv.ParseInt(valueStr, 0, 32)
 		if err != nil {
-			return nil, fmt.Errorf("failed to parse %q: %w", valueStr, err)
+			return nil, fmt.Errorf("failed to parse %s %q %s: %w", f, valueStr, device.Location, err)
 		}
 
 		switch f {

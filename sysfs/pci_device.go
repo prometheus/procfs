@@ -214,7 +214,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 		}
 		value, err := strconv.ParseInt(valueStr, 0, 32)
 		if err != nil {
-			return nil, fmt.Errorf("failed to parse %q: %w", valueStr, err)
+			return nil, fmt.Errorf("failed to parse %s %q %s: %w", f, valueStr, device.Location, err)
 		}
 
 		switch f {
@@ -263,7 +263,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			}
 			value, err := strconv.ParseFloat(strings.TrimSpace(values[0]), 64)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse %s %q: %w", f, valueStr, err)
+				return nil, fmt.Errorf("failed to parse %s %q %s: %w", f, valueStr, device.Location, err)
 			}
 			v := float64(value)
 			switch f {
@@ -276,7 +276,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 		case "max_link_width", "current_link_width":
 			value, err := strconv.ParseInt(valueStr, 10, 64)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse %s %q: %w", f, valueStr, err)
+				return nil, fmt.Errorf("failed to parse %s %q %s: %w", f, valueStr, device.Location, err)
 			}
 			v := float64(value)
 			switch f {
@@ -289,7 +289,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 		case "numa_node":
 			value, err := strconv.ParseInt(valueStr, 10, 32)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse %s %q: %w", f, valueStr, err)
+				return nil, fmt.Errorf("failed to parse %s %q %s: %w", f, valueStr, device.Location, err)
 			}
 			v := int32(value)
 			device.NumaNode = &v
@@ -304,7 +304,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			if os.IsNotExist(err) {
 				continue // SR-IOV files are optional
 			}
-			return nil, fmt.Errorf("failed to read SR-IOV file %q: %w", name, err)
+			return nil, fmt.Errorf("failed to read SR-IOV file %q %s: %w", name, device.Location, err)
 		}
 
 		valueStr = strings.TrimSpace(valueStr)
@@ -317,7 +317,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			// sriov_drivers_autoprobe is a boolean (0 or 1)
 			value, err := strconv.ParseInt(valueStr, 10, 32)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse SR-IOV boolean %q: %w", valueStr, err)
+				return nil, fmt.Errorf("failed to parse SR-IOV drivers autoprobe %q %s: %w", valueStr, device.Location, err)
 			}
 			v := value != 0
 			device.SriovDriversAutoprobe = &v
@@ -325,7 +325,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 		case "sriov_numvfs":
 			value, err := strconv.ParseUint(valueStr, 10, 32)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+				return nil, fmt.Errorf("failed to parse SR-IOV numvfs %q %s: %w", valueStr, device.Location, err)
 			}
 			v := uint32(value)
 			device.SriovNumvfs = &v
@@ -333,7 +333,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 		case "sriov_offset":
 			value, err := strconv.ParseUint(valueStr, 10, 32)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+				return nil, fmt.Errorf("failed to parse SR-IOV offset %q %s: %w", valueStr, device.Location, err)
 			}
 			v := uint32(value)
 			device.SriovOffset = &v
@@ -341,7 +341,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 		case "sriov_stride":
 			value, err := strconv.ParseUint(valueStr, 10, 32)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+				return nil, fmt.Errorf("failed to parse SR-IOV stride %q %s: %w", valueStr, device.Location, err)
 			}
 			v := uint32(value)
 			device.SriovStride = &v
@@ -349,15 +349,15 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 		case "sriov_totalvfs":
 			value, err := strconv.ParseUint(valueStr, 10, 32)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+				return nil, fmt.Errorf("failed to parse SR-IOV totalvfs %q %s: %w", valueStr, device.Location, err)
 			}
 			v := uint32(value)
 			device.SriovTotalvfs = &v
 
 		case "sriov_vf_device":
-			value, err := strconv.ParseUint(valueStr, 10, 32)
+			value, err := strconv.ParseUint(valueStr, 16, 32)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+				return nil, fmt.Errorf("failed to parse SR-IOV vf device %q %s: %w", valueStr, device.Location, err)
 			}
 			v := uint32(value)
 			device.SriovVfDevice = &v
@@ -365,7 +365,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 		case "sriov_vf_total_msix":
 			value, err := strconv.ParseUint(valueStr, 10, 64)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse SR-IOV integer %q: %w", valueStr, err)
+				return nil, fmt.Errorf("failed to parse SR-IOV vf total msix %q %s: %w", valueStr, device.Location, err)
 			}
 			v := uint64(value)
 			device.SriovVfTotalMsix = &v
@@ -380,7 +380,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			if os.IsNotExist(err) {
 				continue // Power management files are optional
 			}
-			return nil, fmt.Errorf("failed to read power management file %q: %w", name, err)
+			return nil, fmt.Errorf("failed to read power management file %q %s: %w", name, device.Location, err)
 		}
 
 		valueStr = strings.TrimSpace(valueStr)
@@ -393,7 +393,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			// d3cold_allowed is a boolean (0 or 1)
 			value, err := strconv.ParseInt(valueStr, 10, 32)
 			if err != nil {
-				return nil, fmt.Errorf("failed to parse d3cold_allowed boolean %q: %w", valueStr, err)
+				return nil, fmt.Errorf("failed to parse d3cold_allowed boolean %q %s: %w", valueStr, device.Location, err)
 			}
 			v := value != 0
 			device.D3coldAllowed = &v

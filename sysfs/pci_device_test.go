@@ -45,7 +45,7 @@ func TestPciDevices(t *testing.T) {
 		SriovOffset           = uint32(8)
 		SriovStride           = uint32(1)
 		SriovTotalvfs         = uint32(128)
-		SriovVfDevice         = uint32(1889)
+		SriovVfDevice         = uint32(0x1889)
 		SriovVfTotalMsix      = uint64(4294967033)
 
 		// Optional device test values

@@ -81,8 +81,10 @@ func (fs FS) ClassDRMCardAMDGPUStats() ([]ClassDRMCardAMDGPUStats, error) {
 			}
 			return nil, err
 		}
-		cardStats.Name = filepath.Base(card)
-		stats = append(stats, cardStats)
+		if cardStats != (ClassDRMCardAMDGPUStats{}) {
+			cardStats.Name = filepath.Base(card)
+			stats = append(stats, cardStats)
+		}
 	}
 	return stats, nil
 }

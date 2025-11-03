@@ -46,6 +46,8 @@ func TestClassDRMCardAMDGPUStats(t *testing.T) {
 			MemoryVRAMVendor:              "samsung",
 			PowerDPMForcePerformanceLevel: "manual",
 			UniqueID:                      "0123456789abcdef",
+			DevName:                       "device",
+			DevType:                       "card0",
 		},
 		{
 			Name:                  "card1",

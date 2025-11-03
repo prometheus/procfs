@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"regexp"
+	"strings"
 	"syscall"
 
 	"github.com/prometheus/procfs/internal/util"
@@ -47,6 +48,21 @@ type ClassDRMCardAMDGPUStats struct {
 	MemoryVRAMVendor              string // The VRAM vendor name.
 	PowerDPMForcePerformanceLevel string // The current power performance level.
 	UniqueID                      string // The unique ID of the GPU that will persist from machine to machine.
+	DevName                       string // The device name.
+	DevType                       string // The device type.
+}
+
+// readDev reads the device name and type from the "device" symlink in the given directory.
+func readDevInfo(dir string) (string, string, error) {
+	devicePath, devErr := filepath.EvalSymlinks(filepath.Join(dir, "device"))
+	if devErr == nil {
+		devPathPrefix, devName := filepath.Split(devicePath)
+		_, devType := filepath.Split(strings.TrimRight(devPathPrefix, "/"))
+
+		return devName, devType, nil
+	}
+
+	return "", "", devErr
 }
 
 // ClassDRMCardAMDGPUStats returns DRM card metrics for all amdgpu cards.
@@ -116,6 +132,10 @@ func parseClassDRMAMDGPUCard(card string) (ClassDRMCardAMDGPUStats, error) {
 	}
 	if v, err := readDRMCardField(card, "unique_id"); err == nil {
 		stats.UniqueID = v
+	}
+	if n, t, err := readDevInfo(card); err == nil {
+		stats.DevName = n
+		stats.DevType = t
 	}
 
 	return stats, nil

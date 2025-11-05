@@ -51,7 +51,8 @@ func (fs FS) ClassThermalZoneStats() ([]ClassThermalZoneStats, error) {
 	for _, zone := range zones {
 		zoneStats, err := parseClassThermalZone(zone)
 		if err != nil {
-			if errors.Is(err, syscall.ENODATA) || errors.As(err, new(*fsp.PathError)) || errors.Is(err, syscall.EAGAIN) {
+			if errors.Is(err, syscall.ENODATA) || errors.As(err, new(*fsp.PathError)) || errors.Is(err, syscall.EAGAIN) ||
+				errors.Is(err, syscall.EINVAL) {
 				continue
 			}
 			return nil, err

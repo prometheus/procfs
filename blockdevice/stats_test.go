@@ -154,6 +154,13 @@ func TestBlockDevice(t *testing.T) {
 	if diff := cmp.Diff(blockQueueStat, blockQueueStatExpected); diff != "" {
 		t.Fatalf("unexpected BlockQueueStat (-want +got):\n%s", diff)
 	}
+	rotational, err := blockdevice.SysBlockDeviceQueueStat(devices[7], "rotational")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if rotational != "1" {
+		t.Errorf("Incorrect BlockQueueStat('rotational'), expected: \n%+v, got: \n%+v", 1, rotational)
+	}
 }
 
 func TestBlockDmInfo(t *testing.T) {

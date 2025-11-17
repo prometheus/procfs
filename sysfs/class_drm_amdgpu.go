@@ -105,6 +105,12 @@ func parseClassDRMAMDGPUCard(card string) (ClassDRMCardAMDGPUStats, error) {
 
 	stats := ClassDRMCardAMDGPUStats{Name: card}
 	// Read only specific files for faster data gathering.
+	if n, t, err := readDevInfo(card); err == nil {
+		stats.DevName = n
+		stats.DevType = t
+	} else {
+		return ClassDRMCardAMDGPUStats{}, err
+	}
 	if v, err := readDRMCardField(card, "gpu_busy_percent"); err == nil {
 		stats.GPUBusyPercent = *util.NewValueParser(v).PUInt64()
 	}
@@ -134,10 +140,6 @@ func parseClassDRMAMDGPUCard(card string) (ClassDRMCardAMDGPUStats, error) {
 	}
 	if v, err := readDRMCardField(card, "unique_id"); err == nil {
 		stats.UniqueID = v
-	}
-	if n, t, err := readDevInfo(card); err == nil {
-		stats.DevName = n
-		stats.DevType = t
 	}
 
 	return stats, nil

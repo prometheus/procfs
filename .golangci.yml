@@ -19,6 +19,10 @@ linters:
       capital: true
     misspell:
       locale: US
+    revive:
+      rules:
+        - name: var-naming
+          disabled: true
   exclusions:
     presets:
       - comments

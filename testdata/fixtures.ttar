@@ -6669,12 +6669,6 @@ Mode: 755
 Directory: fixtures/sys/class/nvme/nvme0
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Directory: fixtures/sys/class/nvme/nvme0/nvme0c0n0
-Mode: 755
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Directory: fixtures/sys/class/nvme/nvme0/nvme0c0n0/queue
-Mode: 755
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/cntlid
 Lines: 1
 1997
@@ -6690,6 +6684,32 @@ Lines: 1
 Samsung SSD 970 PRO 512GB               
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme/nvme0/nvme0c0n0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/ana_state
+Lines: 1
+optimized
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/nuse
+Lines: 1
+488281250
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme/nvme0/nvme0c0n0/queue
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/queue/logical_block_size
+Lines: 1
+4096
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/size
+Lines: 1
+3906250000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/serial
 Lines: 1
 S680HF8N190894I
@@ -6698,26 +6718,6 @@ Mode: 644
 Path: fixtures/sys/class/nvme/nvme0/state
 Lines: 1
 live
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/ana_state
-Lines: 1
-optimized
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/size
-Lines: 1
-3906250000
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/nuse
-Lines: 1
-488281250
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/queue/logical_block_size
-Lines: 1
-4096
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/power_supply

@@ -81,10 +81,16 @@ func (fs FS) Mdraids() ([]Mdraid, error) {
 			return mdraids, err
 		}
 
-		if val, err := util.ReadUintFromFile(filepath.Join(path, "raid_disks")); err == nil {
-			md.Disks = val
-		} else {
-			return mdraids, err
+		// RAID level is set to 'container', 'imsm' or 'ddf', no physical disks are assigned.
+		switch md.Level {
+		case "container", "imsm", "ddf":
+			md.Disks = 0
+		default:
+			if val, err := util.ReadUintFromFile(filepath.Join(path, "raid_disks")); err == nil {
+				md.Disks = val
+			} else {
+				return mdraids, err
+			}
 		}
 
 		if val, err := util.SysReadFile(filepath.Join(path, "uuid")); err == nil {

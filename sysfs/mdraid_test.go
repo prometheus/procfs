@@ -125,6 +125,14 @@ func TestMdraidStats(t *testing.T) {
 			SyncAction:    "recover",
 			SyncCompleted: 0.7500458659491194,
 		},
+		{
+			Device:          "md7",
+			Level:           "container",
+			ArrayState:      "inactive",
+			MetadataVersion: "1.2",
+			Disks:           0,
+			UUID:            "0e51f6d1-b357-2712-8eaa-31f6f597be6b",
+		},
 	}
 
 	if diff := cmp.Diff(want, got); diff != "" {

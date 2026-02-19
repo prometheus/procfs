@@ -89,59 +89,6 @@ flags:	02004002
 mnt_id:	9
 Mode: 400
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/proc/26231/interrupts
-Lines: 49
-           CPU0       CPU1       CPU2       CPU3
-  0:         49          0          0          0   IO-APIC   2-edge      timer
-  1:          0          0          0          9   IO-APIC   1-edge      i8042
-  4:          0       1443          0          0   IO-APIC   4-edge      ttyS0
-  8:          1          0          0          0   IO-APIC   8-edge      rtc0
-  9:          0          0          0          0   IO-APIC   9-fasteoi   acpi
- 12:          0          0        144          0   IO-APIC  12-edge      i8042
- 22:          0          0          0          5   IO-APIC  22-fasteoi   virtio1
- 24:          0          0          0          0   PCI-MSI 114688-edge      virtio5-config
- 25:       1800          0          0          0   PCI-MSI 114689-edge      virtio5-req.0
- 26:          0       1469          0          0   PCI-MSI 114690-edge      virtio5-req.1
- 27:          0          0       2654          0   PCI-MSI 114691-edge      virtio5-req.2
- 28:          0          0          0       1989   PCI-MSI 114692-edge      virtio5-req.3
- 29:       1362          0          0        934   PCI-MSI 512000-edge      ahci[0000:00:1f.2]
- 30:          0          0          0          0   PCI-MSI 98304-edge      xhci_hcd
- 31:          0          0          0          0   PCI-MSI 98305-edge      xhci_hcd
- 32:          0          0          0          0   PCI-MSI 98306-edge      xhci_hcd
- 33:          0          0          0          0   PCI-MSI 98307-edge      xhci_hcd
- 34:          0          0          0          0   PCI-MSI 98308-edge      xhci_hcd
- 35:          0          0          0          0   PCI-MSI 16384-edge      virtio0-config
- 36:          0        335         37          0   PCI-MSI 16385-edge      virtio0-input.0
- 37:          0          0          0        318   PCI-MSI 16386-edge      virtio0-output.0
- 38:          0          0          0          0   PCI-MSI 49152-edge      virtio2-config
- 39:       1243        178          0          0   PCI-MSI 49153-edge      virtio2-control
- 40:          0          0          0          0   PCI-MSI 49154-edge      virtio2-cursor
- 41:          0          0          0          0   PCI-MSI 65536-edge      virtio3-config
- 42:          0          0          0          0   PCI-MSI 65537-edge      virtio3-virtqueues
- 43:          0          0          0          0   PCI-MSI 81920-edge      virtio4-config
- 44:          0          0          0          0   PCI-MSI 81921-edge      virtio4-virtqueues
-NMI:          0          0          0          0   Non-maskable interrupts
-LOC:      10196       7429       8542       8229   Local timer interrupts
-SPU:          0          0          0          0   Spurious interrupts
-PMI:          0          0          0          0   Performance monitoring interrupts
-IWI:          0          3         11          6   IRQ work interrupts
-RTR:          0          0          0          0   APIC ICR read retries
-RES:       7997      11147      10898      12675   Rescheduling interrupts
-CAL:       2761       2485       1787       2367   Function call interrupts
-TLB:        212        137        158        231   TLB shootdowns
-TRM:          0          0          0          0   Thermal event interrupts
-THR:          0          0          0          0   Threshold APIC interrupts
-DFR:          0          0          0          0   Deferred Error APIC interrupts
-MCE:          0          0          0          0   Machine check exceptions
-MCP:          1          1          1          1   Machine check polls
-ERR:          0
-MIS:          0
-
-PIN:          0          0          0          0   Posted-interrupt notification event
-NPI:          0          0          0          0   Nested posted-interrupt event
-PIW:          0          0          0          0   Posted-interrupt wakeup event
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/26231/io
 Lines: 7
 rchar: 750339
@@ -2436,6 +2383,59 @@ fibt2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 qm 0 0 0 0 0 0 0 0
 xpc 399724544 92823103 86219234
 debug 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/interrupts
+Lines: 49
+           CPU0       CPU1       CPU2       CPU3
+  0:         49          0          0          0   IO-APIC   2-edge      timer
+  1:          0          0          0          9   IO-APIC   1-edge      i8042
+  4:          0       1443          0          0   IO-APIC   4-edge      ttyS0
+  8:          1          0          0          0   IO-APIC   8-edge      rtc0
+  9:          0          0          0          0   IO-APIC   9-fasteoi   acpi
+ 12:          0          0        144          0   IO-APIC  12-edge      i8042
+ 22:          0          0          0          5   IO-APIC  22-fasteoi   virtio1
+ 24:          0          0          0          0   PCI-MSI 114688-edge      virtio5-config
+ 25:       1800          0          0          0   PCI-MSI 114689-edge      virtio5-req.0
+ 26:          0       1469          0          0   PCI-MSI 114690-edge      virtio5-req.1
+ 27:          0          0       2654          0   PCI-MSI 114691-edge      virtio5-req.2
+ 28:          0          0          0       1989   PCI-MSI 114692-edge      virtio5-req.3
+ 29:       1362          0          0        934   PCI-MSI 512000-edge      ahci[0000:00:1f.2]
+ 30:          0          0          0          0   PCI-MSI 98304-edge      xhci_hcd
+ 31:          0          0          0          0   PCI-MSI 98305-edge      xhci_hcd
+ 32:          0          0          0          0   PCI-MSI 98306-edge      xhci_hcd
+ 33:          0          0          0          0   PCI-MSI 98307-edge      xhci_hcd
+ 34:          0          0          0          0   PCI-MSI 98308-edge      xhci_hcd
+ 35:          0          0          0          0   PCI-MSI 16384-edge      virtio0-config
+ 36:          0        335         37          0   PCI-MSI 16385-edge      virtio0-input.0
+ 37:          0          0          0        318   PCI-MSI 16386-edge      virtio0-output.0
+ 38:          0          0          0          0   PCI-MSI 49152-edge      virtio2-config
+ 39:       1243        178          0          0   PCI-MSI 49153-edge      virtio2-control
+ 40:          0          0          0          0   PCI-MSI 49154-edge      virtio2-cursor
+ 41:          0          0          0          0   PCI-MSI 65536-edge      virtio3-config
+ 42:          0          0          0          0   PCI-MSI 65537-edge      virtio3-virtqueues
+ 43:          0          0          0          0   PCI-MSI 81920-edge      virtio4-config
+ 44:          0          0          0          0   PCI-MSI 81921-edge      virtio4-virtqueues
+NMI:          0          0          0          0   Non-maskable interrupts
+LOC:      10196       7429       8542       8229   Local timer interrupts
+SPU:          0          0          0          0   Spurious interrupts
+PMI:          0          0          0          0   Performance monitoring interrupts
+IWI:          0          3         11          6   IRQ work interrupts
+RTR:          0          0          0          0   APIC ICR read retries
+RES:       7997      11147      10898      12675   Rescheduling interrupts
+CAL:       2761       2485       1787       2367   Function call interrupts
+TLB:        212        137        158        231   TLB shootdowns
+TRM:          0          0          0          0   Thermal event interrupts
+THR:          0          0          0          0   Threshold APIC interrupts
+DFR:          0          0          0          0   Deferred Error APIC interrupts
+MCE:          0          0          0          0   Machine check exceptions
+MCP:          1          1          1          1   Machine check polls
+ERR:          0
+MIS:          0
+
+PIN:          0          0          0          0   Posted-interrupt notification event
+NPI:          0          0          0          0   Nested posted-interrupt event
+PIW:          0          0          0          0   Posted-interrupt wakeup event
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/loadavg

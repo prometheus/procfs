@@ -2,7 +2,7 @@
 
 fail=0
 while read -r f ; do 
-  if ! grep -q '+build linux' "$f" ; then
+  if ! grep -q '//go:build linux' "$f" ; then
     echo "missing linux build tag: $f"
     fail=1
   fi

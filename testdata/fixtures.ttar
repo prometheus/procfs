@@ -7057,20 +7057,33 @@ Mode: 644
 Directory: fixtures/sys/class/thermal/cooling_device1
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/thermal/cooling_device1/cur_state
-Lines: 1
--1
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/cooling_device1/max_state
 Lines: 1
-27
+50
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/cooling_device1/type
 Lines: 1
-intel_powerclamp
+TFN1
 Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/thermal/cooling_device2
+Mode: 750
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/thermal/cooling_device2/cur_state
+Lines: 1
+-1
+Mode: 640
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/thermal/cooling_device2/max_state
+Lines: 1
+27
+Mode: 640
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/thermal/cooling_device2/type
+Lines: 1
+intel_powerclamp
+Mode: 640
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal/thermal_zone0
 Mode: 755

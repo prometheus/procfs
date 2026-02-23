@@ -14,6 +14,7 @@
 package procfs
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -158,5 +159,33 @@ func TestNsPids(t *testing.T) {
 
 	if diff := cmp.Diff(want, s.NSpids); diff != "" {
 		t.Fatalf("unexpected NsPids (-want +got):\n%s", diff)
+	}
+}
+
+func TestCaps(t *testing.T) {
+	p, err := getProcFixtures(t).Proc(26231)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	s, err := p.NewStatus()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, test := range []struct {
+		name string
+		want string
+		have string
+	}{
+		{name: "CapInh", want: "0000000000000000", have: fmt.Sprintf("%016x", s.CapInh)},
+		{name: "CapPrm", want: "0000003fffffffff", have: fmt.Sprintf("%016x", s.CapPrm)},
+		{name: "CapEff", want: "0000003fffffffff", have: fmt.Sprintf("%016x", s.CapEff)},
+		{name: "CapBnd", want: "0000003fffffffff", have: fmt.Sprintf("%016x", s.CapBnd)},
+		{name: "CapAmb", want: "0000000000000000", have: fmt.Sprintf("%016x", s.CapAmb)},
+	} {
+		if test.want != test.have {
+			t.Errorf("want %s %s, have %s", test.name, test.want, test.have)
+		}
 	}
 }

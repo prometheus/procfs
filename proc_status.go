@@ -83,6 +83,13 @@ type ProcStatus struct {
 
 	// CpusAllowedList: List of cpu cores processes are allowed to run on.
 	CpusAllowedList []uint64
+
+	// Hexadecimal mask of capabilities enabled in inheritable, permitted, effective, bounding and ambient sets
+	CapInh uint64
+	CapPrm uint64
+	CapEff uint64
+	CapBnd uint64
+	CapAmb uint64
 }
 
 // NewStatus returns the current status information of the process.
@@ -190,6 +197,36 @@ func (s *ProcStatus) fillStatus(k string, vString string, vUint uint64, vUintByt
 		s.NonVoluntaryCtxtSwitches = vUint
 	case "Cpus_allowed_list":
 		s.CpusAllowedList = calcCpusAllowedList(vString)
+	case "CapInh":
+		var err error
+		s.CapInh, err = strconv.ParseUint(vString, 16, 64)
+		if err != nil {
+			return err
+		}
+	case "CapPrm":
+		var err error
+		s.CapPrm, err = strconv.ParseUint(vString, 16, 64)
+		if err != nil {
+			return err
+		}
+	case "CapEff":
+		var err error
+		s.CapEff, err = strconv.ParseUint(vString, 16, 64)
+		if err != nil {
+			return err
+		}
+	case "CapBnd":
+		var err error
+		s.CapBnd, err = strconv.ParseUint(vString, 16, 64)
+		if err != nil {
+			return err
+		}
+	case "CapAmb":
+		var err error
+		s.CapAmb, err = strconv.ParseUint(vString, 16, 64)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

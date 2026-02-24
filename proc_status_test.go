@@ -14,7 +14,6 @@
 package procfs
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -175,17 +174,17 @@ func TestCaps(t *testing.T) {
 
 	for _, test := range []struct {
 		name string
-		want string
-		have string
+		want uint64
+		have uint64
 	}{
-		{name: "CapInh", want: "0000000000000000", have: fmt.Sprintf("%016x", s.CapInh)},
-		{name: "CapPrm", want: "0000003fffffffff", have: fmt.Sprintf("%016x", s.CapPrm)},
-		{name: "CapEff", want: "0000003fffffffff", have: fmt.Sprintf("%016x", s.CapEff)},
-		{name: "CapBnd", want: "0000003fffffffff", have: fmt.Sprintf("%016x", s.CapBnd)},
-		{name: "CapAmb", want: "0000000000000000", have: fmt.Sprintf("%016x", s.CapAmb)},
+		{name: "CapInh", want: 0x0000000000000000, have: s.CapInh},
+		{name: "CapPrm", want: 0x0000003fffffffff, have: s.CapPrm},
+		{name: "CapEff", want: 0x0000003fffffffff, have: s.CapEff},
+		{name: "CapBnd", want: 0x0000003fffffffff, have: s.CapBnd},
+		{name: "CapAmb", want: 0x0000000000000000, have: s.CapAmb},
 	} {
 		if test.want != test.have {
-			t.Errorf("want %s %s, have %s", test.name, test.want, test.have)
+			t.Errorf("want %s %d, have %d", test.name, test.want, test.have)
 		}
 	}
 }

@@ -40,17 +40,20 @@ func (fs FS) ClassCoolingDeviceStats() ([]ClassCoolingDeviceStats, error) {
 	}
 
 	var coolingDeviceStats = ClassCoolingDeviceStats{}
-	stats := make([]ClassCoolingDeviceStats, len(cds))
-	for i, cd := range cds {
+	stats := make([]ClassCoolingDeviceStats, 0, len(cds))
+	for _, cd := range cds {
 		cdName := strings.TrimPrefix(filepath.Base(cd), "cooling_device")
 
 		coolingDeviceStats, err = parseCoolingDeviceStats(cd)
 		if err != nil {
+			if canIgnoreError(err) {
+				continue
+			}
 			return []ClassCoolingDeviceStats{}, err
 		}
 
 		coolingDeviceStats.Name = cdName
-		stats[i] = coolingDeviceStats
+		stats = append(stats, coolingDeviceStats)
 	}
 	return stats, nil
 }

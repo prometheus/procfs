@@ -84,9 +84,13 @@ type ProcStatus struct {
 	// CpusAllowedList: List of cpu cores processes are allowed to run on.
 	CpusAllowedList []uint64
 
-	// Hexadecimal mask of capabilities enabled in inheritable, permitted, effective, bounding and ambient sets
+	// CapInh is the bitmap of inheritable capabilities
+	//
+	// See: https://www.kernel.org/doc/man-pages/online/pages/man7/capabilities.7.html
 	CapInh uint64
+	// CapPrm is the bitmap of permitted capabilities
 	CapPrm uint64
+	// CapEff is the bitmap of effective capabilities
 	CapEff uint64
 	CapBnd uint64
 	CapAmb uint64

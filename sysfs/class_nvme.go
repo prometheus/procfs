@@ -27,6 +27,8 @@ import (
 
 const nvmeClassPath = "class/nvme"
 
+var nvmeNamespacePattern = regexp.MustCompile(`nvme[0-9]+c[0-9]+n([0-9]+)`)
+
 // NVMeNamespace contains info from files in /sys/class/nvme/<device>/<namespace>.
 type NVMeNamespace struct {
 	ID               string // namespace ID extracted from directory name
@@ -111,11 +113,10 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 	}
 
 	var namespaces []NVMeNamespace
-	var re = regexp.MustCompile(`nvme\d+c\d+n(\d+)`)
 
 	for _, d := range dirs {
 		// Use regex to identify namespace directories and extract namespace ID
-		match := re.FindStringSubmatch(d.Name())
+		match := nvmeNamespacePattern.FindStringSubmatch(d.Name())
 		if len(match) < 2 {
 			// Skip if not a namespace directory
 			continue

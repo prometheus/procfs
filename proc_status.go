@@ -94,7 +94,7 @@ type ProcStatus struct {
 	CapEff uint64
 	// CapBnd is the bitmap of bounding capabilities
 	CapBnd uint64
-	// CapBnd is the bitmap of ambient capabilities
+	// CapAmb is the bitmap of ambient capabilities
 	CapAmb uint64
 }
 

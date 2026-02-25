@@ -1,4 +1,4 @@
-// Copyright 2023 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,8 +14,9 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestWireless(t *testing.T) {
@@ -63,8 +64,8 @@ func TestWireless(t *testing.T) {
 	}
 
 	for i, iface := range got {
-		if !reflect.DeepEqual(iface, expected[i]) {
-			t.Errorf("unexpected interface got %+v, expected %+v", iface, expected[i])
+		if diff := cmp.Diff(iface, expected[i]); diff != "" {
+			t.Fatalf("unexpected interface (-want +got):\n%s", diff)
 		}
 	}
 }

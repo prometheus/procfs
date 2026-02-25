@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,15 +12,15 @@
 // limitations under the License.
 
 //go:build linux
-// +build linux
 
 package sysfs
 
 import (
 	"errors"
 	"os"
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func makeUint64(v uint64) *uint64 {
@@ -191,8 +191,8 @@ func TestSystemCpufreq(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(systemCpufreq, c) {
-		t.Errorf("Result not correct: want %v, have %v", systemCpufreq, c)
+	if diff := cmp.Diff(systemCpufreq, c); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }
 
@@ -219,13 +219,13 @@ func TestIsolatedParsingCPU(t *testing.T) {
 	for _, params := range testParams {
 		t.Run("blabla", func(t *testing.T) {
 			res, err := parseCPURange(params.in)
-			if !reflect.DeepEqual(res, params.res) {
-				t.Fatalf("should have %v result: got %v", params.res, res)
+			if diff := cmp.Diff(res, params.res); diff != "" {
+				t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 			}
 			if err != nil && params.err != nil && err.Error() != params.err.Error() {
 				t.Fatalf("should have '%v' error: got '%v'", params.err, err)
 			}
-			if (err == nil || params.err == nil) && err != params.err {
+			if (err == nil || params.err == nil) && !errors.Is(err, params.err) {
 				t.Fatalf("should have %v error: got %v", params.err, err)
 			}
 
@@ -239,8 +239,8 @@ func TestIsolatedCPUs(t *testing.T) {
 	}
 	isolated, err := fs.IsolatedCPUs()
 	expected := []uint16{1, 2, 3, 4, 5, 6, 7, 9}
-	if !reflect.DeepEqual(isolated, expected) {
-		t.Errorf("Result not correct: want %v, have %v", expected, isolated)
+	if diff := cmp.Diff(isolated, expected); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 	if err != nil {
 		t.Errorf("Error not correct: want %v, have %v", nil, err)

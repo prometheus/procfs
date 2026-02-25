@@ -1,4 +1,4 @@
-// Copyright 2020 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -15,8 +15,9 @@ package procfs
 
 import (
 	"bytes"
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestParseConntrackStat(t *testing.T) {
@@ -79,8 +80,8 @@ func TestParseConntrackStat(t *testing.T) {
 			SearchRestart: 4,
 		},
 	}
-	if !reflect.DeepEqual(want, have) {
-		t.Errorf("want %v, have %v", want, have)
+	if diff := cmp.Diff(want, have); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }
 
@@ -112,7 +113,7 @@ func TestParseOldConntrackStat(t *testing.T) {
 			SearchRestart: 0,
 		},
 	}
-	if !reflect.DeepEqual(want, have) {
-		t.Errorf("want %v, have %v", want, have)
+	if diff := cmp.Diff(want, have); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

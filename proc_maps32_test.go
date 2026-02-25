@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,8 +12,6 @@
 // limitations under the License.
 
 //go:build (aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris) && (386 || arm || mips || mipsle)
-// +build aix darwin dragonfly freebsd linux netbsd openbsd solaris
-// +build 386 arm mips mipsle
 
 package procfs
 

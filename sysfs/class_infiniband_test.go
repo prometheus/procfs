@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,7 +12,6 @@
 // limitations under the License.
 
 //go:build linux
-// +build linux
 
 package sysfs
 
@@ -174,6 +173,7 @@ func TestInfiniBandClass(t *testing.T) {
 			HCAType:         "",
 			Ports: map[uint]InfiniBandPort{
 				1: {
+					LinkLayer:   "InfiniBand",
 					Name:        "hfi1_0",
 					Port:        1,
 					State:       "ACTIVE",
@@ -210,6 +210,7 @@ func TestInfiniBandClass(t *testing.T) {
 			HCAType:         "MT4099",
 			Ports: map[uint]InfiniBandPort{
 				1: {
+					LinkLayer:   "InfiniBand",
 					Name:        "mlx4_0",
 					Port:        1,
 					State:       "ACTIVE",
@@ -238,6 +239,7 @@ func TestInfiniBandClass(t *testing.T) {
 					},
 				},
 				2: {
+					LinkLayer:   "InfiniBand",
 					Name:        "mlx4_0",
 					Port:        2,
 					State:       "ACTIVE",
@@ -272,8 +274,10 @@ func TestInfiniBandClass(t *testing.T) {
 			BoardID:         "SM_2001000001034",
 			FirmwareVersion: "14.28.2006",
 			HCAType:         "MT4118",
+			NodeGUID:        "0a7f:bc12:45ef:d23b",
 			Ports: map[uint]InfiniBandPort{
 				1: {
+					LinkLayer:   "InfiniBand",
 					Name:        "mlx5_0",
 					Port:        1,
 					State:       "ACTIVE",

@@ -1,4 +1,4 @@
-// Copyright 2021 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,16 +12,17 @@
 // limitations under the License.
 
 //go:build linux
-// +build linux
 
 package sysfs
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 
 	"github.com/prometheus/procfs/internal/util"
 )
@@ -97,7 +98,7 @@ func (fs FS) parseSASPhy(name string) (*SASPhy, error) {
 		if fileinfo.Mode().IsRegular() {
 			value, err := util.SysReadFile(name)
 			if err != nil {
-				if os.IsPermission(err) {
+				if os.IsPermission(err) || errors.Is(err, syscall.EINVAL) {
 					continue
 				}
 				return nil, fmt.Errorf("failed to read file %q: %w", name, err)

@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -52,8 +52,8 @@ Node 0, zone
 	if err == nil {
 		t.Fatalf("expected error, but none occurred")
 	}
-	if want, got := "Error Parsing File: Invalid number of fields, found: [Node 0, zone]", err.Error(); want != got {
-		t.Fatalf("Error Parsing File: Invalid number of fields, found: [Node %q, %q]", want, got)
+	if want, got := "error parsing file: Invalid number of fields, found: [Node 0, zone]", err.Error(); want != got {
+		t.Fatalf("error parsing file: Invalid number of fields, found: [Node %q, %q]", want, got)
 	}
 }
 
@@ -68,7 +68,7 @@ Node 0, zone   Normal   4381   1093    185   1530    567    102      4      0   
 	if err == nil {
 		t.Fatalf("expected error, but none occurred")
 	}
-	if want, got := "Error Parsing File: mismatch in number of buddyinfo buckets, previous count 11, new count 12", err.Error(); !strings.HasPrefix(got, want) {
-		t.Fatalf("Error Parsing File: mismatch in number of buddyinfo buckets, previous count %q, new count %q", want, got)
+	if want, got := "error parsing file: mismatch in number of buddyinfo buckets, previous count 11, new count 12", err.Error(); !strings.HasPrefix(got, want) {
+		t.Fatalf("error parsing file: mismatch in number of buddyinfo buckets, previous count %q, new count %q", want, got)
 	}
 }

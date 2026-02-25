@@ -1,4 +1,4 @@
-// Copyright 2020 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,8 +14,9 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestParseCgroupString(t *testing.T) {
@@ -85,8 +86,8 @@ func TestParseCgroupString(t *testing.T) {
 			t.Errorf("%s: unexpected error: %v", test.name, err)
 		}
 
-		if want, have := test.cgroup, cgroup; !reflect.DeepEqual(want, have) {
-			t.Errorf("cgroup:\nwant:\n%+v\nhave:\n%+v", want, have)
+		if diff := cmp.Diff(test.cgroup, cgroup); diff != "" {
+			t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 		}
 	}
 

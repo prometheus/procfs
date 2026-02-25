@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,8 +14,9 @@
 package iscsi_test
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 
 	"github.com/prometheus/procfs/iscsi"
 )
@@ -140,8 +141,8 @@ func TestGetStats(t *testing.T) {
 
 	for i, stat := range sysfsStat {
 		want, have := tests[i].stat, stat
-		if !reflect.DeepEqual(want, have) {
-			t.Errorf("unexpected iSCSI stats:\nwant:\n%v\nhave:\n%v", want, have)
+		if diff := cmp.Diff(want, have); diff != "" {
+			t.Fatalf("unexpected iSCSI stats (-want +got):\n%s", diff)
 		} else {
 			readMB, writeMB, iops, err := iscsi.ReadWriteOPS(stat.RootPath+"/"+stat.Name,
 				stat.Tpgt[0].Name, stat.Tpgt[0].Luns[0].Name)
@@ -150,16 +151,17 @@ func TestGetStats(t *testing.T) {
 					stat.Name, stat.Tpgt[0].Name, stat.Tpgt[0].Luns[0].Name)
 				t.Errorf("%v", err)
 			}
-			if !reflect.DeepEqual(readTests[i].read, readMB) {
-				t.Errorf("unexpected iSCSI read data :\nwant:\n%v\nhave:\n%v", readTests[i].read, readMB)
+			if diff := cmp.Diff(readTests[i].read, readMB); diff != "" {
+				t.Fatalf("unexpected iSCSI read data (-want +got):\n%s", diff)
 			}
-			if !reflect.DeepEqual(readTests[i].write, writeMB) {
-				t.Errorf("unexpected iSCSI write data :\nwant:\n%v\nhave:\n%v", readTests[i].write, writeMB)
+			if diff := cmp.Diff(readTests[i].write, writeMB); diff != "" {
+				t.Fatalf("unexpected iSCSI write data (-want +got):\n%s", diff)
 			}
-			if !reflect.DeepEqual(readTests[i].iops, iops) {
-				t.Errorf("unexpected iSCSI iops data :\nwant:\n%v\nhave:\n%v", readTests[i].iops, iops)
+			if diff := cmp.Diff(readTests[i].iops, iops); diff != "" {
+				t.Fatalf("unexpected iSCSI iops data (-want +got):\n%s", diff)
 			}
-			if stat.Tpgt[0].Luns[0].Backstore == "rd_mcp" {
+			switch stat.Tpgt[0].Luns[0].Backstore {
+			case "rd_mcp":
 				haveRdmcp, err := sysconfigfs.GetRDMCPPath("119", "ramdisk_lio_1G")
 				if err != nil {
 					t.Errorf("fail rdmcp error %v", err)
@@ -167,38 +169,38 @@ func TestGetStats(t *testing.T) {
 				// Name ObjectName
 				wantRdmcp := &iscsi.RDMCP{"rd_mcp_" + stat.Tpgt[0].Luns[0].TypeNumber, stat.Tpgt[0].Luns[0].ObjectName}
 
-				if !reflect.DeepEqual(wantRdmcp, haveRdmcp) {
-					t.Errorf("unexpected rdmcp data :\nwant:\n%v\nhave:\n%v", wantRdmcp, haveRdmcp)
+				if diff := cmp.Diff(wantRdmcp, haveRdmcp); diff != "" {
+					t.Fatalf("unexpected rdmcp data (-want +got):\n%s", diff)
 				}
-			} else if stat.Tpgt[0].Luns[0].Backstore == "iblock" {
+			case "iblock":
 				haveIblock, err := sysconfigfs.GetIblockUdev("0", "block_lio_rbd1")
 				if err != nil {
 					t.Errorf("fail iblock error %v", err)
 				}
 				// Name Bnumber ObjectName Iblock
 				wantIblock := &iscsi.IBLOCK{"iblock_" + stat.Tpgt[0].Luns[0].TypeNumber, stat.Tpgt[0].Luns[0].TypeNumber, stat.Tpgt[0].Luns[0].ObjectName, "/dev/rbd1"}
-				if !reflect.DeepEqual(wantIblock, haveIblock) {
-					t.Errorf("unexpected iblock data :\nwant:\n%v\nhave:\n%v", wantIblock, haveIblock)
+				if diff := cmp.Diff(wantIblock, haveIblock); diff != "" {
+					t.Fatalf("unexpected iblock data (-want +got):\n%s", diff)
 				}
-			} else if stat.Tpgt[0].Luns[0].Backstore == "fileio" {
+			case "fileio":
 				haveFileIO, err := sysconfigfs.GetFileioUdev("1", "file_lio_1G")
 				if err != nil {
 					t.Errorf("fail fileio error %v", err)
 				}
 				// Name, Fnumber, ObjectName, Filename
 				wantFileIO := &iscsi.FILEIO{"fileio_" + stat.Tpgt[0].Luns[0].TypeNumber, stat.Tpgt[0].Luns[0].TypeNumber, "file_lio_1G", "/home/iscsi/file_back_1G"}
-				if !reflect.DeepEqual(wantFileIO, haveFileIO) {
-					t.Errorf("unexpected fileio data :\nwant:\n%v\nhave:\n%v", wantFileIO, haveFileIO)
+				if diff := cmp.Diff(wantFileIO, haveFileIO); diff != "" {
+					t.Fatalf("unexpected fileio data (-want +got):\n%s", diff)
 				}
-			} else if stat.Tpgt[0].Luns[0].Backstore == "rbd" {
+			case "rbd":
 				haveRBD, err := sysconfigfs.GetRBDMatch("0", "iscsi-images-demo")
 				if err != nil {
 					t.Errorf("fail rbd error %v", err)
 				}
 				// Name, Rnumber, Pool, Image
 				wantRBD := &iscsi.RBD{"rbd_" + stat.Tpgt[0].Luns[0].TypeNumber, stat.Tpgt[0].Luns[0].TypeNumber, "iscsi-images", "demo"}
-				if !reflect.DeepEqual(wantRBD, haveRBD) {
-					t.Errorf("unexpected fileio data :\nwant:\n%v\nhave:\n%v", wantRBD, haveRBD)
+				if diff := cmp.Diff(wantRBD, haveRBD); diff != "" {
+					t.Fatalf("unexpected fileio data (-want +got):\n%s", diff)
 				}
 			}
 		}

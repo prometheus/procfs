@@ -1,4 +1,4 @@
-// Copyright 2021 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,7 +12,6 @@
 // limitations under the License.
 
 //go:build linux
-// +build linux
 
 package sysfs
 
@@ -40,6 +39,7 @@ func TestNVMeClass(t *testing.T) {
 			Model:            "Samsung SSD 970 PRO 512GB",
 			Serial:           "S680HF8N190894I",
 			State:            "live",
+			ControllerID:     "1997",
 		},
 	}
 

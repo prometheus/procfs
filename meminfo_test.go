@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,12 +14,13 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestMeminfo(t *testing.T) {
-	expected := Meminfo{
+	want := Meminfo{
 		MemTotal:          newuint64(15666184),
 		MemFree:           newuint64(440324),
 		Buffers:           newuint64(1020128),
@@ -35,6 +36,8 @@ func TestMeminfo(t *testing.T) {
 		Mlocked:           newuint64(0),
 		SwapTotal:         newuint64(0),
 		SwapFree:          newuint64(0),
+		Zswap:             newuint64(22414),
+		Zswapped:          newuint64(10502),
 		Dirty:             newuint64(768),
 		Writeback:         newuint64(0),
 		AnonPages:         newuint64(266216),
@@ -79,6 +82,8 @@ func TestMeminfo(t *testing.T) {
 		MlockedBytes:           newuint64(0),
 		SwapTotalBytes:         newuint64(0),
 		SwapFreeBytes:          newuint64(0),
+		ZswapBytes:             newuint64(22951936),
+		ZswappedBytes:          newuint64(10754048),
 		DirtyBytes:             newuint64(786432),
 		WritebackBytes:         newuint64(0),
 		AnonPagesBytes:         newuint64(272605184),
@@ -105,14 +110,12 @@ func TestMeminfo(t *testing.T) {
 		DirectMap2MBytes:       newuint64(16424894464),
 	}
 
-	have, err := getProcFixtures(t).Meminfo()
+	got, err := getProcFixtures(t).Meminfo()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if !reflect.DeepEqual(have, expected) {
-		t.Logf("have: %+v", have)
-		t.Logf("expected: %+v", expected)
-		t.Errorf("structs are not equal")
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected meminfo entry (-want +got):\n%s", diff)
 	}
 }

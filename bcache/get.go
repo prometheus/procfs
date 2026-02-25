@@ -1,4 +1,4 @@
-// Copyright 2017 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -62,7 +62,7 @@ func (fs FS) StatsWithoutPriority() ([]*Stats, error) {
 	return fs.stats(false)
 }
 
-// stats() retrieves bcache runtime statistics for each bcache.
+// stats retrieves bcache runtime statistics for each bcache and
 // priorityStats flag controls if we need to read priority_stats.
 func (fs FS) stats(priorityStats bool) ([]*Stats, error) {
 	matches, err := filepath.Glob(fs.sys.Path("fs/bcache/*-*"))
@@ -111,7 +111,7 @@ func parsePseudoFloat(str string) (float64, error) {
 	// v4.12-rc3).
 
 	// Restore the proper order:
-	fracPart = fracPart / 10.24
+	fracPart /= 10.24
 	return intPart + fracPart, nil
 }
 

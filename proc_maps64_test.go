@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,11 +12,6 @@
 // limitations under the License.
 
 //go:build (aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris) && !386 && !arm && !mips && !mipsle
-// +build aix darwin dragonfly freebsd linux netbsd openbsd solaris
-// +build !386
-// +build !arm
-// +build !mips
-// +build !mipsle
 
 package procfs
 
@@ -147,7 +142,7 @@ func BenchmarkParseAddress(b *testing.B) {
 		s, e uintptr
 		err  error
 	)
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		s, e, err = parseAddresses("7f7d7469e000-7f7d746a0000")
 		if err != nil {
 			b.Fatal(err)
@@ -166,7 +161,7 @@ func BenchmarkParseDevice(b *testing.B) {
 		d   uint64
 		err error
 	)
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		d, err = parseDevice("00:22")
 		if err != nil {
 			b.Fatal(err)

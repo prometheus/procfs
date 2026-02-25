@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,14 +22,10 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/prometheus/procfs"
 	"github.com/prometheus/procfs/internal/fs"
 	"github.com/prometheus/procfs/internal/util"
 )
-
-// SectorSize contains the Linux sector size.
-// > Linux always considers sectors to be 512 bytes long independently
-// > of the devices real block size.
-const SectorSize = 512
 
 // FS represents the pseudo-filesystem sys, which provides an interface to
 // kernel data structures.
@@ -198,6 +194,10 @@ func (r *reader) calcRatio(p string) float64 {
 		return 1
 	case "dup", "raid1", "raid10":
 		return 2
+	case "raid1c3":
+		return 3
+	case "raid1c4":
+		return 4
 	case "raid5":
 		return float64(r.devCount) / (float64(r.devCount) - 1)
 	case "raid6":
@@ -213,7 +213,7 @@ func (r *reader) readDeviceInfo(d string) map[string]*Device {
 	info := make(map[string]*Device, len(devs))
 	for _, n := range devs {
 		info[n] = &Device{
-			Size: SectorSize * r.readValue("devices/"+n+"/size"),
+			Size: procfs.SectorSize * r.readValue("devices/"+n+"/size"),
 		}
 	}
 

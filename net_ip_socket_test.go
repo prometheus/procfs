@@ -1,4 +1,4 @@
-// Copyright 2020 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -15,8 +15,9 @@ package procfs
 
 import (
 	"net"
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func Test_parseNetIPSocketLine(t *testing.T) {
@@ -115,8 +116,8 @@ func Test_parseNetIPSocketLine(t *testing.T) {
 			if tt.want == nil && got != nil {
 				t.Errorf("parseNetIPSocketLine() = %v, want %v", got, tt.want)
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("parseNetIPSocketLine() = %#v, want %#v", got, tt.want)
+			if diff := cmp.Diff(got, tt.want); diff != "" {
+				t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 			}
 		})
 	}

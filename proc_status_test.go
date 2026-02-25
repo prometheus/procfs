@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,8 +14,9 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestProcStatus(t *testing.T) {
@@ -135,8 +136,10 @@ func TestCpusAllowedList(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if want, have := []uint64{0, 1, 2, 3, 4, 5, 6, 7}, s.CpusAllowedList; !reflect.DeepEqual(want, have) {
-		t.Errorf("want CpusAllowedList %v, have %v", want, have)
+	want := []uint64{0, 1, 2, 3, 4, 5, 6, 7}
+
+	if diff := cmp.Diff(want, s.CpusAllowedList); diff != "" {
+		t.Fatalf("unexpected CpusAllowedList (-want +got):\n%s", diff)
 	}
 }
 
@@ -151,7 +154,9 @@ func TestNsPids(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if want, have := []uint64{26235, 1}, s.NSpids; !reflect.DeepEqual(want, have) {
-		t.Errorf("want NsPids %v, have %v", want, have)
+	want := []uint64{26235, 1}
+
+	if diff := cmp.Diff(want, s.NSpids); diff != "" {
+		t.Fatalf("unexpected NsPids (-want +got):\n%s", diff)
 	}
 }

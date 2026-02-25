@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -55,6 +55,9 @@ func TestProcStat(t *testing.T) {
 		have uint64
 	}{
 		{name: "RSS Limit", want: 18446744073709551615, have: s.RSSLimit},
+		{name: "Start Code", want: 4194304, have: s.StartCode},
+		{name: "End Code", want: 6294284, have: s.EndCode},
+		{name: "Start Stack", want: 140736914091744, have: s.StartStack},
 		{name: "delayacct_blkio_ticks", want: 31, have: s.DelayAcctBlkIOTicks},
 	} {
 		if test.want != test.have {

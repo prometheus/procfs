@@ -1,4 +1,4 @@
-// Copyright 2022 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -69,7 +69,7 @@ func TestSysctlIntsError(t *testing.T) {
 		sysctl string
 		want   string
 	}{
-		{"kernel.seccomp.actions_avail", "Error Parsing File: field 0 in sysctl kernel.seccomp.actions_avail is not a valid int: strconv.ParseInt: parsing \"kill_process\": invalid syntax"},
+		{"kernel.seccomp.actions_avail", "error parsing file: field 0 in sysctl kernel.seccomp.actions_avail is not a valid int: strconv.ParseInt: parsing \"kill_process\": invalid syntax"},
 	} {
 		t.Run(tc.sysctl, func(t *testing.T) {
 			_, err := fs.SysctlInts(tc.sysctl)

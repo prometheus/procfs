@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -108,7 +108,7 @@ func testNetUNIX(t *testing.T, testInode bool, got *NetUNIX) {
 	// Enable the fixtures to be used for multiple tests by clearing the inode
 	// field when appropriate.
 	if !testInode {
-		for i := 0; i < len(want); i++ {
+		for i := range want {
 			want[i].Inode = 0
 		}
 	}

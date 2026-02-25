@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,13 +12,13 @@
 // limitations under the License.
 
 //go:build linux
-// +build linux
 
 package sysfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestClassCoolingDeviceStats(t *testing.T) {
@@ -47,7 +47,7 @@ func TestClassCoolingDeviceStats(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(classCoolingDeviceStats, coolingDeviceTest) {
-		t.Errorf("Result not correct: want %v, have %v", classCoolingDeviceStats, coolingDeviceTest)
+	if diff := cmp.Diff(classCoolingDeviceStats, coolingDeviceTest); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

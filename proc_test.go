@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -17,6 +17,8 @@ import (
 	"reflect"
 	"sort"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestSelf(t *testing.T) {
@@ -66,8 +68,8 @@ func TestCmdLine(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !reflect.DeepEqual(tt.want, c1) {
-			t.Errorf("want cmdline %v, have %v", tt.want, c1)
+		if diff := cmp.Diff(tt.want, c1); diff != "" {
+			t.Fatalf("unexpected cmdline (-want +got):\n%s", diff)
 		}
 	}
 }
@@ -88,8 +90,8 @@ func TestWchan(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !reflect.DeepEqual(tt.want, c1) {
-			t.Errorf("want wchan %v, have %v", tt.want, c1)
+		if diff := cmp.Diff(tt.want, c1); diff != "" {
+			t.Fatalf("unexpected wchan (-want +got):\n%s", diff)
 		}
 	}
 }
@@ -110,8 +112,8 @@ func TestComm(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !reflect.DeepEqual(tt.want, c1) {
-			t.Errorf("want comm %v, have %v", tt.want, c1)
+		if diff := cmp.Diff(tt.want, c1); diff != "" {
+			t.Fatalf("unexpected comm (-want +got):\n%s", diff)
 		}
 	}
 }
@@ -132,8 +134,8 @@ func TestExecutable(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !reflect.DeepEqual(tt.want, exe) {
-			t.Errorf("want absolute path to exe %v, have %v", tt.want, exe)
+		if diff := cmp.Diff(tt.want, exe); diff != "" {
+			t.Fatalf("unexpected absolute path to exe (-want +got):\n%s", diff)
 		}
 	}
 }
@@ -156,12 +158,12 @@ func TestCwd(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !reflect.DeepEqual(tt.want, wd) {
+		if diff := cmp.Diff(tt.want, wd); diff != "" {
 			if wd == "" && tt.brokenLink {
 				// Allow the result to be empty when can't os.Readlink broken links
 				continue
 			}
-			t.Errorf("want absolute path to cwd %v, have %v", tt.want, wd)
+			t.Fatalf("unexpected absolute path to cwd (-want +got):\n%s", diff)
 		}
 	}
 }
@@ -184,12 +186,12 @@ func TestRoot(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if !reflect.DeepEqual(tt.want, rdir) {
+		if diff := cmp.Diff(tt.want, rdir); diff != "" {
 			if rdir == "" && tt.brokenLink {
 				// Allow the result to be empty when can't os.Readlink broken links
 				continue
 			}
-			t.Errorf("want absolute path to rootdir %v, have %v", tt.want, rdir)
+			t.Fatalf("unexpected absolute path to rootdir (-want +got):\n%s", diff)
 		}
 	}
 }
@@ -226,8 +228,8 @@ func TestFileDescriptorTargets(t *testing.T) {
 		"../../symlinktargets/uvw",
 		"../../symlinktargets/xyz",
 	}
-	if !reflect.DeepEqual(want, fds) {
-		t.Errorf("want fds %v, have %v", want, fds)
+	if diff := cmp.Diff(want, fds); diff != "" {
+		t.Fatalf("unexpected fds (-want +got):\n%s", diff)
 	}
 }
 
@@ -266,8 +268,8 @@ func TestFileDescriptorsInfo(t *testing.T) {
 		ProcFDInfo{FD: "2", Pos: "0", Flags: "02004002", MntID: "9", InotifyInfos: nil},
 		ProcFDInfo{FD: "3", Pos: "0", Flags: "02004002", MntID: "9", InotifyInfos: nil},
 	}
-	if !reflect.DeepEqual(want, fdinfos) {
-		t.Errorf("want fdinfos %+v, have %+v", want, fdinfos)
+	if diff := cmp.Diff(want, fdinfos); diff != "" {
+		t.Fatalf("unexpected fdinfos (-want +got):\n%s", diff)
 	}
 }
 

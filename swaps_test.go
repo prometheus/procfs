@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,8 +14,9 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestSwaps(t *testing.T) {
@@ -105,8 +106,8 @@ func TestParseSwapString(t *testing.T) {
 				t.Errorf("unexpected error: %v", err)
 			}
 
-			if !reflect.DeepEqual(tt.swap, swap) {
-				t.Errorf("swap:\nwant:\n%+v\nhave:\n%+v", tt.swap, swap)
+			if diff := cmp.Diff(tt.swap, swap); diff != "" {
+				t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 			}
 		})
 	}

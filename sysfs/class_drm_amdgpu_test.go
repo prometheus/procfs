@@ -1,4 +1,4 @@
-// Copyright 2021 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,13 +12,13 @@
 // limitations under the License.
 
 //go:build linux
-// +build linux
 
 package sysfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestClassDRMCardAMDGPUStats(t *testing.T) {
@@ -46,9 +46,19 @@ func TestClassDRMCardAMDGPUStats(t *testing.T) {
 			PowerDPMForcePerformanceLevel: "manual",
 			UniqueID:                      "0123456789abcdef",
 		},
+		{
+			Name:                  "card1",
+			GPUBusyPercent:        0,
+			MemoryGTTSize:         0,
+			MemoryGTTUsed:         0,
+			MemoryVisibleVRAMSize: 0,
+			MemoryVisibleVRAMUsed: 0,
+			MemoryVRAMSize:        0,
+			MemoryVRAMUsed:        0,
+		},
 	}
 
-	if !reflect.DeepEqual(classDRMCardStats, drmTest) {
-		t.Errorf("Result not correct: want %v, have %v", classDRMCardStats, drmTest)
+	if diff := cmp.Diff(classDRMCardStats, drmTest); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

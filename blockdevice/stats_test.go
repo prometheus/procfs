@@ -1,4 +1,4 @@
-// Copyright 2018 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,9 +14,11 @@
 package blockdevice
 
 import (
+	"errors"
 	"os"
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 const (
@@ -149,8 +151,8 @@ func TestBlockDevice(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !reflect.DeepEqual(blockQueueStat, blockQueueStatExpected) {
-		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", blockQueueStatExpected, blockQueueStat)
+	if diff := cmp.Diff(blockQueueStat, blockQueueStatExpected); diff != "" {
+		t.Fatalf("unexpected BlockQueueStat (-want +got):\n%s", diff)
 	}
 }
 
@@ -175,15 +177,16 @@ func TestBlockDmInfo(t *testing.T) {
 		UseBlkMQ:                  0,
 		UUID:                      "LVM-3zSHSR5Nbf4j7g6auAAefWY2CMaX01theZYEvQyecVsm2WtX3iY5q51qq5dWWOq7",
 	}
-	if !reflect.DeepEqual(dm0Info, dm0InfoExpected) {
-		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", dm0InfoExpected, dm0Info)
+	if diff := cmp.Diff(dm0Info, dm0InfoExpected); diff != "" {
+		t.Fatalf("unexpected BlockQueueStat (-want +got):\n%s", diff)
 	}
 
 	dm1Info, err := blockdevice.SysBlockDeviceMapperInfo(devices[1])
 	if err != nil {
-		if _, ok := err.(*os.PathError); ok {
+		var pErr *os.PathError
+		if errors.As(err, &pErr) {
 			// Fail the test if there's an error other than PathError.
-			if !os.IsNotExist(err) {
+			if !os.IsNotExist(pErr) {
 				t.Fatal(err)
 			}
 		} else {
@@ -193,8 +196,8 @@ func TestBlockDmInfo(t *testing.T) {
 		t.Fatal("SysBlockDeviceMapperInfo on sda was supposed to fail.")
 	}
 	dm1InfoExpected := DeviceMapperInfo{}
-	if !reflect.DeepEqual(dm1Info, dm1InfoExpected) {
-		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", dm0InfoExpected, dm0Info)
+	if diff := cmp.Diff(dm1Info, dm1InfoExpected); diff != "" {
+		t.Fatalf("unexpected BlockQueueStat (-want +got):\n%s", diff)
 	}
 }
 
@@ -215,7 +218,26 @@ func TestSysBlockDeviceUnderlyingDevices(t *testing.T) {
 	underlying0Expected := UnderlyingDeviceInfo{
 		DeviceNames: []string{"sda"},
 	}
-	if !reflect.DeepEqual(underlying0, underlying0Expected) {
-		t.Errorf("Incorrect BlockQueueStat, expected: \n%+v, got: \n%+v", underlying0Expected, underlying0)
+	if diff := cmp.Diff(underlying0, underlying0Expected); diff != "" {
+		t.Fatalf("unexpected BlockQueueStat (-want +got):\n%s", diff)
+	}
+}
+
+func TestSysBlockDeviceSize(t *testing.T) {
+	blockdevice, err := NewFS("testdata/fixtures/proc", "testdata/fixtures/sys")
+	if err != nil {
+		t.Fatalf("failed to access blockdevice fs: %v", err)
+	}
+	devices, err := blockdevice.SysBlockDevices()
+	if err != nil {
+		t.Fatal(err)
+	}
+	size7, err := blockdevice.SysBlockDeviceSize(devices[7])
+	if err != nil {
+		t.Fatal(err)
+	}
+	size7Expected := uint64(1920383410176)
+	if size7 != size7Expected {
+		t.Errorf("Incorrect BlockDeviceSize, expected: \n%+v, got: \n%+v", size7Expected, size7)
 	}
 }

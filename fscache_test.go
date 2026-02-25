@@ -1,4 +1,4 @@
-// Copyright 2019 The Prometheus Authors
+// Copyright The Prometheus Authors
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,8 +14,9 @@
 package procfs
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestFscacheinfo(t *testing.T) {
@@ -128,9 +129,7 @@ func TestFscacheinfo(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if !reflect.DeepEqual(have, expected) {
-		t.Logf("have: %+v", have)
-		t.Logf("expected: %+v", expected)
-		t.Errorf("structs are not equal")
+	if diff := cmp.Diff(have, expected); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }

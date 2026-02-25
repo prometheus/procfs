@@ -40,7 +40,7 @@ func TestClassCoolingDeviceStats(t *testing.T) {
 			CurState: 0,
 		},
 		{
-			Name:     "1",
+			Name:     "2",
 			Type:     "intel_powerclamp",
 			MaxState: 27,
 			CurState: -1,

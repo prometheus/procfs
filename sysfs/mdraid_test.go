@@ -131,3 +131,26 @@ func TestMdraidStats(t *testing.T) {
 		t.Fatalf("unexpected Mdraid (-want +got):\n%s", diff)
 	}
 }
+func TestMdraidDelayedSyncCompleted(t *testing.T) {
+	fs, err := NewFS("testdata/fixtures/sys/issue770")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	mdraids, err := fs.Mdraids()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(mdraids) != 1 {
+		t.Fatalf("expected 1 mdraid, got %d", len(mdraids))
+	}
+
+	md := mdraids[0]
+	if md.SyncCompleted != 0 {
+		t.Fatalf("expected SyncCompleted=0 for 'delayed' state, got %f", md.SyncCompleted)
+	}
+	if md.SyncAction != "resync" {
+		t.Fatalf("expected SyncAction='resync', got '%s'", md.SyncAction)
+	}
+}

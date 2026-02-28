@@ -136,7 +136,7 @@ func (fs FS) Mdraids() ([]Mdraid, error) {
 			}
 
 			if val, err := util.SysReadFile(filepath.Join(path, "sync_completed")); err == nil {
-				if val != "none" {
+				if val != "none" && val != "delayed" {
 					var a, b uint64
 
 					// File contains two values representing the fraction of number of completed

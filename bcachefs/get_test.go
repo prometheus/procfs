@@ -13,7 +13,11 @@
 
 package bcachefs
 
-import "testing"
+import (
+	"os"
+	"path/filepath"
+	"testing"
+)
 
 func TestParseHumanReadableBytes(t *testing.T) {
 	tests := []struct {
@@ -83,5 +87,34 @@ func TestFSBcachefsStats(t *testing.T) {
 	}
 	if dev.IODone["read"]["btree"] != 4411097088 {
 		t.Fatalf("unexpected io_done read btree: %d", dev.IODone["read"]["btree"])
+	}
+}
+
+func TestParseCounterFileHumanReadable(t *testing.T) {
+	dir := t.TempDir()
+	path := filepath.Join(dir, "counter")
+	if err := os.WriteFile(path, []byte("since mount: 2.05G\nsince filesystem creation: 1.5T\n"), 0o644); err != nil {
+		t.Fatalf("write counter file: %v", err)
+	}
+
+	got, err := parseCounterFile(path)
+	if err != nil {
+		t.Fatalf("parseCounterFile error: %v", err)
+	}
+
+	wantMount, err := parseHumanReadableBytes("2.05G")
+	if err != nil {
+		t.Fatalf("parseHumanReadableBytes mount error: %v", err)
+	}
+	wantCreation, err := parseHumanReadableBytes("1.5T")
+	if err != nil {
+		t.Fatalf("parseHumanReadableBytes creation error: %v", err)
+	}
+
+	if got.SinceMount != wantMount {
+		t.Fatalf("since mount = %d, want %d", got.SinceMount, wantMount)
+	}
+	if got.SinceFilesystemCreation != wantCreation {
+		t.Fatalf("since filesystem creation = %d, want %d", got.SinceFilesystemCreation, wantCreation)
 	}
 }

@@ -339,7 +339,7 @@ func parseCounterFile(path string) (CounterStats, error) {
 	for scanner.Scan() {
 		line := scanner.Text()
 		if valueStr, ok := strings.CutPrefix(line, "since mount:"); ok {
-			value, err := strconv.ParseUint(strings.TrimSpace(valueStr), 10, 64)
+			value, err := parseHumanReadableBytes(valueStr)
 			if err != nil {
 				return CounterStats{}, err
 			}
@@ -348,7 +348,7 @@ func parseCounterFile(path string) (CounterStats, error) {
 			continue
 		}
 		if valueStr, ok := strings.CutPrefix(line, "since filesystem creation:"); ok {
-			value, err := strconv.ParseUint(strings.TrimSpace(valueStr), 10, 64)
+			value, err := parseHumanReadableBytes(valueStr)
 			if err != nil {
 				return CounterStats{}, err
 			}

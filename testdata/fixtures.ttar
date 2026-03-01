@@ -6684,6 +6684,32 @@ Lines: 1
 Samsung SSD 970 PRO 512GB               
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme/nvme0/nvme0c0n0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/ana_state
+Lines: 1
+optimized
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/nuse
+Lines: 1
+488281250
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme/nvme0/nvme0c0n0/queue
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/queue/logical_block_size
+Lines: 1
+4096
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/nvme0c0n0/size
+Lines: 1
+3906250000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/serial
 Lines: 1
 S680HF8N190894I
@@ -7057,20 +7083,33 @@ Mode: 644
 Directory: fixtures/sys/class/thermal/cooling_device1
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Path: fixtures/sys/class/thermal/cooling_device1/cur_state
-Lines: 1
--1
-Mode: 644
-# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/cooling_device1/max_state
 Lines: 1
-27
+50
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/thermal/cooling_device1/type
 Lines: 1
-intel_powerclamp
+TFN1
 Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/thermal/cooling_device2
+Mode: 750
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/thermal/cooling_device2/cur_state
+Lines: 1
+-1
+Mode: 640
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/thermal/cooling_device2/max_state
+Lines: 1
+27
+Mode: 640
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/thermal/cooling_device2/type
+Lines: 1
+intel_powerclamp
+Mode: 640
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/thermal/thermal_zone0
 Mode: 755
@@ -18193,17 +18232,15 @@ Lines: 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/btree_write_stats
-Lines: 3
-                   nr        size
-initial:           19088     108k
-journal_reclaim:   541080    405
+Lines: 2
+type count size
+initial: 19088 1.0G
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/compression_stats
-Lines: 3
-type                    compressed  uncompressed  average extent size
-lz4:                         19.3G         67.0G                 112k
-incompressible:               5.5G          5.5G                  22k
+Lines: 2
+compression        compressed      uncompressed    average
+lz4: 1.0G 2.0G 4k
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/counters
@@ -18211,8 +18248,8 @@ Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/counters/btree_node_read
 Lines: 2
-since mount:                  12345
-since filesystem creation:    67890
+since mount: 123
+since filesystem creation: 67890
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1
@@ -18220,45 +18257,36 @@ Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/bucket_size
 Lines: 1
-1.0M
+128k
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/durability
 Lines: 1
-2
+1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/io_done
-Lines: 11
+Lines: 6
 read:
-
-	sb          :     3989504
-	btree       :  4411097088
-	user        :5768222552064
-
+  btree: 4411097088
+  data: 0
 write:
-
-	sb          :    31417344
-	btree       :     1171456
-	user        : 39196815360
+  btree: 0
+  data: 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/io_errors
-Lines: 9
+Lines: 5
 IO errors since filesystem creation
-
-	read:    197346
-	write:   0
-	checksum:0
-
-IO errors since 8 y ago
-
-	read:    197346
+  read: 197346
+  write: 0
+IO errors since last mount
+  read: 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/label
 Lines: 1
-data0
+testdev
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/nbuckets
@@ -18273,7 +18301,7 @@ Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/errors
 Lines: 1
-btree_node_read_err 5 1234567890
+btree_node_read_err 5 0
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/fs/btrfs

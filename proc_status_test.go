@@ -160,3 +160,31 @@ func TestNsPids(t *testing.T) {
 		t.Fatalf("unexpected NsPids (-want +got):\n%s", diff)
 	}
 }
+
+func TestCaps(t *testing.T) {
+	p, err := getProcFixtures(t).Proc(26231)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	s, err := p.NewStatus()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, test := range []struct {
+		name string
+		want uint64
+		have uint64
+	}{
+		{name: "CapInh", want: 0x0000000000000000, have: s.CapInh},
+		{name: "CapPrm", want: 0x0000003fffffffff, have: s.CapPrm},
+		{name: "CapEff", want: 0x0000003fffffffff, have: s.CapEff},
+		{name: "CapBnd", want: 0x0000003fffffffff, have: s.CapBnd},
+		{name: "CapAmb", want: 0x0000000000000000, have: s.CapAmb},
+	} {
+		if test.want != test.have {
+			t.Errorf("want %s %d, have %d", test.name, test.want, test.have)
+		}
+	}
+}

@@ -154,7 +154,7 @@ func parseFibreChannelStatistics(hostPath string) (*FibreChannelCounters, error)
 	path := filepath.Join(hostPath, "statistics")
 	
    if _, err := os.Stat(path); err != nil {
-      if errors.Is(err, fs.ErrNotExist) {
+      if errors.Is(err, os.ErrNotExist) {
         // statistics directory not present, skip
           return &counters, nil
       }

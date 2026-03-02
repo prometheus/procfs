@@ -45,9 +45,7 @@ func (fs FS) MEIClass() (*MEIClass, error) {
 		filename := filepath.Join(path, name)
 		value, err := util.SysReadFile(filename)
 		if err != nil {
-			if os.IsPermission(err) {
-				continue
-			}
+			// no check for perms since all files (well apart from tx_queue_limit) are 0444
 			return nil, fmt.Errorf("failed to read file %q: %w", filename, err)
 		}
 

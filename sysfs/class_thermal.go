@@ -51,7 +51,7 @@ func (fs FS) ClassThermalZoneStats() ([]ClassThermalZoneStats, error) {
 		zoneStats, err := parseClassThermalZone(zone)
 		if err != nil {
 			if errors.Is(err, syscall.ENODATA) || errors.As(err, new(*fsp.PathError)) || errors.Is(err, syscall.EAGAIN) ||
-				errors.Is(err, syscall.EINVAL) {
+				errors.Is(err, syscall.EINVAL) || errors.Is(err, os.ErrProcessDone) {
 				continue
 			}
 			return nil, err
@@ -63,6 +63,17 @@ func (fs FS) ClassThermalZoneStats() ([]ClassThermalZoneStats, error) {
 }
 
 func parseClassThermalZone(zone string) (ClassThermalZoneStats, error) {
+	// Optional attributes read first.
+	// Check mode before reading temp: disabled zones return EINVAL on temp reads.
+	mode, err := util.SysReadFile(filepath.Join(zone, "mode"))
+	if err != nil && !os.IsNotExist(err) && !os.IsPermission(err) {
+		return ClassThermalZoneStats{}, err
+	}
+	if mode == "disabled" {
+		return ClassThermalZoneStats{}, os.ErrProcessDone
+	}
+	zoneMode := util.ParseBool(mode)
+
 	// Required attributes.
 	zoneType, err := util.SysReadFile(filepath.Join(zone, "type"))
 	if err != nil {
@@ -76,13 +87,6 @@ func parseClassThermalZone(zone string) (ClassThermalZoneStats, error) {
 	if err != nil {
 		return ClassThermalZoneStats{}, err
 	}
-
-	// Optional attributes.
-	mode, err := util.SysReadFile(filepath.Join(zone, "mode"))
-	if err != nil && !os.IsNotExist(err) && !os.IsPermission(err) {
-		return ClassThermalZoneStats{}, err
-	}
-	zoneMode := util.ParseBool(mode)
 
 	var zonePassive *uint64
 	passive, err := util.SysReadUintFromFile(filepath.Join(zone, "passive"))

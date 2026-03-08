@@ -59,4 +59,10 @@ func TestClassThermalZoneStats(t *testing.T) {
 	if diff := cmp.Diff(classThermalZoneStats, thermalTest); diff != "" {
 		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
+
+	// Verify that the disabled thermal_zone2 is skipped and does not appear in results.
+	// A disabled zone has no temp file and would previously cause the collector to fail.
+	if len(thermalTest) != 2 {
+		t.Fatalf("expected 2 thermal zones (disabled zone should be skipped), got %d", len(thermalTest))
+	}
 }

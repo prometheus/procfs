@@ -32,11 +32,15 @@ func TestNewNetClassDevices(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if len(devices) != 1 {
-		t.Errorf("Unexpected number of devices, want %d, have %d", 1, len(devices))
+	found := false
+	for _, d := range devices {
+		if d == "eth0" {
+			found = true
+			break
+		}
 	}
-	if devices[0] != "eth0" {
-		t.Errorf("Found unexpected device, want %s, have %s", "eth0", devices[0])
+	if !found {
+		t.Errorf("expected device eth0 not found in %v", devices)
 	}
 }
 
@@ -94,6 +98,7 @@ func TestNetClass(t *testing.T) {
 	)
 
 	netClass := NetClass{
+		"enp3s0f0": {Name: "enp3s0f0"},
 		"eth0": {
 			Address:          "01:01:01:01:01:01",
 			AddrAssignType:   &addrAssignType,

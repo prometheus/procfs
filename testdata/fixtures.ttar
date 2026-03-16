@@ -6995,6 +6995,154 @@ Lines: 1
 live
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/iopolicy
+Lines: 1
+round-robin
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/model
+Lines: 1
+Dell PowerStore
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme0/address
+Lines: 1
+nn-0x200400a0986b4321:pn-0x210400a0986b4321
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme0/state
+Lines: 1
+live
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme0/transport
+Lines: 1
+fc
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme0n1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme1/address
+Lines: 1
+nn-0x200400a0986b4322:pn-0x210400a0986b4322
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme1/state
+Lines: 1
+live
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme1/transport
+Lines: 1
+fc
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme2
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme2/address
+Lines: 1
+nn-0x200400a0986b4323:pn-0x210400a0986b4323
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme2/state
+Lines: 1
+dead
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme2/transport
+Lines: 1
+fc
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/serial
+Lines: 1
+SN12345678
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/subsysnqn
+Lines: 1
+nqn.2014-08.org.nvmexpress:uuid:a34c4f3a-0d6f-5cec-dead-beefcafebabe
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys1/iopolicy
+Lines: 1
+numa
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys1/model
+Lines: 1
+NetApp ONTAP
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys1/nvme3
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys1/nvme3/address
+Lines: 1
+traddr=10.0.0.1,trsvcid=4420
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys1/nvme3/state
+Lines: 1
+live
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys1/nvme3/transport
+Lines: 1
+tcp
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys1/nvme3n1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys1/nvme4
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys1/nvme4/address
+Lines: 1
+traddr=10.0.0.2,trsvcid=4420
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys1/nvme4/state
+Lines: 1
+connecting
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys1/nvme4/transport
+Lines: 1
+rdma
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys1/nvme4n1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys1/serial
+Lines: 1
+NTAP98765
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys1/subsysnqn
+Lines: 1
+nqn.2014-08.org.nvmexpress:uuid:b45d5e4b-1e7f-6ded-beef-deadcafe1234
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/power_supply
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

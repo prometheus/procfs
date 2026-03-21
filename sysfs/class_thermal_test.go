@@ -39,20 +39,22 @@ func TestClassThermalZoneStats(t *testing.T) {
 
 	classThermalZoneStats := []ClassThermalZoneStats{
 		{
-			Name:    "0",
-			Type:    "bcm2835_thermal",
-			Policy:  "step_wise",
-			Temp:    49925,
-			Mode:    nil,
-			Passive: nil,
+			Name:       "0",
+			Type:       "bcm2835_thermal",
+			Policy:     "step_wise",
+			Temp:       49925,
+			Mode:       nil,
+			Passive:    nil,
+			ReadErrors: nil,
 		},
 		{
-			Name:    "1",
-			Type:    "acpitz",
-			Policy:  "step_wise",
-			Temp:    -44000,
-			Mode:    enabled,
-			Passive: &passive,
+			Name:       "1",
+			Type:       "acpitz",
+			Policy:     "step_wise",
+			Temp:       -44000,
+			Mode:       enabled,
+			Passive:    &passive,
+			ReadErrors: nil,
 		},
 	}
 

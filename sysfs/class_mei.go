@@ -23,9 +23,10 @@ import (
 	"github.com/prometheus/procfs/internal/util"
 )
 
-const meiClassPath = "class/mei/mei0"
+const meiClassPath = "class/mei"
 
-type MEIClass struct {
+type MEIDev struct {
+	Name          *string
 	Dev           *string
 	DevState      *string
 	FWStatus      *string
@@ -37,16 +38,41 @@ type MEIClass struct {
 	TxQueueLimit  *string
 }
 
+type MEIClass map[string]MEIDev
+
 // MEIClass returns Management Engine Interface (MEI) information read from /sys/class/mei/.
 func (fs FS) MEIClass() (*MEIClass, error) {
 	path := fs.sys.Path(meiClassPath)
+
+	subdirs, err := os.ReadDir(path)
+	if err != nil {
+		return nil, fmt.Errorf("failed to list MEI devices at %q: %w", path, err)
+	}
+
+	mei := make(MEIClass, len(subdirs))
+	for _, d := range subdirs {
+		dev, err := fs.parseMEI(d.Name())
+		if err != nil {
+			return nil, err
+		}
+
+		mei[*dev.Name] = *dev
+	}
+
+	return &mei, nil
+}
+
+func (fs FS) parseMEI(meiDev string) (*MEIDev, error) {
+	path := fs.sys.Path(meiClassPath, meiDev)
 
 	files, err := os.ReadDir(path)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read directory %q: %w", path, err)
 	}
 
-	var mei MEIClass
+	var mei MEIDev
+	mei.Name = &meiDev
+
 	for _, f := range files {
 		if !f.Type().IsRegular() {
 			continue
@@ -60,7 +86,10 @@ func (fs FS) MEIClass() (*MEIClass, error) {
 		filename := filepath.Join(path, name)
 		value, err := util.SysReadFile(filename)
 		if err != nil {
-			// no check for perms since all files (well apart from tx_queue_limit) are 0444
+			if os.IsPermission(err) {
+				continue
+			}
+
 			return nil, fmt.Errorf("failed to read file %q: %w", filename, err)
 		}
 

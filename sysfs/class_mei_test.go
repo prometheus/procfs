@@ -55,6 +55,6 @@ func TestMEIClass(t *testing.T) {
 	}
 
 	if diff := cmp.Diff(want, got); diff != "" {
-		t.Fatalf("unexpected DMI class (-want +got):\n%s", diff)
+		t.Fatalf("unexpected MEI class (-want +got):\n%s", diff)
 	}
 }

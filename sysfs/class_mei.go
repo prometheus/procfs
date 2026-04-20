@@ -37,7 +37,7 @@ type MEIClass struct {
 	TxQueueLimit  *string
 }
 
-// MEIClass returns Management Engine Interface (DMI) information read from /sys/class/mei/.
+// MEIClass returns Management Engine Interface (MEI) information read from /sys/class/mei/.
 func (fs FS) MEIClass() (*MEIClass, error) {
 	path := fs.sys.Path(meiClassPath)
 

@@ -32,6 +32,7 @@ func TestMEIClass(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	name := "mei0"
 	dev := "244:0"
 	devState := "ENABLED"
 	fwStatus := "90000245\n00110500\n00000020\n00000000\n02F41F03\n40000000"
@@ -43,15 +44,18 @@ func TestMEIClass(t *testing.T) {
 	txQueueLimit := "50"
 
 	want := &MEIClass{
-		Dev:           &dev,
-		DevState:      &devState,
-		FWStatus:      &fwStatus,
-		FWVersion:     &fwVer,
-		HBMVersion:    &hbmVer,
-		HBMVersionDrv: &hbmVerDrv,
-		Kind:          &kind,
-		Trc:           &trc,
-		TxQueueLimit:  &txQueueLimit,
+		"mei0": MEIDev{
+			Name:          &name,
+			Dev:           &dev,
+			DevState:      &devState,
+			FWStatus:      &fwStatus,
+			FWVersion:     &fwVer,
+			HBMVersion:    &hbmVer,
+			HBMVersionDrv: &hbmVerDrv,
+			Kind:          &kind,
+			Trc:           &trc,
+			TxQueueLimit:  &txQueueLimit,
+		},
 	}
 
 	if diff := cmp.Diff(want, got); diff != "" {

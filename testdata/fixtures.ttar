@@ -6351,7 +6351,7 @@ Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/mei/mei0/dev_state
 Lines: 1
-ENABLEDEOF
+ENABLED
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/mei/mei0/fw_status

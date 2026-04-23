@@ -16,7 +16,9 @@
 package sysfs
 
 import (
+	"errors"
 	"fmt"
+	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -100,6 +102,10 @@ func (fs FS) AerCounters() (AllAerCounters, error) {
 	path := fs.sys.Path(netclassPath)
 	allAerCounters := AllAerCounters{}
 	for _, devicePath := range devices {
+		_, deviceStat := os.Stat(filepath.Join(path, devicePath, "device"))
+		if errors.Is(deviceStat, os.ErrNotExist) {
+			continue
+		}
 		counters, err := parseAerCounters(filepath.Join(path, devicePath))
 		if err != nil {
 			return nil, err

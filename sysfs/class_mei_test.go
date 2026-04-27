@@ -32,28 +32,41 @@ func TestMEIClass(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	name := "mei0"
-	dev := "244:0"
+	dev0 := "244:0"
+	dev1 := "243:0"
 	devState := "ENABLED"
-	fwStatus := "90000245\n00110500\n00000020\n00000000\n02F41F03\n40000000"
-	fwVer := "0:18.0.5.2098\n0:18.0.5.2098\n0:18.0.5.2098"
+	fwStatus0 := "90000245\n00110500\n00000020\n00000000\n02F41F03\n40000000"
+	fwStatus1 := "90000245\n00110500\n00000020\n00000004\n02F61F03\n40000000"
+	fwVer0 := "0:18.0.5.2098\n0:18.0.5.2098\n0:18.0.5.2098"
+	fwVer1 := "0:18.1.18.2595\n0:18.1.18.2595\n0:18.1.18.2599"
 	hbmVer := "2.2"
 	hbmVerDrv := "2.2"
 	kind := "mei"
-	trc := "00000889"
+	trc0 := "00000889"
+	trc1 := "00000879"
 	txQueueLimit := "50"
 
 	want := &MEIClass{
 		"mei0": MEIDev{
-			Name:          &name,
-			Dev:           &dev,
+			Dev:           &dev0,
 			DevState:      &devState,
-			FWStatus:      &fwStatus,
-			FWVersion:     &fwVer,
+			FWStatus:      &fwStatus0,
+			FWVersion:     &fwVer0,
 			HBMVersion:    &hbmVer,
 			HBMVersionDrv: &hbmVerDrv,
 			Kind:          &kind,
-			Trc:           &trc,
+			Trc:           &trc0,
+			TxQueueLimit:  &txQueueLimit,
+		},
+		"mei1": MEIDev{
+			Dev:           &dev1,
+			DevState:      &devState,
+			FWStatus:      &fwStatus1,
+			FWVersion:     &fwVer1,
+			HBMVersion:    &hbmVer,
+			HBMVersionDrv: &hbmVerDrv,
+			Kind:          &kind,
+			Trc:           &trc1,
 			TxQueueLimit:  &txQueueLimit,
 		},
 	}

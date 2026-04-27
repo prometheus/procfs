@@ -26,7 +26,6 @@ import (
 const meiClassPath = "class/mei"
 
 type MEIDev struct {
-	Name          *string
 	Dev           *string
 	DevState      *string
 	FWStatus      *string
@@ -56,22 +55,21 @@ func (fs FS) MEIClass() (*MEIClass, error) {
 			return nil, err
 		}
 
-		mei[*dev.Name] = *dev
+		mei[d.Name()] = dev
 	}
 
 	return &mei, nil
 }
 
-func (fs FS) parseMEI(meiDev string) (*MEIDev, error) {
+func (fs FS) parseMEI(meiDev string) (MEIDev, error) {
 	path := fs.sys.Path(meiClassPath, meiDev)
+
+	var mei MEIDev
 
 	files, err := os.ReadDir(path)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read directory %q: %w", path, err)
+		return mei, fmt.Errorf("failed to read directory %q: %w", path, err)
 	}
-
-	var mei MEIDev
-	mei.Name = &meiDev
 
 	for _, f := range files {
 		if !f.Type().IsRegular() {
@@ -90,7 +88,7 @@ func (fs FS) parseMEI(meiDev string) (*MEIDev, error) {
 				continue
 			}
 
-			return nil, fmt.Errorf("failed to read file %q: %w", filename, err)
+			return mei, fmt.Errorf("failed to read file %q: %w", filename, err)
 		}
 
 		switch name {
@@ -115,5 +113,5 @@ func (fs FS) parseMEI(meiDev string) (*MEIDev, error) {
 		}
 	}
 
-	return &mei, nil
+	return mei, nil
 }

@@ -97,6 +97,18 @@ func (fs FS) NetClassByIface(devicePath string) (*NetClassIface, error) {
 }
 
 // NetClass returns info for all net interfaces (iface) read from /sys/class/net/<iface>.
+// NetClassPCIDevice returns the PciDevice backing the given network interface
+// by resolving the /sys/class/net/<iface>/device symlink and parsing the
+// corresponding PCI device via the existing PCI device parser.
+func (fs FS) NetClassPCIDevice(iface string) (*PciDevice, error) {
+	deviceSymlink := fs.sys.Path(netclassPath, iface, "device")
+	resolved, err := os.Readlink(deviceSymlink)
+	if err != nil {
+		return nil, fmt.Errorf("failed to resolve device symlink for %q: %w", iface, err)
+	}
+	return fs.parsePciDevice(filepath.Base(resolved))
+}
+
 func (fs FS) NetClass() (NetClass, error) {
 	devices, err := fs.NetClassDevices()
 	if err != nil {

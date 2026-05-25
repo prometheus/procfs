@@ -745,22 +745,23 @@ func TestParseStats(t *testing.T) {
 		},
 		{
 			name:    "zoned bad",
-			s:       "zoned 1",
+			s:       "zoned 1 2",
 			invalid: true,
 		},
 		{
 			name: "zoned OK",
-			s:    "zoned 1 2",
+			s:    "zoned 1 2 3 4",
 			stats: &xfs.Stats{
 				Zoned: xfs.ZonedStats{
-					GcReadCalls: 1,
-					GcBytes:     2,
+					GcReadCalls:      1,
+					GcWriteCalls:     2,
+					GcZoneResetCalls: 3,
 				},
 			},
 		},
 		{
-			name:    "metafile bad",
-			s:       "metafile 1",
+			name:    "metafile bad uint32",
+			s:       "metafile abc",
 			invalid: true,
 		},
 		{
@@ -769,7 +770,6 @@ func TestParseStats(t *testing.T) {
 			stats: &xfs.Stats{
 				MetaFile: xfs.MetaFileStats{
 					Inodes: 1,
-					Meta:   2,
 				},
 			},
 		},
@@ -1146,13 +1146,13 @@ func TestParseStats(t *testing.T) {
 				},
 
 				Zoned: xfs.ZonedStats{
-					GcReadCalls: 0,
-					GcBytes:     0,
+					GcReadCalls:      0,
+					GcWriteCalls:     0,
+					GcZoneResetCalls: 0,
 				},
 
 				MetaFile: xfs.MetaFileStats{
 					Inodes: 0,
-					Meta:   0,
 				},
 
 				DeferRelog: xfs.DeferRelogStats{
@@ -1196,5 +1196,83 @@ func TestParseStats(t *testing.T) {
 		if diff := cmp.Diff(tt.stats, stats); diff != "" {
 			t.Fatalf("unexpected XFS stats (-want +got):\n%s", diff)
 		}
+	}
+}
+
+const (
+	linux614StatsPrefix = `extent_alloc 4841 1382197 3198 1341523
+abt 0 0 0 0
+blk_map 2115317 2567929 18137 12841 12363 5130917 0
+bmbt 0 0 0 0
+dir 669509 14982 13231 155344
+trans 1 184826 0
+ig 656660 133557 0 523103 0 269933 8926
+log 6444 80186 36 6343 5938
+push_ail 187025 0 123178 16362 0 2882 1133 318 0 318
+xstrat 4612 0
+rw 2516859 5862583
+attr 43947 21 23 2446
+icluster 0 6036 18228
+vnodes 253170 0 0 0 278269 278269 278269 0
+buf 2879784 35660 2844127 2677019 2487 35657 10 0 35347
+abtb2 13643 138539 706 795 0 0 26 0 26 0 0 0 0 0 502133
+abtc2 26954 261791 7513 7602 0 0 42 9 32 4 0 0 0 0 4377106
+bmbt2 1139 7786 139 90 0 0 0 0 0 0 0 0 0 0 1307
+ibt2 28009 311571 63 42 0 0 0 0 1 0 0 0 0 0 4354
+fibt2 41067 163441 8178 8255 0 0 0 0 0 0 0 0 0 0 34399
+rmapbt 27442 493733 6653 4919 0 0 1540 1437 1007 1063 22 5 22 5 1032463
+refcntbt 17690 177736 1608 1608 0 0 82 13 13 66 1 1 1 1 468361
+rmapbt_mem 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+rcbagbt 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+rtrmapbt 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+rtrmapbt_mem 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+rtrefcntbt 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+qm 0 0 0 0 0 0 0 0
+`
+
+	linux614StatsSuffix = `xpc 5113102336 7894530294 22776079333
+defer_relog 1
+debug 0
+`
+
+	linux614Stats = linux614StatsPrefix + linux614StatsSuffix
+
+	linux70Stats = linux614StatsPrefix + `zoned 0 0 0
+metafile 0
+` + linux614StatsSuffix + `gc xpc 0
+`
+)
+
+func TestParseStatsLinux614(t *testing.T) {
+	stats, err := xfs.ParseStats(strings.NewReader(linux614Stats))
+	if err != nil {
+		t.Fatalf("failed to parse Linux 6.14 XFS stats: %v", err)
+	}
+
+	if want, got := uint32(0), stats.BtreeRtRefCount.Lookup; want != got {
+		t.Fatalf("unexpected rtrefcntbt lookup: want %d, got %d", want, got)
+	}
+	if want, got := uint64(1), stats.DeferRelog.Count; want != got {
+		t.Fatalf("unexpected defer_relog count: want %d, got %d", want, got)
+	}
+}
+
+func TestParseStatsLinux70(t *testing.T) {
+	stats, err := xfs.ParseStats(strings.NewReader(linux70Stats))
+	if err != nil {
+		t.Fatalf("failed to parse Linux 7.0 XFS stats: %v", err)
+	}
+
+	if want, got := (xfs.ZonedStats{}), stats.Zoned; want != got {
+		t.Fatalf("unexpected zoned stats: want %+v, got %+v", want, got)
+	}
+	if want, got := uint32(0), stats.MetaFile.Inodes; want != got {
+		t.Fatalf("unexpected metafile inodes: want %d, got %d", want, got)
+	}
+	if want, got := uint64(1), stats.DeferRelog.Count; want != got {
+		t.Fatalf("unexpected defer_relog count: want %d, got %d", want, got)
+	}
+	if want, got := uint64(5113102336), stats.ExtendedPrecision.FlushBytes; want != got {
+		t.Fatalf("unexpected xpc flush bytes: want %d, got %d", want, got)
 	}
 }

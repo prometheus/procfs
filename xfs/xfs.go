@@ -458,14 +458,14 @@ type BtreeRtRefCountStats struct {
 
 // ZonedStats contain statistics on zoned garbage collection operations.
 type ZonedStats struct {
-	GcReadCalls uint32
-	GcBytes     uint32
+	GcReadCalls      uint32
+	GcWriteCalls     uint32
+	GcZoneResetCalls uint32
 }
 
 // MetaFileStats contain statistics on metafile inode operations.
 type MetaFileStats struct {
 	Inodes uint32
-	Meta   uint32
 }
 
 // DeferRelogStats contains the deferred buffer relog count.

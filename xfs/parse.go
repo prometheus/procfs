@@ -771,25 +771,25 @@ func btreeRtRefCountStats(us []uint32) (BtreeRtRefCountStats, error) {
 
 // zonedStats handles zoned stats.
 func zonedStats(us []uint32) (ZonedStats, error) {
-	if l := len(us); l != 2 {
+	if l := len(us); l < 3 {
 		return ZonedStats{}, fmt.Errorf("incorrect number of values for zoned stats: %d", l)
 	}
 
 	return ZonedStats{
-		GcReadCalls: us[0],
-		GcBytes:     us[1],
+		GcReadCalls:      us[0],
+		GcWriteCalls:     us[1],
+		GcZoneResetCalls: us[2],
 	}, nil
 }
 
 // metaFileStats handles metafile stats.
 func metaFileStats(us []uint32) (MetaFileStats, error) {
-	if l := len(us); l != 2 {
+	if l := len(us); l < 1 {
 		return MetaFileStats{}, fmt.Errorf("incorrect number of values for metafile stats: %d", l)
 	}
 
 	return MetaFileStats{
 		Inodes: us[0],
-		Meta:   us[1],
 	}, nil
 }
 

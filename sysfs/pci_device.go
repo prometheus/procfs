@@ -103,6 +103,19 @@ func (pd PciDevice) Name() string {
 	return pd.Location.String()
 }
 
+// PciDeviceVFAddress returns the PCI BDF address of a Virtual Function by
+// resolving the virtfn symlink at /sys/bus/pci/devices/<bdf>/virtfn<vfIndex>.
+func (fs FS) PciDeviceVFAddress(device *PciDevice, vfIndex uint32) (string, error) {
+	loc := device.Location
+	bdf := fmt.Sprintf("%04x:%02x:%02x.%x", loc.Segment, loc.Bus, loc.Device, loc.Function)
+	virtfnPath := fs.sys.Path(pciDevicesPath, bdf, fmt.Sprintf("virtfn%d", vfIndex))
+	resolved, err := os.Readlink(virtfnPath)
+	if err != nil {
+		return "", fmt.Errorf("failed to read virtfn%d symlink for %q: %w", vfIndex, bdf, err)
+	}
+	return filepath.Base(resolved), nil
+}
+
 // PciDevices is a collection of every PCI device in
 // /sys/bus/pci/devices .
 //

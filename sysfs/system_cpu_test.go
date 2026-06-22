@@ -140,6 +140,7 @@ func TestSystemCpufreq(t *testing.T) {
 		{
 			Name:                             "0",
 			CpuinfoCurrentFrequency:          nil,
+			CpuinfoAverageFrequency:          makeUint64(3184097),
 			CpuinfoMinimumFrequency:          makeUint64(800000),
 			CpuinfoMaximumFrequency:          makeUint64(2400000),
 			CpuinfoTransitionLatency:         makeUint64(0),
@@ -163,11 +164,13 @@ func TestSystemCpufreq(t *testing.T) {
 			},
 		},
 		// The following files are missing for the second CPU:
+		// * `cpuinfo_avg_freq`
 		// * `scaling_cur_freq`
 		// * `trans_table`
 		{
 			Name:                     "1",
 			CpuinfoCurrentFrequency:  makeUint64(1200195),
+			CpuinfoAverageFrequency:  nil,
 			CpuinfoMinimumFrequency:  makeUint64(1200000),
 			CpuinfoMaximumFrequency:  makeUint64(3300000),
 			CpuinfoTransitionLatency: makeUint64(4294967295),

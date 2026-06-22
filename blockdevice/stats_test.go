@@ -75,7 +75,7 @@ func TestBlockDevice(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	expectedNumOfDevices := 9
+	expectedNumOfDevices := 10
 	if len(devices) != expectedNumOfDevices {
 		t.Fatalf(failMsgFormat, "Incorrect number of devices", expectedNumOfDevices, len(devices))
 	}
@@ -95,18 +95,18 @@ func TestBlockDevice(t *testing.T) {
 	if device0stats.WeightedIOTicks != 6088971 {
 		t.Errorf(failMsgFormat, "Incorrect time in queue", 6088971, device0stats.WeightedIOTicks)
 	}
-	device8stats, count, err := blockdevice.SysBlockDeviceStat(devices[8])
+	device9stats, count, err := blockdevice.SysBlockDeviceStat(devices[9])
 	if count != 15 {
 		t.Errorf(failMsgFormat, "Incorrect number of stats read", 15, count)
 	}
 	if err != nil {
 		t.Fatal(err)
 	}
-	if device8stats.WriteSectors != 286915323 {
-		t.Errorf(failMsgFormat, "Incorrect write merges", 286915323, device8stats.WriteSectors)
+	if device9stats.WriteSectors != 286915323 {
+		t.Errorf(failMsgFormat, "Incorrect write merges", 286915323, device9stats.WriteSectors)
 	}
-	if device8stats.DiscardTicks != 12 {
-		t.Errorf(failMsgFormat, "Incorrect discard ticks", 12, device8stats.DiscardTicks)
+	if device9stats.DiscardTicks != 12 {
+		t.Errorf(failMsgFormat, "Incorrect discard ticks", 12, device9stats.DiscardTicks)
 	}
 	blockQueueStatExpected := BlockQueueStats{
 		AddRandom:            1,
@@ -147,7 +147,7 @@ func TestBlockDevice(t *testing.T) {
 		WriteZeroesMaxBytes:  0,
 	}
 
-	blockQueueStat, err := blockdevice.SysBlockDeviceQueueStats(devices[8])
+	blockQueueStat, err := blockdevice.SysBlockDeviceQueueStats(devices[9])
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -232,12 +232,12 @@ func TestSysBlockDeviceSize(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	size8, err := blockdevice.SysBlockDeviceSize(devices[8])
+	size9, err := blockdevice.SysBlockDeviceSize(devices[9])
 	if err != nil {
 		t.Fatal(err)
 	}
-	size8Expected := uint64(1920383410176)
-	if size8 != size8Expected {
-		t.Errorf("Incorrect BlockDeviceSize, expected: \n%+v, got: \n%+v", size8Expected, size8)
+	size9Expected := uint64(1920383410176)
+	if size9 != size9Expected {
+		t.Errorf("Incorrect BlockDeviceSize, expected: \n%+v, got: \n%+v", size9Expected, size9)
 	}
 }

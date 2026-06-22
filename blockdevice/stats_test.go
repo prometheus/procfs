@@ -241,3 +241,29 @@ func TestSysBlockDeviceSize(t *testing.T) {
 		t.Errorf("Incorrect BlockDeviceSize, expected: \n%+v, got: \n%+v", size9Expected, size9)
 	}
 }
+
+func TestSysBlockDeviceRotational(t *testing.T) {
+	blockdevice, err := NewFS("testdata/fixtures/proc", "testdata/fixtures/sys")
+	if err != nil {
+		t.Fatalf("failed to access blockdevice fs: %v", err)
+	}
+	devices, err := blockdevice.SysBlockDevices()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// devices[9] is "sda" in the fixtures — a rotational HDD (value: 1).
+	rotational9, err := blockdevice.SysBlockDeviceRotational(devices[9])
+	if err != nil {
+		t.Fatal(err)
+	}
+	if rotational9 != 1 {
+		t.Errorf("Incorrect rotational value for %s: expected 1, got %d", devices[9], rotational9)
+	}
+
+	// devices[0] is "dm-0" — no queue/rotational file; expect an error.
+	_, err = blockdevice.SysBlockDeviceRotational(devices[0])
+	if err == nil {
+		t.Errorf("expected error reading rotational for %s (no queue dir), got nil", devices[0])
+	}
+}

@@ -17915,6 +17915,11 @@ Lines: 1
 0
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/cpu/cpufreq/policy0/cpuinfo_avg_freq
+Lines: 1
+3184097
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpufreq/policy0/cpuinfo_max_freq
 Lines: 1
 2400000

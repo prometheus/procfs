@@ -53,6 +53,7 @@ type CPUThermalThrottle struct {
 type SystemCPUCpufreqStats struct {
 	Name                     string
 	CpuinfoCurrentFrequency  *uint64
+	CpuinfoAverageFrequency  *uint64
 	CpuinfoMinimumFrequency  *uint64
 	CpuinfoMaximumFrequency  *uint64
 	CpuinfoTransitionLatency *uint64
@@ -269,6 +270,7 @@ func (fs FS) SystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	uintFiles := []string{
 		"cpuinfo_cur_freq",
+		"cpuinfo_avg_freq",
 		"cpuinfo_max_freq",
 		"cpuinfo_min_freq",
 		"cpuinfo_transition_latency",
@@ -380,12 +382,13 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 
 	return &SystemCPUCpufreqStats{
 		CpuinfoCurrentFrequency:          uintOut[0],
-		CpuinfoMaximumFrequency:          uintOut[1],
-		CpuinfoMinimumFrequency:          uintOut[2],
-		CpuinfoTransitionLatency:         uintOut[3],
-		ScalingCurrentFrequency:          uintOut[4],
-		ScalingMaximumFrequency:          uintOut[5],
-		ScalingMinimumFrequency:          uintOut[6],
+		CpuinfoAverageFrequency:          uintOut[1],
+		CpuinfoMaximumFrequency:          uintOut[2],
+		CpuinfoMinimumFrequency:          uintOut[3],
+		CpuinfoTransitionLatency:         uintOut[4],
+		ScalingCurrentFrequency:          uintOut[5],
+		ScalingMaximumFrequency:          uintOut[6],
+		ScalingMinimumFrequency:          uintOut[7],
 		AvailableGovernors:               stringOut[0],
 		Driver:                           stringOut[1],
 		Governor:                         stringOut[2],

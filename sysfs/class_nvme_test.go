@@ -96,7 +96,7 @@ func TestNVMeNamespaceParsingWithMockData(t *testing.T) {
 	}
 
 	// Create mock namespace directory and files
-	namespaceDir := filepath.Join(deviceDir, "nvme0c0n1")
+	namespaceDir := filepath.Join(deviceDir, "nvme0n1")
 	err = os.MkdirAll(filepath.Join(namespaceDir, "queue"), 0o755)
 	if err != nil {
 		t.Fatal(err)
@@ -205,8 +205,8 @@ func TestNVMeMultipleNamespaces(t *testing.T) {
 		anaState  string
 		blockSize string
 	}{
-		{"nvme1c0n1", "1", "100000", "2000000000", "optimized", "4096"},
-		{"nvme1c0n2", "2", "50000", "1000000000", "active", "512"},
+		{"nvme1n1", "1", "100000", "2000000000", "optimized", "4096"},
+		{"nvme1n2", "2", "50000", "1000000000", "active", "512"},
 	}
 
 	for _, ns := range namespaces {
@@ -344,7 +344,7 @@ func TestNVMeNamespaceMissingFiles(t *testing.T) {
 	}
 
 	// Create namespace directory but with missing files
-	namespaceDir := filepath.Join(deviceDir, "nvme2c0n1")
+	namespaceDir := filepath.Join(deviceDir, "nvme2n1")
 	err = os.MkdirAll(filepath.Join(namespaceDir, "queue"), 0o755)
 	if err != nil {
 		t.Fatal(err)

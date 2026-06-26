@@ -27,7 +27,7 @@ import (
 
 const nvmeClassPath = "class/nvme"
 
-var nvmeNamespacePattern = regexp.MustCompile(`nvme\d+c\d+n(\d+)`)
+var nvmeNamespacePattern = regexp.MustCompile(`nvme\d+n(\d+)`)
 
 // NVMeNamespace contains info from files in /sys/class/nvme/<device>/<namespace>.
 type NVMeNamespace struct {

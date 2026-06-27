@@ -2265,6 +2265,23 @@ max keysize  : 32
 Mode: 444
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/crypto_corrupted
+Lines: 13
+driver       : ccm_base(ctr(aes-aesni),cbcmac(aes-aesni))
+name         : ccm(aes)
+module       : ccm
+priority     : 300
+refcnt       : 4
+selftest     : passed
+internal     : no
+type         : aead
+async        : no
+blocksize    : 1
+ivsize       : 16
+maxauthsize  : 16
+geniv        : <none>
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/proc/diskstats
 Lines: 52
    1       0 ram0 0 0 0 0 0 0 0 0 0 0 0

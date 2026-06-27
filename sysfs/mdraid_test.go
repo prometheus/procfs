@@ -32,13 +32,15 @@ func TestMdraidStats(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	uint64ptr := func(v uint64) *uint64 { return &v }
+
 	want := []Mdraid{
 		{
 			Device:          "md0",
 			Level:           "raid0",
 			ArrayState:      "clean",
 			MetadataVersion: "1.2",
-			Disks:           2,
+			Disks:           uint64ptr(2),
 			Components: []MdraidComponent{
 				{Device: "sdg", State: "in_sync"},
 				{Device: "sdh", State: "in_sync"},
@@ -51,7 +53,7 @@ func TestMdraidStats(t *testing.T) {
 			Level:           "raid1",
 			ArrayState:      "clean",
 			MetadataVersion: "1.2",
-			Disks:           2,
+			Disks:           uint64ptr(2),
 			Components: []MdraidComponent{
 				{Device: "sdi", State: "in_sync"},
 				{Device: "sdj", State: "in_sync"},
@@ -64,7 +66,7 @@ func TestMdraidStats(t *testing.T) {
 			Level:           "raid10",
 			ArrayState:      "clean",
 			MetadataVersion: "1.2",
-			Disks:           4,
+			Disks:           uint64ptr(4),
 			Components: []MdraidComponent{
 				{Device: "sdu", State: "in_sync"},
 				{Device: "sdv", State: "in_sync"},
@@ -80,7 +82,7 @@ func TestMdraidStats(t *testing.T) {
 			Level:           "raid4",
 			ArrayState:      "clean",
 			MetadataVersion: "1.2",
-			Disks:           3,
+			Disks:           uint64ptr(3),
 			Components: []MdraidComponent{
 				{Device: "sdk", State: "in_sync"},
 				{Device: "sdl", State: "in_sync"},
@@ -95,7 +97,7 @@ func TestMdraidStats(t *testing.T) {
 			Level:           "raid5",
 			ArrayState:      "clean",
 			MetadataVersion: "1.2",
-			Disks:           3,
+			Disks:           uint64ptr(3),
 			Components: []MdraidComponent{
 				{Device: "sdaa", State: "spare"},
 				{Device: "sdn", State: "in_sync"},
@@ -112,7 +114,7 @@ func TestMdraidStats(t *testing.T) {
 			Level:           "raid6",
 			ArrayState:      "active",
 			MetadataVersion: "1.2",
-			Disks:           4,
+			Disks:           uint64ptr(4),
 			Components: []MdraidComponent{
 				{Device: "sdq", State: "in_sync"},
 				{Device: "sdr", State: "in_sync"},
@@ -124,6 +126,28 @@ func TestMdraidStats(t *testing.T) {
 			DegradedDisks: 1,
 			SyncAction:    "recover",
 			SyncCompleted: 0.7500458659491194,
+		},
+		{
+			Device:          "md7",
+			Level:           "container",
+			ArrayState:      "inactive",
+			MetadataVersion: "1.2",
+			Disks:           nil, // container type, no disks assigned
+			UUID:            "0e51f6d1-b357-2712-8eaa-31f6f597be6b",
+		},
+		{
+			Device:          "md8",
+			Level:           "raid5",
+			ArrayState:      "active",
+			MetadataVersion: "1.2",
+			Disks:           uint64ptr(11), // reshaping from 10 to 11, current value is 11
+			Components: []MdraidComponent{
+				{Device: "sdy", State: "in_sync"},
+				{Device: "sdz", State: "in_sync"},
+			},
+			UUID:       "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+			ChunkSize:  524288,
+			SyncAction: "reshape",
 		},
 	}
 

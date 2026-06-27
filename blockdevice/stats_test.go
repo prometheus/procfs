@@ -75,7 +75,7 @@ func TestBlockDevice(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	expectedNumOfDevices := 14
+	expectedNumOfDevices := 16
 	if len(devices) != expectedNumOfDevices {
 		t.Fatalf(failMsgFormat, "Incorrect number of devices", expectedNumOfDevices, len(devices))
 	}
@@ -95,18 +95,18 @@ func TestBlockDevice(t *testing.T) {
 	if device0stats.WeightedIOTicks != 6088971 {
 		t.Errorf(failMsgFormat, "Incorrect time in queue", 6088971, device0stats.WeightedIOTicks)
 	}
-	device9stats, count, err := blockdevice.SysBlockDeviceStat(devices[9])
+	device11stats, count, err := blockdevice.SysBlockDeviceStat(devices[11])
 	if count != 15 {
 		t.Errorf(failMsgFormat, "Incorrect number of stats read", 15, count)
 	}
 	if err != nil {
 		t.Fatal(err)
 	}
-	if device9stats.WriteSectors != 286915323 {
-		t.Errorf(failMsgFormat, "Incorrect write merges", 286915323, device9stats.WriteSectors)
+	if device11stats.WriteSectors != 286915323 {
+		t.Errorf(failMsgFormat, "Incorrect write merges", 286915323, device11stats.WriteSectors)
 	}
-	if device9stats.DiscardTicks != 12 {
-		t.Errorf(failMsgFormat, "Incorrect discard ticks", 12, device9stats.DiscardTicks)
+	if device11stats.DiscardTicks != 12 {
+		t.Errorf(failMsgFormat, "Incorrect discard ticks", 12, device11stats.DiscardTicks)
 	}
 	blockQueueStatExpected := BlockQueueStats{
 		AddRandom:            1,
@@ -147,7 +147,7 @@ func TestBlockDevice(t *testing.T) {
 		WriteZeroesMaxBytes:  0,
 	}
 
-	blockQueueStat, err := blockdevice.SysBlockDeviceQueueStats(devices[9])
+	blockQueueStat, err := blockdevice.SysBlockDeviceQueueStats(devices[11])
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -181,7 +181,7 @@ func TestBlockDmInfo(t *testing.T) {
 		t.Fatalf("unexpected BlockQueueStat (-want +got):\n%s", diff)
 	}
 
-	dm1Info, err := blockdevice.SysBlockDeviceMapperInfo(devices[9])
+	dm1Info, err := blockdevice.SysBlockDeviceMapperInfo(devices[11])
 	if err != nil {
 		var pErr *os.PathError
 		if errors.As(err, &pErr) {
@@ -232,13 +232,13 @@ func TestSysBlockDeviceSize(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	size9, err := blockdevice.SysBlockDeviceSize(devices[9])
+	size11, err := blockdevice.SysBlockDeviceSize(devices[11])
 	if err != nil {
 		t.Fatal(err)
 	}
-	size9Expected := uint64(1920383410176)
-	if size9 != size9Expected {
-		t.Errorf("Incorrect BlockDeviceSize, expected: \n%+v, got: \n%+v", size9Expected, size9)
+	size11Expected := uint64(1920383410176)
+	if size11 != size11Expected {
+		t.Errorf("Incorrect BlockDeviceSize, expected: \n%+v, got: \n%+v", size11Expected, size11)
 	}
 }
 
@@ -252,13 +252,13 @@ func TestSysBlockDeviceRotational(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// devices[9] is "sda" in the fixtures — a rotational HDD (value: 1).
-	rotational9, err := blockdevice.SysBlockDeviceRotational(devices[9])
+	// devices[11] is "sda" in the fixtures — a rotational HDD (value: 1).
+	rotational11, err := blockdevice.SysBlockDeviceRotational(devices[11])
 	if err != nil {
 		t.Fatal(err)
 	}
-	if rotational9 != 1 {
-		t.Errorf("Incorrect rotational value for %s: expected 1, got %d", devices[9], rotational9)
+	if rotational11 != 1 {
+		t.Errorf("Incorrect rotational value for %s: expected 1, got %d", devices[11], rotational11)
 	}
 
 	// devices[0] is "dm-0" — no queue/rotational file; expect an error.

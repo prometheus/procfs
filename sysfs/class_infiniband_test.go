@@ -344,3 +344,25 @@ func TestInfiniBandClass(t *testing.T) {
 		t.Fatalf("unexpected InfiniBand class (-want +got):\n%s", diff)
 	}
 }
+
+func TestInfiniBandDevice(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	class, err := fs.InfiniBandClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	got, err := fs.InfiniBandDevice("mlx5_0")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := class["mlx5_0"]
+	if diff := cmp.Diff(want, *got); diff != "" {
+		t.Fatalf("unexpected InfiniBand device (-want +got):\n%s", diff)
+	}
+}

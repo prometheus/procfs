@@ -159,6 +159,12 @@ func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
 	return ibc, nil
 }
 
+// InfiniBandDevice returns info for a single InfiniBand device read from
+// /sys/class/infiniband/<Name>.
+func (fs FS) InfiniBandDevice(name string) (*InfiniBandDevice, error) {
+	return fs.parseInfiniBandDevice(name)
+}
+
 // Parse one InfiniBand device.
 // Refer to https://www.kernel.org/doc/Documentation/ABI/stable/sysfs-class-infiniband
 func (fs FS) parseInfiniBandDevice(name string) (*InfiniBandDevice, error) {

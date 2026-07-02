@@ -143,6 +143,22 @@ func parseSoftIRQStat(line string) (SoftIRQStat, uint64, error) {
 	return softIRQStat, total, nil
 }
 
+func parseProcessCreated(value string) (uint64, error) {
+	if v, err := strconv.ParseUint(value, 10, 64); err == nil {
+		return v, nil
+	}
+
+	// Some kernels have been observed to expose the wrapped fork counter as a
+	// signed 32-bit decimal string (for example "-2045677862"). Recover the
+	// underlying uint32 value instead of failing the entire /proc/stat parse.
+	v, err := strconv.ParseInt(value, 10, 32)
+	if err != nil {
+		return 0, err
+	}
+
+	return uint64(uint32(v)), nil
+}
+
 // NewStat returns information about current cpu/process statistics.
 // See https://www.kernel.org/doc/Documentation/filesystems/proc.txt
 //
@@ -220,7 +236,7 @@ func parseStat(r io.Reader, fileName string) (Stat, error) {
 				return Stat{}, fmt.Errorf("%w: couldn't parse %q (ctxt): %w", ErrFileParse, parts[1], err)
 			}
 		case parts[0] == "processes":
-			if stat.ProcessCreated, err = strconv.ParseUint(parts[1], 10, 64); err != nil {
+			if stat.ProcessCreated, err = parseProcessCreated(parts[1]); err != nil {
 				return Stat{}, fmt.Errorf("%w: couldn't parse %q (processes): %w", ErrFileParse, parts[1], err)
 			}
 		case parts[0] == "procs_running":

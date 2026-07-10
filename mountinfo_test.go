@@ -13,10 +13,42 @@
 package procfs
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
 )
+
+func TestParseMountInfoStringParseErrorsIncludeRawValue(t *testing.T) {
+	tests := []struct {
+		name  string
+		line  string
+		value string
+	}{
+		{
+			name:  "mount ID",
+			line:  "invalid-mount-id 21 0:16 / /sys rw shared:7 - sysfs sysfs rw",
+			value: "invalid-mount-id",
+		},
+		{
+			name:  "parent ID",
+			line:  "16 invalid-parent-id 0:16 / /sys rw shared:7 - sysfs sysfs rw",
+			value: "invalid-parent-id",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			_, err := parseMountInfoString(test.line)
+			if err == nil {
+				t.Fatal("expected an error, but none occurred")
+			}
+			if !strings.Contains(err.Error(), test.value) {
+				t.Fatalf("error %q does not contain raw value %q", err, test.value)
+			}
+		})
+	}
+}
 
 func TestMountInfo(t *testing.T) {
 	tests := []struct {

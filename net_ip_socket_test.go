@@ -15,10 +15,47 @@ package procfs
 
 import (
 	"net"
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
 )
+
+func TestParseNetIPSocketLineParseErrorsIncludeRawValue(t *testing.T) {
+	baseFields := []string{"1:", "00000000:0000", "00000000:0000", "07", "00000000:00000001", "0:0", "0", "10", "0", "39309", "2", "000000009bd60d72", "5"}
+	tests := []struct {
+		name  string
+		value string
+		want  string
+		field int
+		isUDP bool
+	}{
+		{name: "sl", field: 0, value: "invalid-sl:", want: "invalid-sl"},
+		{name: "local port", field: 1, value: "00000000:invalid-local-port", want: "invalid-local-port"},
+		{name: "remote port", field: 2, value: "00000000:invalid-remote-port", want: "invalid-remote-port"},
+		{name: "state", field: 3, value: "invalid-state", want: "invalid-state"},
+		{name: "transmit queue", field: 4, value: "invalid-tx-queue:00000001", want: "invalid-tx-queue"},
+		{name: "receive queue", field: 4, value: "00000000:invalid-rx-queue", want: "invalid-rx-queue"},
+		{name: "UID", field: 7, value: "invalid-uid", want: "invalid-uid"},
+		{name: "inode", field: 9, value: "invalid-inode", want: "invalid-inode"},
+		{name: "drops", field: 12, value: "invalid-drops", want: "invalid-drops", isUDP: true},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			fields := append([]string(nil), baseFields...)
+			fields[test.field] = test.value
+
+			_, err := parseNetIPSocketLine(fields, test.isUDP)
+			if err == nil {
+				t.Fatal("expected an error, but none occurred")
+			}
+			if !strings.Contains(err.Error(), test.want) {
+				t.Fatalf("error %q does not contain raw value %q", err, test.want)
+			}
+		})
+	}
+}
 
 func Test_parseNetIPSocketLine(t *testing.T) {
 	tests := []struct {

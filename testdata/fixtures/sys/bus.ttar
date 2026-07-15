@@ -1,0 +1,28 @@
+# Archive created by ttar -c -f testdata/fixtures/sys/bus.ttar -C testdata/fixtures/sys bus/
+Directory: bus
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: bus/pci
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: bus/pci/devices
+Mode: 775
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: bus/pci/devices/0000:00:02.1
+SymlinkTo: ../../../devices/pci0000:00/0000:00:02.1
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: bus/pci/devices/0000:01:00.0
+SymlinkTo: ../../../devices/pci0000:00/0000:00:02.1/0000:01:00.0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: bus/pci/devices/0000:a2:00.0
+SymlinkTo: ../../../devices/pci0000:a2/0000:a2:00.0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: bus/pci/drivers
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: bus/pci/drivers/amdgpu
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: bus/pci/drivers/i915
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

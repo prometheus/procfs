@@ -18,14 +18,35 @@ include Makefile.common
 	./ttar -C $(dir $*) -x -f $*.ttar
 	touch $@
 
-fixtures: testdata/fixtures/.unpacked
+fixture_list := testdata/fixtures/proc/.unpacked \
+  testdata/fixtures/sys/block/.unpacked \
+  testdata/fixtures/sys/bus/.unpacked \
+  testdata/fixtures/sys/class/.unpacked \
+  testdata/fixtures/sys/devices/.unpacked \
+  testdata/fixtures/sys/fs/.unpacked \
+  testdata/fixtures/sys/kernel/.unpacked
+
+
+fixtures: $(fixture_list)
 
 update_fixtures:
-	rm -vf testdata/fixtures/.unpacked
-	./ttar -c -f testdata/fixtures.ttar -C testdata/ fixtures/
+	rm -vf testdata/fixtures/proc/.unpacked
+	./ttar -c -f testdata/fixtures/proc.ttar -C testdata/fixtures proc/
+	rm -vf testdata/fixtures/sys/block/.unpacked
+	./ttar -c -f testdata/fixtures/sys/block.ttar -C testdata/fixtures/sys block/
+	rm -vf testdata/fixtures/sys/bus/.unpacked
+	./ttar -c -f testdata/fixtures/sys/bus.ttar -C testdata/fixtures/sys bus/
+	rm -vf testdata/fixtures/sys/class/.unpacked
+	./ttar -c -f testdata/fixtures/sys/class.ttar -C testdata/fixtures/sys class/
+	rm -vf testdata/fixtures/sys/devices/.unpacked
+	./ttar -c -f testdata/fixtures/sys/devices.ttar -C testdata/fixtures/sys devices/
+	rm -vf testdata/fixtures/sys/fs/.unpacked
+	./ttar -c -f testdata/fixtures/sys/fs.ttar -C testdata/fixtures/sys fs/
+	rm -vf testdata/fixtures/sys/kernel/.unpacked
+	./ttar -c -f testdata/fixtures/sys/kernel.ttar -C testdata/fixtures/sys kernel/
 
 .PHONY: build
 build:
 
 .PHONY: test
-test: testdata/fixtures/.unpacked common-test
+test: $(fixture_list) common-test

@@ -1,0 +1,2753 @@
+# Archive created by ttar -c -f testdata/fixtures/sys/class.ttar -C testdata/fixtures/sys class/
+Directory: class
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/block
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/block/dm-0
+SymlinkTo: ../../devices/virtual/block/dm-0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/block/dm-1
+SymlinkTo: ../../devices/virtual/block/dm-1
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/block/dm-2
+SymlinkTo: ../../devices/virtual/block/dm-2
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/block/dm-3
+SymlinkTo: ../../devices/virtual/block/dm-3
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/block/dm-4
+SymlinkTo: ../../devices/virtual/block/dm-4
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/block/dm-5
+SymlinkTo: ../../devices/virtual/block/dm-5
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/dmi
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/dmi/id
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/bios_date
+Lines: 1
+04/12/2021
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/bios_release
+Lines: 1
+2.2
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/bios_vendor
+Lines: 1
+Dell Inc.
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/bios_version
+Lines: 1
+2.2.4
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/board_name
+Lines: 1
+07PXPY
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/board_serial
+Lines: 1
+.7N62AI2.GRTCL6944100GP.
+Mode: 400
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/board_vendor
+Lines: 1
+Dell Inc.
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/board_version
+Lines: 1
+A01
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/chassis_asset_tag
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/chassis_serial
+Lines: 1
+7N62AI2
+Mode: 400
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/chassis_type
+Lines: 1
+23
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/chassis_vendor
+Lines: 1
+Dell Inc.
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/chassis_version
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/modalias
+Lines: 1
+dmi:bvnDellInc.:bvr2.2.4:bd04/12/2021:br2.2:svnDellInc.:pnPowerEdgeR6515:pvr:rvnDellInc.:rn07PXPY:rvrA01:cvnDellInc.:ct23:cvr:
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/product_family
+Lines: 1
+PowerEdge
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/product_name
+Lines: 1
+PowerEdge R6515
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/product_serial
+Lines: 1
+7N62AI2
+Mode: 400
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/product_sku
+Lines: 1
+SKU=NotProvided;ModelName=PowerEdge R6515
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/product_uuid
+Lines: 1
+83340ca8-cb49-4474-8c29-d2088ca84dd9
+Mode: 400
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/product_version
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/sys_vendor
+Lines: 1
+Dell Inc.
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/dmi/id/uevent
+Lines: 1
+MODALIAS=dmi:bvnDellInc.:bvr2.2.4:bd04/12/2021:br2.2:svnDellInc.:pnPowerEdgeR6515:pvr:rvnDellInc.:rn07PXPY:rvrA01:cvnDellInc.:ct23:cvr:
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/drm
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/drm/card0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/drm/card0/device
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/aer_dev_correctable
+Lines: 9
+RxErr 0
+BadTLP 0
+BadDLLP 0
+Rollover 0
+Timeout 0
+NonFatalErr 0
+CorrIntErr 0
+HeaderOF 0
+TOTAL_ERR_COR 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/aer_dev_fatal
+Lines: 19
+Undefined 0
+DLP 0
+SDES 0
+TLP 0
+FCP 0
+CmpltTO 0
+CmpltAbrt 0
+UnxCmplt 0
+RxOF 0
+MalfTLP 0
+ECRC 0
+UnsupReq 0
+ACSViol 0
+UncorrIntErr 0
+BlockedTLP 0
+AtomicOpBlocked 0
+TLPBlockedErr 0
+PoisonTLPBlocked 0
+TOTAL_ERR_FATAL 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/aer_dev_nonfatal
+Lines: 19
+Undefined 0
+DLP 0
+SDES 0
+TLP 0
+FCP 0
+CmpltTO 0
+CmpltAbrt 0
+UnxCmplt 0
+RxOF 0
+MalfTLP 0
+ECRC 0
+UnsupReq 0
+ACSViol 0
+UncorrIntErr 0
+BlockedTLP 0
+AtomicOpBlocked 0
+TLPBlockedErr 0
+PoisonTLPBlocked 0
+TOTAL_ERR_NONFATAL 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/ari_enabled
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/boot_vga
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/broken_parity_status
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/class
+Lines: 1
+0x030000
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/consistent_dma_mask_bits
+Lines: 1
+44
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/current_link_speed
+Lines: 1
+8.0 GT/s PCIe
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/current_link_width
+Lines: 1
+16
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/d3cold_allowed
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/device
+Lines: 1
+0x687f
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/dma_mask_bits
+Lines: 1
+44
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/driver
+SymlinkTo: ../../../../bus/pci/drivers/amdgpu
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/driver_override
+Lines: 1
+(null)
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/enable
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/gpu_busy_percent
+Lines: 1
+4
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/irq
+Lines: 1
+95
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/local_cpulist
+Lines: 1
+0-15
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/local_cpus
+Lines: 1
+0000ffff
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/max_link_speed
+Lines: 1
+8.0 GT/s PCIe
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/max_link_width
+Lines: 1
+16
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/mem_info_gtt_total
+Lines: 1
+8573157376
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/mem_info_gtt_used
+Lines: 1
+144560128
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/mem_info_vis_vram_total
+Lines: 1
+8573157376
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/mem_info_vis_vram_used
+Lines: 1
+1490378752
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/mem_info_vram_total
+Lines: 1
+8573157376
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/mem_info_vram_used
+Lines: 1
+1490378752
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/mem_info_vram_vendor
+Lines: 1
+samsung
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/modalias
+Lines: 1
+pci:v00001002d0000687Fsv00001043sd000004C4bc03sc00i00
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/msi_bus
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/numa_node
+Lines: 1
+-1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pcie_bw
+Lines: 1
+6641 815 256
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pcie_replay_count
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/power_dpm_force_performance_level
+Lines: 1
+manual
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/power_dpm_state
+Lines: 1
+performance
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/power_state
+Lines: 1
+D0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_cur_state
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_dpm_dcefclk
+Lines: 5
+0: 600Mhz *
+1: 720Mhz 
+2: 800Mhz 
+3: 847Mhz 
+4: 900Mhz 
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_dpm_mclk
+Lines: 4
+0: 167Mhz *
+1: 500Mhz 
+2: 800Mhz 
+3: 945Mhz 
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_dpm_pcie
+Lines: 2
+0: 8.0GT/s, x16 
+1: 8.0GT/s, x16 *
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_dpm_sclk
+Lines: 8
+0: 852Mhz *
+1: 991Mhz 
+2: 1084Mhz 
+3: 1138Mhz 
+4: 1200Mhz 
+5: 1401Mhz 
+6: 1536Mhz 
+7: 1630Mhz 
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_dpm_socclk
+Lines: 8
+0: 600Mhz 
+1: 720Mhz *
+2: 800Mhz 
+3: 847Mhz 
+4: 900Mhz 
+5: 960Mhz 
+6: 1028Mhz 
+7: 1107Mhz 
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_features
+Lines: 32
+Current ppfeatures: 0x0000000019a1ff4f
+FEATURES            BITMASK                ENABLEMENT
+DPM_PREFETCHER      0x0000000000000001      Y
+GFXCLK_DPM          0x0000000000000002      Y
+UCLK_DPM            0x0000000000000004      Y
+SOCCLK_DPM          0x0000000000000008      Y
+UVD_DPM             0x0000000000000010      N
+VCE_DPM             0x0000000000000020      N
+ULV                 0x0000000000000040      Y
+MP0CLK_DPM          0x0000000000000080      N
+LINK_DPM            0x0000000000000100      Y
+DCEFCLK_DPM         0x0000000000000200      Y
+AVFS                0x0000000000000400      Y
+GFXCLK_DS           0x0000000000000800      Y
+SOCCLK_DS           0x0000000000001000      Y
+LCLK_DS             0x0000000000002000      Y
+PPT                 0x0000000000004000      Y
+TDC                 0x0000000000008000      Y
+THERMAL             0x0000000000010000      Y
+GFX_PER_CU_CG       0x0000000000020000      N
+RM                  0x0000000000040000      N
+DCEFCLK_DS          0x0000000000080000      N
+ACDC                0x0000000000100000      N
+VR0HOT              0x0000000000200000      Y
+VR1HOT              0x0000000000400000      N
+FW_CTF              0x0000000000800000      Y
+LED_DISPLAY         0x0000000001000000      Y
+FAN_CONTROL         0x0000000002000000      N
+FAST_PPT            0x0000000004000000      N
+DIDT                0x0000000008000000      Y
+ACG                 0x0000000010000000      Y
+PCC_LIMIT           0x0000000020000000      N
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_force_state
+Lines: 1
+
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_mclk_od
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_num_states
+Lines: 3
+states: 2
+0 boot
+1 performance
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_od_clk_voltage
+Lines: 18
+OD_SCLK:
+0:        852Mhz        800mV
+1:        991Mhz        900mV
+2:       1084Mhz        950mV
+3:       1138Mhz       1000mV
+4:       1200Mhz       1050mV
+5:       1401Mhz       1100mV
+6:       1536Mhz       1150mV
+7:       1630Mhz       1200mV
+OD_MCLK:
+0:        167Mhz        800mV
+1:        500Mhz        800mV
+2:        800Mhz        950mV
+3:        945Mhz       1100mV
+OD_RANGE:
+SCLK:     852MHz       2400MHz
+MCLK:     167MHz       1500MHz
+VDDC:     800mV        1200mV
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_power_profile_mode
+Lines: 8
+NUM        MODE_NAME BUSY_SET_POINT FPS USE_RLC_BUSY MIN_ACTIVE_LEVEL
+  0 BOOTUP_DEFAULT :             70  60          0              0
+  1 3D_FULL_SCREEN*:             70  60          1              3
+  2   POWER_SAVING :             90  60          0              0
+  3          VIDEO :             70  60          0              0
+  4             VR :             70  90          0              0
+  5        COMPUTE :             30  60          0              6
+  6         CUSTOM :              0   0          0              0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/pp_sclk_od
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/product_name
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/product_number
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/resource
+Lines: 13
+0x0000007c00000000 0x0000007dffffffff 0x000000000014220c
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000007e00000000 0x0000007e0fffffff 0x000000000014220c
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x000000000000d000 0x000000000000d0ff 0x0000000000040101
+0x00000000fcd00000 0x00000000fcd7ffff 0x0000000000040200
+0x00000000fcd80000 0x00000000fcd9ffff 0x0000000000046200
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/revision
+Lines: 1
+0xc1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/serial_number
+Lines: 1
+
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/subsystem_device
+Lines: 1
+0x04c4
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/subsystem_vendor
+Lines: 1
+0x1043
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/thermal_throttling_logging
+Lines: 1
+0000:09:00.0: thermal throttling logging enabled, with interval 60 seconds
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/uevent
+Lines: 6
+DRIVER=amdgpu
+PCI_CLASS=30000
+PCI_ID=1002:687F
+PCI_SUBSYS_ID=1043:04C4
+PCI_SLOT_NAME=0000:09:00.0
+MODALIAS=pci:v00001002d0000687Fsv00001043sd000004C4bc03sc00i00
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/unique_id
+Lines: 1
+0123456789abcdef
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/vbios_version
+Lines: 1
+115-D050PIL-100
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card0/device/vendor
+Lines: 1
+0x1002
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/drm/card1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/drm/card1/card1-DP-1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-1/connector_id
+Lines: 1
+103
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-1/dpms
+Lines: 1
+Off
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-1/edid
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-1/enabled
+Lines: 1
+disabled
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-1/modes
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-1/status
+Lines: 1
+disconnected
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/drm/card1/card1-DP-5
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-5/connector_id
+Lines: 1
+135
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-5/dpms
+Lines: 1
+On
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-5/edid
+Lines: 5
+NULLBYTE������NULLBYTE"�V)�4 x*���UM�%PT!NULLBYTE�����@���NULLBYTE�@�NULLBYTE(<��p�#@0 6NULLBYTED!NULLBYTENULLBYTENULLBYTENULLBYTENULLBYTE�NULLBYTE<PNULLBYTE
+      NULLBYTENULLBYTENULLBYTE�NULLBYTEHP ZR2440w
+  NULLBYTENULLBYTENULLBYTE�NULLBYTECN4218016Q
+  ��L�eNULLBYTENULLBYTE#	�NULLBYTENULLBYTE:�q8-@X,ENULLBYTED!NULLBYTENULLBYTE:��r8-@,E�D!NULLBYTENULLBYTENULLBYTErQ� n(UNULLBYTED!NULLBYTENULLBYTENULLBYTE�R� �(U@D!NULLBYTENULLBYTE�
+Њ �->�NULLBYTED!NULLBYTENULLBYTENULLBYTENULLBYTENULLBYTENULLBYTENULLBYTENULLBYTE�EOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-5/enabled
+Lines: 1
+enabled
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-5/modes
+Lines: 27
+1920x1200
+1920x1080
+1920x1080
+1920x1080
+1920x1080
+1920x1080
+1600x1200
+1680x1050
+1280x1024
+1440x900
+1280x960
+1280x720
+1280x720
+1280x720
+1280x720
+1280x720
+1024x768
+800x600
+720x576
+720x480
+720x480
+720x480
+720x480
+720x480
+640x480
+640x480
+640x480
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/card1-DP-5/status
+Lines: 1
+connected
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/drm/card1/device
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/device/driver
+SymlinkTo: ../../../../bus/pci/drivers/i915
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/device/enable
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/drm/card1/device/uevent
+Lines: 6
+DRIVER=i915
+PCI_CLASS=30000
+PCI_ID=8086:5917
+PCI_SUBSYS_ID=17AA:2258
+PCI_SLOT_NAME=0000:00:02.0
+MODALIAS=pci:v00008086d00005917sv000017AAsd00002258bc03sc00i00
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/fc_host
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/fc_host/host0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/dev_loss_tmo
+Lines: 1
+30
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/fabric_name
+Lines: 1
+0x0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/node_name
+Lines: 1
+0x2000e0071bce95f2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/port_id
+Lines: 1
+0x000002
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/port_name
+Lines: 1
+0x1000e0071bce95f2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/port_state
+Lines: 1
+Online
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/port_type
+Lines: 1
+Point-To-Point (direct nport connection)
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/speed
+Lines: 1
+16 Gbit
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/fc_host/host0/statistics
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/dumped_frames
+Lines: 1
+0xffffffffffffffff
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/error_frames
+Lines: 1
+0x0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/fcp_packet_aborts
+Lines: 1
+0x13
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/invalid_crc_count
+Lines: 1
+0x2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/invalid_tx_word_count
+Lines: 1
+0x8
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/link_failure_count
+Lines: 1
+0x9
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/loss_of_signal_count
+Lines: 1
+0x11
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/loss_of_sync_count
+Lines: 1
+0x10
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/nos_count
+Lines: 1
+0x12
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/rx_frames
+Lines: 1
+0x3
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/rx_words
+Lines: 1
+0x4
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/seconds_since_last_reset
+Lines: 1
+0x7
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/tx_frames
+Lines: 1
+0x5
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/statistics/tx_words
+Lines: 1
+0x6
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/supported_classes
+Lines: 1
+Class 3
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/supported_speeds
+Lines: 1
+4 Gbit, 8 Gbit, 16 Gbit
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host0/symbolic_name
+Lines: 1
+Emulex SN1100E2P FV12.4.270.3 DV12.4.0.0. HN:gotest. OS:Linux
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/fc_host/host1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/port_state
+Lines: 1
+Online
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/fc_host/host1/statistics
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/dumped_frames
+Lines: 1
+0x0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/error_frames
+Lines: 1
+0xffffffffffffffff
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/fcp_packet_aborts
+Lines: 1
+0x130
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/invalid_crc_count
+Lines: 1
+0x20
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/invalid_tx_word_count
+Lines: 1
+0x80
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/link_failure_count
+Lines: 1
+0x90
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/loss_of_signal_count
+Lines: 1
+0x110
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/loss_of_sync_count
+Lines: 1
+0x100
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/nos_count
+Lines: 1
+0x120
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/rx_frames
+Lines: 1
+0x30
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/rx_words
+Lines: 1
+0x40
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/seconds_since_last_reset
+Lines: 1
+0x70
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/tx_frames
+Lines: 1
+0x50
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/fc_host/host1/statistics/tx_words
+Lines: 1
+0x60
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/hfi1_0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/board_id
+Lines: 1
+HPE 100Gb 1-port OP101 QSFP28 x16 PCIe Gen3 with Intel Omni-Path Adapter
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/fw_ver
+Lines: 1
+1.27.0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/hfi1_0/ports
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/hfi1_0/ports/1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/hfi1_0/ports/1/counters
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/VL15_dropped
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/excessive_buffer_overrun_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/link_downed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/link_error_recovery
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/local_link_integrity_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_rcv_constraint_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_rcv_data
+Lines: 1
+345091702026
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_rcv_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_rcv_packets
+Lines: 1
+638036947
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_rcv_remote_physical_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_rcv_switch_relay_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_xmit_constraint_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_xmit_data
+Lines: 1
+273558326543
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_xmit_discards
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_xmit_packets
+Lines: 1
+568318856
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/port_xmit_wait
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/counters/symbol_error
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/link_layer
+Lines: 1
+InfiniBand
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/phys_state
+Lines: 1
+5: LinkUp
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/rate
+Lines: 1
+100 Gb/sec (4X EDR)
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/hfi1_0/ports/1/state
+Lines: 1
+4: ACTIVE
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx4_0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/board_id
+Lines: 1
+SM_1141000001000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/fw_ver
+Lines: 1
+2.31.5050
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/hca_type
+Lines: 1
+MT4099
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx4_0/ports
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx4_0/ports/1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx4_0/ports/1/counters
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/VL15_dropped
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/excessive_buffer_overrun_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/link_downed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/link_error_recovery
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/local_link_integrity_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_rcv_constraint_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_rcv_data
+Lines: 1
+2221223609
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_rcv_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_rcv_packets
+Lines: 1
+87169372
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_rcv_remote_physical_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_rcv_switch_relay_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_xmit_constraint_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_xmit_data
+Lines: 1
+26509113295
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_xmit_discards
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_xmit_packets
+Lines: 1
+85734114
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/port_xmit_wait
+Lines: 1
+3599
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/counters/symbol_error
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/link_layer
+Lines: 1
+InfiniBand
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/phys_state
+Lines: 1
+5: LinkUp
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/rate
+Lines: 1
+40 Gb/sec (4X QDR)
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/1/state
+Lines: 1
+4: ACTIVE
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx4_0/ports/2
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx4_0/ports/2/counters
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/VL15_dropped
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/excessive_buffer_overrun_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/link_downed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/link_error_recovery
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/local_link_integrity_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_rcv_constraint_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_rcv_data
+Lines: 1
+2460436784
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_rcv_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_rcv_packets
+Lines: 1
+89332064
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_rcv_remote_physical_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_rcv_switch_relay_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_xmit_constraint_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_xmit_data
+Lines: 1
+26540356890
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_xmit_discards
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_xmit_packets
+Lines: 1
+88622850
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/port_xmit_wait
+Lines: 1
+3846
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/counters/symbol_error
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/link_layer
+Lines: 2
+InfiniBand
+
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/phys_state
+Lines: 1
+5: LinkUp
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/rate
+Lines: 1
+40 Gb/sec (4X QDR)
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx4_0/ports/2/state
+Lines: 1
+4: ACTIVE
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx5_0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/board_id
+Lines: 1
+SM_2001000001034
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/fw_ver
+Lines: 1
+14.28.2006
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/hca_type
+Lines: 1
+MT4118
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/node_guid
+Lines: 1
+0a7f:bc12:45ef:d23bEOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx5_0/ports
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx5_0/ports/1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx5_0/ports/1/counters
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/VL15_dropped
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/excessive_buffer_overrun_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/link_downed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/link_error_recovery
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/local_link_integrity_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/multicast_rcv_packets
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/multicast_xmit_packets
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_rcv_constraint_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_rcv_data
+Lines: 1
+18126345378
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_rcv_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_rcv_packets
+Lines: 1
+541889824
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_rcv_remote_physical_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_rcv_switch_relay_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_xmit_constraint_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_xmit_data
+Lines: 1
+2880761508848
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_xmit_discards
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_xmit_packets
+Lines: 1
+10907922116
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/port_xmit_wait
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/symbol_error
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/unicast_rcv_packets
+Lines: 1
+541889824
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/counters/unicast_xmit_packets
+Lines: 1
+10907922116
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/infiniband/mlx5_0/ports/1/hw_counters
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/duplicate_request
+Lines: 1
+41
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/implied_nak_seq_err
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/lifespan
+Lines: 1
+10
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/local_ack_timeout_err
+Lines: 1
+131
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/out_of_buffer
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/out_of_sequence
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/packet_seq_err
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/req_cqe_error
+Lines: 1
+3481
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/req_cqe_flush_error
+Lines: 1
+80
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/req_remote_access_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/req_remote_invalid_request
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/resp_cqe_error
+Lines: 1
+8109
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/resp_cqe_flush_error
+Lines: 1
+4708
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/resp_local_length_error
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/resp_remote_access_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/rnr_nak_retry_err
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/roce_adp_retrans
+Lines: 1
+99
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/roce_adp_retrans_to
+Lines: 1
+4
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/roce_slow_restart
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/roce_slow_restart_cnps
+Lines: 1
+131
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/roce_slow_restart_trans
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/rx_atomic_requests
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/rx_dct_connect
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/rx_read_requests
+Lines: 1
+175528982
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/hw_counters/rx_write_requests
+Lines: 1
+742114
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/link_layer
+Lines: 1
+InfiniBand
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/phys_state
+Lines: 1
+4: ACTIVE
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/rate
+Lines: 1
+25 Gb/sec (1X EDR)
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/infiniband/mlx5_0/ports/1/state
+Lines: 1
+4: ACTIVE
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/mei
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/mei/mei0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei0/dev
+Lines: 1
+244:0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei0/dev_state
+Lines: 1
+ENABLED
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei0/fw_status
+Lines: 6
+90000245
+00110500
+00000020
+00000000
+02F41F03
+40000000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei0/fw_ver
+Lines: 3
+0:18.0.5.2098
+0:18.0.5.2098
+0:18.0.5.2098
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei0/hbm_ver
+Lines: 1
+2.2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei0/hbm_ver_drv
+Lines: 1
+2.2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei0/kind
+Lines: 1
+mei
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei0/trc
+Lines: 1
+00000889
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei0/tx_queue_limit
+Lines: 1
+50
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei0/uevent
+Lines: 3
+MAJOR=244
+MINOR=0
+DEVNAME=mei0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/mei/mei1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei1/dev
+Lines: 1
+243:0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei1/dev_state
+Lines: 1
+ENABLED
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei1/fw_status
+Lines: 6
+90000245
+00110500
+00000020
+00000004
+02F61F03
+40000000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei1/fw_ver
+Lines: 3
+0:18.1.18.2595
+0:18.1.18.2595
+0:18.1.18.2599
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei1/hbm_ver
+Lines: 1
+2.2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei1/hbm_ver_drv
+Lines: 1
+2.2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei1/kind
+Lines: 1
+mei
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei1/trc
+Lines: 1
+00000879
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei1/tx_queue_limit
+Lines: 1
+50
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/mei/mei1/uevent
+Lines: 3
+MAJOR=243
+MINOR=0
+DEVNAME=mei1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/net
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/net/eth0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/addr_assign_type
+Lines: 1
+3
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/addr_len
+Lines: 1
+6
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/address
+Lines: 1
+01:01:01:01:01:01
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/broadcast
+Lines: 1
+ff:ff:ff:ff:ff:ff
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/carrier
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/carrier_changes
+Lines: 1
+2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/carrier_down_count
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/carrier_up_count
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/dev_id
+Lines: 1
+0x20
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/device
+SymlinkTo: ../../../devices/pci0000:00/0000:00:1f.6/
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/dormant
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/duplex
+Lines: 1
+full
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/net/eth0/ecn
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/net/eth0/ecn/roce_np
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/cnp_802p_prio
+Lines: 1
+6
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/cnp_dscp
+Lines: 1
+48
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/net/eth0/ecn/roce_np/enable
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/enable/0
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/enable/1
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/enable/2
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/enable/3
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/enable/4
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/enable/5
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/enable/6
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/enable/7
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_np/min_time_between_cnps
+Lines: 1
+4
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/net/eth0/ecn/roce_rp
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/clamp_tgt_rate
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/clamp_tgt_rate_after_time_inc
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/dce_tcp_g
+Lines: 1
+1019
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/dce_tcp_rtt
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/net/eth0/ecn/roce_rp/enable
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/enable/0
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/enable/1
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/enable/2
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/enable/3
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/enable/4
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/enable/5
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/enable/6
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/enable/7
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/initial_alpha_value
+Lines: 1
+1023
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rate_reduce_monitor_period
+Lines: 1
+4
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rate_to_set_on_first_cnp
+Lines: 1
+10
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rpg_ai_rate
+Lines: 1
+5
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rpg_byte_reset
+Lines: 1
+32767
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rpg_gd
+Lines: 1
+11
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rpg_hai_rate
+Lines: 1
+50
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rpg_max_rate
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rpg_min_dec_fac
+Lines: 1
+50
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rpg_min_rate
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rpg_threshold
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ecn/roce_rp/rpg_time_reset
+Lines: 1
+300
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/flags
+Lines: 1
+0x1303
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ifalias
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/ifindex
+Lines: 1
+2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/iflink
+Lines: 1
+2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/link_mode
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/mtu
+Lines: 1
+1500
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/name_assign_type
+Lines: 1
+2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/netdev_group
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/operstate
+Lines: 1
+up
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/phys_port_id
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/phys_port_name
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/phys_switch_id
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/speed
+Lines: 1
+1000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/tx_queue_len
+Lines: 1
+1000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/net/eth0/type
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme/nvme0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme/nvme0/cntlid
+Lines: 1
+1997
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme/nvme0/firmware_rev
+Lines: 1
+1B2QEXP7
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme/nvme0/model
+Lines: 1
+Samsung SSD 970 PRO 512GB               
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme/nvme0/nvme0n0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme/nvme0/nvme0n0/ana_state
+Lines: 1
+optimized
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme/nvme0/nvme0n0/nuse
+Lines: 1
+488281250
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme/nvme0/nvme0n0/queue
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme/nvme0/nvme0n0/queue/logical_block_size
+Lines: 1
+4096
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme/nvme0/nvme0n0/size
+Lines: 1
+3906250000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme/nvme0/serial
+Lines: 1
+S680HF8N190894I
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme/nvme0/state
+Lines: 1
+live
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem/nvme-subsys0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/iopolicy
+Lines: 1
+round-robin
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/model
+Lines: 1
+Dell PowerStore
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem/nvme-subsys0/nvme0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/nvme0/address
+Lines: 1
+nn-0x200400a0986b4321:pn-0x210400a0986b4321
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/nvme0/state
+Lines: 1
+live
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/nvme0/transport
+Lines: 1
+fc
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem/nvme-subsys0/nvme0n1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem/nvme-subsys0/nvme1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/nvme1/address
+Lines: 1
+nn-0x200400a0986b4322:pn-0x210400a0986b4322
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/nvme1/state
+Lines: 1
+live
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/nvme1/transport
+Lines: 1
+fc
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem/nvme-subsys0/nvme2
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/nvme2/address
+Lines: 1
+nn-0x200400a0986b4323:pn-0x210400a0986b4323
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/nvme2/state
+Lines: 1
+dead
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/nvme2/transport
+Lines: 1
+fc
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/serial
+Lines: 1
+SN12345678
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys0/subsysnqn
+Lines: 1
+nqn.2014-08.org.nvmexpress:uuid:a34c4f3a-0d6f-5cec-dead-beefcafebabe
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem/nvme-subsys1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys1/iopolicy
+Lines: 1
+numa
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys1/model
+Lines: 1
+NetApp ONTAP
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem/nvme-subsys1/nvme3
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys1/nvme3/address
+Lines: 1
+traddr=10.0.0.1,trsvcid=4420
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys1/nvme3/state
+Lines: 1
+live
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys1/nvme3/transport
+Lines: 1
+tcp
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem/nvme-subsys1/nvme3n1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem/nvme-subsys1/nvme4
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys1/nvme4/address
+Lines: 1
+traddr=10.0.0.2,trsvcid=4420
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys1/nvme4/state
+Lines: 1
+connecting
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys1/nvme4/transport
+Lines: 1
+rdma
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/nvme-subsystem/nvme-subsys1/nvme4n1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys1/serial
+Lines: 1
+NTAP98765
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/nvme-subsystem/nvme-subsys1/subsysnqn
+Lines: 1
+nqn.2014-08.org.nvmexpress:uuid:b45d5e4b-1e7f-6ded-beef-deadcafe1234
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/power_supply
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/power_supply/AC
+SymlinkTo: ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:00/PNP0C09:00/ACPI0003:00/power_supply/AC
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/power_supply/BAT0
+SymlinkTo: ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:00/PNP0C09:00/PNP0C0A:00/power_supply/BAT0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/powercap
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/powercap/intel-rapl
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl/enabled
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl/uevent
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/powercap/intel-rapl:0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/constraint_0_max_power_uw
+Lines: 1
+95000000
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/constraint_0_name
+Lines: 1
+long_term
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/constraint_0_power_limit_uw
+Lines: 1
+4090000000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/constraint_0_time_window_us
+Lines: 1
+999424
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/constraint_1_max_power_uw
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/constraint_1_name
+Lines: 1
+short_term
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/constraint_1_power_limit_uw
+Lines: 1
+4090000000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/constraint_1_time_window_us
+Lines: 1
+2440
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/enabled
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/energy_uj
+Lines: 1
+240422366267
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/max_energy_range_uj
+Lines: 1
+262143328850
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/name
+Lines: 1
+package-0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0/uevent
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/powercap/intel-rapl:0:0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0:0/constraint_0_max_power_uw
+Lines: 0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0:0/constraint_0_name
+Lines: 1
+long_term
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0:0/constraint_0_power_limit_uw
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0:0/constraint_0_time_window_us
+Lines: 1
+976
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0:0/enabled
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0:0/energy_uj
+Lines: 1
+118821284256
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0:0/max_energy_range_uj
+Lines: 1
+262143328850
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0:0/name
+Lines: 1
+core
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:0:0/uevent
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/powercap/intel-rapl:a
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/constraint_0_max_power_uw
+Lines: 1
+95000000
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/constraint_0_name
+Lines: 1
+long_term
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/constraint_0_power_limit_uw
+Lines: 1
+4090000000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/constraint_0_time_window_us
+Lines: 1
+999424
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/constraint_1_max_power_uw
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/constraint_1_name
+Lines: 1
+short_term
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/constraint_1_power_limit_uw
+Lines: 1
+4090000000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/constraint_1_time_window_us
+Lines: 1
+2440
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/enabled
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/energy_uj
+Lines: 1
+240422366267
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/max_energy_range_uj
+Lines: 1
+262143328850
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/name
+Lines: 1
+package-10
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/powercap/intel-rapl:a/uevent
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/sas_device
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_device/end_device-11:0:0
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:0/end_device-11:0:0/sas_device/end_device-11:0:0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_device/end_device-11:0:1
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:1/end_device-11:0:1/sas_device/end_device-11:0:1
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_device/end_device-11:0:2
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:2/end_device-11:0:2/sas_device/end_device-11:0:2
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_device/end_device-11:2
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:2/end_device-11:2/sas_device/end_device-11:2
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_device/expander-11:0
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/sas_device/expander-11:0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_device/expander-11:1
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:1/expander-11:1/sas_device/expander-11:1
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/sas_end_device
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_end_device/end_device-11:0:0
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:0/end_device-11:0:0/sas_device/end_device-11:0:0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_end_device/end_device-11:0:1
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:1/end_device-11:0:1/sas_device/end_device-11:0:1
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_end_device/end_device-11:0:2
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:2/end_device-11:0:2/sas_device/end_device-11:0:2
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_end_device/end_device-11:2
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:2/end_device-11:2/sas_device/end_device-11:2
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/sas_expander
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_expander/expander-11:0
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/sas_expander/expander-11:0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_expander/expander-11:1
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:1/expander-11:1/sas_expander/expander-11:1
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/sas_host
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_host/host11
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/sas_host/host11
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/sas_phy
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:0:2
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/phy-11:0:2/sas_phy/phy-11:0:2
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:0:4
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/phy-11:0:4/sas_phy/phy-11:0:4
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:0:6
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/phy-11:0:6/sas_phy/phy-11:0:6
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:10
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:10/sas_phy/phy-11:10
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:11
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:11/sas_phy/phy-11:11
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:12
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:12/sas_phy/phy-11:12
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:13
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:13/sas_phy/phy-11:13
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:14
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:14/sas_phy/phy-11:14
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:15
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:15/sas_phy/phy-11:15
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:7
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:7/sas_phy/phy-11:7
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:8
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:8/sas_phy/phy-11:8
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_phy/phy-11:9
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/phy-11:9/sas_phy/phy-11:9
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/sas_port
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_port/port-11:0
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/sas_port/port-11:0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_port/port-11:0:0
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:0/sas_port/port-11:0:0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_port/port-11:0:1
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:1/sas_port/port-11:0:1
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_port/port-11:0:2
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:0/expander-11:0/port-11:0:2/sas_port/port-11:0:2
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/sas_port/port-11:1
+SymlinkTo: ../../devices/pci0000:00/0000:00:03.0/0000:03:00.0/host11/port-11:1/sas_port/port-11:1
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/scsi_tape
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/scsi_tape/nst0
+SymlinkTo: ../../devices/pci0000:00/0000:00:00.0/host0/port-0:0/end_device-0:0/target0:0:0/0:0:0:0/scsi_tape/nst0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/scsi_tape/nst0a
+SymlinkTo: ../../devices/pci0000:00/0000:00:00.0/host0/port-0:0/end_device-0:0/target0:0:0/0:0:0:0/scsi_tape/nst0a
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/scsi_tape/nst0l
+SymlinkTo: ../../devices/pci0000:00/0000:00:00.0/host0/port-0:0/end_device-0:0/target0:0:0/0:0:0:0/scsi_tape/nst0l
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/scsi_tape/nst0m
+SymlinkTo: ../../devices/pci0000:00/0000:00:00.0/host0/port-0:0/end_device-0:0/target0:0:0/0:0:0:0/scsi_tape/nst0m
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/scsi_tape/st0
+SymlinkTo: ../../devices/pci0000:00/0000:00:00.0/host0/port-0:0/end_device-0:0/target0:0:0/0:0:0:0/scsi_tape/st0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/scsi_tape/st0a
+SymlinkTo: ../../devices/pci0000:00/0000:00:00.0/host0/port-0:0/end_device-0:0/target0:0:0/0:0:0:0/scsi_tape/st0a
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/scsi_tape/st0l
+SymlinkTo: ../../devices/pci0000:00/0000:00:00.0/host0/port-0:0/end_device-0:0/target0:0:0/0:0:0:0/scsi_tape/st0l
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/scsi_tape/st0m
+SymlinkTo: ../../devices/pci0000:00/0000:00:00.0/host0/port-0:0/end_device-0:0/target0:0:0/0:0:0:0/scsi_tape/st0m
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/thermal
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/thermal/cooling_device0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/cooling_device0/cur_state
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/cooling_device0/max_state
+Lines: 1
+50
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/cooling_device0/type
+Lines: 1
+Processor
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/thermal/cooling_device1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/cooling_device1/max_state
+Lines: 1
+50
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/cooling_device1/type
+Lines: 1
+TFN1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/thermal/cooling_device2
+Mode: 750
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/cooling_device2/cur_state
+Lines: 1
+-1
+Mode: 640
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/cooling_device2/max_state
+Lines: 1
+27
+Mode: 640
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/cooling_device2/type
+Lines: 1
+intel_powerclamp
+Mode: 640
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/thermal/thermal_zone0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/thermal_zone0/policy
+Lines: 1
+step_wise
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/thermal_zone0/temp
+Lines: 1
+49925
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/thermal_zone0/type
+Lines: 1
+bcm2835_thermal
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/thermal/thermal_zone1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/thermal_zone1/mode
+Lines: 1
+enabled
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/thermal_zone1/passive
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/thermal_zone1/policy
+Lines: 1
+step_wise
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/thermal_zone1/temp
+Lines: 1
+-44000
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/thermal/thermal_zone1/type
+Lines: 1
+acpitz
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/watchdog
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/watchdog/watchdog0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/access_cs0
+Lines: 1
+0EOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/bootstatus
+Lines: 1
+1EOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/fw_version
+Lines: 1
+2EOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/identity
+Lines: 1
+Software WatchdogEOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/nowayout
+Lines: 1
+0EOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/options
+Lines: 1
+0x8380EOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/pretimeout
+Lines: 1
+120EOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/pretimeout_governor
+Lines: 1
+noopEOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/state
+Lines: 1
+activeEOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/status
+Lines: 1
+0x8000EOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/timeleft
+Lines: 1
+300EOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: class/watchdog/watchdog0/timeout
+Lines: 1
+60EOF
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: class/watchdog/watchdog1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

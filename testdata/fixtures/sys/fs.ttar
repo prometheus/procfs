@@ -1,0 +1,1139 @@
+# Archive created by ttar -c -f testdata/fixtures/sys/fs.ttar -C testdata/fixtures/sys fs/
+Directory: fs
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/average_key_size
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/dirty_data
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_day
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_day/bypassed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_day/cache_bypass_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_day/cache_bypass_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_day/cache_hit_ratio
+Lines: 1
+100
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_day/cache_hits
+Lines: 1
+289
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_day/cache_miss_collisions
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_day/cache_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute/bypassed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute/cache_bypass_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute/cache_bypass_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute/cache_hit_ratio
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute/cache_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute/cache_miss_collisions
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_five_minute/cache_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_hour
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_hour/bypassed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_hour/cache_bypass_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_hour/cache_bypass_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_hour/cache_hit_ratio
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_hour/cache_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_hour/cache_miss_collisions
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_hour/cache_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total/bypassed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total/cache_bypass_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total/cache_bypass_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total/cache_hit_ratio
+Lines: 1
+100
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total/cache_hits
+Lines: 1
+546
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total/cache_miss_collisions
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/stats_total/cache_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/bdev0/writeback_rate_debug
+Lines: 7
+rate:           1.1M/sec
+dirty:          20.4G
+target:         20.4G
+proportional:   427.5k
+integral:       790.0k
+change:         321.5k/sec
+next io:        17ms
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/btree_cache_size
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/cache0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/cache0/io_errors
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/cache0/metadata_written
+Lines: 1
+512
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/cache0/priority_stats
+Lines: 5
+Unused:		99%
+Metadata:	0%
+Average:	10473
+Sectors per Q:	64
+Quantiles:	[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 20946 20946 20946 20946 20946 20946 20946 20946 20946 20946 20946 20946 20946 20946 20946 20946]
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/cache0/written
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/cache_available_percent
+Lines: 1
+100
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/congested
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/internal
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/internal/active_journal_entries
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/internal/btree_nodes
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/internal/btree_read_average_duration_us
+Lines: 1
+1305
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/internal/cache_read_races
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/root_usage_percent
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_day
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_day/bypassed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_day/cache_bypass_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_day/cache_bypass_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_day/cache_hit_ratio
+Lines: 1
+100
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_day/cache_hits
+Lines: 1
+289
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_day/cache_miss_collisions
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_day/cache_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute/bypassed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute/cache_bypass_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute/cache_bypass_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute/cache_hit_ratio
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute/cache_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute/cache_miss_collisions
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_five_minute/cache_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_hour
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_hour/bypassed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_hour/cache_bypass_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_hour/cache_bypass_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_hour/cache_hit_ratio
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_hour/cache_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_hour/cache_miss_collisions
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_hour/cache_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total/bypassed
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total/cache_bypass_hits
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total/cache_bypass_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total/cache_hit_ratio
+Lines: 1
+100
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total/cache_hits
+Lines: 1
+546
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total/cache_miss_collisions
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/stats_total/cache_misses
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcache/deaddd54-c735-46d5-868e-f331c5fd7c74/tree_depth
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcachefs
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/btree_cache_size
+Lines: 1
+1.5G
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/btree_write_stats
+Lines: 2
+type count size
+initial: 19088 1.0G
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/compression_stats
+Lines: 2
+compression        compressed      uncompressed    average
+lz4: 1.0G 2.0G 4k
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/counters
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/counters/btree_node_read
+Lines: 2
+since mount: 123
+since filesystem creation: 67890
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/bucket_size
+Lines: 1
+128k
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/durability
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/io_done
+Lines: 6
+read:
+  btree: 4411097088
+  data: 0
+write:
+  btree: 0
+  data: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/io_errors
+Lines: 5
+IO errors since filesystem creation
+  read: 197346
+  write: 0
+IO errors since last mount
+  read: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/label
+Lines: 1
+testdev
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/nbuckets
+Lines: 1
+4096
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/dev-1/state
+Lines: 1
+rw
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/bcachefs/deadbeef-1234-5678-9012-abcdefabcdef/errors
+Lines: 1
+btree_node_read_err 5 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/bytes_may_use
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/bytes_readonly
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/bytes_reserved
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/bytes_used
+Lines: 1
+808189952
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/disk_total
+Lines: 1
+2147483648
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/disk_used
+Lines: 1
+808189952
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/flags
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/raid0
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/raid0/total_bytes
+Lines: 1
+2147483648
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/raid0/used_bytes
+Lines: 1
+808189952
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/total_bytes
+Lines: 1
+2147483648
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/data/total_bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/global_rsv_reserved
+Lines: 1
+16777216
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/global_rsv_size
+Lines: 1
+16777216
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/bytes_may_use
+Lines: 1
+16777216
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/bytes_readonly
+Lines: 1
+131072
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/bytes_reserved
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/bytes_used
+Lines: 1
+933888
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/disk_total
+Lines: 1
+2147483648
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/disk_used
+Lines: 1
+1867776
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/flags
+Lines: 1
+4
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/raid1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/raid1/total_bytes
+Lines: 1
+1073741824
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/raid1/used_bytes
+Lines: 1
+933888
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/total_bytes
+Lines: 1
+1073741824
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/metadata/total_bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/bytes_may_use
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/bytes_readonly
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/bytes_reserved
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/bytes_used
+Lines: 1
+16384
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/disk_total
+Lines: 1
+16777216
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/disk_used
+Lines: 1
+32768
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/flags
+Lines: 1
+2
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/raid1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/raid1/total_bytes
+Lines: 1
+8388608
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/raid1/used_bytes
+Lines: 1
+16384
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/total_bytes
+Lines: 1
+8388608
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/allocation/system/total_bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/clone_alignment
+Lines: 1
+4096
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/commit_stats
+Lines: 4
+commits 258051
+last_commit_ms 1000
+max_commit_ms 51462
+total_commit_ms 47836090EOF
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/devices
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/devices/loop25
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/devices/loop25/size
+Lines: 1
+20971520
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/devices/loop26
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/devices/loop26/size
+Lines: 1
+20971520
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/features
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/features/big_metadata
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/features/extended_iref
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/features/mixed_backref
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/features/skinny_metadata
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/label
+Lines: 1
+fixture
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/metadata_uuid
+Lines: 1
+0abb23a9-579b-43e6-ad30-227ef47fcb9d
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/nodesize
+Lines: 1
+16384
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/quota_override
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/0abb23a9-579b-43e6-ad30-227ef47fcb9d/sectorsize
+Lines: 1
+4096
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/bytes_may_use
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/bytes_readonly
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/bytes_reserved
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/bytes_used
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/disk_total
+Lines: 1
+644087808
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/disk_used
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/flags
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/raid5
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/raid5/total_bytes
+Lines: 1
+644087808
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/raid5/used_bytes
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/total_bytes
+Lines: 1
+644087808
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/data/total_bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/global_rsv_reserved
+Lines: 1
+16777216
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/global_rsv_size
+Lines: 1
+16777216
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/bytes_may_use
+Lines: 1
+16777216
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/bytes_readonly
+Lines: 1
+262144
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/bytes_reserved
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/bytes_used
+Lines: 1
+114688
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/disk_total
+Lines: 1
+429391872
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/disk_used
+Lines: 1
+114688
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/flags
+Lines: 1
+4
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/raid6
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/raid6/total_bytes
+Lines: 1
+429391872
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/raid6/used_bytes
+Lines: 1
+114688
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/total_bytes
+Lines: 1
+429391872
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/metadata/total_bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/bytes_may_use
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/bytes_readonly
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/bytes_reserved
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/bytes_used
+Lines: 1
+16384
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/disk_total
+Lines: 1
+16777216
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/disk_used
+Lines: 1
+16384
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/flags
+Lines: 1
+2
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/raid6
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/raid6/total_bytes
+Lines: 1
+16777216
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/raid6/used_bytes
+Lines: 1
+16384
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/total_bytes
+Lines: 1
+16777216
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/allocation/system/total_bytes_pinned
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/clone_alignment
+Lines: 1
+4096
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/devices
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/devices/loop22
+SymlinkTo: ../../../../devices/virtual/block/loop22
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/devices/loop23
+SymlinkTo: ../../../../devices/virtual/block/loop23
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/devices/loop24
+SymlinkTo: ../../../../devices/virtual/block/loop24
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/devices/loop25
+SymlinkTo: ../../../../devices/virtual/block/loop25
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/features
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/features/big_metadata
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/features/extended_iref
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/features/mixed_backref
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/features/raid56
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/features/skinny_metadata
+Lines: 1
+1
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/label
+Lines: 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/metadata_uuid
+Lines: 1
+7f07c59f-6136-449c-ab87-e1cf2328731b
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/nodesize
+Lines: 1
+16384
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/quota_override
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/btrfs/7f07c59f-6136-449c-ab87-e1cf2328731b/sectorsize
+Lines: 1
+4096
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/selinux
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/selinux/avc
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/selinux/avc/cache_stats
+Lines: 17
+lookups hits misses allocations reclaims frees
+6603240 6601784 1456 1456 1424 1479
+5110559 5109586 973 973 1152 1162
+6720426 6719001 1425 1425 1488 1515
+4713015 4711743 1272 1272 1200 1211
+6949114 6947453 1661 1661 1504 1555
+5624578 5622931 1647 1647 1328 1347
+5884601 5882982 1619 1619 1488 1525
+3170931 3170061 870 870 832 858
+7336127 7334467 1660 1660 1632 1644
+2853424 2852652 772 772 704 712
+7596237 7594408 1829 1829 1936 1960
+4491113 4490186 927 927 832 854
+7319238 7317738 1500 1500 1504 1538
+4945119 4944151 968 968 912 943
+7610170 7608283 1887 1887 1648 1695
+4662892 4662026 866 866 816 828
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/selinux/avc/hash_stats
+Lines: 3
+entries: 503
+buckets used: 257/512
+longest chain: 8
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/xfs
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/xfs/sda1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/xfs/sda1/stats
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/xfs/sda1/stats/stats
+Lines: 1
+extent_alloc 1 0 0 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/xfs/sdb1
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fs/xfs/sdb1/stats
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fs/xfs/sdb1/stats/stats
+Lines: 1
+extent_alloc 2 0 0 0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

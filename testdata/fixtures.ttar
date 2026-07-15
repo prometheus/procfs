@@ -3465,6 +3465,11 @@ Lines: 1
 kill_process kill_thread trap errno trace log allow
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/proc/sys/kernel/tainted
+Lines: 1
+12288
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/proc/sys/vm
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

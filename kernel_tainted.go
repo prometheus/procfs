@@ -79,7 +79,7 @@ var kernelTaintBitDefs = []struct {
 // along with each known flag parsed into a KernelTainted struct.
 // See https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html
 func (fs FS) KernelTainted() (KernelTainted, error) {
-	data, err := util.ReadFileNoStat(fs.proc.Path("sys", "kernel", "tainted"))
+	data, err := util.SysReadUintFromFile(fs.proc.Path("sys", "kernel", "tainted"))
 	if err != nil {
 		return KernelTainted{}, err
 	}

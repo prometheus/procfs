@@ -87,11 +87,7 @@ func (fs FS) KernelTainted() (KernelTainted, error) {
 }
 
 // parseTainted parses the content of /proc/sys/kernel/tainted.
-func parseTainted(r io.Reader) (KernelTainted, error) {
-	data, err := io.ReadAll(r)
-	if err != nil {
-		return KernelTainted{}, err
-	}
+func parseTainted(data []byte) (KernelTainted, error) {
 
 	value, err := strconv.ParseUint(strings.TrimSpace(string(data)), 10, 64)
 	if err != nil {

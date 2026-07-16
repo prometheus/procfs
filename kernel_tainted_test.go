@@ -16,7 +16,6 @@
 package procfs
 
 import (
-	"strings"
 	"testing"
 )
 
@@ -69,12 +68,9 @@ func TestKernelTainted(t *testing.T) {
 
 func TestParseTainted(t *testing.T) {
 	// Test parsing directly without filesystem access.
-	tainted, err := parseTainted(strings.NewReader("16384\n"))
-	if err != nil {
-		t.Fatalf("parseTainted failed: %v", err)
-	}
-
 	// 16384 = 2^14 → only bit 14 (L, soft lockup) should be set.
+	tainted := parseTainted(16384)
+
 	if tainted.Value != 16384 {
 		t.Errorf("value: want 16384, got %d", tainted.Value)
 	}

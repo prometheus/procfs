@@ -16,12 +16,6 @@
 package procfs
 
 import (
-	"bytes"
-	"fmt"
-	"io"
-	"strconv"
-	"strings"
-
 	"github.com/prometheus/procfs/internal/util"
 )
 
@@ -79,21 +73,15 @@ var kernelTaintBitDefs = []struct {
 // along with each known flag parsed into a KernelTainted struct.
 // See https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html
 func (fs FS) KernelTainted() (KernelTainted, error) {
-	data, err := util.SysReadUintFromFile(fs.proc.Path("sys", "kernel", "tainted"))
+	value, err := util.SysReadUintFromFile(fs.proc.Path("sys", "kernel", "tainted"))
 	if err != nil {
 		return KernelTainted{}, err
 	}
-	return parseTainted(bytes.NewReader(data))
+	return parseTainted(value), nil
 }
 
-// parseTainted parses the content of /proc/sys/kernel/tainted.
-func parseTainted(data []byte) (KernelTainted, error) {
-
-	value, err := strconv.ParseUint(strings.TrimSpace(string(data)), 10, 64)
-	if err != nil {
-		return KernelTainted{}, fmt.Errorf("couldn't parse tainted value: %w", err)
-	}
-
+// parseTainted builds a KernelTainted from the raw taint bitmask value.
+func parseTainted(value uint64) KernelTainted {
 	bits := make([]KernelTaintBit, len(kernelTaintBitDefs))
 	for i, def := range kernelTaintBitDefs {
 		bits[i] = KernelTaintBit{
@@ -103,9 +91,5 @@ func parseTainted(data []byte) (KernelTainted, error) {
 			Set:         value&(1<<uint(i)) != 0,
 		}
 	}
-
-	return KernelTainted{
-		Value: value,
-		Bits:  bits,
-	}, nil
+	return KernelTainted{Value: value, Bits: bits}
 }

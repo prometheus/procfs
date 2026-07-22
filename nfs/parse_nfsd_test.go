@@ -616,6 +616,57 @@ wdeleg_getattr 765432`,
 				},
 				WdelegGetattr: 765432,
 			},
+		}, {
+			name: "unknown metric line is ignored",
+			content: `rc 1 2 3
+fh 0 0 0 0 0
+io 10 20
+th 8 0 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+ra 32 0 0 0 0 0 0 0 0 0 0 0
+net 1 0 1 0
+rpc 1 0 0 0 0
+proc2 18 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+proc3 22 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+proc4 2 0 0
+proc4ops 40 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+wdeleg_getattr 7
+future_kernel_stat 42
+`,
+			stats: &nfs.ServerRPCStats{
+				ReplyCache: nfs.ReplyCache{
+					Hits:    1,
+					Misses:  2,
+					NoCache: 3,
+				},
+				FileHandles: nfs.FileHandles{},
+				InputOutput: nfs.InputOutput{
+					Read:  10,
+					Write: 20,
+				},
+				Threads: nfs.Threads{
+					Threads: 8,
+					FullCnt: 0,
+				},
+				ReadAheadCache: nfs.ReadAheadCache{
+					CacheSize:      32,
+					CacheHistogram: []uint64{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+					NotFound:       0,
+				},
+				Network: nfs.Network{
+					NetCount:   1,
+					UDPCount:   0,
+					TCPCount:   1,
+					TCPConnect: 0,
+				},
+				ServerRPC: nfs.ServerRPC{
+					RPCCount: 1,
+				},
+				V2Stats:       nfs.V2Stats{},
+				V3Stats:       nfs.V3Stats{},
+				ServerV4Stats: nfs.ServerV4Stats{},
+				V4Ops:         nfs.V4Ops{},
+				WdelegGetattr: 7,
+			},
 		},
 	}
 

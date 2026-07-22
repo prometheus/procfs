@@ -76,7 +76,10 @@ func ParseServerRPCStats(r io.Reader) (*ServerRPCStats, error) {
 		case "wdeleg_getattr":
 			stats.WdelegGetattr = values[0]
 		default:
-			return nil, fmt.Errorf("unknown NFSd metric line %q", metricLine)
+			// Ignore unknown metric lines. New kernel versions may add stats
+			// (e.g. wdeleg_getattr on Linux 6.6+); failing the whole parse
+			// would drop all NFSd metrics from consumers such as node_exporter.
+			continue
 		}
 		if err != nil {
 			return nil, fmt.Errorf("errors parsing NFSd metric line: %w", err)

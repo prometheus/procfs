@@ -17,15 +17,47 @@ package sysfs
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"golang.org/x/sync/errgroup"
 
 	"github.com/prometheus/procfs/internal/util"
 )
+
+// cpufreqReadTimeout bounds the time spent reading a single cpufreq sysfs
+// attribute. The kernel deliberately serializes per-CPU cpufreq attribute
+// access (50 ms per CPU) to avoid load spikes, but on arm64 with cppc_cpufreq
+// a read through the PCC firmware mailbox can block indefinitely when the
+// firmware never answers. Without a deadline, a single stuck read would hang
+// the whole collector and leak one goroutine and one file descriptor on every
+// scrape.
+// See https://github.com/prometheus/node_exporter/issues/3791.
+const cpufreqReadTimeout = 5 * time.Second
+
+// readCpufreqFile reads a single sysfs attribute, returning an error when the
+// read does not complete within cpufreqReadTimeout, so a wedged firmware read
+// can never block the collector forever.
+func readCpufreqFile(path string) ([]byte, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	if err := f.SetReadDeadline(time.Now().Add(cpufreqReadTimeout)); err != nil {
+		// The file type does not support deadlines; fall back to a plain
+		// read. This only happens for regular files, which do not exhibit
+		// the firmware-hang behaviour the deadline guards against.
+		return io.ReadAll(f)
+	}
+
+	return io.ReadAll(f)
+}
 
 // CPU represents a path to a CPU located in `/sys/devices/system/cpu/cpu[0-9]*`.
 type CPU string
@@ -281,14 +313,17 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	uintOut := make([]*uint64, len(uintFiles))
 
 	for i, f := range uintFiles {
-		v, err := util.ReadUintFromFile(filepath.Join(cpuPath, f))
+		data, err := readCpufreqFile(filepath.Join(cpuPath, f))
 		if err != nil {
-			if os.IsNotExist(err) || os.IsPermission(err) {
+			if os.IsNotExist(err) || os.IsPermission(err) || os.IsTimeout(err) {
 				continue
 			}
 			return &SystemCPUCpufreqStats{}, err
 		}
-
+		v, err := strconv.ParseUint(strings.TrimSpace(string(data)), 10, 64)
+		if err != nil {
+			return &SystemCPUCpufreqStats{}, err
+		}
 		uintOut[i] = &v
 	}
 
@@ -300,34 +335,41 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 		"scaling_setspeed",
 	}
 	stringOut := make([]string, len(stringFiles))
-	var err error
 
 	for i, f := range stringFiles {
-		stringOut[i], err = util.SysReadFile(filepath.Join(cpuPath, f))
+		data, err := readCpufreqFile(filepath.Join(cpuPath, f))
 		if err != nil {
+			if os.IsTimeout(err) {
+				continue
+			}
 			return &SystemCPUCpufreqStats{}, err
 		}
+		stringOut[i] = strings.TrimSpace(string(data))
 	}
 
 	// "total_trans" is the total number of times the CPU has changed frequency.
 	var cpuinfoFrequencyTransitionsTotal *uint64
-	cpuinfoFrequencyTransitionsTotalUint, err := util.ReadUintFromFile(filepath.Join(cpuPath, "stats", "total_trans"))
-	if err != nil {
+	cpuinfoFrequencyTransitionsTotalData, err := readCpufreqFile(filepath.Join(cpuPath, "stats", "total_trans"))
+	if err != nil && !os.IsTimeout(err) {
 		if !os.IsNotExist(err) && !os.IsPermission(err) {
 			return &SystemCPUCpufreqStats{}, err
 		}
-	} else {
-		cpuinfoFrequencyTransitionsTotal = &cpuinfoFrequencyTransitionsTotalUint
+	} else if err == nil {
+		v, err := strconv.ParseUint(strings.TrimSpace(string(cpuinfoFrequencyTransitionsTotalData)), 10, 64)
+		if err != nil {
+			return &SystemCPUCpufreqStats{}, err
+		}
+		cpuinfoFrequencyTransitionsTotal = &v
 	}
 
 	// "time_in_state" is the total time spent at each frequency.
 	var cpuinfoFrequencyDuration *map[uint64]uint64
-	cpuinfoFrequencyDurationString, err := util.ReadFileNoStat(filepath.Join(cpuPath, "stats", "time_in_state"))
-	if err != nil {
+	cpuinfoFrequencyDurationString, err := readCpufreqFile(filepath.Join(cpuPath, "stats", "time_in_state"))
+	if err != nil && !os.IsTimeout(err) {
 		if !os.IsNotExist(err) && !os.IsPermission(err) {
 			return &SystemCPUCpufreqStats{}, err
 		}
-	} else {
+	} else if err == nil {
 		cpuinfoFrequencyDuration = &map[uint64]uint64{}
 		for line := range strings.SplitSeq(string(cpuinfoFrequencyDurationString), "\n") {
 			if line == "" {
@@ -351,12 +393,12 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 
 	// "trans_table" contains information about all the CPU frequency transitions.
 	var cpuinfoTransitionTable *[][]uint64
-	cpuinfoTransitionTableString, err := util.ReadFileNoStat(filepath.Join(cpuPath, "stats", "trans_table"))
-	if err != nil {
+	cpuinfoTransitionTableString, err := readCpufreqFile(filepath.Join(cpuPath, "stats", "trans_table"))
+	if err != nil && !os.IsTimeout(err) {
 		if !os.IsNotExist(err) && !os.IsPermission(err) {
 			return &SystemCPUCpufreqStats{}, err
 		}
-	} else {
+	} else if err == nil {
 		cpuinfoTransitionTable = &[][]uint64{}
 		for i, line := range strings.Split(string(cpuinfoTransitionTableString), "\n") {
 			// Skip the "From: To" header.

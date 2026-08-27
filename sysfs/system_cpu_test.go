@@ -17,8 +17,12 @@ package sysfs
 
 import (
 	"errors"
+	"io"
 	"os"
+	"path/filepath"
+	"syscall"
 	"testing"
+	"time"
 
 	"github.com/google/go-cmp/cmp"
 )
@@ -269,4 +273,43 @@ func TestBinSearch(t *testing.T) {
 		}
 
 	}
+}
+
+func TestReadCpufreqFileTimeout(t *testing.T) {
+	// A fifo with no active reader blocks a read until a deadline fires.
+	// cppc_cpufreq on arm64 can wedge sysfs attribute reads forever; the
+	// deadline must abort the read instead of blocking the whole collector.
+	dir := t.TempDir()
+	fifo := filepath.Join(dir, "blocked")
+	if err := syscall.Mkfifo(fifo, 0o600); err != nil {
+		t.Fatalf("mkfifo: %v", err)
+	}
+	// Open a write end so the read end does not get EOF immediately.
+	w, err := os.OpenFile(fifo, os.O_WRONLY, 0)
+	if err != nil {
+		t.Fatalf("open fifo write end: %v", err)
+	}
+	defer w.Close()
+
+	// Use a short deadline rather than waiting for the 5s production timeout.
+	if err := overriddenDeadline(fifo, 200*time.Millisecond); err == nil {
+		t.Fatal("expected a timeout error for a blocked read")
+	} else if !os.IsTimeout(err) {
+		t.Fatalf("expected timeout error, got %v", err)
+	}
+}
+
+// overriddenDeadline mirrors readCpufreqFile with a caller-provided deadline,
+// allowing the timeout path to be exercised quickly in tests.
+func overriddenDeadline(path string, d time.Duration) error {
+	f, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	if err := f.SetReadDeadline(time.Now().Add(d)); err != nil {
+		return err
+	}
+	_, err = io.ReadAll(f)
+	return err
 }

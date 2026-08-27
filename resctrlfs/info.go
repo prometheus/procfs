@@ -18,7 +18,7 @@ package resctrlfs
 import (
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const l3MonInfoPath = "info/L3_MON"
@@ -43,13 +43,13 @@ type L3MonInfo struct {
 func (fs FS) L3MonInfo() (L3MonInfo, error) {
 	var info L3MonInfo
 
-	numRMIDs, err := util.ReadUintFromFile(fs.resctrl.Path(l3MonInfoPath, "num_rmids"))
+	numRMIDs, err := parsers.ReadUintFromFile(fs.resctrl.Path(l3MonInfoPath, "num_rmids"))
 	if err != nil {
 		return info, err
 	}
 	info.NumRMIDs = numRMIDs
 
-	data, err := util.ReadFileNoStat(fs.resctrl.Path(l3MonInfoPath, "mon_features"))
+	data, err := parsers.ReadFileNoStat(fs.resctrl.Path(l3MonInfoPath, "mon_features"))
 	if err != nil {
 		return info, err
 	}

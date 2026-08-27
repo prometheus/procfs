@@ -21,7 +21,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // CorrectableAerCounters contains values from /sys/class/net/<iface>/device/aer_dev_correctable
@@ -134,7 +134,7 @@ func parseAerCounters(devicePath string) (*AerCounters, error) {
 // /sys/class/net/<iface>/device/aer_dev_correctable.
 func parseCorrectableAerCounters(devicePath string, counters *CorrectableAerCounters) error {
 	path := filepath.Join(devicePath, "device", "aer_dev_correctable")
-	value, err := util.SysReadFile(path)
+	value, err := parsers.SysReadFile(path)
 	if err != nil {
 		if canIgnoreError(err) {
 			return nil
@@ -186,7 +186,7 @@ func parseCorrectableAerCounters(devicePath string, counters *CorrectableAerCoun
 func parseUncorrectableAerCounters(devicePath string, counterType string,
 	counters *UncorrectableAerCounters) error {
 	path := filepath.Join(devicePath, "device", "aer_dev_"+counterType)
-	value, err := util.ReadFileNoStat(path)
+	value, err := parsers.ReadFileNoStat(path)
 	if err != nil {
 		if canIgnoreError(err) {
 			return nil

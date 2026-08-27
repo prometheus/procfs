@@ -21,7 +21,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // PowerSupply contains info from files in /sys/class/power_supply for a
@@ -140,7 +140,7 @@ func parsePowerSupply(path string) (*PowerSupply, error) {
 		}
 
 		name := filepath.Join(path, f.Name())
-		value, err := util.SysReadFile(name)
+		value, err := parsers.SysReadFile(name)
 		if err != nil {
 			if os.IsNotExist(err) || err.Error() == "operation not supported" || err.Error() == "no such device" || errors.Is(err, os.ErrInvalid) {
 				continue
@@ -148,7 +148,7 @@ func parsePowerSupply(path string) (*PowerSupply, error) {
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
 
-		vp := util.NewValueParser(value)
+		vp := parsers.NewValueParser(value)
 
 		switch f.Name() {
 		case "authentic":

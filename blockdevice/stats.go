@@ -23,7 +23,7 @@ import (
 
 	"github.com/prometheus/procfs"
 	"github.com/prometheus/procfs/internal/fs"
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // Info contains identifying information for a block device such as a disk drive.
@@ -392,7 +392,7 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 		"max_discard_segments":   &stat.MaxDiscardSegments,
 		"write_zeroes_max_bytes": &stat.WriteZeroesMaxBytes,
 	} {
-		val, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
+		val, err := parsers.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
 		if err != nil {
 			return BlockQueueStats{}, err
 		}
@@ -403,7 +403,7 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 		"io_poll_delay": &stat.IOPollDelay,
 		"wbt_lat_usec":  &stat.WBTLatUSec,
 	} {
-		val, err := util.ReadIntFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
+		val, err := parsers.ReadIntFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
 		if err != nil {
 			return BlockQueueStats{}, err
 		}
@@ -414,13 +414,13 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 		"write_cache": &stat.WriteCache,
 		"zoned":       &stat.Zoned,
 	} {
-		val, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
+		val, err := parsers.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, file))
 		if err != nil {
 			return BlockQueueStats{}, err
 		}
 		*p = val
 	}
-	scheduler, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "scheduler"))
+	scheduler, err := parsers.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "scheduler"))
 	if err != nil {
 		return BlockQueueStats{}, err
 	}
@@ -434,7 +434,7 @@ func (fs FS) SysBlockDeviceQueueStats(device string) (BlockQueueStats, error) {
 	}
 	stat.SchedulerList = schedulers
 	// optional
-	throttleSampleTime, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "throttle_sample_time"))
+	throttleSampleTime, err := parsers.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "throttle_sample_time"))
 	if err == nil {
 		stat.ThrottleSampleTime = &throttleSampleTime
 	}
@@ -449,7 +449,7 @@ func (fs FS) SysBlockDeviceMapperInfo(device string) (DeviceMapperInfo, error) {
 		"suspended":                      &info.Suspended,
 		"use_blk_mq":                     &info.UseBlkMQ,
 	} {
-		val, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockDM, file))
+		val, err := parsers.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockDM, file))
 		if err != nil {
 			return DeviceMapperInfo{}, err
 		}
@@ -460,7 +460,7 @@ func (fs FS) SysBlockDeviceMapperInfo(device string) (DeviceMapperInfo, error) {
 		"name": &info.Name,
 		"uuid": &info.UUID,
 	} {
-		val, err := util.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockDM, file))
+		val, err := parsers.SysReadFile(fs.sys.Path(sysBlockPath, device, sysBlockDM, file))
 		if err != nil {
 			return DeviceMapperInfo{}, err
 		}
@@ -485,7 +485,7 @@ func (fs FS) SysBlockDeviceUnderlyingDevices(device string) (UnderlyingDeviceInf
 // SysBlockDeviceSize returns the size of the block device from /sys/block/<device>/size
 // in bytes by multiplying the value by the Linux sector length of 512.
 func (fs FS) SysBlockDeviceSize(device string) (uint64, error) {
-	size, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockSize))
+	size, err := parsers.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockSize))
 	if err != nil {
 		return 0, err
 	}
@@ -498,7 +498,7 @@ func (fs FS) SysBlockDeviceSize(device string) (uint64, error) {
 // non-rotational device (SSD, NVMe). An error is returned if the file
 // cannot be read or does not contain a valid integer.
 func (fs FS) SysBlockDeviceRotational(device string) (uint64, error) {
-	return util.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "rotational"))
+	return parsers.ReadUintFromFile(fs.sys.Path(sysBlockPath, device, sysBlockQueue, "rotational"))
 }
 
 // SysBlockDeviceIO returns stats for the block device io counters
@@ -514,7 +514,7 @@ func (fs FS) SysBlockDeviceIOStat(device string) (IODeviceStats, error) {
 		"ioerr_cnt":  &ioDeviceStats.IOErrCount,
 	} {
 		var val uint64
-		val, err = util.ReadHexFromFile(fs.sys.Path(sysBlockPath, device, sysDevicePath, file))
+		val, err = parsers.ReadHexFromFile(fs.sys.Path(sysBlockPath, device, sysDevicePath, file))
 		if err != nil {
 			return IODeviceStats{}, err
 		}

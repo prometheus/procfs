@@ -19,7 +19,7 @@ import (
 	"strings"
 
 	"github.com/prometheus/procfs/internal/fs"
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const (
@@ -90,7 +90,7 @@ func (fs FS) ProcStat() ([]*Stats, error) {
 			"msg_count":     &s.Messages,
 		} {
 			var val uint64
-			val, err = util.ReadUintFromFile(fs.sys.Path(sysFSPath, sysFSExt4Path, name, file))
+			val, err = parsers.ReadUintFromFile(fs.sys.Path(sysFSPath, sysFSExt4Path, name, file))
 			if err == nil {
 				*p = val
 			}

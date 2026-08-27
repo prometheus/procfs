@@ -20,7 +20,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // ClassCoolingDeviceStats contains info from files in /sys/class/thermal/cooling_device[0-9]*
@@ -59,12 +59,12 @@ func (fs FS) ClassCoolingDeviceStats() ([]ClassCoolingDeviceStats, error) {
 }
 
 func parseCoolingDeviceStats(cd string) (ClassCoolingDeviceStats, error) {
-	cdType, err := util.SysReadFile(filepath.Join(cd, "type"))
+	cdType, err := parsers.SysReadFile(filepath.Join(cd, "type"))
 	if err != nil {
 		return ClassCoolingDeviceStats{}, err
 	}
 
-	cdMaxStateString, err := util.SysReadFile(filepath.Join(cd, "max_state"))
+	cdMaxStateString, err := parsers.SysReadFile(filepath.Join(cd, "max_state"))
 	if err != nil {
 		return ClassCoolingDeviceStats{}, err
 	}
@@ -75,7 +75,7 @@ func parseCoolingDeviceStats(cd string) (ClassCoolingDeviceStats, error) {
 
 	// cur_state can be -1, eg intel powerclamp
 	// https://www.kernel.org/doc/Documentation/thermal/intel_powerclamp.txt
-	cdCurStateString, err := util.SysReadFile(filepath.Join(cd, "cur_state"))
+	cdCurStateString, err := parsers.SysReadFile(filepath.Join(cd, "cur_state"))
 	if err != nil {
 		return ClassCoolingDeviceStats{}, err
 	}

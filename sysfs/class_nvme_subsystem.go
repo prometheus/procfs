@@ -21,7 +21,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const nvmeSubsystemClassPath = "class/nvme-subsystem"
@@ -105,7 +105,7 @@ func (fs FS) parseNVMeSubsystem(name string) (*NVMeSubsystem, error) {
 		{"serial", &subsys.Serial},
 		{"iopolicy", &subsys.IOPolicy},
 	} {
-		val, err := util.SysReadFile(fs.sys.Path(nvmeSubsystemClassPath, name, attr.file))
+		val, err := parsers.SysReadFile(fs.sys.Path(nvmeSubsystemClassPath, name, attr.file))
 		if err != nil {
 			return nil, fmt.Errorf("failed to read %s for %s: %w", attr.file, name, err)
 		}
@@ -147,7 +147,7 @@ func (fs FS) parseNVMeSubsystemController(subsysName, ctrlName string) (*NVMeSub
 		{"transport", &ctrl.Transport},
 		{"address", &ctrl.Address},
 	} {
-		val, err := util.SysReadFile(fs.sys.Path(nvmeSubsystemClassPath, subsysName, ctrlName, attr.file))
+		val, err := parsers.SysReadFile(fs.sys.Path(nvmeSubsystemClassPath, subsysName, ctrlName, attr.file))
 		if err != nil {
 			return nil, fmt.Errorf("failed to read %s for %s/%s: %w", attr.file, subsysName, ctrlName, err)
 		}

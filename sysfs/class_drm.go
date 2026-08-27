@@ -18,9 +18,9 @@ package sysfs
 import (
 	"path/filepath"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 func readDRMCardField(card, field string) (string, error) {
-	return util.SysReadFile(filepath.Join(card, "device", field))
+	return parsers.SysReadFile(filepath.Join(card, "device", field))
 }

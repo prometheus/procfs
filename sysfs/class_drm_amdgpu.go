@@ -23,7 +23,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const (
@@ -89,7 +89,7 @@ func (fs FS) ClassDRMCardAMDGPUStats() ([]ClassDRMCardAMDGPUStats, error) {
 }
 
 func parseClassDRMAMDGPUCard(card string) (ClassDRMCardAMDGPUStats, error) {
-	uevent, err := util.SysReadFile(filepath.Join(card, "device/uevent"))
+	uevent, err := parsers.SysReadFile(filepath.Join(card, "device/uevent"))
 	if err != nil {
 		return ClassDRMCardAMDGPUStats{}, err
 	}
@@ -111,25 +111,25 @@ func parseClassDRMAMDGPUCard(card string) (ClassDRMCardAMDGPUStats, error) {
 		return ClassDRMCardAMDGPUStats{}, err
 	}
 	if v, err := readDRMCardField(card, "gpu_busy_percent"); err == nil {
-		stats.GPUBusyPercent = *util.NewValueParser(v).PUInt64()
+		stats.GPUBusyPercent = *parsers.NewValueParser(v).PUInt64()
 	}
 	if v, err := readDRMCardField(card, "mem_info_gtt_total"); err == nil {
-		stats.MemoryGTTSize = *util.NewValueParser(v).PUInt64()
+		stats.MemoryGTTSize = *parsers.NewValueParser(v).PUInt64()
 	}
 	if v, err := readDRMCardField(card, "mem_info_gtt_used"); err == nil {
-		stats.MemoryGTTUsed = *util.NewValueParser(v).PUInt64()
+		stats.MemoryGTTUsed = *parsers.NewValueParser(v).PUInt64()
 	}
 	if v, err := readDRMCardField(card, "mem_info_vis_vram_total"); err == nil {
-		stats.MemoryVisibleVRAMSize = *util.NewValueParser(v).PUInt64()
+		stats.MemoryVisibleVRAMSize = *parsers.NewValueParser(v).PUInt64()
 	}
 	if v, err := readDRMCardField(card, "mem_info_vis_vram_used"); err == nil {
-		stats.MemoryVisibleVRAMUsed = *util.NewValueParser(v).PUInt64()
+		stats.MemoryVisibleVRAMUsed = *parsers.NewValueParser(v).PUInt64()
 	}
 	if v, err := readDRMCardField(card, "mem_info_vram_total"); err == nil {
-		stats.MemoryVRAMSize = *util.NewValueParser(v).PUInt64()
+		stats.MemoryVRAMSize = *parsers.NewValueParser(v).PUInt64()
 	}
 	if v, err := readDRMCardField(card, "mem_info_vram_used"); err == nil {
-		stats.MemoryVRAMUsed = *util.NewValueParser(v).PUInt64()
+		stats.MemoryVRAMUsed = *parsers.NewValueParser(v).PUInt64()
 	}
 	if v, err := readDRMCardField(card, "mem_info_vram_vendor"); err == nil {
 		stats.MemoryVRAMVendor = v

@@ -19,11 +19,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // TestReadMountInfoExceeds1MiB verifies that a mountinfo file larger than 1 MiB
-// is read and parsed in full. The util.ReadFileNoStat helper caps reads at
+// is read and parsed in full. The parsers.ReadFileNoStat helper caps reads at
 // 1 MiB, which truncates and corrupts mountinfo on hosts with a very large
 // number of mounts (e.g. busy container hosts), so the mountinfo helpers must
 // not use it.
@@ -60,8 +60,8 @@ func TestReadMountInfoExceeds1MiB(t *testing.T) {
 		t.Fatalf("parsed %d mounts, want %d", len(mounts), n)
 	}
 
-	// Guard the regression: util.ReadFileNoStat caps at 1 MiB and would truncate.
-	capped, err := util.ReadFileNoStat(path)
+	// Guard the regression: parsers.ReadFileNoStat caps at 1 MiB and would truncate.
+	capped, err := parsers.ReadFileNoStat(path)
 	if err != nil {
 		t.Fatalf("ReadFileNoStat: %v", err)
 	}

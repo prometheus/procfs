@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const monDataPath = "mon_data"
@@ -84,7 +84,7 @@ func (fs FS) MonData() ([]MonData, error) {
 // The kernel writes the literal "Unavailable" when the hardware can not
 // deliver a sample, which is a normal and transient state.
 func readCounter(domain, name string) *uint64 {
-	value, err := util.ReadUintFromFile(filepath.Join(domain, name))
+	value, err := parsers.ReadUintFromFile(filepath.Join(domain, name))
 	if err != nil {
 		return nil
 	}

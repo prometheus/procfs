@@ -24,7 +24,7 @@ import (
 
 	"github.com/prometheus/procfs"
 	"github.com/prometheus/procfs/internal/fs"
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // FS represents the pseudo-filesystem sys, which provides an interface to
@@ -97,7 +97,7 @@ type reader struct {
 // readFile reads a file relative to the path of the reader.
 // Non-existing files are ignored.
 func (r *reader) readFile(n string) string {
-	b, err := util.SysReadFile(path.Join(r.path, n))
+	b, err := parsers.SysReadFile(path.Join(r.path, n))
 	if err != nil && !os.IsNotExist(err) {
 		r.err = err
 	}

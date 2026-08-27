@@ -22,7 +22,7 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const netclassPath = "class/net"
@@ -157,7 +157,7 @@ func canIgnoreError(err error) bool {
 // It returns an error if the file cannot be read and the error is fatal.
 func ParseNetClassAttribute(devicePath, attrName string, interfaceClass *NetClassIface) error {
 	attrPath := filepath.Join(devicePath, attrName)
-	value, err := util.SysReadFile(attrPath)
+	value, err := parsers.SysReadFile(attrPath)
 	if err != nil {
 		if canIgnoreError(err) {
 			return nil
@@ -165,7 +165,7 @@ func ParseNetClassAttribute(devicePath, attrName string, interfaceClass *NetClas
 		return fmt.Errorf("failed to read file %q: %w", attrPath, err)
 	}
 
-	vp := util.NewValueParser(value)
+	vp := parsers.NewValueParser(value)
 	switch attrName {
 	case "addr_assign_type":
 		interfaceClass.AddrAssignType = vp.PInt64()

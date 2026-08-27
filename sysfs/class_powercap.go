@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // RaplZone stores the information for one RAPL power zone.
@@ -63,7 +63,7 @@ func GetRaplZones(fs FS) ([]RaplZone, error) {
 
 			maxMicrojouleFilename := filepath.Join(raplDir, f.Name(),
 				"/max_energy_range_uj")
-			maxMicrojoules, err := util.ReadUintFromFile(maxMicrojouleFilename)
+			maxMicrojoules, err := parsers.ReadUintFromFile(maxMicrojouleFilename)
 			if err != nil {
 				return nil, err
 			}
@@ -90,7 +90,7 @@ func GetRaplZones(fs FS) ([]RaplZone, error) {
 // GetEnergyMicrojoules returns the current microjoule value from the zone energy counter
 // https://www.kernel.org/doc/Documentation/power/powercap/powercap.txt
 func (rz RaplZone) GetEnergyMicrojoules() (uint64, error) {
-	return util.ReadUintFromFile(filepath.Join(rz.Path, "/energy_uj"))
+	return parsers.ReadUintFromFile(filepath.Join(rz.Path, "/energy_uj"))
 }
 
 // getIndexAndName returns a pair of (index, name) for a given name and name

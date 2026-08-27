@@ -160,7 +160,7 @@ func mountOptionsParser(mountOptions string) map[string]string {
 	return opts
 }
 
-// readMountInfo reads a full mountinfo file (no 1 MiB cap, unlike util.ReadFileNoStat).
+// readMountInfo reads a full mountinfo file (no 1 MiB cap, unlike parsers.ReadFileNoStat).
 func readMountInfo(path string) ([]byte, error) {
 	f, err := os.Open(path)
 	if err != nil {

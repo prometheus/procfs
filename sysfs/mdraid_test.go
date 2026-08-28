@@ -16,6 +16,8 @@
 package sysfs
 
 import (
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -148,6 +150,77 @@ func TestMdraidStats(t *testing.T) {
 			UUID:       "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
 			ChunkSize:  524288,
 			SyncAction: "reshape",
+		},
+	}
+
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected Mdraid (-want +got):\n%s", diff)
+	}
+}
+
+func TestMdraidsIgnoresDelayedSyncCompleted(t *testing.T) {
+	root := t.TempDir()
+
+	writeFile := func(rel, content string) {
+		t.Helper()
+		path := filepath.Join(root, rel)
+		if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(path, []byte(content), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	symlink := func(target, rel string) {
+		t.Helper()
+		path := filepath.Join(root, rel)
+		if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.Symlink(target, path); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	writeFile("block/md1/md/level", "raid1\n")
+	writeFile("block/md1/md/array_state", "clean\n")
+	writeFile("block/md1/md/metadata_version", "1.2\n")
+	writeFile("block/md1/md/raid_disks", "2\n")
+	writeFile("block/md1/md/uuid", "test-md1-uuid\n")
+	writeFile("block/md1/md/degraded", "0\n")
+	writeFile("block/md1/md/sync_action", "resync\n")
+	writeFile("block/md1/md/sync_completed", "delayed\n")
+	writeFile("block/md1/md/dev-sda/state", "in_sync\n")
+	writeFile("block/md1/md/dev-sdb/state", "in_sync\n")
+	symlink("dev-sda", "block/md1/md/rd0")
+	symlink("dev-sdb", "block/md1/md/rd1")
+
+	fs, err := NewFS(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	got, err := fs.Mdraids()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := []Mdraid{
+		{
+			Device:          "md1",
+			Level:           "raid1",
+			ArrayState:      "clean",
+			MetadataVersion: "1.2",
+			Disks:           func(v uint64) *uint64 { return &v }(2),
+			Components: []MdraidComponent{
+				{Device: "sda", State: "in_sync"},
+				{Device: "sdb", State: "in_sync"},
+			},
+			UUID:          "test-md1-uuid",
+			DegradedDisks: 0,
+			SyncAction:    "resync",
+			SyncCompleted: 0,
 		},
 	}
 

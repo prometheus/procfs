@@ -16,10 +16,36 @@
 package sysfs
 
 import (
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
 )
+
+func TestInfiniBandClassDevicesDoesNotReadDevice(t *testing.T) {
+	sysPath := t.TempDir()
+	for _, name := range []string{"mlx5_6", "mlx5_5"} {
+		if err := os.MkdirAll(filepath.Join(sysPath, "class", "infiniband", name), 0o755); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	fs, err := NewFS(sysPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	got, err := fs.InfiniBandClassDevices()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := []string{"mlx5_5", "mlx5_6"}
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Fatalf("unexpected InfiniBand device names (-want +got):\n%s", diff)
+	}
+}
 
 func TestParseSlowRate(t *testing.T) {
 	tests := []struct {
@@ -342,5 +368,27 @@ func TestInfiniBandClass(t *testing.T) {
 
 	if diff := cmp.Diff(want, got); diff != "" {
 		t.Fatalf("unexpected InfiniBand class (-want +got):\n%s", diff)
+	}
+}
+
+func TestInfiniBandDevice(t *testing.T) {
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	class, err := fs.InfiniBandClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	got, err := fs.InfiniBandDevice("mlx5_0")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := class["mlx5_0"]
+	if diff := cmp.Diff(want, *got); diff != "" {
+		t.Fatalf("unexpected InfiniBand device (-want +got):\n%s", diff)
 	}
 }

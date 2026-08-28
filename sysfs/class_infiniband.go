@@ -136,9 +136,9 @@ type InfiniBandDevice struct {
 // The map keys are the names of the InfiniBand devices.
 type InfiniBandClass map[string]InfiniBandDevice
 
-// InfiniBandClass returns info for all InfiniBand devices read from
-// /sys/class/infiniband.
-func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
+// InfiniBandClassDevices returns the names of the InfiniBand devices found in
+// /sys/class/infiniband without reading any device attributes or counters.
+func (fs FS) InfiniBandClassDevices() ([]string, error) {
 	path := fs.sys.Path(infinibandClassPath)
 
 	dirs, err := os.ReadDir(path)
@@ -146,9 +146,25 @@ func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
 		return nil, err
 	}
 
-	ibc := make(InfiniBandClass, len(dirs))
+	devices := make([]string, 0, len(dirs))
 	for _, d := range dirs {
-		device, err := fs.parseInfiniBandDevice(d.Name())
+		devices = append(devices, d.Name())
+	}
+
+	return devices, nil
+}
+
+// InfiniBandClass returns info for all InfiniBand devices read from
+// /sys/class/infiniband.
+func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
+	devices, err := fs.InfiniBandClassDevices()
+	if err != nil {
+		return nil, err
+	}
+
+	ibc := make(InfiniBandClass, len(devices))
+	for _, name := range devices {
+		device, err := fs.InfiniBandDevice(name)
 		if err != nil {
 			return nil, err
 		}
@@ -157,6 +173,12 @@ func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
 	}
 
 	return ibc, nil
+}
+
+// InfiniBandDevice returns info for a single InfiniBand device read from
+// /sys/class/infiniband/<Name>.
+func (fs FS) InfiniBandDevice(name string) (*InfiniBandDevice, error) {
+	return fs.parseInfiniBandDevice(name)
 }
 
 // Parse one InfiniBand device.

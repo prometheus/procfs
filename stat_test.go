@@ -13,7 +13,10 @@
 
 package procfs
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestStat(t *testing.T) {
 	s, err := getProcFixtures(t).Stat()
@@ -70,5 +73,15 @@ func TestStat(t *testing.T) {
 	if want, have := uint64(508444), s.SoftIRQ.Rcu; want != have {
 		t.Errorf("want softirq RCU %d, have %d", want, have)
 	}
+}
 
+func TestStatProcessesCounterWrap(t *testing.T) {
+	s, err := parseStat(strings.NewReader("processes -2045677862\n"), "stat")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if want, have := uint64(2249289434), s.ProcessCreated; want != have {
+		t.Fatalf("want wrapped process counter %d, have %d", want, have)
+	}
 }

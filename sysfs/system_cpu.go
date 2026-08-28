@@ -16,11 +16,13 @@
 package sysfs
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 
 	"golang.org/x/sync/errgroup"
 
@@ -350,10 +352,14 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	}
 
 	// "trans_table" contains information about all the CPU frequency transitions.
+	// The kernel disables its export with EFBIG when the table exceeds PAGE_SIZE
+	// ("cpufreq transition table exceeds PAGE_SIZE. Disabling"), which happens on
+	// CPUs with many frequency states (e.g. NVIDIA Jetson / Tegra) — treat that
+	// like an absent file instead of failing the whole cpufreq read.
 	var cpuinfoTransitionTable *[][]uint64
 	cpuinfoTransitionTableString, err := util.ReadFileNoStat(filepath.Join(cpuPath, "stats", "trans_table"))
 	if err != nil {
-		if !os.IsNotExist(err) && !os.IsPermission(err) {
+		if !os.IsNotExist(err) && !os.IsPermission(err) && !errors.Is(err, syscall.EFBIG) {
 			return &SystemCPUCpufreqStats{}, err
 		}
 	} else {

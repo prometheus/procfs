@@ -151,7 +151,7 @@ func (fs FS) parseSASPhy(name string) (*SASPhy, error) {
 // the 1.5 Gbps case.  A value of 0 is returned if the speed can't be
 // parsed.
 func parseLinkrate(value string) float64 {
-	f := strings.Split(value, " ")[0]
+	f, _, _ := strings.Cut(value, " ")
 	gb, err := strconv.ParseFloat(f, 64)
 	if err != nil {
 		return 0

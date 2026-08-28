@@ -103,9 +103,9 @@ func getLunLinkTarget(lunPath string) (lunObject LUN, err error) {
 
 // ReadWriteOPS read and return the stat of read and write in megabytes,
 // and total commands that send to the target.
-func ReadWriteOPS(iqnPath string, tpgt string, lun string) (readmb uint64,
-	writemb uint64, iops uint64, err error) {
-
+func ReadWriteOPS(iqnPath, tpgt, lun string) (readmb uint64,
+	writemb, iops uint64, err error,
+) {
 	readmbPath := filepath.Join(iqnPath, tpgt, "lun", lun,
 		"statistics/scsi_tgt_port/read_mbytes")
 	readmb, err = parsers.ReadUintFromFile(readmbPath)
@@ -132,7 +132,7 @@ func ReadWriteOPS(iqnPath string, tpgt string, lun string) (readmb uint64,
 
 // GetFileioUdev is getting the actual info to build up
 // the FILEIO data and match with the enable target.
-func (fs FS) GetFileioUdev(fileioNumber string, objectName string) (*FILEIO, error) {
+func (fs FS) GetFileioUdev(fileioNumber, objectName string) (*FILEIO, error) {
 	fileio := FILEIO{
 		Name:       "fileio_" + fileioNumber,
 		Fnumber:    fileioNumber,
@@ -154,7 +154,7 @@ func (fs FS) GetFileioUdev(fileioNumber string, objectName string) (*FILEIO, err
 
 // GetIblockUdev is getting the actual info to build up
 // the IBLOCK data and match with the enable target.
-func (fs FS) GetIblockUdev(iblockNumber string, objectName string) (*IBLOCK, error) {
+func (fs FS) GetIblockUdev(iblockNumber, objectName string) (*IBLOCK, error) {
 	iblock := IBLOCK{
 		Name:       "iblock_" + iblockNumber,
 		Bnumber:    iblockNumber,
@@ -176,14 +176,14 @@ func (fs FS) GetIblockUdev(iblockNumber string, objectName string) (*IBLOCK, err
 
 // GetRBDMatch is getting the actual info to build up
 // the RBD data and match with the enable target.
-func (fs FS) GetRBDMatch(rbdNumber string, poolImage string) (*RBD, error) {
+func (fs FS) GetRBDMatch(rbdNumber, poolImage string) (*RBD, error) {
 	rbd := RBD{
 		Name:    "rbd_" + rbdNumber,
 		Rnumber: rbdNumber,
 	}
 	systemRbds, err := filepath.Glob(fs.sysfs.Path(devicePath, "[0-9]*"))
 	if err != nil {
-		return nil, fmt.Errorf("iscsi: GetRBDMatch: Cannot find any rbd block")
+		return nil, errors.New("iscsi: GetRBDMatch: Cannot find any rbd block")
 	}
 
 	for systemRbdNumber, systemRbdPath := range systemRbds {
@@ -219,7 +219,7 @@ func (fs FS) GetRBDMatch(rbdNumber string, poolImage string) (*RBD, error) {
 }
 
 // GetRDMCPPath is getting the actual info to build up RDMCP data.
-func (fs FS) GetRDMCPPath(rdmcpNumber string, objectName string) (*RDMCP, error) {
+func (fs FS) GetRDMCPPath(rdmcpNumber, objectName string) (*RDMCP, error) {
 	rdmcp := RDMCP{
 		Name:       "rd_mcp_" + rdmcpNumber,
 		ObjectName: objectName,
@@ -239,7 +239,7 @@ func (fs FS) GetRDMCPPath(rdmcpNumber string, objectName string) (*RDMCP, error)
 	return nil, nil
 }
 
-func matchPoolImage(pool string, image string, matchPoolImage string) (isEqual bool) {
-	var poolImage = fmt.Sprintf("%s-%s", pool, image)
+func matchPoolImage(pool, image, matchPoolImage string) (isEqual bool) {
+	poolImage := fmt.Sprintf("%s-%s", pool, image)
 	return poolImage == matchPoolImage
 }

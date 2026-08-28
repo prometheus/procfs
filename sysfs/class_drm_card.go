@@ -51,9 +51,7 @@ type DRMCardClass map[string]DRMCard
 // DRMCardClass returns infos for all DRM devices read from
 // /sys/class/drm.
 func (fs FS) DRMCardClass() (DRMCardClass, error) {
-
 	cards, err := filepath.Glob(fs.sys.Path("class/drm/card[0-9]"))
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to list DRM card ports at %q: %w", cards, err)
 	}
@@ -84,7 +82,6 @@ func (fs FS) parseDRMCard(name string) (*DRMCard, error) {
 	card.Driver = filepath.Base(cardDriverPath)
 
 	portsPath, err := filepath.Glob(filepath.Join(path, filepath.Base(path)+"-*-*"))
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to list DRM card ports at %q: %w", portsPath, err)
 	}

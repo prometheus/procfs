@@ -22,7 +22,6 @@ import (
 func TestFS_MDStat(t *testing.T) {
 	fs := getProcFixtures(t)
 	mdStats, err := fs.MDStat()
-
 	if err != nil {
 		t.Fatalf("parsing of reference-file failed entirely: %s", err)
 	}
@@ -48,7 +47,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sdi2", DescriptorIndex: 0}, {Name: "sdj2", DescriptorIndex: 1}}},
+			Devices:                []MDStatComponent{{Name: "sdi2", DescriptorIndex: 0}, {Name: "sdj2", DescriptorIndex: 1}},
+		},
 		"md0": {
 			Name:                   "md0",
 			Type:                   "raid1",
@@ -64,7 +64,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sdi1", DescriptorIndex: 0}, {Name: "sdj1", DescriptorIndex: 1}}},
+			Devices:                []MDStatComponent{{Name: "sdi1", DescriptorIndex: 0}, {Name: "sdj1", DescriptorIndex: 1}},
+		},
 		"md4": {
 			Name:                   "md4",
 			Type:                   "raid1",
@@ -80,7 +81,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sda3", Faulty: true, DescriptorIndex: 0}, {Name: "sdb3", Spare: true, DescriptorIndex: 1}}},
+			Devices:                []MDStatComponent{{Name: "sda3", Faulty: true, DescriptorIndex: 0}, {Name: "sdb3", Spare: true, DescriptorIndex: 1}},
+		},
 		"md6": {
 			Name:                   "md6",
 			Type:                   "raid1",
@@ -96,7 +98,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        8.5,
 			BlocksSyncedFinishTime: 17,
 			BlocksSyncedSpeed:      259783,
-			Devices:                []MDStatComponent{{Name: "sdb2", DescriptorIndex: 2, Faulty: true}, {Name: "sdc", DescriptorIndex: 1, Spare: true}, {Name: "sda2", DescriptorIndex: 0}}},
+			Devices:                []MDStatComponent{{Name: "sdb2", DescriptorIndex: 2, Faulty: true}, {Name: "sdc", DescriptorIndex: 1, Spare: true}, {Name: "sda2", DescriptorIndex: 0}},
+		},
 		"md3": {
 			Name:                   "md3",
 			Type:                   "raid6",
@@ -112,7 +115,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sda1", DescriptorIndex: 8}, {Name: "sdh1", DescriptorIndex: 7}, {Name: "sdg1", DescriptorIndex: 6}, {Name: "sdf1", DescriptorIndex: 5}, {Name: "sde1", DescriptorIndex: 11}, {Name: "sdd1", DescriptorIndex: 3}, {Name: "sdc1", DescriptorIndex: 10}, {Name: "sdb1", DescriptorIndex: 9}, {Name: "sdd1", DescriptorIndex: 10, Spare: true}, {Name: "sdd2", DescriptorIndex: 11, Spare: true}}},
+			Devices:                []MDStatComponent{{Name: "sda1", DescriptorIndex: 8}, {Name: "sdh1", DescriptorIndex: 7}, {Name: "sdg1", DescriptorIndex: 6}, {Name: "sdf1", DescriptorIndex: 5}, {Name: "sde1", DescriptorIndex: 11}, {Name: "sdd1", DescriptorIndex: 3}, {Name: "sdc1", DescriptorIndex: 10}, {Name: "sdb1", DescriptorIndex: 9}, {Name: "sdd1", DescriptorIndex: 10, Spare: true}, {Name: "sdd2", DescriptorIndex: 11, Spare: true}},
+		},
 		"md8": {
 			Name:                   "md8",
 			Type:                   "raid1",
@@ -128,7 +132,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        8.5,
 			BlocksSyncedFinishTime: 17,
 			BlocksSyncedSpeed:      259783,
-			Devices:                []MDStatComponent{{Name: "sdb1", DescriptorIndex: 1}, {Name: "sda1", DescriptorIndex: 0}, {Name: "sdc", DescriptorIndex: 2, Spare: true}, {Name: "sde", DescriptorIndex: 3, Spare: true}}},
+			Devices:                []MDStatComponent{{Name: "sdb1", DescriptorIndex: 1}, {Name: "sda1", DescriptorIndex: 0}, {Name: "sdc", DescriptorIndex: 2, Spare: true}, {Name: "sde", DescriptorIndex: 3, Spare: true}},
+		},
 		"md7": {
 			Name:                   "md7",
 			Type:                   "raid6",
@@ -144,7 +149,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sdb1", DescriptorIndex: 0}, {Name: "sde1", DescriptorIndex: 3}, {Name: "sdd1", DescriptorIndex: 2}, {Name: "sdc1", DescriptorIndex: 1, Faulty: true}}},
+			Devices:                []MDStatComponent{{Name: "sdb1", DescriptorIndex: 0}, {Name: "sde1", DescriptorIndex: 3}, {Name: "sdd1", DescriptorIndex: 2}, {Name: "sdc1", DescriptorIndex: 1, Faulty: true}},
+		},
 		"md9": {
 			Name:                   "md9",
 			Type:                   "raid1",
@@ -160,7 +166,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sdc2", DescriptorIndex: 2}, {Name: "sdd2", DescriptorIndex: 3}, {Name: "sdb2", DescriptorIndex: 1}, {Name: "sda2", DescriptorIndex: 0}, {Name: "sde", DescriptorIndex: 4, Faulty: true}, {Name: "sdf", DescriptorIndex: 5, Faulty: true}, {Name: "sdg", DescriptorIndex: 6, Spare: true}}},
+			Devices:                []MDStatComponent{{Name: "sdc2", DescriptorIndex: 2}, {Name: "sdd2", DescriptorIndex: 3}, {Name: "sdb2", DescriptorIndex: 1}, {Name: "sda2", DescriptorIndex: 0}, {Name: "sde", DescriptorIndex: 4, Faulty: true}, {Name: "sdf", DescriptorIndex: 5, Faulty: true}, {Name: "sdg", DescriptorIndex: 6, Spare: true}},
+		},
 		"md10": {
 			Name:                   "md10",
 			Type:                   "raid0",
@@ -176,7 +183,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sda1", DescriptorIndex: 0}, {Name: "sdb1", DescriptorIndex: 1}}},
+			Devices:                []MDStatComponent{{Name: "sda1", DescriptorIndex: 0}, {Name: "sdb1", DescriptorIndex: 1}},
+		},
 		"md11": {
 			Name:                   "md11",
 			Type:                   "raid1",
@@ -192,7 +200,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sdb2", DescriptorIndex: 0}, {Name: "sdc2", DescriptorIndex: 1}, {Name: "sdc3", DescriptorIndex: 2, Faulty: true}, {Name: "hda", DescriptorIndex: 4, Spare: true}, {Name: "ssdc2", DescriptorIndex: 3, Spare: true}}},
+			Devices:                []MDStatComponent{{Name: "sdb2", DescriptorIndex: 0}, {Name: "sdc2", DescriptorIndex: 1}, {Name: "sdc3", DescriptorIndex: 2, Faulty: true}, {Name: "hda", DescriptorIndex: 4, Spare: true}, {Name: "ssdc2", DescriptorIndex: 3, Spare: true}},
+		},
 		"md12": {
 			Name:                   "md12",
 			Type:                   "raid0",
@@ -208,7 +217,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sdc2", DescriptorIndex: 0}, {Name: "sdd2", DescriptorIndex: 1}}},
+			Devices:                []MDStatComponent{{Name: "sdc2", DescriptorIndex: 0}, {Name: "sdd2", DescriptorIndex: 1}},
+		},
 		"md120": {
 			Name:                   "md120",
 			Type:                   "linear",
@@ -224,7 +234,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sda1", DescriptorIndex: 1}, {Name: "sdb1", DescriptorIndex: 0}}},
+			Devices:                []MDStatComponent{{Name: "sda1", DescriptorIndex: 1}, {Name: "sdb1", DescriptorIndex: 0}},
+		},
 		"md126": {
 			Name:                   "md126",
 			Type:                   "raid0",
@@ -240,7 +251,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sdb", DescriptorIndex: 1}, {Name: "sdc", DescriptorIndex: 0}}},
+			Devices:                []MDStatComponent{{Name: "sdb", DescriptorIndex: 1}, {Name: "sdc", DescriptorIndex: 0}},
+		},
 		"md219": {
 			Name:                   "md219",
 			Type:                   "unknown",
@@ -256,7 +268,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sdb", DescriptorIndex: 2, Spare: true}, {Name: "sdc", DescriptorIndex: 1, Spare: true}, {Name: "sda", DescriptorIndex: 0, Spare: true}}},
+			Devices:                []MDStatComponent{{Name: "sdb", DescriptorIndex: 2, Spare: true}, {Name: "sdc", DescriptorIndex: 1, Spare: true}, {Name: "sda", DescriptorIndex: 0, Spare: true}},
+		},
 		"md00": {
 			Name:                   "md00",
 			Type:                   "raid0",
@@ -272,7 +285,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "xvdb", DescriptorIndex: 0}}},
+			Devices:                []MDStatComponent{{Name: "xvdb", DescriptorIndex: 0}},
+		},
 		"md101": {
 			Name:                   "md101",
 			Type:                   "raid0",
@@ -288,7 +302,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        0,
 			BlocksSyncedFinishTime: 0,
 			BlocksSyncedSpeed:      0,
-			Devices:                []MDStatComponent{{Name: "sdb", DescriptorIndex: 2}, {Name: "sdd", DescriptorIndex: 1}, {Name: "sdc", DescriptorIndex: 0}}},
+			Devices:                []MDStatComponent{{Name: "sdb", DescriptorIndex: 2}, {Name: "sdd", DescriptorIndex: 1}, {Name: "sdc", DescriptorIndex: 0}},
+		},
 		"md201": {
 			Name:                   "md201",
 			Type:                   "raid1",
@@ -304,7 +319,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        5.7,
 			BlocksSyncedFinishTime: 0.2,
 			BlocksSyncedSpeed:      114176,
-			Devices:                []MDStatComponent{{Name: "sda3", DescriptorIndex: 0}, {Name: "sdb3", DescriptorIndex: 1}}},
+			Devices:                []MDStatComponent{{Name: "sda3", DescriptorIndex: 0}, {Name: "sdb3", DescriptorIndex: 1}},
+		},
 		"md42": {
 			Name:                   "md42",
 			Type:                   "raid5",
@@ -320,7 +336,8 @@ func TestFS_MDStat(t *testing.T) {
 			BlocksSyncedPct:        56.1,
 			BlocksSyncedFinishTime: 1868.1,
 			BlocksSyncedSpeed:      7640,
-			Devices:                []MDStatComponent{{Name: "sda1", DescriptorIndex: 3, Spare: true}, {Name: "sdd1", DescriptorIndex: 0}, {Name: "sde1", DescriptorIndex: 1}}},
+			Devices:                []MDStatComponent{{Name: "sda1", DescriptorIndex: 3, Spare: true}, {Name: "sdd1", DescriptorIndex: 0}, {Name: "sde1", DescriptorIndex: 1}},
+		},
 	}
 
 	if want, have := len(refs), len(mdStats); want != have {
@@ -331,7 +348,6 @@ func TestFS_MDStat(t *testing.T) {
 			t.Errorf("%s: want %v, have %v", md.Name, want, have)
 		}
 	}
-
 }
 
 func TestInvalidMdstat(t *testing.T) {

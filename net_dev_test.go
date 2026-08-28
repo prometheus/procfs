@@ -31,7 +31,6 @@ func TestNetDevParseLine(t *testing.T) {
 			t.Errorf("want %v, have %v", want, have)
 		}
 	}
-
 }
 
 func TestNetDev(t *testing.T) {

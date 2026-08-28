@@ -210,7 +210,7 @@ type ServerV4Stats struct {
 //
 //nolint:godot
 type V4Ops struct {
-	//Values       uint64 // Variable depending on v4.x sub-version. TODO: Will this always at least include the fields in this struct?
+	// Values       uint64 // Variable depending on v4.x sub-version. TODO: Will this always at least include the fields in this struct?
 	Op0Unused          uint64
 	Op1Unused          uint64
 	Op2Future          uint64

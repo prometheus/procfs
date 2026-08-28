@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const scsiTapeClassPath = "class/scsi_tape"
@@ -101,12 +101,12 @@ func parseSCSITapeStatistics(tapePath string) (*SCSITapeCounters, error) {
 
 	for _, f := range files {
 		name := filepath.Join(path, f.Name())
-		value, err := util.SysReadFile(name)
+		value, err := parsers.SysReadFile(name)
 		if err != nil {
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
 
-		vp := util.NewValueParser(value)
+		vp := parsers.NewValueParser(value)
 		switch f.Name() {
 		case "in_flight":
 			counters.InFlight = *vp.PUInt64()

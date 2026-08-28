@@ -21,7 +21,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // ProcNetstat models the content of /proc/<pid>/net/netstat.
@@ -185,7 +185,7 @@ type IpExt struct { // nolint:revive
 
 func (p Proc) Netstat() (ProcNetstat, error) {
 	filename := p.path("net/netstat")
-	data, err := util.ReadFileNoStat(filename)
+	data, err := parsers.ReadFileNoStat(filename)
 	if err != nil {
 		return ProcNetstat{PID: p.PID}, err
 	}

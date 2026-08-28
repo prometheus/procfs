@@ -22,7 +22,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // ClassThermalZoneStats contains info from files in /sys/class/thermal/thermal_zone<zone>
@@ -59,28 +59,28 @@ func (fs FS) ClassThermalZoneStats() ([]ClassThermalZoneStats, error) {
 func parseClassThermalZone(zone string) ClassThermalZoneStats {
 	var errs []error
 	// Required attributes.
-	zoneType, err := util.SysReadFile(filepath.Join(zone, "type"))
+	zoneType, err := parsers.SysReadFile(filepath.Join(zone, "type"))
 	if err != nil {
 		errs = append(errs, fmt.Errorf("error reading type: %w", err))
 	}
-	zonePolicy, err := util.SysReadFile(filepath.Join(zone, "policy"))
+	zonePolicy, err := parsers.SysReadFile(filepath.Join(zone, "policy"))
 	if err != nil {
 		errs = append(errs, fmt.Errorf("error reading policy: %w", err))
 	}
-	zoneTemp, err := util.SysReadIntFromFile(filepath.Join(zone, "temp"))
+	zoneTemp, err := parsers.SysReadIntFromFile(filepath.Join(zone, "temp"))
 	if err != nil && !errors.Is(err, os.ErrInvalid) {
 		errs = append(errs, fmt.Errorf("error reading temp: %w", err))
 	}
 
 	// Optional attributes.
-	mode, err := util.SysReadFile(filepath.Join(zone, "mode"))
+	mode, err := parsers.SysReadFile(filepath.Join(zone, "mode"))
 	if err != nil && !os.IsNotExist(err) && !os.IsPermission(err) {
 		errs = append(errs, fmt.Errorf("error reading mode: %w", err))
 	}
-	zoneMode := util.ParseBool(mode)
+	zoneMode := parsers.ParseBool(mode)
 
 	var zonePassive *uint64
-	passive, err := util.SysReadUintFromFile(filepath.Join(zone, "passive"))
+	passive, err := parsers.SysReadUintFromFile(filepath.Join(zone, "passive"))
 	switch {
 	case os.IsNotExist(err), os.IsPermission(err):
 		zonePassive = nil

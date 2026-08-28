@@ -24,7 +24,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const sasPhyClassPath = "class/sas_phy"
@@ -96,7 +96,7 @@ func (fs FS) parseSASPhy(name string) (*SASPhy, error) {
 		name := filepath.Join(phypath, f.Name())
 		fileinfo, _ := os.Stat(name)
 		if fileinfo.Mode().IsRegular() {
-			value, err := util.SysReadFile(name)
+			value, err := parsers.SysReadFile(name)
 			if err != nil {
 				if os.IsPermission(err) || errors.Is(err, syscall.EINVAL) {
 					continue
@@ -104,7 +104,7 @@ func (fs FS) parseSASPhy(name string) (*SASPhy, error) {
 				return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 			}
 
-			vp := util.NewValueParser(value)
+			vp := parsers.NewValueParser(value)
 			switch f.Name() {
 			case "sas_address":
 				phy.SASAddress = value

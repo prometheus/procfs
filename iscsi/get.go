@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // GetStats is the main iscsi status information func for
@@ -108,21 +108,21 @@ func ReadWriteOPS(iqnPath string, tpgt string, lun string) (readmb uint64,
 
 	readmbPath := filepath.Join(iqnPath, tpgt, "lun", lun,
 		"statistics/scsi_tgt_port/read_mbytes")
-	readmb, err = util.ReadUintFromFile(readmbPath)
+	readmb, err = parsers.ReadUintFromFile(readmbPath)
 	if err != nil {
 		return 0, 0, 0, fmt.Errorf("iscsi: ReadWriteOPS: read_mbytes error file %q: %w", readmbPath, err)
 	}
 
 	writembPath := filepath.Join(iqnPath, tpgt, "lun", lun,
 		"statistics/scsi_tgt_port/write_mbytes")
-	writemb, err = util.ReadUintFromFile(writembPath)
+	writemb, err = parsers.ReadUintFromFile(writembPath)
 	if err != nil {
 		return 0, 0, 0, fmt.Errorf("iscsi: ReadWriteOPS: write_mbytes error file %q: %w", writembPath, err)
 	}
 
 	iopsPath := filepath.Join(iqnPath, tpgt, "lun", lun,
 		"statistics/scsi_tgt_port/in_cmds")
-	iops, err = util.ReadUintFromFile(iopsPath)
+	iops, err = parsers.ReadUintFromFile(iopsPath)
 	if err != nil {
 		return 0, 0, 0, fmt.Errorf("iscsi: ReadWriteOPS: in_cmds error file %q: %w", iopsPath, err)
 	}

@@ -20,7 +20,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 func TestClassThermalZoneStats(t *testing.T) {
@@ -34,7 +34,7 @@ func TestClassThermalZoneStats(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	enabled := util.ParseBool("enabled")
+	enabled := parsers.ParseBool("enabled")
 	passive := uint64(0)
 
 	classThermalZoneStats := []ClassThermalZoneStats{

@@ -19,7 +19,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // ClockSource contains metrics related to the clock source.
@@ -63,7 +63,7 @@ func parseClocksource(clocksourcePath string) (*ClockSource, error) {
 	var err error
 
 	for i, f := range stringFiles {
-		stringOut[i], err = util.SysReadFile(filepath.Join(clocksourcePath, f))
+		stringOut[i], err = parsers.SysReadFile(filepath.Join(clocksourcePath, f))
 		if err != nil {
 			return &ClockSource{}, err
 		}

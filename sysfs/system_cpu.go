@@ -24,7 +24,7 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // CPU represents a path to a CPU located in `/sys/devices/system/cpu/cpu[0-9]*`.
@@ -100,19 +100,19 @@ func (c CPU) Topology() (*CPUTopology, error) {
 func parseCPUTopology(cpuPath string) (*CPUTopology, error) {
 	t := CPUTopology{}
 	var err error
-	t.CoreID, err = util.SysReadFile(filepath.Join(cpuPath, "core_id"))
+	t.CoreID, err = parsers.SysReadFile(filepath.Join(cpuPath, "core_id"))
 	if err != nil {
 		return nil, err
 	}
-	t.PhysicalPackageID, err = util.SysReadFile(filepath.Join(cpuPath, "physical_package_id"))
+	t.PhysicalPackageID, err = parsers.SysReadFile(filepath.Join(cpuPath, "physical_package_id"))
 	if err != nil {
 		return nil, err
 	}
-	t.CoreSiblingsList, err = util.SysReadFile(filepath.Join(cpuPath, "core_siblings_list"))
+	t.CoreSiblingsList, err = parsers.SysReadFile(filepath.Join(cpuPath, "core_siblings_list"))
 	if err != nil {
 		return nil, err
 	}
-	t.ThreadSiblingsList, err = util.SysReadFile(filepath.Join(cpuPath, "thread_siblings_list"))
+	t.ThreadSiblingsList, err = parsers.SysReadFile(filepath.Join(cpuPath, "thread_siblings_list"))
 	if err != nil {
 		return nil, err
 	}
@@ -135,7 +135,7 @@ func (c CPU) ThermalThrottle() (*CPUThermalThrottle, error) {
 // Online returns the online status of a CPU from `/sys/devices/system/cpu/cpuN/online`.
 func (c CPU) Online() (bool, error) {
 	cpuPath := filepath.Join(string(c), "online")
-	str, err := util.SysReadFile(cpuPath)
+	str, err := parsers.SysReadFile(cpuPath)
 	if err != nil {
 		return false, err
 	}
@@ -145,11 +145,11 @@ func (c CPU) Online() (bool, error) {
 func parseCPUThermalThrottle(cpuPath string) (*CPUThermalThrottle, error) {
 	t := CPUThermalThrottle{}
 	var err error
-	t.PackageThrottleCount, err = util.ReadUintFromFile(filepath.Join(cpuPath, "package_throttle_count"))
+	t.PackageThrottleCount, err = parsers.ReadUintFromFile(filepath.Join(cpuPath, "package_throttle_count"))
 	if err != nil {
 		return nil, err
 	}
-	t.CoreThrottleCount, err = util.ReadUintFromFile(filepath.Join(cpuPath, "core_throttle_count"))
+	t.CoreThrottleCount, err = parsers.ReadUintFromFile(filepath.Join(cpuPath, "core_throttle_count"))
 	if err != nil {
 		return nil, err
 	}
@@ -210,7 +210,7 @@ func (fs FS) SystemCpufreq() ([]SystemCPUCpufreqStats, error) {
 		return nil, err
 	}
 
-	line, err := util.ReadFileNoStat(fs.sys.Path("devices/system/cpu/offline"))
+	line, err := parsers.ReadFileNoStat(fs.sys.Path("devices/system/cpu/offline"))
 	if err != nil {
 		return nil, err
 	}
@@ -281,7 +281,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	uintOut := make([]*uint64, len(uintFiles))
 
 	for i, f := range uintFiles {
-		v, err := util.ReadUintFromFile(filepath.Join(cpuPath, f))
+		v, err := parsers.ReadUintFromFile(filepath.Join(cpuPath, f))
 		if err != nil {
 			if os.IsNotExist(err) || os.IsPermission(err) {
 				continue
@@ -303,7 +303,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	var err error
 
 	for i, f := range stringFiles {
-		stringOut[i], err = util.SysReadFile(filepath.Join(cpuPath, f))
+		stringOut[i], err = parsers.SysReadFile(filepath.Join(cpuPath, f))
 		if err != nil {
 			return &SystemCPUCpufreqStats{}, err
 		}
@@ -311,7 +311,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 
 	// "total_trans" is the total number of times the CPU has changed frequency.
 	var cpuinfoFrequencyTransitionsTotal *uint64
-	cpuinfoFrequencyTransitionsTotalUint, err := util.ReadUintFromFile(filepath.Join(cpuPath, "stats", "total_trans"))
+	cpuinfoFrequencyTransitionsTotalUint, err := parsers.ReadUintFromFile(filepath.Join(cpuPath, "stats", "total_trans"))
 	if err != nil {
 		if !os.IsNotExist(err) && !os.IsPermission(err) {
 			return &SystemCPUCpufreqStats{}, err
@@ -322,7 +322,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 
 	// "time_in_state" is the total time spent at each frequency.
 	var cpuinfoFrequencyDuration *map[uint64]uint64
-	cpuinfoFrequencyDurationString, err := util.ReadFileNoStat(filepath.Join(cpuPath, "stats", "time_in_state"))
+	cpuinfoFrequencyDurationString, err := parsers.ReadFileNoStat(filepath.Join(cpuPath, "stats", "time_in_state"))
 	if err != nil {
 		if !os.IsNotExist(err) && !os.IsPermission(err) {
 			return &SystemCPUCpufreqStats{}, err
@@ -351,7 +351,7 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 
 	// "trans_table" contains information about all the CPU frequency transitions.
 	var cpuinfoTransitionTable *[][]uint64
-	cpuinfoTransitionTableString, err := util.ReadFileNoStat(filepath.Join(cpuPath, "stats", "trans_table"))
+	cpuinfoTransitionTableString, err := parsers.ReadFileNoStat(filepath.Join(cpuPath, "stats", "trans_table"))
 	if err != nil {
 		if !os.IsNotExist(err) && !os.IsPermission(err) {
 			return &SystemCPUCpufreqStats{}, err

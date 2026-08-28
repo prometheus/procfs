@@ -22,7 +22,7 @@ import (
 	"strings"
 
 	"github.com/prometheus/procfs/internal/fs"
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // FS represents the pseudo-filesystem sys, which provides an interface to
@@ -96,7 +96,7 @@ func (r *reader) readFile(n string) string {
 	if r.err != nil {
 		return ""
 	}
-	b, err := util.ReadFileNoStat(filepath.Join(r.path, n))
+	b, err := parsers.ReadFileNoStat(filepath.Join(r.path, n))
 	if err != nil {
 		if !os.IsNotExist(err) {
 			r.err = err
@@ -467,7 +467,7 @@ func parseDevices(fsPath string) (map[string]*DeviceStats, error) {
 }
 
 func readSysfsFile(path string) string {
-	data, err := util.ReadFileNoStat(path)
+	data, err := parsers.ReadFileNoStat(path)
 	if err != nil {
 		return ""
 	}
@@ -475,7 +475,7 @@ func readSysfsFile(path string) string {
 }
 
 func readUintFile(path string) (uint64, error) {
-	data, err := util.ReadFileNoStat(path)
+	data, err := parsers.ReadFileNoStat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return 0, nil

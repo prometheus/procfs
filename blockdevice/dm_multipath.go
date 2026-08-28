@@ -19,7 +19,7 @@ import (
 	"strings"
 
 	"github.com/prometheus/procfs"
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // DMMultipathDevice contains information about a single DM-multipath device
@@ -68,7 +68,7 @@ func (fs FS) DMMultipathDevices() ([]DMMultipathDevice, error) {
 			continue
 		}
 
-		uuid, err := util.SysReadFile(fs.sys.Path(sysBlockPath, entry.Name(), sysBlockDM, "uuid"))
+		uuid, err := parsers.SysReadFile(fs.sys.Path(sysBlockPath, entry.Name(), sysBlockDM, "uuid"))
 		if err != nil {
 			// dm/uuid missing means this is not a device-mapper device; skip it.
 			if os.IsNotExist(err) {
@@ -80,17 +80,17 @@ func (fs FS) DMMultipathDevices() ([]DMMultipathDevice, error) {
 			continue
 		}
 
-		name, err := util.SysReadFile(fs.sys.Path(sysBlockPath, entry.Name(), sysBlockDM, "name"))
+		name, err := parsers.SysReadFile(fs.sys.Path(sysBlockPath, entry.Name(), sysBlockDM, "name"))
 		if err != nil {
 			return nil, fmt.Errorf("failed to read dm/name for %s: %w", entry.Name(), err)
 		}
 
-		suspendedVal, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, entry.Name(), sysBlockDM, "suspended"))
+		suspendedVal, err := parsers.ReadUintFromFile(fs.sys.Path(sysBlockPath, entry.Name(), sysBlockDM, "suspended"))
 		if err != nil {
 			return nil, fmt.Errorf("failed to read dm/suspended for %s: %w", entry.Name(), err)
 		}
 
-		sectors, err := util.ReadUintFromFile(fs.sys.Path(sysBlockPath, entry.Name(), sysBlockSize))
+		sectors, err := parsers.ReadUintFromFile(fs.sys.Path(sysBlockPath, entry.Name(), sysBlockSize))
 		if err != nil {
 			return nil, fmt.Errorf("failed to read size for %s: %w", entry.Name(), err)
 		}
@@ -128,7 +128,7 @@ func (fs FS) dmMultipathPaths(dmDevice string) ([]DMMultipathPath, error) {
 
 	paths := make([]DMMultipathPath, 0, len(entries))
 	for _, entry := range entries {
-		state, err := util.SysReadFile(fs.sys.Path(sysBlockPath, entry.Name(), sysDevicePath, "state"))
+		state, err := parsers.SysReadFile(fs.sys.Path(sysBlockPath, entry.Name(), sysDevicePath, "state"))
 		if err != nil {
 			return nil, fmt.Errorf("failed to read device/state for %s: %w", entry.Name(), err)
 		}

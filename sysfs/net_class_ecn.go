@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // Documentation of the sysfs path
@@ -221,7 +221,7 @@ func ParseRoceNpEcnInfo(ecnPath string, ecn *RoceNpEcn) error {
 // Parses all of the attributes in for ROCE NP protocol.
 func ParseRoceNpEcnAttribute(ecnPath string, attrName string, ecn *RoceNpEcn) error {
 	attrPath := filepath.Join(ecnPath, attrName)
-	value, err := util.SysReadFile(attrPath)
+	value, err := parsers.SysReadFile(attrPath)
 	if err != nil {
 		if canIgnoreError(err) {
 			return nil
@@ -229,7 +229,7 @@ func ParseRoceNpEcnAttribute(ecnPath string, attrName string, ecn *RoceNpEcn) er
 		return fmt.Errorf("failed to read file %q: %w", attrPath, err)
 	}
 
-	vp := util.NewValueParser(value)
+	vp := parsers.NewValueParser(value)
 	switch attrName {
 	case "min_time_between_cnps":
 		ecn.MinTimeBetweenCnps = *vp.PUInt64()
@@ -272,7 +272,7 @@ func ParseRoceRpEcnInfo(ecnPath string, ecn *RoceRpEcn) error {
 // Parses all of the attributes in for ROCE RP protocol.
 func ParseRoceRpEcnAttribute(ecnPath string, attrName string, ecn *RoceRpEcn) error {
 	attrPath := filepath.Join(ecnPath, attrName)
-	value, err := util.SysReadFile(attrPath)
+	value, err := parsers.SysReadFile(attrPath)
 	if err != nil {
 		if canIgnoreError(err) {
 			return nil
@@ -280,7 +280,7 @@ func ParseRoceRpEcnAttribute(ecnPath string, attrName string, ecn *RoceRpEcn) er
 		return fmt.Errorf("failed to read file %q: %w", attrPath, err)
 	}
 
-	vp := util.NewValueParser(value)
+	vp := parsers.NewValueParser(value)
 	switch attrName {
 	case "clamp_tgt_rate":
 		switch *vp.PUInt64() {
@@ -352,7 +352,7 @@ func ParseEcnEnable(path string) (map[uint8]bool, error) {
 			continue
 		}
 
-		value, err := util.SysReadFile(filepath.Join(path, filename))
+		value, err := parsers.SysReadFile(filepath.Join(path, filename))
 		if err != nil {
 			if canIgnoreError(err) {
 				return nil, err
@@ -360,7 +360,7 @@ func ParseEcnEnable(path string) (map[uint8]bool, error) {
 			return nil, fmt.Errorf("failed to read file %q: %w", filename, err)
 		}
 
-		vp := util.NewValueParser(value)
+		vp := parsers.NewValueParser(value)
 		fileValue := *vp.PUInt64()
 		switch fileValue {
 		case 0:

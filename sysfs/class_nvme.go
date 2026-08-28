@@ -22,7 +22,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const nvmeClassPath = "class/nvme"
@@ -87,7 +87,7 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 	// Parse device-level attributes
 	for _, f := range [...]string{"firmware_rev", "model", "serial", "state", "cntlid"} {
 		name := filepath.Join(path, f)
-		value, err := util.SysReadFile(name)
+		value, err := parsers.SysReadFile(name)
 		if err != nil {
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
@@ -132,7 +132,7 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 		// Parse namespace attributes using the same approach as device attributes
 		for _, f := range [...]string{"nuse", "size", "queue/logical_block_size", "ana_state"} {
 			filePath := filepath.Join(namespacePath, f)
-			value, err := util.SysReadFile(filePath)
+			value, err := parsers.SysReadFile(filePath)
 			if err != nil {
 				if f == "ana_state" {
 					// ana_state may not exist, skip silently

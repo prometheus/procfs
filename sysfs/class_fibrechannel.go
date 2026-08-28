@@ -21,7 +21,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const fibrechannelClassPath = "class/fc_host"
@@ -90,7 +90,7 @@ func (fs FS) parseFibreChannelHost(name string) (*FibreChannelHost, error) {
 
 	for _, f := range [...]string{"speed", "port_state", "port_type", "node_name", "port_id", "port_name", "fabric_name", "dev_loss_tmo", "symbolic_name", "supported_classes", "supported_speeds"} {
 		name := filepath.Join(path, f)
-		value, err := util.SysReadFile(name)
+		value, err := parsers.SysReadFile(name)
 		if err != nil {
 			// drivers can choose not to expose some attributes to sysfs.
 			// See: https://github.com/prometheus/node_exporter/issues/2919.
@@ -166,7 +166,7 @@ func parseFibreChannelStatistics(hostPath string) (*FibreChannelCounters, error)
 		}
 
 		name := filepath.Join(path, f.Name())
-		value, err := util.SysReadFile(name)
+		value, err := parsers.SysReadFile(name)
 		if err != nil {
 			// there are some write-only files in this directory; we can safely skip over them
 			if os.IsNotExist(err) || err.Error() == "operation not supported" || errors.Is(err, os.ErrInvalid) {
@@ -175,7 +175,7 @@ func parseFibreChannelStatistics(hostPath string) (*FibreChannelCounters, error)
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
 
-		vp := util.NewValueParser(value)
+		vp := parsers.NewValueParser(value)
 
 		// Below switch was automatically generated. Don't need everything in there yet, so the unwanted bits are commented out.
 		switch f.Name() {

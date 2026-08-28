@@ -16,7 +16,7 @@
 package procfs
 
 import (
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // KernelTaintBit represents a single kernel taint flag.
@@ -73,7 +73,7 @@ var kernelTaintBitDefs = []struct {
 // along with each known flag parsed into a KernelTainted struct.
 // See https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html
 func (fs FS) KernelTainted() (KernelTainted, error) {
-	value, err := util.SysReadUintFromFile(fs.proc.Path("sys", "kernel", "tainted"))
+	value, err := parsers.SysReadUintFromFile(fs.proc.Path("sys", "kernel", "tainted"))
 	if err != nil {
 		return KernelTainted{}, err
 	}

@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const drmClassPath = "class/drm"
@@ -103,21 +103,21 @@ func (fs FS) parseDRMCard(name string) (*DRMCard, error) {
 }
 
 func parseDRMCardPort(port string) (*DRMCardPort, error) {
-	portStatus, err := util.SysReadFile(filepath.Join(port, "status"))
+	portStatus, err := parsers.SysReadFile(filepath.Join(port, "status"))
 	if err != nil {
 		return nil, err
 	}
 
 	drmCardPort := DRMCardPort{Name: filepath.Base(port), Status: portStatus}
 
-	portDPMS, err := util.SysReadFile(filepath.Join(port, "dpms"))
+	portDPMS, err := parsers.SysReadFile(filepath.Join(port, "dpms"))
 	if err != nil {
 		return nil, err
 	}
 
 	drmCardPort.DPMS = portDPMS
 
-	portEnabled, err := util.SysReadFile(filepath.Join(port, "enabled"))
+	portEnabled, err := parsers.SysReadFile(filepath.Join(port, "enabled"))
 	if err != nil {
 		return nil, err
 	}

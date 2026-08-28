@@ -219,7 +219,7 @@ func ParseRoceNpEcnInfo(ecnPath string, ecn *RoceNpEcn) error {
 }
 
 // Parses all of the attributes in for ROCE NP protocol.
-func ParseRoceNpEcnAttribute(ecnPath string, attrName string, ecn *RoceNpEcn) error {
+func ParseRoceNpEcnAttribute(ecnPath, attrName string, ecn *RoceNpEcn) error {
 	attrPath := filepath.Join(ecnPath, attrName)
 	value, err := parsers.SysReadFile(attrPath)
 	if err != nil {
@@ -270,7 +270,7 @@ func ParseRoceRpEcnInfo(ecnPath string, ecn *RoceRpEcn) error {
 }
 
 // Parses all of the attributes in for ROCE RP protocol.
-func ParseRoceRpEcnAttribute(ecnPath string, attrName string, ecn *RoceRpEcn) error {
+func ParseRoceRpEcnAttribute(ecnPath, attrName string, ecn *RoceRpEcn) error {
 	attrPath := filepath.Join(ecnPath, attrName)
 	value, err := parsers.SysReadFile(attrPath)
 	if err != nil {

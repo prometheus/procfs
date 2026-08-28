@@ -23,7 +23,6 @@ import (
 func TestFS_Crypto(t *testing.T) {
 	fs := getProcFixtures(t)
 	crypto, err := fs.Crypto()
-
 	if err != nil {
 		t.Fatalf("parsing of reference-file failed entirely: %s", err)
 	}

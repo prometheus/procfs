@@ -244,7 +244,7 @@ func parseRate(s string) (uint64, error) {
 
 // parseInfiniBandPort scans predefined files in /sys/class/infiniband/<device>/ports/<port>
 // directory and gets their contents.
-func (fs FS) parseInfiniBandPort(name string, port string) (*InfiniBandPort, error) {
+func (fs FS) parseInfiniBandPort(name, port string) (*InfiniBandPort, error) {
 	portNumber, err := strconv.ParseUint(port, 10, 32)
 	if err != nil {
 		return nil, fmt.Errorf("failed to convert %s into uint", port)

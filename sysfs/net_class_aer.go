@@ -183,8 +183,9 @@ func parseCorrectableAerCounters(devicePath string, counters *CorrectableAerCoun
 
 // parseUncorrectableAerCounters parses uncorrectable error counters in
 // /sys/class/net/<iface>/device/aer_dev_[non]fatal.
-func parseUncorrectableAerCounters(devicePath string, counterType string,
-	counters *UncorrectableAerCounters) error {
+func parseUncorrectableAerCounters(devicePath, counterType string,
+	counters *UncorrectableAerCounters,
+) error {
 	path := filepath.Join(devicePath, "device", "aer_dev_"+counterType)
 	value, err := parsers.ReadFileNoStat(path)
 	if err != nil {

@@ -16,6 +16,7 @@
 package sysfs
 
 import (
+	"slices"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -32,13 +33,7 @@ func TestNewNetClassDevices(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	found := false
-	for _, d := range devices {
-		if d == "eth0" {
-			found = true
-			break
-		}
-	}
+	found := slices.Contains(devices, "eth0")
 	if !found {
 		t.Errorf("expected device eth0 not found in %v", devices)
 	}

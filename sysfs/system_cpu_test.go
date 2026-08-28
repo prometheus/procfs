@@ -200,7 +200,7 @@ func TestSystemCpufreq(t *testing.T) {
 }
 
 func TestIsolatedParsingCPU(t *testing.T) {
-	var testParams = []struct {
+	testParams := []struct {
 		in  []byte
 		res []uint16
 		err error
@@ -231,10 +231,10 @@ func TestIsolatedParsingCPU(t *testing.T) {
 			if (err == nil || params.err == nil) && !errors.Is(err, params.err) {
 				t.Fatalf("should have %v error: got %v", params.err, err)
 			}
-
 		})
 	}
 }
+
 func TestIsolatedCPUs(t *testing.T) {
 	fs, err := NewFS(sysTestFixtures)
 	if err != nil {
@@ -251,7 +251,7 @@ func TestIsolatedCPUs(t *testing.T) {
 }
 
 func TestBinSearch(t *testing.T) {
-	var testParams = []struct {
+	testParams := []struct {
 		elem  uint16
 		elems []uint16
 		res   bool

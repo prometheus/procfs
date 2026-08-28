@@ -39,7 +39,7 @@ func (fs FS) ClassCoolingDeviceStats() ([]ClassCoolingDeviceStats, error) {
 		return []ClassCoolingDeviceStats{}, err
 	}
 
-	var coolingDeviceStats = ClassCoolingDeviceStats{}
+	coolingDeviceStats := ClassCoolingDeviceStats{}
 	stats := make([]ClassCoolingDeviceStats, 0, len(cds))
 	for _, cd := range cds {
 		cdName := strings.TrimPrefix(filepath.Base(cd), "cooling_device")

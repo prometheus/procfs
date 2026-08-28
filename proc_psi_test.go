@@ -144,6 +144,5 @@ full avg10=0.20 avg60=3.00 avg300=test total=25`
 				t.Error("a parse error must result in a nil PSILine")
 			}
 		})
-
 	})
 }

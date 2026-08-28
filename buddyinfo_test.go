@@ -42,7 +42,6 @@ func TestBuddyInfo(t *testing.T) {
 }
 
 func TestParseBuddyInfoShort(t *testing.T) {
-
 	testdata := `Node 0, zone
 Node 0, zone
 Node 0, zone
@@ -58,7 +57,6 @@ Node 0, zone
 }
 
 func TestParseBuddyInfoSizeMismatch(t *testing.T) {
-
 	testdata := `Node 0, zone      DMA      1      0      1      0      2      1      1      0      1      1      3
 Node 0, zone    DMA32    759    572    791    475    194     45     12      0      0      0      0      0
 Node 0, zone   Normal   4381   1093    185   1530    567    102      4      0      0      0

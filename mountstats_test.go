@@ -270,7 +270,8 @@ func TestMountStats(t *testing.T) {
 				Type:   "nfs4",
 				Stats: &MountStatsNFS{
 					StatVersion: "1.1",
-					Opts: map[string]string{"rw": "", "vers": "4.1",
+					Opts: map[string]string{
+						"rw": "", "vers": "4.1",
 						"rsize": "131072", "wsize": "131072", "namlen": "255", "acregmin": "3",
 						"acregmax": "60", "acdirmin": "30", "acdirmax": "60", "fsc": "", "hard": "",
 						"proto": "tcp", "timeo": "600", "retrans": "2",
@@ -310,7 +311,8 @@ func TestMountStats(t *testing.T) {
 					Type:   "nfs4",
 					Stats: &MountStatsNFS{
 						StatVersion: "1.1",
-						Opts: map[string]string{"rw": "", "vers": "4.0",
+						Opts: map[string]string{
+							"rw": "", "vers": "4.0",
 							"rsize": "1048576", "wsize": "1048576", "namlen": "255", "acregmin": "3",
 							"acregmax": "60", "acdirmin": "30", "acdirmax": "60", "hard": "",
 							"proto": "tcp", "port": "0", "timeo": "600", "retrans": "2",
@@ -400,12 +402,14 @@ func TestMountStats(t *testing.T) {
 				Type:   "nfs",
 				Stats: &MountStatsNFS{
 					StatVersion: "1.1",
-					Opts: map[string]string{"acdirmax": "120", "acdirmin": "120", "acregmax": "120",
+					Opts: map[string]string{
+						"acdirmax": "120", "acdirmin": "120", "acregmax": "120",
 						"acregmin": "120", "forcerdirplus": "", "hard": "", "local_lock": "none",
 						"mountaddr": "172.16.40.20", "mountport": "0", "mountproto": "tcp", "mountvers": "3",
 						"namlen": "255", "nconnect": "16", "nocto": "", "port": "20049", "proto": "rdma",
 						"retrans": "2", "ro": "", "rsize": "1048576", "sec": "sys", "timeo": "600",
-						"vers": "3", "wsize": "1048576"},
+						"vers": "3", "wsize": "1048576",
+					},
 					Age: 1270876 * time.Second,
 					Bytes: NFSBytesStats{
 						Read:      3104202770327296,

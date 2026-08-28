@@ -131,7 +131,6 @@ func TestProcMaps(t *testing.T) {
 			t.Fatalf("unexpected proc/map entry (-want +got):\n%s", diff)
 		}
 	}
-
 }
 
 var start, end uintptr

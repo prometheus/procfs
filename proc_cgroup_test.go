@@ -90,5 +90,4 @@ func TestParseCgroupString(t *testing.T) {
 			t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 		}
 	}
-
 }

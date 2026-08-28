@@ -369,3 +369,31 @@ md127 : active raid1 sdi2[0] sdj2[X]
 		}
 	}
 }
+func TestEvalComponentDevicesFlags(t *testing.T) {
+	// Flags as printed by the kernel, one per parenthesis group:
+	// https://github.com/torvalds/linux/blob/7ec462100ef9142344ddbf86f2c3008b97acddbe/drivers/md/md.c#L8376-L8392
+	devices, err := evalComponentDevices([]string{
+		"sda1[0](F)",
+		"sdb1[1](W)",
+		"sdc1[2](J)",
+		"sdd1[3](R)",
+		"sde1[4](W)(F)",
+		"sdg1[6](S)",
+		"sdf1[5]",
+	})
+	if err != nil {
+		t.Fatalf("unexpected error: %s", err)
+	}
+	want := []MDStatComponent{
+		{Name: "sda1", DescriptorIndex: 0, Faulty: true},
+		{Name: "sdb1", DescriptorIndex: 1, WriteMostly: true},
+		{Name: "sdc1", DescriptorIndex: 2, Journal: true},
+		{Name: "sdd1", DescriptorIndex: 3, Replacement: true},
+		{Name: "sde1", DescriptorIndex: 4, WriteMostly: true, Faulty: true},
+		{Name: "sdg1", DescriptorIndex: 6, Spare: true},
+		{Name: "sdf1", DescriptorIndex: 5},
+	}
+	if diff := cmp.Diff(want, devices); diff != "" {
+		t.Errorf("unexpected component devices (-want +got):\n%s", diff)
+	}
+}

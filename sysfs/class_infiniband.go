@@ -138,7 +138,12 @@ type InfiniBandClass map[string]InfiniBandDevice
 
 // InfiniBandClass returns info for all InfiniBand devices read from
 // /sys/class/infiniband.
-func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
+func (fs FS) InfiniBandClass(ignored ...func(string) bool) (InfiniBandClass, error) {
+	var ignoredFn func(string) bool
+	if len(ignored) > 0 {
+		ignoredFn = ignored[0]
+	}
+
 	path := fs.sys.Path(infinibandClassPath)
 
 	dirs, err := os.ReadDir(path)
@@ -148,6 +153,9 @@ func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
 
 	ibc := make(InfiniBandClass, len(dirs))
 	for _, d := range dirs {
+		if ignoredFn != nil && ignoredFn(d.Name()) {
+			continue
+		}
 		device, err := fs.parseInfiniBandDevice(d.Name())
 		if err != nil {
 			return nil, err

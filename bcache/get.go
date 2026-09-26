@@ -395,7 +395,9 @@ func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 	par.setSubDir("internal")
 	bs.Bcache.Internal.ActiveJournalEntries = par.readValue("active_journal_entries")
 	bs.Bcache.Internal.BtreeNodes = par.readValue("btree_nodes")
-	bs.Bcache.Internal.BtreeReadAverageDurationNanoSeconds = par.readValue("btree_read_average_duration_us")
+	readMicroSeconds := par.readValue("btree_read_average_duration_us")
+	bs.Bcache.Internal.BtreeReadAverageDurationMicroSeconds = readMicroSeconds
+	bs.Bcache.Internal.BtreeReadAverageDurationNanoSeconds = readMicroSeconds
 	bs.Bcache.Internal.CacheReadRaces = par.readValue("cache_read_races")
 
 	// bcache stats (period)

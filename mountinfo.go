@@ -81,8 +81,23 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 		return nil, fmt.Errorf("%w: Too few fields in mount string: %s", ErrFileParse, mountString)
 	}
 
-	if mountInfo[mountInfoLength-4] != "-" {
+	sepIdx := -1
+	for i := 6; i < mountInfoLength; i++ {
+		if mountInfo[i] == "-" {
+			sepIdx = i
+			break
+		}
+	}
+	if sepIdx == -1 {
 		return nil, fmt.Errorf("%w: couldn't find separator in expected field: %s", ErrFileParse, mountInfo[mountInfoLength-4])
+	}
+	if sepIdx+2 >= mountInfoLength {
+		return nil, fmt.Errorf("%w: Too few fields in mount string: %s", ErrFileParse, mountString)
+	}
+
+	superOptions := ""
+	if sepIdx+3 < mountInfoLength {
+		superOptions = strings.Join(mountInfo[sepIdx+3:], " ")
 	}
 
 	mount := &MountInfo{
@@ -91,9 +106,9 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 		MountPoint:     mountInfo[4],
 		Options:        mountOptionsParser(mountInfo[5]),
 		OptionalFields: nil,
-		FSType:         mountInfo[mountInfoLength-3],
-		Source:         mountInfo[mountInfoLength-2],
-		SuperOptions:   mountOptionsParser(mountInfo[mountInfoLength-1]),
+		FSType:         mountInfo[sepIdx+1],
+		Source:         mountInfo[sepIdx+2],
+		SuperOptions:   mountOptionsParser(superOptions),
 	}
 
 	mount.MountID, err = strconv.Atoi(mountInfo[0])
@@ -106,11 +121,21 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 	}
 	// Has optional fields, which is a space separated list of values.
 	// Example: shared:2 master:7
-	if mountInfo[6] != "" {
-		mount.OptionalFields, err = mountOptionsParseOptionalFields(mountInfo[6 : mountInfoLength-4])
-		if err != nil {
-			return nil, fmt.Errorf("%w: %w", ErrFileParse, err)
+	if sepIdx > 6 {
+		optional := make([]string, 0, sepIdx-6)
+		for _, field := range mountInfo[6:sepIdx] {
+			if field != "" {
+				optional = append(optional, field)
+			}
 		}
+		if len(optional) > 0 {
+			mount.OptionalFields, err = mountOptionsParseOptionalFields(optional)
+			if err != nil {
+				return nil, fmt.Errorf("%w: %w", ErrFileParse, err)
+			}
+		}
+	} else if mountInfo[6] == "-" {
+		mount.OptionalFields = map[string]string{}
 	}
 	return mount, nil
 }
@@ -148,7 +173,7 @@ func mountOptionsParseOptionalFields(o []string) (map[string]string, error) {
 func mountOptionsParser(mountOptions string) map[string]string {
 	opts := make(map[string]string)
 	for opt := range strings.SplitSeq(mountOptions, ",") {
-		splitOption := strings.Split(opt, "=")
+		splitOption := strings.SplitN(opt, "=", 2)
 		if len(splitOption) < 2 {
 			key := splitOption[0]
 			opts[key] = ""

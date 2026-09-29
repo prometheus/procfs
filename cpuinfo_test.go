@@ -517,8 +517,8 @@ func TestParseCPUInfoARM64IdentityFields(t *testing.T) {
 		if cpu.Model != "0xd40" {
 			t.Errorf("cpu %d: Model = %q, want %q", i, cpu.Model, "0xd40")
 		}
-		if cpu.Stepping != "0x0" {
-			t.Errorf("cpu %d: Stepping = %q, want %q", i, cpu.Stepping, "0x0")
+		if cpu.Stepping != "0" {
+			t.Errorf("cpu %d: Stepping = %q, want %q", i, cpu.Stepping, "0")
 		}
 	}
 }

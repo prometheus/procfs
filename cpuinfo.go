@@ -243,6 +243,14 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 			featuresLine = line
 		case "model name":
 			cpuinfo[i].ModelName = field[1]
+		case "CPU implementer":
+			cpuinfo[i].VendorID = field[1]
+		case "CPU variant":
+			cpuinfo[i].CPUFamily = field[1]
+		case "CPU part":
+			cpuinfo[i].Model = field[1]
+		case "CPU revision":
+			cpuinfo[i].Stepping = field[1]
 		}
 	}
 	fields := strings.SplitN(featuresLine, ": ", 2)

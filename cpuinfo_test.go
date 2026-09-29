@@ -478,3 +478,47 @@ func TestCPUInfoParseLoong64(t *testing.T) {
 		t.Errorf("want CPUFamily '%v', have '%v'", want, have)
 	}
 }
+
+const cpuinfoArm64Identity = `processor	: 0
+BogoMIPS	: 100.00
+Features	: fp asimd aes sha1 sha2 crc32
+CPU implementer	: 0x41
+CPU variant	: 0x1
+CPU part	: 0xd40
+CPU revision	: 0
+
+processor	: 1
+BogoMIPS	: 100.00
+Features	: fp asimd aes sha1 sha2 crc32
+CPU implementer	: 0x41
+CPU variant	: 0x1
+CPU part	: 0xd40
+CPU revision	: 0
+`
+
+func TestParseCPUInfoARM64IdentityFields(t *testing.T) {
+	parsed, err := parseCPUInfoARM([]byte(cpuinfoArm64Identity))
+	if err != nil {
+		t.Fatalf("parseCPUInfoARM returned an error: %v", err)
+	}
+	if len(parsed) != 2 {
+		t.Fatalf("expected 2 CPUs, got %d", len(parsed))
+	}
+	for i, cpu := range parsed {
+		// arm64 kernels have no "model name" line; the implementer/variant/
+		// part/revision fields are the only CPU identity available and must
+		// not be dropped by the parser.
+		if cpu.VendorID != "0x41" {
+			t.Errorf("cpu %d: VendorID = %q, want %q", i, cpu.VendorID, "0x41")
+		}
+		if cpu.CPUFamily != "0x1" {
+			t.Errorf("cpu %d: CPUFamily = %q, want %q", i, cpu.CPUFamily, "0x1")
+		}
+		if cpu.Model != "0xd40" {
+			t.Errorf("cpu %d: Model = %q, want %q", i, cpu.Model, "0xd40")
+		}
+		if cpu.Stepping != "0x0" {
+			t.Errorf("cpu %d: Stepping = %q, want %q", i, cpu.Stepping, "0x0")
+		}
+	}
+}

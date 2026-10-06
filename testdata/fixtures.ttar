@@ -18212,6 +18212,11 @@ Lines: 1
 performance powersave
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_cur_freq
+Lines: 1
+<unknown>
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/cpu/cpu1/cpufreq/scaling_driver
 Lines: 1
 intel_pstate

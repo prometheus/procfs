@@ -16,6 +16,7 @@
 package sysfs
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -284,6 +285,14 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 		v, err := parsers.ReadUintFromFile(filepath.Join(cpuPath, f))
 		if err != nil {
 			if os.IsNotExist(err) || os.IsPermission(err) {
+				continue
+			}
+			// The kernel writes the sentinel "<unknown>" to some cpufreq
+			// files (e.g. scaling_cur_freq) when the current frequency
+			// cannot be sampled. Treat it like a missing file and leave the
+			// value nil, instead of failing the whole read.
+			var numErr *strconv.NumError
+			if errors.As(err, &numErr) && numErr.Num == "<unknown>" {
 				continue
 			}
 			return &SystemCPUCpufreqStats{}, err

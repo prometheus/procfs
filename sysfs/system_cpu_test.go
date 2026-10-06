@@ -165,8 +165,9 @@ func TestSystemCpufreq(t *testing.T) {
 		},
 		// The following files are missing for the second CPU:
 		// * `cpuinfo_avg_freq`
-		// * `scaling_cur_freq`
 		// * `trans_table`
+		// `scaling_cur_freq` contains the sentinel "<unknown>", which must be
+		// treated as an unavailable value (nil), not a parse error.
 		{
 			Name:                     "1",
 			CpuinfoCurrentFrequency:  makeUint64(1200195),

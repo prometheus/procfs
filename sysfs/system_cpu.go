@@ -16,11 +16,13 @@
 package sysfs
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 
 	"golang.org/x/sync/errgroup"
 
@@ -281,9 +283,9 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	uintOut := make([]*uint64, len(uintFiles))
 
 	for i, f := range uintFiles {
-		v, err := parsers.ReadUintFromFile(filepath.Join(cpuPath, f))
+		v, err := parsers.SysReadUintFromFile(filepath.Join(cpuPath, f))
 		if err != nil {
-			if os.IsNotExist(err) || os.IsPermission(err) {
+			if os.IsNotExist(err) || os.IsPermission(err) || errors.Is(err, syscall.EAGAIN) {
 				continue
 			}
 			return &SystemCPUCpufreqStats{}, err

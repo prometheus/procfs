@@ -196,6 +196,32 @@ func TestMountInfo(t *testing.T) {
 				SuperOptions:   map[string]string{"rw": "", "data": "ordered"},
 			},
 		},
+		{
+			name: "9p Docker Desktop mount with space in super option path",
+			s:    "3196 80 0:172 / /Docker/host rw,noatime - 9p C:\\Program\\040Files\\Docker\\Docker\\resources rw,aname=drvfs;path=C:\\Program Files\\Docker\\Docker\\resources;symlinkroot=/mnt/,cache=5,access=client,msize=65536,trans=fd,rfd=3,wfd=3",
+			mount: &MountInfo{
+				MountID:        3196,
+				ParentID:       80,
+				MajorMinorVer:  "0:172",
+				Root:           "/",
+				MountPoint:     "/Docker/host",
+				Options:        map[string]string{"rw": "", "noatime": ""},
+				OptionalFields: map[string]string{},
+				FSType:         "9p",
+				Source:         `C:\Program\040Files\Docker\Docker\resources`,
+				SuperOptions: map[string]string{
+					"rw":     "",
+					"aname":  "drvfs;path=C:\\Program Files\\Docker\\Docker\\resources;symlinkroot=/mnt/",
+					"cache":  "5",
+					"access": "client",
+					"msize":  "65536",
+					"trans":  "fd",
+					"rfd":    "3",
+					"wfd":    "3",
+				},
+			},
+			invalid: false,
+		},
 	}
 
 	for i, test := range tests {

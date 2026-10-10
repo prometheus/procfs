@@ -18,6 +18,7 @@ package sysfs
 import (
 	"errors"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -268,5 +269,28 @@ func TestBinSearch(t *testing.T) {
 			t.Fatalf("Result not correct: want %v, have %v", param.res, res)
 		}
 
+	}
+}
+
+func TestParseCpufreqTransTableBlankLine(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.MkdirAll(filepath.Join(dir, "stats"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	for _, f := range []string{"scaling_available_governors", "scaling_driver", "scaling_governor", "related_cpus", "scaling_setspeed"} {
+		if err := os.WriteFile(filepath.Join(dir, f), []byte("x\n"), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	table := "   From  :    To\n         :   1200000   1500000\n  1200000:         0         5\n   \n"
+	if err := os.WriteFile(filepath.Join(dir, "stats", "trans_table"), []byte(table), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	stats, err := parseCpufreqCpuinfo(dir)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if stats.CpuinfoTransitionTable == nil || len(*stats.CpuinfoTransitionTable) != 2 {
+		t.Errorf("unexpected transition table: %v", stats.CpuinfoTransitionTable)
 	}
 }

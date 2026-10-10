@@ -150,7 +150,7 @@ func parseIPVSBackendStatus(file io.Reader) ([]IPVSBackendStatus, error) {
 			continue
 		}
 		switch {
-		case fields[0] == "IP" || fields[0] == "Prot" || fields[1] == "RemoteAddress:Port":
+		case fields[0] == "IP" || fields[0] == "Prot" || (len(fields) > 1 && fields[1] == "RemoteAddress:Port"):
 			continue
 		case fields[0] == "TCP" || fields[0] == "UDP":
 			if len(fields) < 2 {

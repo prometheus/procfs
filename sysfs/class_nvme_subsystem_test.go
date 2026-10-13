@@ -75,9 +75,12 @@ func TestNVMeSubsystemClassNotPresent(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	_, err = fs.NVMeSubsystemClass()
-	if err == nil {
-		t.Fatal("expected error when nvme-subsystem directory does not exist")
+	got, err := fs.NVMeSubsystemClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != 0 {
+		t.Fatalf("expected 0 subsystems, got %d", len(got))
 	}
 }
 

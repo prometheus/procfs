@@ -16,6 +16,7 @@
 package sysfs
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"regexp"
@@ -74,6 +75,9 @@ func (fs FS) NVMeSubsystemClass() (NVMeSubsystemClass, error) {
 
 	entries, err := os.ReadDir(path)
 	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return NVMeSubsystemClass{}, nil
+		}
 		return nil, err
 	}
 

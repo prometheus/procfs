@@ -96,6 +96,46 @@ Hardware : BCM2835
 Revision : c03111
 `
 
+	cpuinfoArm64 = `
+processor	: 0
+BogoMIPS	: 2000.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp sve2 sveaes svepmull svebitperm svesha3 svesm4 flagm2 frint svei8mm svebf16 i8mm bf16 dgh rng bti
+CPU implementer	: 0x41
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0xd4f
+CPU revision	: 1
+
+processor	: 1
+BogoMIPS	: 2000.00
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp sve2 sveaes svepmull svebitperm svesha3 svesm4 flagm2 frint svei8mm svebf16 i8mm bf16 dgh rng bti
+CPU implementer	: 0x41
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0xd4f
+CPU revision	: 1
+`
+
+	cpuinfoArm64Heterogeneous = `
+processor	: 0
+BogoMIPS	: 2000.00
+Features	: fp asimd evtstrm aes
+CPU implementer	: 0x41
+CPU architecture: 8
+CPU variant	: 0x0
+CPU part	: 0xd03
+CPU revision	: 4
+
+processor	: 1
+BogoMIPS	: 2000.00
+Features	: fp asimd evtstrm aes
+CPU implementer	: 0x48
+CPU architecture: 8
+CPU variant	: 0x1
+CPU part	: 0xd40
+CPU revision	: 2
+`
+
 	cpuinfoS390x = `
 vendor_id       : IBM/S390
 # processors    : 4
@@ -351,10 +391,31 @@ func TestCPUInfoParseARMLegacy(t *testing.T) {
 		t.Errorf("want number of processors %v, have %v", want, have)
 	}
 	if want, have := "ARMv7 Processor rev 5 (v7l)", cpuinfo[0].ModelName; want != have {
+		t.Errorf("want model name %v, have %v", want, have)
+	}
+	if want, have := "0x41", cpuinfo[0].VendorID; want != have {
 		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "7", cpuinfo[0].CPUFamily; want != have {
+		t.Errorf("want family %v, have %v", want, have)
+	}
+	if want, have := "0xc07", cpuinfo[0].Model; want != have {
+		t.Errorf("want model %v, have %v", want, have)
+	}
+	if want, have := "r0p5", cpuinfo[0].Stepping; want != have {
+		t.Errorf("want stepping %v, have %v", want, have)
 	}
 	if want, have := "thumb", cpuinfo[1].Flags[2]; want != have {
 		t.Errorf("want flag %v, have %v", want, have)
+	}
+	if want, have := "0x41", cpuinfo[1].VendorID; want != have {
+		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "0xc07", cpuinfo[1].Model; want != have {
+		t.Errorf("want model %v, have %v", want, have)
+	}
+	if want, have := "r0p5", cpuinfo[1].Stepping; want != have {
+		t.Errorf("want stepping %v, have %v", want, have)
 	}
 }
 
@@ -367,7 +428,19 @@ func TestCPUInfoParseARMLegacyV1(t *testing.T) {
 		t.Errorf("want number of processors %v, have %v", want, have)
 	}
 	if want, have := "ARMv6-compatible processor rev 5 (v6l)", cpuinfo[0].ModelName; want != have {
+		t.Errorf("want model name %v, have %v", want, have)
+	}
+	if want, have := "0x41", cpuinfo[0].VendorID; want != have {
 		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "6TEJ", cpuinfo[0].CPUFamily; want != have {
+		t.Errorf("want family %v, have %v", want, have)
+	}
+	if want, have := "0xb36", cpuinfo[0].Model; want != have {
+		t.Errorf("want model %v, have %v", want, have)
+	}
+	if want, have := "r1p5", cpuinfo[0].Stepping; want != have {
+		t.Errorf("want stepping %v, have %v", want, have)
 	}
 	if want, have := "thumb", cpuinfo[0].Flags[2]; want != have {
 		t.Errorf("want flag %v, have %v", want, have)
@@ -383,10 +456,87 @@ func TestCPUInfoParseARM(t *testing.T) {
 		t.Errorf("want number of processors %v, have %v", want, have)
 	}
 	if want, have := "ARMv7 Processor rev 3 (v7l)", cpuinfo[0].ModelName; want != have {
+		t.Errorf("want model name %v, have %v", want, have)
+	}
+	if want, have := "0x41", cpuinfo[0].VendorID; want != have {
 		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "7", cpuinfo[0].CPUFamily; want != have {
+		t.Errorf("want family %v, have %v", want, have)
+	}
+	if want, have := "0xd08", cpuinfo[0].Model; want != have {
+		t.Errorf("want model %v, have %v", want, have)
+	}
+	if want, have := "r0p3", cpuinfo[0].Stepping; want != have {
+		t.Errorf("want stepping %v, have %v", want, have)
 	}
 	if want, have := "thumb", cpuinfo[1].Flags[1]; want != have {
 		t.Errorf("want flag %v, have %v", want, have)
+	}
+}
+
+func TestCPUInfoParseARM64(t *testing.T) {
+	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm64))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse arm64 cpu info: %v", err)
+	}
+	if want, have := 2, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	for i := range cpuinfo {
+		if want, have := "0x41", cpuinfo[i].VendorID; want != have {
+			t.Errorf("cpu %d: want vendor %v, have %v", i, want, have)
+		}
+		if want, have := "8", cpuinfo[i].CPUFamily; want != have {
+			t.Errorf("cpu %d: want family %v, have %v", i, want, have)
+		}
+		if want, have := "0xd4f", cpuinfo[i].Model; want != have {
+			t.Errorf("cpu %d: want model %v, have %v", i, want, have)
+		}
+		if want, have := "r0p1", cpuinfo[i].Stepping; want != have {
+			t.Errorf("cpu %d: want stepping %v, have %v", i, want, have)
+		}
+		if want, have := 2000.00, cpuinfo[i].BogoMips; want != have {
+			t.Errorf("cpu %d: want bogomips %v, have %v", i, want, have)
+		}
+		if want, have := "fp", cpuinfo[i].Flags[0]; want != have {
+			t.Errorf("cpu %d: want flag %v, have %v", i, want, have)
+		}
+	}
+}
+
+func TestCPUInfoParseARM64Heterogeneous(t *testing.T) {
+	cpuinfo, err := parseCPUInfoARM([]byte(cpuinfoArm64Heterogeneous))
+	if err != nil || cpuinfo == nil {
+		t.Fatalf("unable to parse heterogeneous arm64 cpu info: %v", err)
+	}
+	if want, have := 2, len(cpuinfo); want != have {
+		t.Errorf("want number of processors %v, have %v", want, have)
+	}
+	if want, have := "0x41", cpuinfo[0].VendorID; want != have {
+		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "8", cpuinfo[0].CPUFamily; want != have {
+		t.Errorf("want family %v, have %v", want, have)
+	}
+	if want, have := "0xd03", cpuinfo[0].Model; want != have {
+		t.Errorf("want model %v, have %v", want, have)
+	}
+	if want, have := "r0p4", cpuinfo[0].Stepping; want != have {
+		t.Errorf("want stepping %v, have %v", want, have)
+	}
+
+	if want, have := "0x48", cpuinfo[1].VendorID; want != have {
+		t.Errorf("want vendor %v, have %v", want, have)
+	}
+	if want, have := "8", cpuinfo[1].CPUFamily; want != have {
+		t.Errorf("want family %v, have %v", want, have)
+	}
+	if want, have := "0xd40", cpuinfo[1].Model; want != have {
+		t.Errorf("want model %v, have %v", want, have)
+	}
+	if want, have := "r1p2", cpuinfo[1].Stepping; want != have {
+		t.Errorf("want stepping %v, have %v", want, have)
 	}
 }
 
@@ -478,3 +628,74 @@ func TestCPUInfoParseLoong64(t *testing.T) {
 		t.Errorf("want CPUFamily '%v', have '%v'", want, have)
 	}
 }
+
+func TestFormatSteppingARM(t *testing.T) {
+	tests := []struct {
+		variant  string
+		revision string
+		expected string
+	}{
+		{"", "", ""},
+		{"0x0", "1", "r0p1"},
+		{"0x1", "5", "r1p5"},
+		{"0x0", "3", "r0p3"},
+		{"0x2", "0", "r2p0"},
+		{"0", "1", "r0p1"},
+		{"1", "2", "r1p2"},
+		{"0x0", "", "r0"},
+		{"", "1", "p1"},
+		{"abc", "def", "rabcpdef"},
+	}
+
+	for _, tt := range tests {
+		got := formatSteppingARM(tt.variant, tt.revision)
+		if got != tt.expected {
+			t.Errorf("formatSteppingARM(%q, %q) = %q, want %q", tt.variant, tt.revision, got, tt.expected)
+		}
+	}
+}
+
+func TestCPUInfoParseARMEdgeCases(t *testing.T) {
+	input := `
+processor	: 0
+cpu implementer	: 0x41
+cpu architecture: 8
+cpu variant	: 0x0
+cpu part	: 0xd03
+
+processor	: 1
+cpu implementer	: 0x41
+cpu architecture: 8
+cpu revision	: 2
+cpu part	: 0xd03
+`
+	cpuinfo, err := parseCPUInfoARM([]byte(input))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(cpuinfo) != 2 {
+		t.Fatalf("expected 2 cpus, got %d", len(cpuinfo))
+	}
+	if cpuinfo[0].VendorID != "0x41" {
+		t.Errorf("expected vendor 0x41, got %q", cpuinfo[0].VendorID)
+	}
+	if cpuinfo[0].CPUFamily != "8" {
+		t.Errorf("expected family 8, got %q", cpuinfo[0].CPUFamily)
+	}
+	if cpuinfo[0].Model != "0xd03" {
+		t.Errorf("expected model 0xd03, got %q", cpuinfo[0].Model)
+	}
+	if cpuinfo[0].Stepping != "r0" {
+		t.Errorf("expected stepping r0, got %q", cpuinfo[0].Stepping)
+	}
+
+	if cpuinfo[1].Stepping != "p2" {
+		t.Errorf("expected stepping p2, got %q", cpuinfo[1].Stepping)
+	}
+
+	_, err = parseCPUInfoARM([]byte("invalid line\n"))
+	if err == nil {
+		t.Errorf("expected error for malformed line, got nil")
+	}
+}
+

@@ -7197,6 +7197,19 @@ Lines: 1
 1997
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme/nvme0/diag
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/diag/command_error_count
+Lines: 1
+3
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/diag/reset_count
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/firmware_rev
 Lines: 1
 1B2QEXP7
@@ -7213,6 +7226,19 @@ Mode: 755
 Path: fixtures/sys/class/nvme/nvme0/nvme0n0/ana_state
 Lines: 1
 optimized
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme/nvme0/nvme0n0/diag
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/nvme0n0/diag/command_error_count
+Lines: 1
+2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme0/nvme0n0/diag/command_retries_count
+Lines: 1
+12
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme0/nvme0n0/nuse
@@ -7251,6 +7277,24 @@ Lines: 1
 2
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme/nvme1/diag
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme1/diag/command_error_count
+Lines: 1
+0
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme1/diag/reconnect_count
+Lines: 1
+5
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme1/diag/reset_count
+Lines: 1
+2
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme1/firmware_rev
 Lines: 1
 1B2QEXP7
@@ -7267,6 +7311,24 @@ Mode: 755
 Path: fixtures/sys/class/nvme/nvme1/nvme0c1n1/ana_state
 Lines: 1
 non-optimized
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme/nvme1/nvme0c1n1/diag
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme1/nvme0c1n1/diag/command_error_count
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme1/nvme0c1n1/diag/command_retries_count
+Lines: 1
+4
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme/nvme1/nvme0c1n1/diag/multipath_failover_count
+Lines: 1
+7
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/nvme/nvme1/nvme0c1n1/nsid

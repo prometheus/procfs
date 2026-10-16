@@ -16,6 +16,7 @@
 package sysfs
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -51,9 +52,30 @@ type NVMeNamespace struct {
 	CapacityBytes    uint64 // calculated: SizeBlocks * 512
 }
 
+// NVMeNamespaceDiag holds the diagnostic counters of a namespace block device
+// from /sys/class/nvme/<device>/<namespace>/diag, added in Linux 7.2. A nil
+// field means the kernel does not expose that counter. Root can reset the
+// counters by writing to them. Use NVMeDevice.NamespaceDiag to read them.
+type NVMeNamespaceDiag struct {
+	CommandRetries     *uint64 // diag/command_retries_count: I/O commands retried
+	CommandErrors      *uint64 // diag/command_error_count: I/O commands completed with an error
+	MultipathFailovers *uint64 // diag/multipath_failover_count: I/O failed over to another path
+}
+
+// NVMeControllerDiag holds the diagnostic counters of a controller from
+// /sys/class/nvme/<device>/diag, added in Linux 7.2. A nil field means the
+// kernel does not expose that counter. Root can reset the counters by writing
+// to them. Use NVMeDevice.Diag to read them.
+type NVMeControllerDiag struct {
+	CommandErrors *uint64 // diag/command_error_count: admin commands completed with an error
+	Resets        *uint64 // diag/reset_count: controller resets
+	Reconnects    *uint64 // diag/reconnect_count: reconnect attempts, fabrics transports only
+}
+
 // NVMeDevice contains info from files in /sys/class/nvme for a single NVMe device.
 type NVMeDevice struct {
 	Name             string
+	Path             string          // sysfs directory of the device, /sys/class/nvme/<Name>
 	Serial           string          // /sys/class/nvme/<Name>/serial
 	Model            string          // /sys/class/nvme/<Name>/model
 	State            string          // /sys/class/nvme/<Name>/state
@@ -92,7 +114,7 @@ func (fs FS) NVMeClass() (NVMeClass, error) {
 // Parse one NVMe device.
 func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 	path := fs.sys.Path(nvmeClassPath, name)
-	device := NVMeDevice{Name: name}
+	device := NVMeDevice{Name: name, Path: path}
 
 	// Parse device-level attributes
 	for _, f := range [...]string{"firmware_rev", "model", "serial", "state", "cntlid"} {
@@ -190,4 +212,68 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 	device.Namespaces = namespaces
 
 	return &device, nil
+}
+
+// Diag reads the controller's diagnostic counters from
+// /sys/class/nvme/<device>/diag. They are read on demand rather than by
+// NVMeClass, so callers that do not need them avoid the extra file reads.
+func (d NVMeDevice) Diag() (NVMeControllerDiag, error) {
+	var (
+		diag NVMeControllerDiag
+		err  error
+	)
+	dir := filepath.Join(d.Path, "diag")
+	for _, c := range [...]struct {
+		file string
+		dest **uint64
+	}{
+		{"command_error_count", &diag.CommandErrors},
+		{"reset_count", &diag.Resets},
+		{"reconnect_count", &diag.Reconnects},
+	} {
+		if *c.dest, err = readOptionalUint(filepath.Join(dir, c.file)); err != nil {
+			return diag, err
+		}
+	}
+	return diag, nil
+}
+
+// NamespaceDiag reads the diagnostic counters of one of the device's namespace
+// block devices, given by name as in NVMeNamespace.Name (e.g. nvme0n1 or
+// nvme0c1n1), from /sys/class/nvme/<device>/<namespace>/diag.
+func (d NVMeDevice) NamespaceDiag(namespace string) (NVMeNamespaceDiag, error) {
+	var (
+		diag NVMeNamespaceDiag
+		err  error
+	)
+	if !nvmeNamespacePattern.MatchString(namespace) {
+		return diag, fmt.Errorf("invalid NVMe namespace name %q", namespace)
+	}
+	dir := filepath.Join(d.Path, namespace, "diag")
+	for _, c := range [...]struct {
+		file string
+		dest **uint64
+	}{
+		{"command_retries_count", &diag.CommandRetries},
+		{"command_error_count", &diag.CommandErrors},
+		{"multipath_failover_count", &diag.MultipathFailovers},
+	} {
+		if *c.dest, err = readOptionalUint(filepath.Join(dir, c.file)); err != nil {
+			return diag, err
+		}
+	}
+	return diag, nil
+}
+
+// readOptionalUint reads an unsigned integer sysfs attribute, returning nil
+// when the attribute does not exist on the running kernel.
+func readOptionalUint(path string) (*uint64, error) {
+	v, err := parsers.SysReadUintFromFile(path)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("failed to read file %q: %w", path, err)
+	}
+	return &v, nil
 }

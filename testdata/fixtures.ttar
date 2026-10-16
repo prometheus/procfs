@@ -7401,6 +7401,19 @@ Mode: 644
 Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme0n1
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme0n1/diag
+Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme0n1/diag/io_fail_no_available_path_count
+Lines: 1
+1
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme0n1/diag/io_requeue_no_usable_path_count
+Lines: 1
+9
+Mode: 644
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/class/nvme-subsystem/nvme-subsys0/nvme1
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

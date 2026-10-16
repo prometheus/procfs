@@ -56,8 +56,8 @@ func TestNVMeClass(t *testing.T) {
 					LogicalBlockSize: 4096,
 					ANAState:         "optimized",
 					UsedBytes:        2000000000000,
-					SizeBytes:        16000000000000,
-					CapacityBytes:    16000000000000,
+					SizeBytes:        2000000000000,
+					CapacityBytes:    2000000000000,
 				},
 			},
 		},
@@ -291,8 +291,8 @@ findNamespaces:
 		LogicalBlockSize: 4096,
 		ANAState:         "optimized",
 		UsedBytes:        100000 * 4096,
-		SizeBytes:        2000000000 * 4096,
-		CapacityBytes:    2000000000 * 4096,
+		SizeBytes:        2000000000 * 512, // size is in 512-byte sectors even on 4K namespaces
+		CapacityBytes:    2000000000 * 512,
 	}
 
 	if diff := cmp.Diff(expectedNS1, *ns1); diff != "" {

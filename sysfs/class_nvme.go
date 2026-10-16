@@ -25,7 +25,12 @@ import (
 	"github.com/prometheus/procfs/internal/parsers"
 )
 
-const nvmeClassPath = "class/nvme"
+const (
+	nvmeClassPath = "class/nvme"
+
+	// The block layer reports the size attribute in 512-byte sectors.
+	blockSectorSize = 512
+)
 
 var nvmeNamespacePattern = regexp.MustCompile(`nvme\d+n(\d+)`)
 
@@ -33,12 +38,12 @@ var nvmeNamespacePattern = regexp.MustCompile(`nvme\d+n(\d+)`)
 type NVMeNamespace struct {
 	ID               string // namespace ID extracted from directory name
 	UsedBlocks       uint64 // from nuse file (blocks used)
-	SizeBlocks       uint64 // from size file (total blocks)
+	SizeBlocks       uint64 // from size file (total size in 512-byte sectors, as for every block device)
 	LogicalBlockSize uint64 // from queue/logical_block_size file
 	ANAState         string // from ana_state file
 	UsedBytes        uint64 // calculated: UsedBlocks * LogicalBlockSize
-	SizeBytes        uint64 // calculated: SizeBlocks * LogicalBlockSize
-	CapacityBytes    uint64 // calculated: SizeBlocks * LogicalBlockSize
+	SizeBytes        uint64 // calculated: SizeBlocks * 512
+	CapacityBytes    uint64 // calculated: SizeBlocks * 512
 }
 
 // NVMeDevice contains info from files in /sys/class/nvme for a single NVMe device.
@@ -159,10 +164,12 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 			}
 		}
 
-		// Calculate derived values
+		// Calculate derived values. nuse is reported in logical blocks, but
+		// the block layer always reports size in 512-byte sectors,
+		// independent of the namespace's logical block size.
 		namespace.UsedBytes = namespace.UsedBlocks * namespace.LogicalBlockSize
-		namespace.SizeBytes = namespace.SizeBlocks * namespace.LogicalBlockSize
-		namespace.CapacityBytes = namespace.SizeBlocks * namespace.LogicalBlockSize
+		namespace.SizeBytes = namespace.SizeBlocks * blockSectorSize
+		namespace.CapacityBytes = namespace.SizeBlocks * blockSectorSize
 
 		namespaces = append(namespaces, namespace)
 	}

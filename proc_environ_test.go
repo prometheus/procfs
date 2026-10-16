@@ -13,7 +13,13 @@
 
 package procfs
 
-import "testing"
+import (
+	"os"
+	"path/filepath"
+	"testing"
+
+	"github.com/google/go-cmp/cmp"
+)
 
 func TestProcEnviron(t *testing.T) {
 	p, err := getProcFixtures(t).Proc(26231)
@@ -43,5 +49,49 @@ func TestProcEnviron(t *testing.T) {
 		if want, have := expectedEnvironments[i], environment; want != have {
 			t.Errorf("%d: want %v, have %v", i, want, have)
 		}
+	}
+}
+
+func TestProcEnvironTrailingNull(t *testing.T) {
+	for _, tt := range []struct {
+		name string
+		data string
+		want []string
+	}{
+		{name: "empty", data: "", want: []string{}},
+		{name: "single terminated", data: "A=1\x00", want: []string{"A=1"}},
+		{name: "single unterminated", data: "A=1", want: []string{"A=1"}},
+		{name: "multiple terminated", data: "A=1\x00B=2\x00", want: []string{"A=1", "B=2"}},
+		{name: "multiple unterminated", data: "A=1\x00B=2", want: []string{"A=1", "B=2"}},
+		{name: "empty value", data: "A=1\x00B=", want: []string{"A=1", "B="}},
+		{name: "empty entry", data: "A=1\x00\x00B=2\x00", want: []string{"A=1", "", "B=2"}},
+		{name: "trailing empty entry", data: "A=1\x00\x00", want: []string{"A=1", ""}},
+		{name: "only nulls", data: "\x00\x00", want: []string{"", ""}},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			dir := t.TempDir()
+			procDir := filepath.Join(dir, "1")
+			if err := os.Mkdir(procDir, 0o755); err != nil {
+				t.Fatal(err)
+			}
+			if err := os.WriteFile(filepath.Join(procDir, "environ"), []byte(tt.data), 0o644); err != nil {
+				t.Fatal(err)
+			}
+			fs, err := NewFS(dir)
+			if err != nil {
+				t.Fatal(err)
+			}
+			p, err := fs.Proc(1)
+			if err != nil {
+				t.Fatal(err)
+			}
+			got, err := p.Environ()
+			if err != nil {
+				t.Fatal(err)
+			}
+			if diff := cmp.Diff(tt.want, got); diff != "" {
+				t.Fatalf("unexpected environments (-want +got):\n%s", diff)
+			}
+		})
 	}
 }

@@ -32,11 +32,16 @@ const (
 	blockSectorSize = 512
 )
 
-var nvmeNamespacePattern = regexp.MustCompile(`nvme\d+n(\d+)`)
+// nvmeNamespacePattern matches the namespace block devices below a controller:
+// nvme<ctrl>n<inst> for private namespaces and, when native multipath is
+// enabled for a shared namespace, the hidden per-path device
+// nvme<subsys>c<ctrl>n<inst>.
+var nvmeNamespacePattern = regexp.MustCompile(`^nvme\d+(?:c\d+)?n(\d+)$`)
 
 // NVMeNamespace contains info from files in /sys/class/nvme/<device>/<namespace>.
 type NVMeNamespace struct {
-	ID               string // namespace ID extracted from directory name
+	Name             string // block device name, e.g. nvme0n1 or nvme0c1n1
+	ID               string // namespace ID from the nsid file, or from the directory name if absent
 	UsedBlocks       uint64 // from nuse file (blocks used)
 	SizeBlocks       uint64 // from size file (total size in 512-byte sectors, as for every block device)
 	LogicalBlockSize uint64 // from queue/logical_block_size file
@@ -130,8 +135,16 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 		namespacePath := filepath.Join(path, d.Name())
 
 		namespace := NVMeNamespace{
+			Name:     d.Name(),
 			ID:       nsid,
 			ANAState: "unknown", // Default value
+		}
+
+		// The number in the device name is the kernel's namespace head
+		// instance, which only matches the NSID by convention. Prefer the
+		// real NSID when the kernel exposes it.
+		if value, err := parsers.SysReadFile(filepath.Join(namespacePath, "nsid")); err == nil {
+			namespace.ID = value
 		}
 
 		// Parse namespace attributes using the same approach as device attributes

@@ -50,11 +50,35 @@ func TestNVMeClass(t *testing.T) {
 			ControllerID:     "1997",
 			Namespaces: []NVMeNamespace{
 				{
+					Name:             "nvme0n0",
 					ID:               "0",
 					UsedBlocks:       488281250,
 					SizeBlocks:       3906250000,
 					LogicalBlockSize: 4096,
 					ANAState:         "optimized",
+					UsedBytes:        2000000000000,
+					SizeBytes:        2000000000000,
+					CapacityBytes:    2000000000000,
+				},
+			},
+		},
+		// nvme1 is a second controller of a multipath subsystem: its
+		// namespace is the hidden per-path device nvme<subsys>c<ctrl>n<inst>.
+		"nvme1": NVMeDevice{
+			Name:             "nvme1",
+			FirmwareRevision: "1B2QEXP7",
+			Model:            "Samsung SSD 970 PRO 512GB",
+			Serial:           "S680HF8N190894I",
+			State:            "live",
+			ControllerID:     "2",
+			Namespaces: []NVMeNamespace{
+				{
+					Name:             "nvme0c1n1",
+					ID:               "1",
+					UsedBlocks:       488281250,
+					SizeBlocks:       3906250000,
+					LogicalBlockSize: 4096,
+					ANAState:         "non-optimized",
 					UsedBytes:        2000000000000,
 					SizeBytes:        2000000000000,
 					CapacityBytes:    2000000000000,
@@ -154,6 +178,7 @@ func TestNVMeNamespaceParsingWithMockData(t *testing.T) {
 
 	namespace := device.Namespaces[0]
 	expectedNamespace := NVMeNamespace{
+		Name:             "nvme0n1",
 		ID:               "1",
 		UsedBlocks:       123456,
 		SizeBlocks:       1000215216,
@@ -285,6 +310,7 @@ findNamespaces:
 
 	// Verify namespace 1
 	expectedNS1 := NVMeNamespace{
+		Name:             "nvme1n1",
 		ID:               "1",
 		UsedBlocks:       100000,
 		SizeBlocks:       2000000000,
@@ -301,6 +327,7 @@ findNamespaces:
 
 	// Verify namespace 2
 	expectedNS2 := NVMeNamespace{
+		Name:             "nvme1n2",
 		ID:               "2",
 		UsedBlocks:       50000,
 		SizeBlocks:       1000000000,

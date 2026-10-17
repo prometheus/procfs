@@ -410,8 +410,7 @@ func (fs FS) IsolatedCPUs() ([]uint16, error) {
 }
 
 func parseCPURange(data []byte) ([]uint16, error) {
-
-	var cpusInt = []uint16{}
+	cpusInt := []uint16{}
 
 	for cpu := range strings.SplitSeq(strings.TrimSuffix(string(data), "\n"), ",") {
 		if cpu == "" {

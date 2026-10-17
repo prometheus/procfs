@@ -45,7 +45,7 @@ type FS struct {
 // error and return empty FS if the mount point can't be read. For the ease of
 // use, an empty string parameter configfsMountPoint will call internal fs for
 // the default sys path as /sys/kernel/config.
-func NewFS(sysfsPath string, configfsMountPoint string) (FS, error) {
+func NewFS(sysfsPath, configfsMountPoint string) (FS, error) {
 	if strings.TrimSpace(sysfsPath) == "" {
 		sysfsPath = fs.DefaultSysMountPoint
 	}

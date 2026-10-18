@@ -16,12 +16,6 @@
 package sysfs
 
 import (
-	"errors"
-	"fmt"
-	"os"
-	"path/filepath"
-	"strconv"
-	"syscall"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -55,81 +49,5 @@ func TestClassCoolingDeviceStats(t *testing.T) {
 
 	if diff := cmp.Diff(classCoolingDeviceStats, coolingDeviceTest); diff != "" {
 		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
-	}
-}
-
-func TestClassCoolingDeviceStatsNoData(t *testing.T) {
-	root := t.TempDir()
-	paths := []string{}
-	want := []ClassCoolingDeviceStats{}
-	for i := range 3 {
-		path := filepath.Join(root, "class", "thermal", fmt.Sprintf("cooling_device%d", i))
-		if err := os.MkdirAll(path, 0o700); err != nil {
-			t.Fatal(err)
-		}
-		for name, value := range map[string]string{"type": "Processor\n", "max_state": "50\n", "cur_state": "0\n"} {
-			if err := os.WriteFile(filepath.Join(path, name), []byte(value), 0o600); err != nil {
-				t.Fatal(err)
-			}
-		}
-		paths = append(paths, path)
-		want = append(want, ClassCoolingDeviceStats{Name: strconv.Itoa(i), Type: "Processor", MaxState: 50, CurState: 0})
-	}
-	fs, err := NewFS(root)
-	if err != nil {
-		t.Fatal(err)
-	}
-	actual, err := fs.ClassCoolingDeviceStats()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if diff := cmp.Diff(want, actual); diff != "" {
-		t.Fatalf("real neighboring parsers (-want +got):\n%s", diff)
-	}
-	noData := []struct {
-		name string
-		err  error
-	}{
-		{"direct", syscall.ENODATA},
-		{"path", &os.PathError{Op: "read", Path: filepath.Join(paths[1], "cur_state"), Err: syscall.ENODATA}},
-		{"wrapped", fmt.Errorf("cooling device read: %w", &os.PathError{Op: "read", Path: filepath.Join(paths[1], "cur_state"), Err: syscall.ENODATA})},
-	}
-	for _, tc := range noData {
-		t.Run(tc.name, func(t *testing.T) {
-			seen := []string{}
-			actual, err := classCoolingDeviceStats(paths, func(path string) (ClassCoolingDeviceStats, error) {
-				seen = append(seen, path)
-				if path == paths[1] {
-					return ClassCoolingDeviceStats{}, tc.err
-				}
-				return parseCoolingDeviceStats(path)
-			})
-			if err != nil {
-				t.Fatal(err)
-			}
-			if diff := cmp.Diff([]ClassCoolingDeviceStats{want[0], want[2]}, actual); diff != "" {
-				t.Fatalf("device-local no-data (-want +got):\n%s", diff)
-			}
-			if diff := cmp.Diff(paths, seen); diff != "" {
-				t.Fatalf("must continue after no-data device (-want +got):\n%s", diff)
-			}
-		})
-	}
-	for _, failure := range []error{syscall.EIO, fmt.Errorf("read failed: %w", &os.PathError{Op: "read", Path: filepath.Join(paths[1], "cur_state"), Err: syscall.EIO})} {
-		actual, err := classCoolingDeviceStats(paths, func(path string) (ClassCoolingDeviceStats, error) {
-			if path == paths[1] {
-				return ClassCoolingDeviceStats{}, failure
-			}
-			return parseCoolingDeviceStats(path)
-		})
-		if !errors.Is(err, syscall.EIO) || len(actual) != 0 {
-			t.Fatalf("unexpected I/O failure must propagate: stats=%v err=%v", actual, err)
-		}
-	}
-	if err := os.WriteFile(filepath.Join(paths[1], "cur_state"), []byte("not-a-number\n"), 0o600); err != nil {
-		t.Fatal(err)
-	}
-	if actual, err := fs.ClassCoolingDeviceStats(); err == nil || len(actual) != 0 {
-		t.Fatalf("real malformed state must propagate: stats=%v err=%v", actual, err)
 	}
 }

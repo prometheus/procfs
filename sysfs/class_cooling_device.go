@@ -16,11 +16,9 @@
 package sysfs
 
 import (
-	"errors"
 	"path/filepath"
 	"strconv"
 	"strings"
-	"syscall"
 
 	"github.com/prometheus/procfs/internal/parsers"
 )
@@ -41,17 +39,14 @@ func (fs FS) ClassCoolingDeviceStats() ([]ClassCoolingDeviceStats, error) {
 		return []ClassCoolingDeviceStats{}, err
 	}
 
-	return classCoolingDeviceStats(cds, parseCoolingDeviceStats)
-}
-
-func classCoolingDeviceStats(cds []string, parse func(string) (ClassCoolingDeviceStats, error)) ([]ClassCoolingDeviceStats, error) {
+	coolingDeviceStats := ClassCoolingDeviceStats{}
 	stats := make([]ClassCoolingDeviceStats, 0, len(cds))
 	for _, cd := range cds {
 		cdName := strings.TrimPrefix(filepath.Base(cd), "cooling_device")
 
-		coolingDeviceStats, err := parse(cd)
+		coolingDeviceStats, err = parseCoolingDeviceStats(cd)
 		if err != nil {
-			if canIgnoreError(err) || errors.Is(err, syscall.ENODATA) {
+			if canIgnoreError(err) {
 				continue
 			}
 			return []ClassCoolingDeviceStats{}, err

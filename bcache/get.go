@@ -15,6 +15,7 @@ package bcache
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"path"
@@ -119,7 +120,7 @@ func parsePseudoFloat(str string) (float64, error) {
 func dehumanize(hbytes []byte) (uint64, error) {
 	ll := len(hbytes)
 	if ll == 0 {
-		return 0, fmt.Errorf("zero-length reply")
+		return 0, errors.New("zero-length reply")
 	}
 	lastByte := hbytes[ll-1]
 	mul := float64(1)
@@ -395,7 +396,9 @@ func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 	par.setSubDir("internal")
 	bs.Bcache.Internal.ActiveJournalEntries = par.readValue("active_journal_entries")
 	bs.Bcache.Internal.BtreeNodes = par.readValue("btree_nodes")
-	bs.Bcache.Internal.BtreeReadAverageDurationNanoSeconds = par.readValue("btree_read_average_duration_us")
+	readMicroSeconds := par.readValue("btree_read_average_duration_us")
+	bs.Bcache.Internal.BtreeReadAverageDurationMicroSeconds = readMicroSeconds
+	bs.Bcache.Internal.BtreeReadAverageDurationNanoSeconds = readMicroSeconds
 	bs.Bcache.Internal.CacheReadRaces = par.readValue("cache_read_races")
 
 	// bcache stats (period)
@@ -441,7 +444,7 @@ func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 	bs.Bdevs = make([]BdevStats, len(bdevDirs))
 
 	for ii, bdevDir := range bdevDirs {
-		var bds = &bs.Bdevs[ii]
+		bds := &bs.Bdevs[ii]
 
 		bds.Name = filepath.Base(bdevDir)
 
@@ -486,7 +489,7 @@ func GetStats(uuidPath string, priorityStats bool) (*Stats, error) {
 	bs.Caches = make([]CacheStats, len(cacheDirs))
 
 	for ii, cacheDir := range cacheDirs {
-		var cs = &bs.Caches[ii]
+		cs := &bs.Caches[ii]
 		cs.Name = filepath.Base(cacheDir)
 
 		// dir is <uuidPath>/<cs.Name>

@@ -67,8 +67,10 @@ type PriorityStats struct {
 
 // InternalStats contains internal bcache statistics.
 type InternalStats struct {
-	ActiveJournalEntries                uint64
-	BtreeNodes                          uint64
+	ActiveJournalEntries                 uint64
+	BtreeNodes                           uint64
+	BtreeReadAverageDurationMicroSeconds uint64
+	// Deprecated: use BtreeReadAverageDurationMicroSeconds to get the correct value.
 	BtreeReadAverageDurationNanoSeconds uint64
 	CacheReadRaces                      uint64
 }

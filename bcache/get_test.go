@@ -137,7 +137,7 @@ func TestParsePseudoFloatTests(t *testing.T) {
 }
 
 func TestPriorityStats(t *testing.T) {
-	var want = PriorityStats{
+	want := PriorityStats{
 		UnusedPercent:   99,
 		MetadataPercent: 5,
 	}
@@ -160,7 +160,7 @@ func TestPriorityStats(t *testing.T) {
 }
 
 func TestWritebackRateDebug(t *testing.T) {
-	var want = WritebackRateDebugStats{
+	want := WritebackRateDebugStats{
 		Rate:         1765376,
 		Dirty:        21789409280,
 		Target:       21894266880,

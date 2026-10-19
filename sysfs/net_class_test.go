@@ -16,6 +16,11 @@
 package sysfs
 
 import (
+	"fmt"
+	"os"
+	"slices"
+	"strconv"
+	"syscall"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -32,13 +37,7 @@ func TestNewNetClassDevices(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	found := false
-	for _, d := range devices {
-		if d == "eth0" {
-			found = true
-			break
-		}
-	}
+	found := slices.Contains(devices, "eth0")
 	if !found {
 		t.Errorf("expected device eth0 not found in %v", devices)
 	}
@@ -132,5 +131,29 @@ func TestNetClass(t *testing.T) {
 
 	if diff := cmp.Diff(netClass, nc); diff != "" {
 		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
+	}
+}
+
+func TestCanIgnoreErrorENODATA(t *testing.T) {
+	for _, tc := range []struct {
+		name string
+		err  error
+		want bool
+	}{
+		{"direct no-data", syscall.ENODATA, true},
+		{"path no-data", &os.PathError{Op: "read", Path: "cur_state", Err: syscall.ENODATA}, true},
+		{"wrapped no-data", fmt.Errorf("sysfs read: %w", &os.PathError{Op: "read", Path: "cur_state", Err: syscall.ENODATA}), true},
+		{"direct I/O", syscall.EIO, false},
+		{"wrapped I/O", fmt.Errorf("sysfs read: %w", &os.PathError{Op: "read", Path: "cur_state", Err: syscall.EIO}), false},
+		{"parse", strconv.ErrSyntax, false},
+		{"missing", os.ErrNotExist, true},
+		{"permission", os.ErrPermission, true},
+		{"invalid", os.ErrInvalid, true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := canIgnoreError(tc.err); got != tc.want {
+				t.Errorf("canIgnoreError(%v) = %v, want %v", tc.err, got, tc.want)
+			}
+		})
 	}
 }

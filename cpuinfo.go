@@ -232,17 +232,6 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 		cpuinfo = []CPUInfo{firstcpu}
 	}
 
-	updateStepping := func(idx int) {
-		v := variants[idx]
-		r := revisions[idx]
-		stepping := formatSteppingARM(v, r)
-		if idx == -1 {
-			commonCPUInfo.Stepping = stepping
-		} else {
-			cpuinfo[idx].Stepping = stepping
-		}
-	}
-
 	for scanner.Scan() {
 		line := scanner.Text()
 		if !strings.Contains(line, ":") {
@@ -302,24 +291,18 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 				cpuinfo[i].Model = val
 			}
 		case "CPU variant", "cpu variant":
-			val := strings.TrimSpace(field[1])
-			if i == -1 {
-				variants[-1] = val
-				updateStepping(-1)
-			} else {
-				variants[i] = val
-				updateStepping(i)
-			}
+			variants[i] = strings.TrimSpace(field[1])
 		case "CPU revision", "cpu revision":
-			val := strings.TrimSpace(field[1])
-			if i == -1 {
-				revisions[-1] = val
-				updateStepping(-1)
-			} else {
-				revisions[i] = val
-				updateStepping(i)
-			}
+			revisions[i] = strings.TrimSpace(field[1])
 		}
+	}
+
+	for j := range cpuinfo {
+		stepping := formatSteppingARM(variants[j], revisions[j])
+		if stepping == "" {
+			stepping = formatSteppingARM(variants[-1], revisions[-1])
+		}
+		cpuinfo[j].Stepping = stepping
 	}
 
 	if len(cpuinfo) > 0 && cpuinfo[0].VendorID == "" && cpuinfo[len(cpuinfo)-1].VendorID != "" {

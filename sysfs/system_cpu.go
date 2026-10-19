@@ -288,6 +288,14 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 			if os.IsNotExist(err) || os.IsPermission(err) || errors.Is(err, syscall.EAGAIN) {
 				continue
 			}
+			// The kernel writes the sentinel "<unknown>" to some cpufreq
+			// files (e.g. scaling_cur_freq) when the current frequency
+			// cannot be sampled. Treat it like a missing file and leave the
+			// value nil, instead of failing the whole read.
+			var numErr *strconv.NumError
+			if errors.As(err, &numErr) && numErr.Num == "<unknown>" {
+				continue
+			}
 			return &SystemCPUCpufreqStats{}, err
 		}
 
@@ -412,8 +420,7 @@ func (fs FS) IsolatedCPUs() ([]uint16, error) {
 }
 
 func parseCPURange(data []byte) ([]uint16, error) {
-
-	var cpusInt = []uint16{}
+	cpusInt := []uint16{}
 
 	for cpu := range strings.SplitSeq(strings.TrimSuffix(string(data), "\n"), ",") {
 		if cpu == "" {

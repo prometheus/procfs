@@ -493,7 +493,7 @@ func NewDefaultFS() (FS, error) {
 
 // NewFS returns a new XFS handle using the given proc and sys mountPoints. It will error
 // if either of the mounts point can't be read.
-func NewFS(procMountPoint string, sysMountPoint string) (FS, error) {
+func NewFS(procMountPoint, sysMountPoint string) (FS, error) {
 	if strings.TrimSpace(procMountPoint) == "" {
 		procMountPoint = fs.DefaultProcMountPoint
 	}

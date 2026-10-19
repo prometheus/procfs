@@ -234,7 +234,7 @@ func NewDefaultFS() (FS, error) {
 
 // NewFS returns a new blockdevice fs using the given mountPoints for proc and sys.
 // It will error if either of these mount points can't be read.
-func NewFS(procMountPoint string, sysMountPoint string) (FS, error) {
+func NewFS(procMountPoint, sysMountPoint string) (FS, error) {
 	if strings.TrimSpace(procMountPoint) == "" {
 		procMountPoint = fs.DefaultProcMountPoint
 	}
@@ -479,7 +479,6 @@ func (fs FS) SysBlockDeviceUnderlyingDevices(device string) (UnderlyingDeviceInf
 		return UnderlyingDeviceInfo{}, err
 	}
 	return UnderlyingDeviceInfo{DeviceNames: underlying}, nil
-
 }
 
 // SysBlockDeviceSize returns the size of the block device from /sys/block/<device>/size

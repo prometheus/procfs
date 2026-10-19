@@ -145,6 +145,8 @@ func canIgnoreError(err error) bool {
 		return true
 	case errors.Is(err, os.ErrInvalid):
 		return true
+	case errors.Is(err, syscall.ENODATA):
+		return true
 	case errors.As(err, &errno) && (errno == syscall.EINVAL):
 		return true
 	}

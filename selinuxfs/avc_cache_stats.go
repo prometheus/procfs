@@ -17,6 +17,7 @@ package selinuxfs
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -63,32 +64,32 @@ func (fs FS) ParseAVCStats() (AVCStat, error) {
 
 		lookups, err := strconv.ParseUint(avcValues[0], 0, 64)
 		if err != nil {
-			return avcStat, fmt.Errorf("could not parse expected integer value for lookups")
+			return avcStat, errors.New("could not parse expected integer value for lookups")
 		}
 
 		hits, err := strconv.ParseUint(avcValues[1], 0, 64)
 		if err != nil {
-			return avcStat, fmt.Errorf("could not parse expected integer value for hits")
+			return avcStat, errors.New("could not parse expected integer value for hits")
 		}
 
 		misses, err := strconv.ParseUint(avcValues[2], 0, 64)
 		if err != nil {
-			return avcStat, fmt.Errorf("could not parse expected integer value for misses")
+			return avcStat, errors.New("could not parse expected integer value for misses")
 		}
 
 		allocations, err := strconv.ParseUint(avcValues[3], 0, 64)
 		if err != nil {
-			return avcStat, fmt.Errorf("could not parse expected integer value for allocations")
+			return avcStat, errors.New("could not parse expected integer value for allocations")
 		}
 
 		reclaims, err := strconv.ParseUint(avcValues[4], 0, 64)
 		if err != nil {
-			return avcStat, fmt.Errorf("could not parse expected integer value for reclaims")
+			return avcStat, errors.New("could not parse expected integer value for reclaims")
 		}
 
 		frees, err := strconv.ParseUint(avcValues[5], 0, 64)
 		if err != nil {
-			return avcStat, fmt.Errorf("could not parse expected integer value for frees")
+			return avcStat, errors.New("could not parse expected integer value for frees")
 		}
 
 		avcStat.Lookups += lookups

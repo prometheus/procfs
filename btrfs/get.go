@@ -109,12 +109,12 @@ func (r *reader) readValue(n string) (v uint64) {
 	// Read value from file
 	s := r.readFile(n)
 	if r.err != nil {
-		return
+		return v
 	}
 
 	// Convert number
 	v, _ = strconv.ParseUint(s, 10, 64)
-	return
+	return v
 }
 
 // listFiles returns a list of files for a directory of the reader.
@@ -156,7 +156,7 @@ func (r *reader) readAllocationStats(d string) (a *AllocationStats) {
 	// Pass any error back
 	r.err = sr.err
 
-	return
+	return a
 }
 
 // readLayouts reads all Btrfs layout statistics for the current path.
@@ -184,7 +184,7 @@ func (r *reader) readLayout(p string) (l *LayoutUsage) {
 	l.UsedBytes = r.readValue(path.Join(p, "used_bytes"))
 	l.Ratio = r.calcRatio(p)
 
-	return
+	return l
 }
 
 // calcRatio returns the calculated ratio for a layout mode.
@@ -251,7 +251,7 @@ func (r *reader) readFilesystemStats() (s *Stats) {
 		// Read commit stats data
 		CommitStats: r.readCommitStats("commit_stats"),
 	}
-	return
+	return s
 }
 
 // readCommitStats returns the commit_stats information for commit stats metrics.

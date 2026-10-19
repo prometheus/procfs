@@ -23,10 +23,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func makeUint64(v uint64) *uint64 {
-	return &v
-}
-
 func TestCPUTopology(t *testing.T) {
 	fs, err := NewFS(sysTestFixtures)
 	if err != nil {
@@ -140,13 +136,13 @@ func TestSystemCpufreq(t *testing.T) {
 		{
 			Name:                             "0",
 			CpuinfoCurrentFrequency:          nil,
-			CpuinfoAverageFrequency:          makeUint64(3184097),
-			CpuinfoMinimumFrequency:          makeUint64(800000),
-			CpuinfoMaximumFrequency:          makeUint64(2400000),
-			CpuinfoTransitionLatency:         makeUint64(0),
-			ScalingCurrentFrequency:          makeUint64(1219917),
-			ScalingMinimumFrequency:          makeUint64(800000),
-			ScalingMaximumFrequency:          makeUint64(2400000),
+			CpuinfoAverageFrequency:          new(uint64(3184097)),
+			CpuinfoMinimumFrequency:          new(uint64(800000)),
+			CpuinfoMaximumFrequency:          new(uint64(2400000)),
+			CpuinfoTransitionLatency:         new(uint64(0)),
+			ScalingCurrentFrequency:          new(uint64(1219917)),
+			ScalingMinimumFrequency:          new(uint64(800000)),
+			ScalingMaximumFrequency:          new(uint64(2400000)),
 			AvailableGovernors:               "performance powersave",
 			Driver:                           "intel_pstate",
 			Governor:                         "powersave",
@@ -169,14 +165,14 @@ func TestSystemCpufreq(t *testing.T) {
 		// * `trans_table`
 		{
 			Name:                     "1",
-			CpuinfoCurrentFrequency:  makeUint64(1200195),
+			CpuinfoCurrentFrequency:  new(uint64(1200195)),
 			CpuinfoAverageFrequency:  nil,
-			CpuinfoMinimumFrequency:  makeUint64(1200000),
-			CpuinfoMaximumFrequency:  makeUint64(3300000),
-			CpuinfoTransitionLatency: makeUint64(4294967295),
+			CpuinfoMinimumFrequency:  new(uint64(1200000)),
+			CpuinfoMaximumFrequency:  new(uint64(3300000)),
+			CpuinfoTransitionLatency: new(uint64(4294967295)),
 			ScalingCurrentFrequency:  nil,
-			ScalingMinimumFrequency:  makeUint64(1200000),
-			ScalingMaximumFrequency:  makeUint64(3300000),
+			ScalingMinimumFrequency:  new(uint64(1200000)),
+			ScalingMaximumFrequency:  new(uint64(3300000)),
 			AvailableGovernors:       "performance powersave",
 			Driver:                   "intel_pstate",
 			Governor:                 "powersave",
@@ -189,7 +185,7 @@ func TestSystemCpufreq(t *testing.T) {
 				3000000: 67,
 				2800000: 172488,
 			},
-			CpuinfoFrequencyTransitionsTotal: makeUint64(20),
+			CpuinfoFrequencyTransitionsTotal: new(uint64(20)),
 			CpuinfoTransitionTable:           nil,
 		},
 	}
@@ -200,7 +196,7 @@ func TestSystemCpufreq(t *testing.T) {
 }
 
 func TestIsolatedParsingCPU(t *testing.T) {
-	var testParams = []struct {
+	testParams := []struct {
 		in  []byte
 		res []uint16
 		err error
@@ -231,10 +227,10 @@ func TestIsolatedParsingCPU(t *testing.T) {
 			if (err == nil || params.err == nil) && !errors.Is(err, params.err) {
 				t.Fatalf("should have %v error: got %v", params.err, err)
 			}
-
 		})
 	}
 }
+
 func TestIsolatedCPUs(t *testing.T) {
 	fs, err := NewFS(sysTestFixtures)
 	if err != nil {
@@ -251,7 +247,7 @@ func TestIsolatedCPUs(t *testing.T) {
 }
 
 func TestBinSearch(t *testing.T) {
-	var testParams = []struct {
+	testParams := []struct {
 		elem  uint16
 		elems []uint16
 		res   bool

@@ -15,7 +15,7 @@ package bcachefs
 
 import (
 	"bufio"
-	"fmt"
+	"errors"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -175,7 +175,7 @@ func (r *reader) readFilesystemStats() *Stats {
 func parseHumanReadableBytes(s string) (uint64, error) {
 	s = strings.TrimSpace(s)
 	if s == "" {
-		return 0, fmt.Errorf("empty string")
+		return 0, errors.New("empty string")
 	}
 
 	multiplier := float64(1)
@@ -361,7 +361,7 @@ func parseCounterFile(path string) (CounterStats, error) {
 		return CounterStats{}, err
 	}
 	if !seenCreation && !seenMount {
-		return CounterStats{}, fmt.Errorf("counter file format not recognized")
+		return CounterStats{}, errors.New("counter file format not recognized")
 	}
 	return stats, nil
 }

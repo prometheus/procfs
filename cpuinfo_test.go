@@ -698,4 +698,3 @@ cpu part	: 0xd03
 		t.Errorf("expected error for malformed line, got nil")
 	}
 }
-

@@ -22,6 +22,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 
 	"golang.org/x/sync/errgroup"
 
@@ -282,9 +283,9 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	uintOut := make([]*uint64, len(uintFiles))
 
 	for i, f := range uintFiles {
-		v, err := parsers.ReadUintFromFile(filepath.Join(cpuPath, f))
+		v, err := parsers.SysReadUintFromFile(filepath.Join(cpuPath, f))
 		if err != nil {
-			if os.IsNotExist(err) || os.IsPermission(err) {
+			if os.IsNotExist(err) || os.IsPermission(err) || errors.Is(err, syscall.EAGAIN) {
 				continue
 			}
 			// The kernel writes the sentinel "<unknown>" to some cpufreq

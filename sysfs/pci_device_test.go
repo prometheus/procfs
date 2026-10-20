@@ -52,6 +52,11 @@ func TestPciDevices(t *testing.T) {
 		NumaNodeNeg1  = int32(-1)
 		D3coldAllowed = true
 		PowerState    = PciPowerStateD0
+
+		// Root Port AER totals on 0000:00:02.1
+		RootPortErrCor      = uint64(7)
+		RootPortErrFatal    = uint64(0)
+		RootPortErrNonFatal = uint64(2)
 	)
 	want := PciDevices{
 		"0000:00:02:1": PciDevice{
@@ -78,6 +83,10 @@ func TestPciDevices(t *testing.T) {
 
 			D3coldAllowed: &D3coldAllowed,
 			PowerState:    &PowerState,
+
+			AerRootPortTotalErrCor:      &RootPortErrCor,
+			AerRootPortTotalErrFatal:    &RootPortErrFatal,
+			AerRootPortTotalErrNonFatal: &RootPortErrNonFatal,
 		},
 		"0000:01:00:0": PciDevice{
 			Location: PciDeviceLocation{

@@ -103,6 +103,12 @@ type PciDevice struct {
 	AerCorrectable *CorrectableAerCounters   // /sys/bus/pci/devices/<Location>/aer_dev_correctable
 	AerFatal       *UncorrectableAerCounters // /sys/bus/pci/devices/<Location>/aer_dev_fatal
 	AerNonFatal    *UncorrectableAerCounters // /sys/bus/pci/devices/<Location>/aer_dev_nonfatal
+
+	// Totals of the errors a PCIe Root Port has received from the devices
+	// below it. These are nil for devices that are not AER-capable Root Ports.
+	AerRootPortTotalErrCor      *uint64 // /sys/bus/pci/devices/<Location>/aer_rootport_total_err_cor
+	AerRootPortTotalErrFatal    *uint64 // /sys/bus/pci/devices/<Location>/aer_rootport_total_err_fatal
+	AerRootPortTotalErrNonFatal *uint64 // /sys/bus/pci/devices/<Location>/aer_rootport_total_err_nonfatal
 }
 
 func (pd PciDevice) Name() string {
@@ -447,6 +453,36 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			device.AerFatal = &uncorrectable
 		case "aer_dev_nonfatal":
 			device.AerNonFatal = &uncorrectable
+		}
+	}
+
+	// Parse Root Port AER totals (optional: only present on Root Ports).
+	for _, f := range [...]string{"aer_rootport_total_err_cor", "aer_rootport_total_err_fatal", "aer_rootport_total_err_nonfatal"} {
+		name := filepath.Join(path, f)
+		valueStr, err := parsers.SysReadFile(name)
+		if err != nil {
+			if os.IsNotExist(err) {
+				continue
+			}
+			return nil, fmt.Errorf("failed to read AER Root Port file %q %s: %w", name, device.Location, err)
+		}
+
+		valueStr = strings.TrimSpace(valueStr)
+		if valueStr == "" {
+			continue
+		}
+		value, err := strconv.ParseUint(valueStr, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse %s %q %s: %w", f, valueStr, device.Location, err)
+		}
+
+		switch f {
+		case "aer_rootport_total_err_cor":
+			device.AerRootPortTotalErrCor = &value
+		case "aer_rootport_total_err_fatal":
+			device.AerRootPortTotalErrFatal = &value
+		case "aer_rootport_total_err_nonfatal":
+			device.AerRootPortTotalErrNonFatal = &value
 		}
 	}
 

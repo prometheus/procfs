@@ -106,8 +106,11 @@ func TestPciDevices(t *testing.T) {
 			CurrentLinkSpeed: &LinkSpeed8GTs,
 			CurrentLinkWidth: &LinkWidth4,
 
-			D3coldAllowed: &D3coldAllowed,
-			PowerState:    &PowerState,
+			D3coldAllowed:  &D3coldAllowed,
+			PowerState:     &PowerState,
+			AerCorrectable: &CorrectableAerCounters{},
+			AerFatal:       &UncorrectableAerCounters{},
+			AerNonFatal:    &UncorrectableAerCounters{},
 		},
 		"0000:a2:00:0": PciDevice{
 			Location: PciDeviceLocation{
@@ -141,8 +144,11 @@ func TestPciDevices(t *testing.T) {
 			SriovVfTotalMsix:      &SriovVfTotalMsix,
 
 			// Power management fields
-			D3coldAllowed: &D3coldAllowed,
-			PowerState:    &PowerState,
+			D3coldAllowed:  &D3coldAllowed,
+			PowerState:     &PowerState,
+			AerCorrectable: &CorrectableAerCounters{RxErr: 2, BadTLP: 1, Timeout: 3},
+			AerFatal:       &UncorrectableAerCounters{MalfTLP: 1},
+			AerNonFatal:    &UncorrectableAerCounters{CmpltTO: 1, UnsupReq: 4},
 		},
 	}
 

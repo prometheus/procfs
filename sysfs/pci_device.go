@@ -97,6 +97,12 @@ type PciDevice struct {
 
 	D3coldAllowed *bool          // /sys/bus/pci/devices/<Location>/d3cold_allowed
 	PowerState    *PciPowerState // /sys/bus/pci/devices/<Location>/power_state
+
+	// PCIe Advanced Error Reporting counters. These are nil when the kernel
+	// does not expose AER statistics for the device.
+	AerCorrectable *CorrectableAerCounters   // /sys/bus/pci/devices/<Location>/aer_dev_correctable
+	AerFatal       *UncorrectableAerCounters // /sys/bus/pci/devices/<Location>/aer_dev_fatal
+	AerNonFatal    *UncorrectableAerCounters // /sys/bus/pci/devices/<Location>/aer_dev_nonfatal
 }
 
 func (pd PciDevice) Name() string {
@@ -414,6 +420,33 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 			// power_state is a string (one of: "unknown", "error", "D0", "D1", "D2", "D3hot", "D3cold")
 			powerState := PciPowerState(valueStr)
 			device.PowerState = &powerState
+		}
+	}
+
+	// Parse AER counters (optional: only present on PCIe devices with AER
+	// support and kernels built with CONFIG_PCIEAER).
+	var correctable CorrectableAerCounters
+	found, err := parseCorrectableAerFile(filepath.Join(path, "aer_dev_correctable"), &correctable)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse AER counters %s: %w", device.Location, err)
+	}
+	if found {
+		device.AerCorrectable = &correctable
+	}
+	for _, f := range [...]string{"aer_dev_fatal", "aer_dev_nonfatal"} {
+		var uncorrectable UncorrectableAerCounters
+		found, err := parseUncorrectableAerFile(filepath.Join(path, f), &uncorrectable)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse AER counters %s: %w", device.Location, err)
+		}
+		if !found {
+			continue
+		}
+		switch f {
+		case "aer_dev_fatal":
+			device.AerFatal = &uncorrectable
+		case "aer_dev_nonfatal":
+			device.AerNonFatal = &uncorrectable
 		}
 	}
 

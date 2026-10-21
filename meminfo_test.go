@@ -14,6 +14,7 @@
 package procfs
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -117,5 +118,13 @@ func TestMeminfo(t *testing.T) {
 
 	if diff := cmp.Diff(want, got); diff != "" {
 		t.Fatalf("unexpected meminfo entry (-want +got):\n%s", diff)
+	}
+}
+
+func TestParseMemInfoMalformedLine(t *testing.T) {
+	for _, line := range []string{"MemTotal:", ""} {
+		if _, err := parseMemInfo(strings.NewReader("MemFree: 1 kB\n" + line + "\n")); err == nil {
+			t.Errorf("parseMemInfo with line %q: expected an error", line)
+		}
 	}
 }

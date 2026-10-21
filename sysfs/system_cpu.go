@@ -374,6 +374,9 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 				continue
 			}
 			fields := strings.Fields(line)
+			if len(fields) == 0 {
+				return &SystemCPUCpufreqStats{}, fmt.Errorf("unexpected blank line in trans_table: %q", line)
+			}
 			fields[0] = strings.TrimSuffix(fields[0], ":")
 			cpuinfoTransitionTableRow := make([]uint64, len(fields))
 			for i := range fields {

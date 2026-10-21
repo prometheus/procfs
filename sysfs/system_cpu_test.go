@@ -286,11 +286,7 @@ func TestParseCpufreqTransTableBlankLine(t *testing.T) {
 	if err := os.WriteFile(filepath.Join(dir, "stats", "trans_table"), []byte(table), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	stats, err := parseCpufreqCpuinfo(dir)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	if stats.CpuinfoTransitionTable == nil || len(*stats.CpuinfoTransitionTable) != 2 {
-		t.Errorf("unexpected transition table: %v", stats.CpuinfoTransitionTable)
+	if _, err := parseCpufreqCpuinfo(dir); err == nil {
+		t.Error("expected an error for a blank trans_table line, got nil")
 	}
 }

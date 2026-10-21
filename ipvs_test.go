@@ -14,6 +14,7 @@
 package procfs
 
 import (
+	"errors"
 	"net"
 	"strings"
 	"testing"
@@ -256,7 +257,7 @@ func TestIPVSBackendStatus(t *testing.T) {
 
 func TestParseIPVSBackendStatusShortLine(t *testing.T) {
 	in := "IP Virtual Server version 1.2.1 (size=4096)\nProt LocalAddress:Port Scheduler Flags\nX\n"
-	if _, err := parseIPVSBackendStatus(strings.NewReader(in)); err != nil {
-		t.Errorf("unexpected error: %v", err)
+	if _, err := parseIPVSBackendStatus(strings.NewReader(in)); !errors.Is(err, ErrFileParse) {
+		t.Errorf("expected ErrFileParse, got %v", err)
 	}
 }

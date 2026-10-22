@@ -42,12 +42,11 @@ var nvmeNamespacePattern = regexp.MustCompile(`^nvme\d+(?:c\d+)?n(\d+)$`)
 // NVMeNamespace contains info from files in /sys/class/nvme/<device>/<namespace>.
 type NVMeNamespace struct {
 	Name             string // block device name, e.g. nvme0n1 or nvme0c1n1
+	Path             string // sysfs directory of the namespace, /sys/class/nvme/<device>/<Name>
 	ID               string // namespace ID from the nsid file, or from the directory name if absent
-	UsedBlocks       uint64 // from nuse file (blocks used)
 	SizeBlocks       uint64 // from size file (total size in 512-byte sectors, as for every block device)
 	LogicalBlockSize uint64 // from queue/logical_block_size file
 	ANAState         string // from ana_state file
-	UsedBytes        uint64 // calculated: UsedBlocks * LogicalBlockSize
 	SizeBytes        uint64 // calculated: SizeBlocks * 512
 	CapacityBytes    uint64 // calculated: SizeBlocks * 512
 }
@@ -158,6 +157,7 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 
 		namespace := NVMeNamespace{
 			Name:     d.Name(),
+			Path:     namespacePath,
 			ID:       nsid,
 			ANAState: "unknown", // Default value
 		}
@@ -170,7 +170,7 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 		}
 
 		// Parse namespace attributes using the same approach as device attributes
-		for _, f := range [...]string{"nuse", "size", "queue/logical_block_size", "ana_state"} {
+		for _, f := range [...]string{"size", "queue/logical_block_size", "ana_state"} {
 			filePath := filepath.Join(namespacePath, f)
 			value, err := parsers.SysReadFile(filePath)
 			if err != nil {
@@ -182,10 +182,6 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 			}
 
 			switch f {
-			case "nuse":
-				if val, parseErr := strconv.ParseUint(value, 10, 64); parseErr == nil {
-					namespace.UsedBlocks = val
-				}
 			case "size":
 				if val, parseErr := strconv.ParseUint(value, 10, 64); parseErr == nil {
 					namespace.SizeBlocks = val
@@ -199,10 +195,8 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 			}
 		}
 
-		// Calculate derived values. nuse is reported in logical blocks, but
-		// the block layer always reports size in 512-byte sectors,
-		// independent of the namespace's logical block size.
-		namespace.UsedBytes = namespace.UsedBlocks * namespace.LogicalBlockSize
+		// Calculate derived values. The block layer always reports size in
+		// 512-byte sectors, independent of the namespace's logical block size.
 		namespace.SizeBytes = namespace.SizeBlocks * blockSectorSize
 		namespace.CapacityBytes = namespace.SizeBlocks * blockSectorSize
 
@@ -263,6 +257,14 @@ func (d NVMeDevice) NamespaceDiag(namespace string) (NVMeNamespaceDiag, error) {
 		}
 	}
 	return diag, nil
+}
+
+// UsedBlocks reads the number of logical blocks in use (nuse) of the namespace.
+// It returns nil when the kernel does not expose nuse (kernels before 6.8).
+// Reading nuse makes the kernel query the controller, so it is read on demand
+// rather than by NVMeClass. Multiply by LogicalBlockSize for bytes.
+func (n NVMeNamespace) UsedBlocks() (*uint64, error) {
+	return readOptionalUint(filepath.Join(n.Path, "nuse"))
 }
 
 // readOptionalUint reads an unsigned integer sysfs attribute, returning nil

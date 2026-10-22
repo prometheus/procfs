@@ -21,10 +21,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func uint64Ptr(v uint64) *uint64 {
-	return &v
-}
-
 func TestMonData(t *testing.T) {
 	fs, err := NewFS(resctrlTestFixtures)
 	if err != nil {
@@ -40,15 +36,15 @@ func TestMonData(t *testing.T) {
 		{
 			Resource:      "L3",
 			ID:            "0",
-			LLCOccupancy:  uint64Ptr(44040192),
-			MBMTotalBytes: uint64Ptr(315294410752),
-			MBMLocalBytes: uint64Ptr(210196273664),
+			LLCOccupancy:  new(uint64(44040192)),
+			MBMTotalBytes: new(uint64(315294410752)),
+			MBMLocalBytes: new(uint64(210196273664)),
 		},
 		{
 			Resource:      "L3",
 			ID:            "1",
-			LLCOccupancy:  uint64Ptr(8388608),
-			MBMTotalBytes: uint64Ptr(105098136832),
+			LLCOccupancy:  new(uint64(8388608)),
+			MBMTotalBytes: new(uint64(105098136832)),
 			// mbm_local_bytes reads "Unavailable" in the fixture.
 			MBMLocalBytes: nil,
 		},

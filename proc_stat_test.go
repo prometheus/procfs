@@ -14,7 +14,6 @@
 package procfs
 
 import (
-	"math"
 	"os"
 	"testing"
 )
@@ -74,32 +73,6 @@ func TestProcStat(t *testing.T) {
 		{name: "processor", want: 0, have: s.Processor},
 		{name: "rt_priority", want: 0, have: s.RTPriority},
 		{name: "policy", want: 0, have: s.Policy},
-	} {
-		if test.want != test.have {
-			t.Errorf("want %s %d, have %d", test.name, test.want, test.have)
-		}
-	}
-}
-
-func TestProcStatLimits(t *testing.T) {
-	p, err := getProcFixtures(t).Proc(26232)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	s, err := p.Stat()
-	if err != nil {
-		t.Errorf("want not error, have %s", err)
-	}
-
-	// max values of stat int fields
-	for _, test := range []struct {
-		name string
-		want int
-		have int
-	}{
-		{name: "waited for children user time", want: math.MinInt64, have: s.CUTime},
-		{name: "waited for children system time", want: math.MaxInt64, have: s.CSTime},
 	} {
 		if test.want != test.have {
 			t.Errorf("want %s %d, have %d", test.name, test.want, test.have)

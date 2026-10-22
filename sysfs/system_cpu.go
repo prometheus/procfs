@@ -16,11 +16,13 @@
 package sysfs
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+	"syscall"
 
 	"golang.org/x/sync/errgroup"
 
@@ -281,9 +283,17 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 	uintOut := make([]*uint64, len(uintFiles))
 
 	for i, f := range uintFiles {
-		v, err := parsers.ReadUintFromFile(filepath.Join(cpuPath, f))
+		v, err := parsers.SysReadUintFromFile(filepath.Join(cpuPath, f))
 		if err != nil {
-			if os.IsNotExist(err) || os.IsPermission(err) {
+			if os.IsNotExist(err) || os.IsPermission(err) || errors.Is(err, syscall.EAGAIN) {
+				continue
+			}
+			// The kernel writes the sentinel "<unknown>" to some cpufreq
+			// files (e.g. scaling_cur_freq) when the current frequency
+			// cannot be sampled. Treat it like a missing file and leave the
+			// value nil, instead of failing the whole read.
+			var numErr *strconv.NumError
+			if errors.As(err, &numErr) && numErr.Num == "<unknown>" {
 				continue
 			}
 			return &SystemCPUCpufreqStats{}, err
@@ -364,6 +374,9 @@ func parseCpufreqCpuinfo(cpuPath string) (*SystemCPUCpufreqStats, error) {
 				continue
 			}
 			fields := strings.Fields(line)
+			if len(fields) == 0 {
+				return &SystemCPUCpufreqStats{}, fmt.Errorf("unexpected blank line in trans_table: %q", line)
+			}
 			fields[0] = strings.TrimSuffix(fields[0], ":")
 			cpuinfoTransitionTableRow := make([]uint64, len(fields))
 			for i := range fields {
@@ -410,8 +423,7 @@ func (fs FS) IsolatedCPUs() ([]uint16, error) {
 }
 
 func parseCPURange(data []byte) ([]uint16, error) {
-
-	var cpusInt = []uint16{}
+	cpusInt := []uint16{}
 
 	for cpu := range strings.SplitSeq(strings.TrimSuffix(string(data), "\n"), ",") {
 		if cpu == "" {

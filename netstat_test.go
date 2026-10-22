@@ -14,6 +14,10 @@
 package procfs
 
 import (
+	"bufio"
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -110,5 +114,45 @@ func TestNetStat(t *testing.T) {
 				}
 			}
 		}
+	}
+}
+
+// writeNetstatFile writes lines to a temporary file and returns its path.
+func writeNetstatFile(t *testing.T, lines ...string) string {
+	t.Helper()
+	path := filepath.Join(t.TempDir(), "stat")
+	if err := os.WriteFile(path, []byte(strings.Join(lines, "\n")+"\n"), 0o600); err != nil {
+		t.Fatalf("writing fixture: %v", err)
+	}
+	return path
+}
+
+func TestParseNetstatReportsScannerErrors(t *testing.T) {
+	// Hex tokens, so that what the scanner has already buffered still parses
+	// as counters and the header index is reached.
+	long := strings.Repeat("00000001 ", bufio.MaxScanTokenSize/9+1)
+
+	for _, tt := range []struct {
+		name  string
+		lines []string
+	}{
+		{"header too long", []string{long, "00000001"}},
+		{"counter line too long", []string{"entries", long}},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			if _, err := parseNetstat(writeNetstatFile(t, tt.lines...)); err == nil {
+				t.Fatal("expected an error, got nil")
+			}
+		})
+	}
+}
+
+func TestParseNetstatEmptyFile(t *testing.T) {
+	stat, err := parseNetstat(writeNetstatFile(t))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(stat.Stats) != 0 {
+		t.Fatalf("expected no stats, got %d", len(stat.Stats))
 	}
 }

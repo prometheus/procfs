@@ -133,13 +133,19 @@ func parseAerCounters(devicePath string) (*AerCounters, error) {
 // parseCorrectableAerCounters parses correctable error counters in
 // /sys/class/net/<iface>/device/aer_dev_correctable.
 func parseCorrectableAerCounters(devicePath string, counters *CorrectableAerCounters) error {
-	path := filepath.Join(devicePath, "device", "aer_dev_correctable")
+	_, err := parseCorrectableAerFile(filepath.Join(devicePath, "device", "aer_dev_correctable"), counters)
+	return err
+}
+
+// parseCorrectableAerFile parses a correctable AER counters file such as
+// aer_dev_correctable. It reports whether the file was present and readable.
+func parseCorrectableAerFile(path string, counters *CorrectableAerCounters) (bool, error) {
 	value, err := parsers.SysReadFile(path)
 	if err != nil {
 		if canIgnoreError(err) {
-			return nil
+			return false, nil
 		}
-		return fmt.Errorf("failed to read file %q: %w", path, err)
+		return false, fmt.Errorf("failed to read file %q: %w", path, err)
 	}
 
 	for line := range strings.SplitSeq(string(value), "\n") {
@@ -148,12 +154,12 @@ func parseCorrectableAerCounters(devicePath string, counters *CorrectableAerCoun
 		}
 		fields := strings.Fields(line)
 		if len(fields) != 2 {
-			return fmt.Errorf("unexpected number of fields: %v", fields)
+			return false, fmt.Errorf("unexpected number of fields: %v", fields)
 		}
 		counterName := fields[0]
 		value, err := strconv.ParseUint(fields[1], 10, 64)
 		if err != nil {
-			return fmt.Errorf("error parsing value for %s: %w", counterName, err)
+			return false, fmt.Errorf("error parsing value for %s: %w", counterName, err)
 		}
 
 		switch counterName {
@@ -178,7 +184,7 @@ func parseCorrectableAerCounters(devicePath string, counters *CorrectableAerCoun
 		}
 	}
 
-	return nil
+	return true, nil
 }
 
 // parseUncorrectableAerCounters parses uncorrectable error counters in
@@ -186,13 +192,20 @@ func parseCorrectableAerCounters(devicePath string, counters *CorrectableAerCoun
 func parseUncorrectableAerCounters(devicePath, counterType string,
 	counters *UncorrectableAerCounters,
 ) error {
-	path := filepath.Join(devicePath, "device", "aer_dev_"+counterType)
+	_, err := parseUncorrectableAerFile(filepath.Join(devicePath, "device", "aer_dev_"+counterType), counters)
+	return err
+}
+
+// parseUncorrectableAerFile parses an uncorrectable AER counters file such as
+// aer_dev_fatal or aer_dev_nonfatal. It reports whether the file was present
+// and readable.
+func parseUncorrectableAerFile(path string, counters *UncorrectableAerCounters) (bool, error) {
 	value, err := parsers.ReadFileNoStat(path)
 	if err != nil {
 		if canIgnoreError(err) {
-			return nil
+			return false, nil
 		}
-		return fmt.Errorf("failed to read file %q: %w", path, err)
+		return false, fmt.Errorf("failed to read file %q: %w", path, err)
 	}
 
 	for line := range strings.SplitSeq(string(value), "\n") {
@@ -201,12 +214,12 @@ func parseUncorrectableAerCounters(devicePath, counterType string,
 		}
 		fields := strings.Fields(line)
 		if len(fields) != 2 {
-			return fmt.Errorf("unexpected number of fields: %v", fields)
+			return false, fmt.Errorf("unexpected number of fields: %v", fields)
 		}
 		counterName := fields[0]
 		value, err := strconv.ParseUint(fields[1], 10, 64)
 		if err != nil {
-			return fmt.Errorf("error parsing value for %s: %w", counterName, err)
+			return false, fmt.Errorf("error parsing value for %s: %w", counterName, err)
 		}
 
 		switch counterName {
@@ -251,5 +264,5 @@ func parseUncorrectableAerCounters(devicePath, counterType string,
 		}
 	}
 
-	return nil
+	return true, nil
 }

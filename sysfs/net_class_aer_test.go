@@ -50,7 +50,12 @@ func TestAerCounters(t *testing.T) {
 
 	ac, _ := fs.AerCounters()
 	aerCounters := AllAerCounters{
-		"enp3s0f0": AerCounters{Name: "enp3s0f0"},
+		"enp3s0f0": AerCounters{
+			Name:        "enp3s0f0",
+			Correctable: CorrectableAerCounters{RxErr: 2, BadTLP: 1, Timeout: 3},
+			Fatal:       UncorrectableAerCounters{MalfTLP: 1},
+			NonFatal:    UncorrectableAerCounters{CmpltTO: 1, UnsupReq: 4},
+		},
 		"eth0": AerCounters{
 			Name: "eth0",
 			Correctable: CorrectableAerCounters{

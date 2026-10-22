@@ -10832,6 +10832,21 @@ Lines: 1
 0xc0a9
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:00/0000:00:02.1/aer_rootport_total_err_cor
+Lines: 1
+7
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:00/0000:00:02.1/aer_rootport_total_err_fatal
+Lines: 1
+0
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/pci0000:00/0000:00:02.1/aer_rootport_total_err_nonfatal
+Lines: 1
+2
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/pci0000:00/0000:00:02.1/ari_enabled
 Lines: 1
 0
@@ -17415,15 +17430,15 @@ Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/aer_dev_correctable
 Lines: 9
-RxErr 0
-BadTLP 0
+RxErr 2
+BadTLP 1
 BadDLLP 0
 Rollover 0
-Timeout 0
+Timeout 3
 NonFatalErr 0
 CorrIntErr 0
 HeaderOF 0
-TOTAL_ERR_COR 0
+TOTAL_ERR_COR 6
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/aer_dev_fatal
@@ -17437,7 +17452,7 @@ CmpltTO 0
 CmpltAbrt 0
 UnxCmplt 0
 RxOF 0
-MalfTLP 0
+MalfTLP 1
 ECRC 0
 UnsupReq 0
 ACSViol 0
@@ -17446,7 +17461,7 @@ BlockedTLP 0
 AtomicOpBlocked 0
 TLPBlockedErr 0
 PoisonTLPBlocked 0
-TOTAL_ERR_FATAL 0
+TOTAL_ERR_FATAL 1
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/aer_dev_nonfatal
@@ -17456,20 +17471,20 @@ DLP 0
 SDES 0
 TLP 0
 FCP 0
-CmpltTO 0
+CmpltTO 1
 CmpltAbrt 0
 UnxCmplt 0
 RxOF 0
 MalfTLP 0
 ECRC 0
-UnsupReq 0
+UnsupReq 4
 ACSViol 0
 UncorrIntErr 0
 BlockedTLP 0
 AtomicOpBlocked 0
 TLPBlockedErr 0
 PoisonTLPBlocked 0
-TOTAL_ERR_NONFATAL 0
+TOTAL_ERR_NONFATAL 5
 Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/pci0000:a2/0000:a2:00.0/ari_enabled

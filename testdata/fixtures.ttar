@@ -7139,6 +7139,9 @@ Lines: 1
 1
 Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/class/net/eth0/master
+SymlinkTo: ../vrf0
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/class/net/eth0/mtu
 Lines: 1
 1500

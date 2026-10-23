@@ -115,6 +115,7 @@ func TestNetClass(t *testing.T) {
 			IfIndex:          &ifIndex,
 			IfLink:           &ifLink,
 			LinkMode:         &linkMode,
+			Master:           "vrf0",
 			MTU:              &mtu,
 			Name:             "eth0",
 			NameAssignType:   &nameAssignType,

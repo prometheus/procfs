@@ -47,6 +47,7 @@ type NetClassIface struct {
 	IfIndex          *int64 // /sys/class/net/<iface>/ifindex
 	IfLink           *int64 // /sys/class/net/<iface>/iflink
 	LinkMode         *int64 // /sys/class/net/<iface>/link_mode
+	Master           string // /sys/class/net/<iface>/master (name of the master device, e.g. a VRF, bridge or bond)
 	MTU              *int64 // /sys/class/net/<iface>/mtu
 	NameAssignType   *int64 // /sys/class/net/<iface>/name_assign_type
 	NetDevGroup      *int64 // /sys/class/net/<iface>/netdev_group
@@ -245,6 +246,13 @@ func parseNetClassIface(devicePath string) (*NetClassIface, error) {
 		if err := ParseNetClassAttribute(devicePath, f.Name(), &interfaceClass); err != nil {
 			return nil, err
 		}
+	}
+
+	// The master device (a VRF, bridge, bond, ...) is exposed as a symlink.
+	if master, err := os.Readlink(filepath.Join(devicePath, "master")); err == nil {
+		interfaceClass.Master = filepath.Base(master)
+	} else if !canIgnoreError(err) && !errors.Is(err, syscall.EINVAL) {
+		return nil, fmt.Errorf("failed to read master of %q: %w", devicePath, err)
 	}
 
 	return &interfaceClass, nil

@@ -11,14 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package util_test
+package parsers_test
 
 import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 func TestValueParser(t *testing.T) {
@@ -26,13 +26,13 @@ func TestValueParser(t *testing.T) {
 		name string
 		v    string
 		ok   bool
-		fn   func(t *testing.T, vp *util.ValueParser)
+		fn   func(t *testing.T, vp *parsers.ValueParser)
 	}{
 		{
 			name: "ok Int",
 			v:    "10",
 			ok:   true,
-			fn: func(t *testing.T, vp *util.ValueParser) {
+			fn: func(t *testing.T, vp *parsers.ValueParser) {
 				want := 10
 				got := vp.Int()
 
@@ -44,14 +44,14 @@ func TestValueParser(t *testing.T) {
 		{
 			name: "bad PInt64",
 			v:    "hello",
-			fn: func(_ *testing.T, vp *util.ValueParser) {
+			fn: func(_ *testing.T, vp *parsers.ValueParser) {
 				_ = vp.PInt64()
 			},
 		},
 		{
 			name: "bad hex PInt64",
 			v:    "0xhello",
-			fn: func(_ *testing.T, vp *util.ValueParser) {
+			fn: func(_ *testing.T, vp *parsers.ValueParser) {
 				_ = vp.PInt64()
 			},
 		},
@@ -59,7 +59,7 @@ func TestValueParser(t *testing.T) {
 			name: "ok PInt64",
 			v:    "1",
 			ok:   true,
-			fn: func(t *testing.T, vp *util.ValueParser) {
+			fn: func(t *testing.T, vp *parsers.ValueParser) {
 				want := int64(1)
 				got := vp.PInt64()
 
@@ -72,7 +72,7 @@ func TestValueParser(t *testing.T) {
 			name: "ok hex PInt64",
 			v:    "0xff",
 			ok:   true,
-			fn: func(t *testing.T, vp *util.ValueParser) {
+			fn: func(t *testing.T, vp *parsers.ValueParser) {
 				want := int64(255)
 				got := vp.PInt64()
 
@@ -84,14 +84,14 @@ func TestValueParser(t *testing.T) {
 		{
 			name: "bad PUInt64",
 			v:    "-42",
-			fn: func(_ *testing.T, vp *util.ValueParser) {
+			fn: func(_ *testing.T, vp *parsers.ValueParser) {
 				_ = vp.PUInt64()
 			},
 		},
 		{
 			name: "bad hex PUInt64",
 			v:    "0xhello",
-			fn: func(_ *testing.T, vp *util.ValueParser) {
+			fn: func(_ *testing.T, vp *parsers.ValueParser) {
 				_ = vp.PUInt64()
 			},
 		},
@@ -99,7 +99,7 @@ func TestValueParser(t *testing.T) {
 			name: "ok PUInt64",
 			v:    "1",
 			ok:   true,
-			fn: func(t *testing.T, vp *util.ValueParser) {
+			fn: func(t *testing.T, vp *parsers.ValueParser) {
 				want := uint64(1)
 				got := vp.PUInt64()
 
@@ -112,7 +112,7 @@ func TestValueParser(t *testing.T) {
 			name: "ok hex PUInt64",
 			v:    "0xff",
 			ok:   true,
-			fn: func(t *testing.T, vp *util.ValueParser) {
+			fn: func(t *testing.T, vp *parsers.ValueParser) {
 				want := uint64(255)
 				got := vp.PUInt64()
 
@@ -125,7 +125,7 @@ func TestValueParser(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			vp := util.NewValueParser(tt.v)
+			vp := parsers.NewValueParser(tt.v)
 			tt.fn(t, vp)
 
 			err := vp.Err()

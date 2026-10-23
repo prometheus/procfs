@@ -19,7 +19,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // ClockSource contains metrics related to the clock source.
@@ -32,7 +32,6 @@ type ClockSource struct {
 // ClockSources returns clocksource information including current and available clocksources
 // read from '/sys/devices/system/clocksource'.
 func (fs FS) ClockSources() ([]ClockSource, error) {
-
 	clocksourcePaths, err := filepath.Glob(fs.sys.Path("devices/system/clocksource/clocksource[0-9]*"))
 	if err != nil {
 		return nil, err
@@ -54,7 +53,6 @@ func (fs FS) ClockSources() ([]ClockSource, error) {
 }
 
 func parseClocksource(clocksourcePath string) (*ClockSource, error) {
-
 	stringFiles := []string{
 		"available_clocksource",
 		"current_clocksource",
@@ -63,7 +61,7 @@ func parseClocksource(clocksourcePath string) (*ClockSource, error) {
 	var err error
 
 	for i, f := range stringFiles {
-		stringOut[i], err = util.SysReadFile(filepath.Join(clocksourcePath, f))
+		stringOut[i], err = parsers.SysReadFile(filepath.Join(clocksourcePath, f))
 		if err != nil {
 			return &ClockSource{}, err
 		}

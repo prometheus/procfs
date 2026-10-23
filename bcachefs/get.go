@@ -15,14 +15,14 @@ package bcachefs
 
 import (
 	"bufio"
-	"fmt"
+	"errors"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 
 	"github.com/prometheus/procfs/internal/fs"
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // FS represents the pseudo-filesystem sys, which provides an interface to
@@ -96,7 +96,7 @@ func (r *reader) readFile(n string) string {
 	if r.err != nil {
 		return ""
 	}
-	b, err := util.ReadFileNoStat(filepath.Join(r.path, n))
+	b, err := parsers.ReadFileNoStat(filepath.Join(r.path, n))
 	if err != nil {
 		if !os.IsNotExist(err) {
 			r.err = err
@@ -175,7 +175,7 @@ func (r *reader) readFilesystemStats() *Stats {
 func parseHumanReadableBytes(s string) (uint64, error) {
 	s = strings.TrimSpace(s)
 	if s == "" {
-		return 0, fmt.Errorf("empty string")
+		return 0, errors.New("empty string")
 	}
 
 	multiplier := float64(1)
@@ -361,7 +361,7 @@ func parseCounterFile(path string) (CounterStats, error) {
 		return CounterStats{}, err
 	}
 	if !seenCreation && !seenMount {
-		return CounterStats{}, fmt.Errorf("counter file format not recognized")
+		return CounterStats{}, errors.New("counter file format not recognized")
 	}
 	return stats, nil
 }
@@ -467,7 +467,7 @@ func parseDevices(fsPath string) (map[string]*DeviceStats, error) {
 }
 
 func readSysfsFile(path string) string {
-	data, err := util.ReadFileNoStat(path)
+	data, err := parsers.ReadFileNoStat(path)
 	if err != nil {
 		return ""
 	}
@@ -475,7 +475,7 @@ func readSysfsFile(path string) string {
 }
 
 func readUintFile(path string) (uint64, error) {
-	data, err := util.ReadFileNoStat(path)
+	data, err := parsers.ReadFileNoStat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return 0, nil

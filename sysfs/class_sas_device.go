@@ -21,7 +21,7 @@ import (
 	"regexp"
 	"slices"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const (
@@ -111,7 +111,7 @@ func (fs FS) parseSASDevice(name string) (*SASDevice, error) {
 	}
 
 	address := fs.sys.Path(sasDeviceClassPath, name, "sas_address")
-	value, err := util.SysReadFile(address)
+	value, err := parsers.SysReadFile(address)
 	if err != nil {
 		return nil, err
 	}

@@ -17,7 +17,7 @@ package selinuxfs
 
 import (
 	"bufio"
-	"fmt"
+	"errors"
 	"os"
 	"strconv"
 	"strings"
@@ -60,22 +60,22 @@ func (fs FS) ParseAVCHashStats() (AVCHashStat, error) {
 
 	avcHashStat.Entries, err = strconv.ParseUint(entriesValue, 0, 64)
 	if err != nil {
-		return avcHashStat, fmt.Errorf("could not parse expected integer value for hash entries")
+		return avcHashStat, errors.New("could not parse expected integer value for hash entries")
 	}
 
 	avcHashStat.BucketsUsed, err = strconv.ParseUint(bucketsValuesTuple[0], 0, 64)
 	if err != nil {
-		return avcHashStat, fmt.Errorf("could not parse expected integer value for hash buckets used")
+		return avcHashStat, errors.New("could not parse expected integer value for hash buckets used")
 	}
 
 	avcHashStat.BucketsAvailable, err = strconv.ParseUint(bucketsValuesTuple[1], 0, 64)
 	if err != nil {
-		return avcHashStat, fmt.Errorf("could not parse expected integer value for hash buckets available")
+		return avcHashStat, errors.New("could not parse expected integer value for hash buckets available")
 	}
 
 	avcHashStat.LongestChain, err = strconv.ParseUint(longestChainValue, 0, 64)
 	if err != nil {
-		return avcHashStat, fmt.Errorf("could not parse expected integer value for hash longest chain")
+		return avcHashStat, errors.New("could not parse expected integer value for hash longest chain")
 	}
 
 	return avcHashStat, scanner.Err()

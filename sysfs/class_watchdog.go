@@ -20,7 +20,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const watchdogClassPath = "class/watchdog"
@@ -76,7 +76,7 @@ func (fs FS) parseWatchdog(wdName string) (*WatchdogStats, error) {
 
 	for _, f := range [...]string{"bootstatus", "options", "fw_version", "identity", "nowayout", "state", "status", "timeleft", "timeout", "pretimeout", "pretimeout_governor", "access_cs0"} {
 		name := filepath.Join(path, f)
-		value, err := util.SysReadFile(name)
+		value, err := parsers.SysReadFile(name)
 		if err != nil {
 			if os.IsNotExist(err) {
 				continue
@@ -84,7 +84,7 @@ func (fs FS) parseWatchdog(wdName string) (*WatchdogStats, error) {
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
 
-		vp := util.NewValueParser(value)
+		vp := parsers.NewValueParser(value)
 
 		switch f {
 		case "bootstatus":

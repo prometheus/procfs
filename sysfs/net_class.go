@@ -22,7 +22,7 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const netclassPath = "class/net"
@@ -96,6 +96,18 @@ func (fs FS) NetClassByIface(devicePath string) (*NetClassIface, error) {
 	return interfaceClass, nil
 }
 
+// NetClassPCIDevice returns the PciDevice backing the given network interface
+// by resolving the /sys/class/net/<iface>/device symlink and parsing the
+// corresponding PCI device via the existing PCI device parser.
+func (fs FS) NetClassPCIDevice(iface string) (*PciDevice, error) {
+	deviceSymlink := fs.sys.Path(netclassPath, iface, "device")
+	resolved, err := os.Readlink(deviceSymlink)
+	if err != nil {
+		return nil, fmt.Errorf("failed to resolve device symlink for %q: %w", iface, err)
+	}
+	return fs.parsePciDevice(filepath.Base(resolved))
+}
+
 // NetClass returns info for all net interfaces (iface) read from /sys/class/net/<iface>.
 func (fs FS) NetClass() (NetClass, error) {
 	devices, err := fs.NetClassDevices()
@@ -133,6 +145,8 @@ func canIgnoreError(err error) bool {
 		return true
 	case errors.Is(err, os.ErrInvalid):
 		return true
+	case errors.Is(err, syscall.ENODATA):
+		return true
 	case errors.As(err, &errno) && (errno == syscall.EINVAL):
 		return true
 	}
@@ -145,7 +159,7 @@ func canIgnoreError(err error) bool {
 // It returns an error if the file cannot be read and the error is fatal.
 func ParseNetClassAttribute(devicePath, attrName string, interfaceClass *NetClassIface) error {
 	attrPath := filepath.Join(devicePath, attrName)
-	value, err := util.SysReadFile(attrPath)
+	value, err := parsers.SysReadFile(attrPath)
 	if err != nil {
 		if canIgnoreError(err) {
 			return nil
@@ -153,7 +167,7 @@ func ParseNetClassAttribute(devicePath, attrName string, interfaceClass *NetClas
 		return fmt.Errorf("failed to read file %q: %w", attrPath, err)
 	}
 
-	vp := util.NewValueParser(value)
+	vp := parsers.NewValueParser(value)
 	switch attrName {
 	case "addr_assign_type":
 		interfaceClass.AddrAssignType = vp.PInt64()

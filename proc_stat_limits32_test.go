@@ -11,27 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package util
+//go:build (aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris) && (386 || arm || mips || mipsle)
+
+package procfs
 
 import (
-	"io"
-	"os"
+	"math"
+	"testing"
 )
 
-// ReadFileNoStat uses io.ReadAll to read contents of entire file.
-// This is similar to os.ReadFile but without the call to os.Stat, because
-// many files in /proc and /sys report incorrect file sizes (either 0 or 4096).
-// Reads a max file size of 1024kB.  For files larger than this, a scanner
-// should be used.
-func ReadFileNoStat(filename string) ([]byte, error) {
-	const maxBufferSize = 1024 * 1024
-
-	f, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
-	defer f.Close()
-
-	reader := io.LimitReader(f, maxBufferSize)
-	return io.ReadAll(reader)
+func TestProcStatLimits(t *testing.T) {
+	testProcStatLimits(t, int(math.MinInt32), int(math.MaxInt32))
 }

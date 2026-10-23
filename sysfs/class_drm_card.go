@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const drmClassPath = "class/drm"
@@ -51,9 +51,7 @@ type DRMCardClass map[string]DRMCard
 // DRMCardClass returns infos for all DRM devices read from
 // /sys/class/drm.
 func (fs FS) DRMCardClass() (DRMCardClass, error) {
-
 	cards, err := filepath.Glob(fs.sys.Path("class/drm/card[0-9]"))
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to list DRM card ports at %q: %w", cards, err)
 	}
@@ -84,7 +82,6 @@ func (fs FS) parseDRMCard(name string) (*DRMCard, error) {
 	card.Driver = filepath.Base(cardDriverPath)
 
 	portsPath, err := filepath.Glob(filepath.Join(path, filepath.Base(path)+"-*-*"))
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to list DRM card ports at %q: %w", portsPath, err)
 	}
@@ -103,21 +100,21 @@ func (fs FS) parseDRMCard(name string) (*DRMCard, error) {
 }
 
 func parseDRMCardPort(port string) (*DRMCardPort, error) {
-	portStatus, err := util.SysReadFile(filepath.Join(port, "status"))
+	portStatus, err := parsers.SysReadFile(filepath.Join(port, "status"))
 	if err != nil {
 		return nil, err
 	}
 
 	drmCardPort := DRMCardPort{Name: filepath.Base(port), Status: portStatus}
 
-	portDPMS, err := util.SysReadFile(filepath.Join(port, "dpms"))
+	portDPMS, err := parsers.SysReadFile(filepath.Join(port, "dpms"))
 	if err != nil {
 		return nil, err
 	}
 
 	drmCardPort.DPMS = portDPMS
 
-	portEnabled, err := util.SysReadFile(filepath.Join(port, "enabled"))
+	portEnabled, err := parsers.SysReadFile(filepath.Join(port, "enabled"))
 	if err != nil {
 		return nil, err
 	}

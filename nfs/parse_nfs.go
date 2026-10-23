@@ -19,7 +19,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // ParseClientRPCStats returns stats read from /proc/net/rpc/nfs.
@@ -35,7 +35,7 @@ func ParseClientRPCStats(r io.Reader) (*ClientRPCStats, error) {
 			return nil, fmt.Errorf("invalid NFS metric line %q", line)
 		}
 
-		values, err := util.ParseUint64s(parts[1:])
+		values, err := parsers.ParseUint64s(parts[1:])
 		if err != nil {
 			return nil, fmt.Errorf("error parsing NFS metric line: %w", err)
 		}

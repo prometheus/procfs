@@ -20,7 +20,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const dmiClassPath = "class/dmi/id"
@@ -71,7 +71,7 @@ func (fs FS) DMIClass() (*DMIClass, error) {
 		}
 
 		filename := filepath.Join(path, name)
-		value, err := util.SysReadFile(filename)
+		value, err := parsers.SysReadFile(filename)
 		if err != nil {
 			if os.IsPermission(err) {
 				// Only root is allowed to read the serial and product_uuid files!

@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // PciPowerState represents the power state of a PCI device.
@@ -101,6 +101,19 @@ type PciDevice struct {
 
 func (pd PciDevice) Name() string {
 	return pd.Location.String()
+}
+
+// PciDeviceVFAddress returns the PCI BDF address of a Virtual Function by
+// resolving the virtfn symlink at /sys/bus/pci/devices/<bdf>/virtfn<vfIndex>.
+func (fs FS) PciDeviceVFAddress(device *PciDevice, vfIndex uint32) (string, error) {
+	loc := device.Location
+	bdf := fmt.Sprintf("%04x:%02x:%02x.%x", loc.Segment, loc.Bus, loc.Device, loc.Function)
+	virtfnPath := fs.sys.Path(pciDevicesPath, bdf, fmt.Sprintf("virtfn%d", vfIndex))
+	resolved, err := os.Readlink(virtfnPath)
+	if err != nil {
+		return "", fmt.Errorf("failed to read virtfn%d symlink for %q: %w", vfIndex, bdf, err)
+	}
+	return filepath.Base(resolved), nil
 }
 
 // PciDevices is a collection of every PCI device in
@@ -207,7 +220,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 	// These files must exist in a device directory.
 	for _, f := range [...]string{"class", "vendor", "device", "subsystem_vendor", "subsystem_device", "revision"} {
 		name := filepath.Join(path, f)
-		valueStr, err := util.SysReadFile(name)
+		valueStr, err := parsers.SysReadFile(name)
 		if err != nil {
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
@@ -236,7 +249,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 
 	for _, f := range [...]string{"max_link_speed", "max_link_width", "current_link_speed", "current_link_width", "numa_node"} {
 		name := filepath.Join(path, f)
-		valueStr, err := util.SysReadFile(name)
+		valueStr, err := parsers.SysReadFile(name)
 		if err != nil {
 			if os.IsNotExist(err) {
 				continue
@@ -298,7 +311,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 	// Parse SR-IOV files (these are optional and may not exist for all devices)
 	for _, f := range [...]string{"sriov_drivers_autoprobe", "sriov_numvfs", "sriov_offset", "sriov_stride", "sriov_totalvfs", "sriov_vf_device", "sriov_vf_total_msix"} {
 		name := filepath.Join(path, f)
-		valueStr, err := util.SysReadFile(name)
+		valueStr, err := parsers.SysReadFile(name)
 		if err != nil {
 			if os.IsNotExist(err) {
 				continue // SR-IOV files are optional
@@ -374,7 +387,7 @@ func (fs FS) parsePciDevice(name string) (*PciDevice, error) {
 	// Parse power management files (these are optional and may not exist for all devices)
 	for _, f := range [...]string{"d3cold_allowed", "power_state"} {
 		name := filepath.Join(path, f)
-		valueStr, err := util.SysReadFile(name)
+		valueStr, err := parsers.SysReadFile(name)
 		if err != nil {
 			if os.IsNotExist(err) {
 				continue // Power management files are optional

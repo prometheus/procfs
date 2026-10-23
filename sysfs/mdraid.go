@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // Mdraid holds info parsed from relevant files in the /sys/block/md*/md directory.
@@ -63,7 +63,7 @@ func (fs FS) Mdraids() ([]Mdraid, error) {
 		md := Mdraid{Device: filepath.Base(filepath.Dir(m))}
 		path := fs.sys.Path("block", md.Device, "md")
 
-		if val, err := util.SysReadFile(filepath.Join(path, "level")); err == nil {
+		if val, err := parsers.SysReadFile(filepath.Join(path, "level")); err == nil {
 			md.Level = val
 		} else {
 			return mdraids, err
@@ -71,13 +71,13 @@ func (fs FS) Mdraids() ([]Mdraid, error) {
 
 		// Array state can be one of: clear, inactive, readonly, read-auto, clean, active,
 		// write-pending, active-idle.
-		if val, err := util.SysReadFile(filepath.Join(path, "array_state")); err == nil {
+		if val, err := parsers.SysReadFile(filepath.Join(path, "array_state")); err == nil {
 			md.ArrayState = val
 		} else {
 			return mdraids, err
 		}
 
-		if val, err := util.SysReadFile(filepath.Join(path, "metadata_version")); err == nil {
+		if val, err := parsers.SysReadFile(filepath.Join(path, "metadata_version")); err == nil {
 			md.MetadataVersion = val
 		} else {
 			return mdraids, err
@@ -117,7 +117,7 @@ func (fs FS) Mdraids() ([]Mdraid, error) {
 			// If neither format matches, Disks remains nil.
 		}
 
-		if val, err := util.SysReadFile(filepath.Join(path, "uuid")); err == nil {
+		if val, err := parsers.SysReadFile(filepath.Join(path, "uuid")); err == nil {
 			md.UUID = val
 		} else {
 			return mdraids, err
@@ -129,7 +129,7 @@ func (fs FS) Mdraids() ([]Mdraid, error) {
 
 				// Component state can be a comma-separated list of: faulty, in_sync, writemostly,
 				// blocked, spare, write_error, want_replacement, replacement.
-				if val, err := util.SysReadFile(filepath.Join(dev, "state")); err == nil {
+				if val, err := parsers.SysReadFile(filepath.Join(dev, "state")); err == nil {
 					comp.State = val
 				} else {
 					return mdraids, err
@@ -143,7 +143,7 @@ func (fs FS) Mdraids() ([]Mdraid, error) {
 
 		switch md.Level {
 		case "raid0", "raid4", "raid5", "raid6", "raid10":
-			if val, err := util.ReadUintFromFile(filepath.Join(path, "chunk_size")); err == nil {
+			if val, err := parsers.ReadUintFromFile(filepath.Join(path, "chunk_size")); err == nil {
 				md.ChunkSize = val
 			} else {
 				return mdraids, err
@@ -152,20 +152,20 @@ func (fs FS) Mdraids() ([]Mdraid, error) {
 
 		switch md.Level {
 		case "raid1", "raid4", "raid5", "raid6", "raid10":
-			if val, err := util.ReadUintFromFile(filepath.Join(path, "degraded")); err == nil {
+			if val, err := parsers.ReadUintFromFile(filepath.Join(path, "degraded")); err == nil {
 				md.DegradedDisks = val
 			} else {
 				return mdraids, err
 			}
 
 			// Array sync action can be one of: resync, recover, idle, check, repair.
-			if val, err := util.SysReadFile(filepath.Join(path, "sync_action")); err == nil {
+			if val, err := parsers.SysReadFile(filepath.Join(path, "sync_action")); err == nil {
 				md.SyncAction = val
 			} else {
 				return mdraids, err
 			}
 
-			if val, err := util.SysReadFile(filepath.Join(path, "sync_completed")); err == nil {
+			if val, err := parsers.SysReadFile(filepath.Join(path, "sync_completed")); err == nil {
 				if val != "none" {
 					var a, b uint64
 

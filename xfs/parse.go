@@ -19,7 +19,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 // ParseStats parses a Stats from an input io.Reader, using the format
@@ -78,7 +78,7 @@ func ParseStats(r io.Reader) (*Stats, error) {
 
 		// Special case: "gc xpc" is a two-word label in the kernel output.
 		if label == "gc" && len(ss) >= 3 && ss[1] == "xpc" {
-			us, err := util.ParseUint64s(ss[2:])
+			us, err := parsers.ParseUint64s(ss[2:])
 			if err != nil {
 				return nil, err
 			}
@@ -91,7 +91,7 @@ func ParseStats(r io.Reader) (*Stats, error) {
 
 		// Extended precision counters are uint64 values.
 		if label == fieldXpc {
-			us, err := util.ParseUint64s(ss[1:])
+			us, err := parsers.ParseUint64s(ss[1:])
 			if err != nil {
 				return nil, err
 			}
@@ -106,7 +106,7 @@ func ParseStats(r io.Reader) (*Stats, error) {
 
 		// Defer relog counter is a single uint64 value.
 		if label == fieldDeferRelog {
-			us, err := util.ParseUint64s(ss[1:])
+			us, err := parsers.ParseUint64s(ss[1:])
 			if err != nil {
 				return nil, err
 			}
@@ -118,7 +118,7 @@ func ParseStats(r io.Reader) (*Stats, error) {
 		}
 
 		// All other counters are uint32 values.
-		us, err := util.ParseUint32s(ss[1:])
+		us, err := parsers.ParseUint32s(ss[1:])
 		if err != nil {
 			return nil, err
 		}

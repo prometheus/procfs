@@ -13,7 +13,7 @@
 
 //go:build (linux && appengine) || (!linux && !darwin)
 
-package util
+package parsers
 
 import (
 	"fmt"

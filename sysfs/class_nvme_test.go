@@ -43,6 +43,7 @@ func TestNVMeClass(t *testing.T) {
 	want := NVMeClass{
 		"nvme0": NVMeDevice{
 			Name:             "nvme0",
+			Path:             filepath.Join(sysTestFixtures, "class/nvme/nvme0"),
 			FirmwareRevision: "1B2QEXP7",
 			Model:            "Samsung SSD 970 PRO 512GB",
 			Serial:           "S680HF8N190894I",
@@ -50,21 +51,174 @@ func TestNVMeClass(t *testing.T) {
 			ControllerID:     "1997",
 			Namespaces: []NVMeNamespace{
 				{
+					Name:             "nvme0n0",
+					Path:             filepath.Join(sysTestFixtures, "class/nvme/nvme0/nvme0n0"),
 					ID:               "0",
-					UsedBlocks:       488281250,
 					SizeBlocks:       3906250000,
 					LogicalBlockSize: 4096,
 					ANAState:         "optimized",
-					UsedBytes:        2000000000000,
-					SizeBytes:        16000000000000,
-					CapacityBytes:    16000000000000,
+					SizeBytes:        2000000000000,
+					CapacityBytes:    2000000000000,
 				},
 			},
+		},
+		// nvme1 is a second controller of a multipath subsystem: its
+		// namespace is the hidden per-path device nvme<subsys>c<ctrl>n<inst>.
+		"nvme1": NVMeDevice{
+			Name:             "nvme1",
+			Path:             filepath.Join(sysTestFixtures, "class/nvme/nvme1"),
+			FirmwareRevision: "1B2QEXP7",
+			Model:            "Samsung SSD 970 PRO 512GB",
+			Serial:           "S680HF8N190894I",
+			State:            "live",
+			ControllerID:     "2",
+			Namespaces: []NVMeNamespace{
+				{
+					Name:             "nvme0c1n1",
+					Path:             filepath.Join(sysTestFixtures, "class/nvme/nvme1/nvme0c1n1"),
+					ID:               "1",
+					SizeBlocks:       3906250000,
+					LogicalBlockSize: 4096,
+					ANAState:         "non-optimized",
+					SizeBytes:        2000000000000,
+					CapacityBytes:    2000000000000,
+				},
+			},
+		},
+		// nvme2 has no nuse (kernels before 6.8)
+		"nvme2": NVMeDevice{
+			Name:             "nvme2",
+			Path:             filepath.Join(sysTestFixtures, "class/nvme/nvme2"),
+			FirmwareRevision: "1B2QEXP7",
+			Model:            "Samsung SSD 970 PRO 512GB",
+			Serial:           "S680HF8N190895J",
+			State:            "live",
+			ControllerID:     "3",
+			Namespaces: []NVMeNamespace{
+				{
+					Name:             "nvme2n1",
+					Path:             filepath.Join(sysTestFixtures, "class/nvme/nvme2/nvme2n1"),
+					ID:               "1",
+					SizeBlocks:       3906250000,
+					LogicalBlockSize: 4096,
+					ANAState:         "unknown",
+					SizeBytes:        2000000000000,
+					CapacityBytes:    2000000000000,
+				},
+			},
+		},
+		// nvme3 is a controller without any namespace.
+		"nvme3": NVMeDevice{
+			Name:             "nvme3",
+			Path:             filepath.Join(sysTestFixtures, "class/nvme/nvme3"),
+			FirmwareRevision: "1B2QEXP7",
+			Model:            "Samsung SSD 970 PRO 512GB",
+			Serial:           "S680HF8N190896K",
+			State:            "live",
+			ControllerID:     "4",
 		},
 	}
 
 	if diff := cmp.Diff(want, got); diff != "" {
 		t.Fatalf("unexpected NVMe class (-want +got):\n%s", diff)
+	}
+}
+
+func TestNVMeDeviceDiag(t *testing.T) {
+	if _, err := os.Stat(sysTestFixtures); os.IsNotExist(err) {
+		t.Skip("Test fixtures not available, skipping NVMe diag tests")
+		return
+	}
+
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	nc, err := fs.NVMeClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, tt := range []struct {
+		device    string
+		namespace string
+		ctrl      NVMeControllerDiag
+		ns        NVMeNamespaceDiag
+	}{
+		{
+			// PCIe controller: no reconnect_count, no multipath_failover_count.
+			device:    "nvme0",
+			namespace: "nvme0n0",
+			ctrl: NVMeControllerDiag{
+				CommandErrors: new(uint64(3)),
+				Resets:        new(uint64(1)),
+			},
+			ns: NVMeNamespaceDiag{
+				CommandRetries: new(uint64(12)),
+				CommandErrors:  new(uint64(2)),
+			},
+		},
+		{
+			// Fabrics controller with a multipath per-path namespace.
+			device:    "nvme1",
+			namespace: "nvme0c1n1",
+			ctrl: NVMeControllerDiag{
+				CommandErrors: new(uint64(0)),
+				Resets:        new(uint64(2)),
+				Reconnects:    new(uint64(5)),
+			},
+			ns: NVMeNamespaceDiag{
+				CommandRetries:     new(uint64(4)),
+				CommandErrors:      new(uint64(1)),
+				MultipathFailovers: new(uint64(7)),
+			},
+		},
+	} {
+		t.Run(tt.device, func(t *testing.T) {
+			d := nc[tt.device]
+
+			ctrl, err := d.Diag()
+			if err != nil {
+				t.Fatal(err)
+			}
+			if diff := cmp.Diff(tt.ctrl, ctrl); diff != "" {
+				t.Errorf("unexpected controller diag (-want +got):\n%s", diff)
+			}
+
+			ns, err := d.NamespaceDiag(tt.namespace)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if diff := cmp.Diff(tt.ns, ns); diff != "" {
+				t.Errorf("unexpected namespace diag (-want +got):\n%s", diff)
+			}
+		})
+	}
+
+	if _, err := nc["nvme0"].NamespaceDiag("../nvme1"); err == nil {
+		t.Error("expected an error for an invalid namespace name")
+	}
+}
+
+func TestNVMeDeviceDiagMissing(t *testing.T) {
+	// A kernel older than 7.2 has no diag directory: every counter is nil.
+	d := NVMeDevice{Name: "nvme0", Path: t.TempDir()}
+
+	ctrl, err := d.Diag()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if diff := cmp.Diff(NVMeControllerDiag{}, ctrl); diff != "" {
+		t.Errorf("unexpected controller diag (-want +got):\n%s", diff)
+	}
+
+	ns, err := d.NamespaceDiag("nvme0n1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if diff := cmp.Diff(NVMeNamespaceDiag{}, ns); diff != "" {
+		t.Errorf("unexpected namespace diag (-want +got):\n%s", diff)
 	}
 }
 
@@ -154,12 +308,12 @@ func TestNVMeNamespaceParsingWithMockData(t *testing.T) {
 
 	namespace := device.Namespaces[0]
 	expectedNamespace := NVMeNamespace{
+		Name:             "nvme0n1",
+		Path:             namespaceDir,
 		ID:               "1",
-		UsedBlocks:       123456,
 		SizeBlocks:       1000215216,
 		LogicalBlockSize: 512,
 		ANAState:         "optimized",
-		UsedBytes:        123456 * 512,
 		SizeBytes:        1000215216 * 512,
 		CapacityBytes:    1000215216 * 512,
 	}
@@ -285,14 +439,14 @@ findNamespaces:
 
 	// Verify namespace 1
 	expectedNS1 := NVMeNamespace{
+		Name:             "nvme1n1",
+		Path:             filepath.Join(deviceDir, "nvme1n1"),
 		ID:               "1",
-		UsedBlocks:       100000,
 		SizeBlocks:       2000000000,
 		LogicalBlockSize: 4096,
 		ANAState:         "optimized",
-		UsedBytes:        100000 * 4096,
-		SizeBytes:        2000000000 * 4096,
-		CapacityBytes:    2000000000 * 4096,
+		SizeBytes:        2000000000 * 512, // size is in 512-byte sectors even on 4K namespaces
+		CapacityBytes:    2000000000 * 512,
 	}
 
 	if diff := cmp.Diff(expectedNS1, *ns1); diff != "" {
@@ -301,12 +455,12 @@ findNamespaces:
 
 	// Verify namespace 2
 	expectedNS2 := NVMeNamespace{
+		Name:             "nvme1n2",
+		Path:             filepath.Join(deviceDir, "nvme1n2"),
 		ID:               "2",
-		UsedBlocks:       50000,
 		SizeBlocks:       1000000000,
 		LogicalBlockSize: 512,
 		ANAState:         "active",
-		UsedBytes:        50000 * 512,
 		SizeBytes:        1000000000 * 512,
 		CapacityBytes:    1000000000 * 512,
 	}
@@ -400,9 +554,6 @@ func TestNVMeNamespaceMissingFiles(t *testing.T) {
 	}
 
 	// Other values should be parsed correctly
-	if namespace.UsedBlocks != 75000 {
-		t.Errorf("Expected UsedBlocks 75000, got %d", namespace.UsedBlocks)
-	}
 
 	if namespace.SizeBlocks != 1500000000 {
 		t.Errorf("Expected SizeBlocks 1500000000, got %d", namespace.SizeBlocks)
@@ -410,5 +561,38 @@ func TestNVMeNamespaceMissingFiles(t *testing.T) {
 
 	if namespace.LogicalBlockSize != 4096 {
 		t.Errorf("Expected LogicalBlockSize 4096, got %d", namespace.LogicalBlockSize)
+	}
+}
+
+func TestNVMeNamespaceUsage(t *testing.T) {
+	if _, err := os.Stat(sysTestFixtures); os.IsNotExist(err) {
+		t.Skip("Test fixtures not available, skipping NVMe namespace usage tests")
+	}
+
+	fs, err := NewFS(sysTestFixtures)
+	if err != nil {
+		t.Fatal(err)
+	}
+	nc, err := fs.NVMeClass()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, tt := range []struct {
+		device string
+		want   *uint64
+	}{
+		{"nvme0", new(uint64(488281250))},
+		{"nvme1", new(uint64(488281250))},
+		// Kernels before 6.8 have no nuse file.
+		{"nvme2", nil},
+	} {
+		got, err := nc[tt.device].Namespaces[0].UsedBlocks()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if diff := cmp.Diff(tt.want, got); diff != "" {
+			t.Errorf("%s (-want +got):\n%s", tt.device, diff)
+		}
 	}
 }

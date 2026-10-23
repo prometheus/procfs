@@ -24,7 +24,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const infinibandClassPath = "class/infiniband"
@@ -136,9 +136,9 @@ type InfiniBandDevice struct {
 // The map keys are the names of the InfiniBand devices.
 type InfiniBandClass map[string]InfiniBandDevice
 
-// InfiniBandClass returns info for all InfiniBand devices read from
-// /sys/class/infiniband.
-func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
+// InfiniBandClassDevices returns the names of the InfiniBand devices found in
+// /sys/class/infiniband without reading any device attributes or counters.
+func (fs FS) InfiniBandClassDevices() ([]string, error) {
 	path := fs.sys.Path(infinibandClassPath)
 
 	dirs, err := os.ReadDir(path)
@@ -146,9 +146,25 @@ func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
 		return nil, err
 	}
 
-	ibc := make(InfiniBandClass, len(dirs))
+	devices := make([]string, 0, len(dirs))
 	for _, d := range dirs {
-		device, err := fs.parseInfiniBandDevice(d.Name())
+		devices = append(devices, d.Name())
+	}
+
+	return devices, nil
+}
+
+// InfiniBandClass returns info for all InfiniBand devices read from
+// /sys/class/infiniband.
+func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
+	devices, err := fs.InfiniBandClassDevices()
+	if err != nil {
+		return nil, err
+	}
+
+	ibc := make(InfiniBandClass, len(devices))
+	for _, name := range devices {
+		device, err := fs.InfiniBandDevice(name)
 		if err != nil {
 			return nil, err
 		}
@@ -159,6 +175,12 @@ func (fs FS) InfiniBandClass() (InfiniBandClass, error) {
 	return ibc, nil
 }
 
+// InfiniBandDevice returns info for a single InfiniBand device read from
+// /sys/class/infiniband/<Name>.
+func (fs FS) InfiniBandDevice(name string) (*InfiniBandDevice, error) {
+	return fs.parseInfiniBandDevice(name)
+}
+
 // Parse one InfiniBand device.
 // Refer to https://www.kernel.org/doc/Documentation/ABI/stable/sysfs-class-infiniband
 func (fs FS) parseInfiniBandDevice(name string) (*InfiniBandDevice, error) {
@@ -166,7 +188,7 @@ func (fs FS) parseInfiniBandDevice(name string) (*InfiniBandDevice, error) {
 	device := InfiniBandDevice{Name: name}
 
 	// fw_ver is exposed by all InfiniBand drivers since kernel version 4.10.
-	value, err := util.SysReadFile(filepath.Join(path, "fw_ver"))
+	value, err := parsers.SysReadFile(filepath.Join(path, "fw_ver"))
 	if err != nil {
 		return nil, fmt.Errorf("failed to read HCA firmware version: %w", err)
 	}
@@ -175,7 +197,7 @@ func (fs FS) parseInfiniBandDevice(name string) (*InfiniBandDevice, error) {
 	// Not all InfiniBand drivers expose all of these.
 	for _, f := range [...]string{"board_id", "hca_type", "node_guid"} {
 		name := filepath.Join(path, f)
-		value, err := util.SysReadFile(name)
+		value, err := parsers.SysReadFile(name)
 		if err != nil {
 			if os.IsNotExist(err) {
 				continue
@@ -244,7 +266,7 @@ func parseRate(s string) (uint64, error) {
 
 // parseInfiniBandPort scans predefined files in /sys/class/infiniband/<device>/ports/<port>
 // directory and gets their contents.
-func (fs FS) parseInfiniBandPort(name string, port string) (*InfiniBandPort, error) {
+func (fs FS) parseInfiniBandPort(name, port string) (*InfiniBandPort, error) {
 	portNumber, err := strconv.ParseUint(port, 10, 32)
 	if err != nil {
 		return nil, fmt.Errorf("failed to convert %s into uint", port)
@@ -331,7 +353,7 @@ func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 		}
 
 		name := filepath.Join(path, f.Name())
-		value, err := util.SysReadFile(name)
+		value, err := parsers.SysReadFile(name)
 		if err != nil {
 			if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || errors.Is(err, os.ErrInvalid) || errors.Is(err, syscall.EINVAL) {
 				continue
@@ -345,7 +367,7 @@ func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 		// Mellanox cards have 4 lanes per port, so all values must be multiplied by 4
 		// to get the expected value.
 
-		vp := util.NewValueParser(value)
+		vp := parsers.NewValueParser(value)
 
 		switch f.Name() {
 		case "excessive_buffer_overrun_errors":
@@ -426,7 +448,7 @@ func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 		}
 
 		name := filepath.Join(path, f.Name())
-		value, err := util.SysReadFile(name)
+		value, err := parsers.SysReadFile(name)
 		if err != nil {
 			if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || errors.Is(err, os.ErrInvalid) {
 				continue
@@ -434,7 +456,7 @@ func parseInfiniBandCounters(portPath string) (*InfiniBandCounters, error) {
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
 
-		vp := util.NewValueParser(value)
+		vp := parsers.NewValueParser(value)
 
 		switch f.Name() {
 		case "port_multicast_rcv_packets":
@@ -494,7 +516,7 @@ func parseInfiniBandHwCounters(portPath string) (*InfiniBandHwCounters, error) {
 		}
 
 		name := filepath.Join(path, f.Name())
-		value, err := util.SysReadFile(name)
+		value, err := parsers.SysReadFile(name)
 		if err != nil {
 			if os.IsNotExist(err) || os.IsPermission(err) || err.Error() == "operation not supported" || errors.Is(err, os.ErrInvalid) {
 				continue
@@ -502,7 +524,7 @@ func parseInfiniBandHwCounters(portPath string) (*InfiniBandHwCounters, error) {
 			return nil, fmt.Errorf("failed to read file %q: %w", name, err)
 		}
 
-		vp := util.NewValueParser(value)
+		vp := parsers.NewValueParser(value)
 
 		switch f.Name() {
 		case "duplicate_request":

@@ -20,7 +20,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 const meiClassPath = "class/mei"
@@ -82,7 +82,7 @@ func (fs FS) parseMEI(meiDev string) (MEIDev, error) {
 		}
 
 		filename := filepath.Join(path, name)
-		value, err := util.SysReadFile(filename)
+		value, err := parsers.SysReadFile(filename)
 		if err != nil {
 			if os.IsPermission(err) {
 				continue

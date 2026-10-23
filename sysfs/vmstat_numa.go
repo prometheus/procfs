@@ -24,7 +24,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/parsers"
 )
 
 var (
@@ -106,7 +106,7 @@ func (fs FS) VMStatNUMA() (map[int]VMStat, error) {
 		if err != nil {
 			return nil, err
 		}
-		file, err := util.ReadFileNoStat(filepath.Join(node, "vmstat"))
+		file, err := parsers.ReadFileNoStat(filepath.Join(node, "vmstat"))
 		if err != nil {
 			return nil, err
 		}

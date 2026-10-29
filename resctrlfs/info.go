@@ -54,7 +54,7 @@ func (fs FS) L3MonInfo() (L3MonInfo, error) {
 		return info, err
 	}
 
-	for _, line := range strings.Split(string(data), "\n") {
+	for line := range strings.SplitSeq(string(data), "\n") {
 		feature := strings.TrimSpace(line)
 		if feature == "" {
 			continue

@@ -70,7 +70,6 @@ func (fs FS) SASHostClass() (SASHostClass, error) {
 
 // Parse a single sas_host.
 func (fs FS) parseSASHost(name string) (*SASHost, error) {
-	//path := fs.sys.Path(sasHostClassPath, name)
 	host := SASHost{Name: name}
 
 	devicepath := fs.sys.Path(filepath.Join(sasHostClassPath, name, "device"))

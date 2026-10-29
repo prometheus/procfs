@@ -70,5 +70,4 @@ func TestStat(t *testing.T) {
 	if want, have := uint64(508444), s.SoftIRQ.Rcu; want != have {
 		t.Errorf("want softirq RCU %d, have %d", want, have)
 	}
-
 }

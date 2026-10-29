@@ -23,7 +23,6 @@ import (
 func TestFS_Crypto(t *testing.T) {
 	fs := getProcFixtures(t)
 	crypto, err := fs.Crypto()
-
 	if err != nil {
 		t.Fatalf("parsing of reference-file failed entirely: %s", err)
 	}
@@ -33,35 +32,35 @@ func TestFS_Crypto(t *testing.T) {
 			Name:        "ccm(aes)",
 			Driver:      "ccm_base(ctr(aes-aesni),cbcmac(aes-aesni))",
 			Module:      "ccm",
-			Priority:    newint64(300),
-			Refcnt:      newint64(4),
+			Priority:    new(int64(300)),
+			Refcnt:      new(int64(4)),
 			Selftest:    "passed",
 			Internal:    "no",
 			Type:        "aead",
 			Async:       false,
-			Blocksize:   newuint64(1),
-			Ivsize:      newuint64(16),
-			Maxauthsize: newuint64(16),
+			Blocksize:   new(uint64(1)),
+			Ivsize:      new(uint64(16)),
+			Maxauthsize: new(uint64(16)),
 			Geniv:       "<none>",
 		},
 		{
 			Name:       "cbcmac(aes)",
 			Driver:     "cbcmac(aes-aesni)",
 			Module:     "ccm",
-			Priority:   newint64(300),
-			Refcnt:     newint64(7),
+			Priority:   new(int64(300)),
+			Refcnt:     new(int64(7)),
 			Selftest:   "passed",
 			Internal:   "no",
 			Type:       "shash",
-			Blocksize:  newuint64(1),
-			Digestsize: newuint64(16),
+			Blocksize:  new(uint64(1)),
+			Digestsize: new(uint64(16)),
 		},
 		{
 			Name:     "ecdh",
 			Driver:   "ecdh-generic",
 			Module:   "ecdh_generic",
-			Priority: newint64(100),
-			Refcnt:   newint64(1),
+			Priority: new(int64(100)),
+			Refcnt:   new(int64(1)),
 			Selftest: "passed",
 			Internal: "no",
 			Type:     "kpp",
@@ -71,43 +70,43 @@ func TestFS_Crypto(t *testing.T) {
 			Name:       "ecb(arc4)",
 			Driver:     "ecb(arc4)-generic",
 			Module:     "arc4",
-			Priority:   newint64(100),
-			Refcnt:     newint64(1),
+			Priority:   new(int64(100)),
+			Refcnt:     new(int64(1)),
 			Selftest:   "passed",
 			Internal:   "no",
 			Type:       "skcipher",
 			Async:      false,
-			Blocksize:  newuint64(1),
-			MinKeysize: newuint64(1),
-			MaxKeysize: newuint64(256),
-			Ivsize:     newuint64(0),
-			Chunksize:  newuint64(1),
-			Walksize:   newuint64(1),
+			Blocksize:  new(uint64(1)),
+			MinKeysize: new(uint64(1)),
+			MaxKeysize: new(uint64(256)),
+			Ivsize:     new(uint64(0)),
+			Chunksize:  new(uint64(1)),
+			Walksize:   new(uint64(1)),
 		},
 		{
 			Name:       "arc4",
 			Driver:     "arc4-generic",
 			Module:     "arc4",
-			Priority:   newint64(0),
-			Refcnt:     newint64(3),
+			Priority:   new(int64(0)),
+			Refcnt:     new(int64(3)),
 			Selftest:   "passed",
 			Internal:   "no",
 			Type:       "cipher",
-			Blocksize:  newuint64(1),
-			MinKeysize: newuint64(1),
-			MaxKeysize: newuint64(256),
+			Blocksize:  new(uint64(1)),
+			MinKeysize: new(uint64(1)),
+			MaxKeysize: new(uint64(256)),
 		},
 		{
 			Name:       "crct10dif",
 			Driver:     "crct10dif-pclmul",
 			Module:     "crct10dif_pclmul",
-			Priority:   newint64(200),
-			Refcnt:     newint64(2),
+			Priority:   new(int64(200)),
+			Refcnt:     new(int64(2)),
 			Selftest:   "passed",
 			Internal:   "no",
 			Type:       "shash",
-			Blocksize:  newuint64(1),
-			Digestsize: newuint64(2),
+			Blocksize:  new(uint64(1)),
+			Digestsize: new(uint64(2)),
 		},
 	}
 
@@ -134,12 +133,4 @@ func TestFS_CryptoCorrupted(t *testing.T) {
 	if crypto != nil {
 		t.Fatalf("expected empty crypto result")
 	}
-}
-
-func newint64(i int64) *int64 {
-	return &i
-}
-
-func newuint64(i uint64) *uint64 {
-	return &i
 }

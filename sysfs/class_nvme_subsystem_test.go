@@ -37,6 +37,7 @@ func TestNVMeSubsystemClass(t *testing.T) {
 	want := NVMeSubsystemClass{
 		{
 			Name:     "nvme-subsys0",
+			Path:     filepath.Join(sysTestFixtures, "class/nvme-subsystem/nvme-subsys0"),
 			NQN:      "nqn.2014-08.org.nvmexpress:uuid:a34c4f3a-0d6f-5cec-dead-beefcafebabe",
 			Model:    "Dell PowerStore",
 			Serial:   "SN12345678",
@@ -50,6 +51,7 @@ func TestNVMeSubsystemClass(t *testing.T) {
 		},
 		{
 			Name:     "nvme-subsys1",
+			Path:     filepath.Join(sysTestFixtures, "class/nvme-subsystem/nvme-subsys1"),
 			NQN:      "nqn.2014-08.org.nvmexpress:uuid:b45d5e4b-1e7f-6ded-beef-deadcafe1234",
 			Model:    "NetApp ONTAP",
 			Serial:   "NTAP98765",
@@ -64,6 +66,40 @@ func TestNVMeSubsystemClass(t *testing.T) {
 
 	if diff := cmp.Diff(want, got); diff != "" {
 		t.Fatalf("unexpected NVMeSubsystemClass (-want +got):\n%s", diff)
+	}
+
+	// Multipath head diag counters, read on demand.
+	for _, tt := range []struct {
+		subsys    int
+		namespace string
+		want      NVMeSubsystemNamespaceDiag
+	}{
+		{
+			subsys:    0,
+			namespace: "nvme0n1",
+			want: NVMeSubsystemNamespaceDiag{
+				IORequeueNoUsablePath: new(uint64(9)),
+				IOFailNoAvailablePath: new(uint64(1)),
+			},
+		},
+		{
+			// No diag directory, as on kernels older than 7.2.
+			subsys:    1,
+			namespace: "nvme3n1",
+			want:      NVMeSubsystemNamespaceDiag{},
+		},
+	} {
+		diag, err := got[tt.subsys].NamespaceDiag(tt.namespace)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if diff := cmp.Diff(tt.want, diag); diff != "" {
+			t.Errorf("unexpected %s diag (-want +got):\n%s", tt.namespace, diff)
+		}
+	}
+
+	if _, err := got[0].NamespaceDiag("../nvme-subsys1/nvme3n1"); err == nil {
+		t.Error("expected an error for an invalid namespace name")
 	}
 }
 

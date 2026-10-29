@@ -183,8 +183,7 @@ func TestBlockDmInfo(t *testing.T) {
 
 	dm1Info, err := blockdevice.SysBlockDeviceMapperInfo(devices[11])
 	if err != nil {
-		var pErr *os.PathError
-		if errors.As(err, &pErr) {
+		if pErr, ok := errors.AsType[*os.PathError](err); ok {
 			// Fail the test if there's an error other than PathError.
 			if !os.IsNotExist(pErr) {
 				t.Fatal(err)

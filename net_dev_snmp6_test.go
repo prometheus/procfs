@@ -51,7 +51,7 @@ func TestProcNetDevSNMP6(t *testing.T) {
 }
 
 func validateNetDevSNMP6(have NetDevSNMP6) error {
-	var wantNetDevSNMP6 = map[string]map[string]uint64{
+	wantNetDevSNMP6 := map[string]map[string]uint64{
 		"eth0": {
 			"ifIndex":      1,
 			"Ip6InOctets":  14064059261,

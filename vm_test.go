@@ -21,10 +21,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func newPInt64(i int64) *int64 {
-	return &i
-}
-
 func TestVM(t *testing.T) {
 	fs, err := NewFS(procTestFixtures)
 	if err != nil {
@@ -34,51 +30,51 @@ func TestVM(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	zeroPointer := newPInt64(0)
-	lowmemreserveratio := []*int64{newPInt64(256), newPInt64(256), newPInt64(32), zeroPointer, zeroPointer}
+	zeroPointer := new(int64(0))
+	lowmemreserveratio := []*int64{new(int64(256)), new(int64(256)), new(int64(32)), zeroPointer, zeroPointer}
 	want := &VM{
-		AdminReserveKbytes:        newPInt64(8192),
+		AdminReserveKbytes:        new(int64(8192)),
 		BlockDump:                 zeroPointer,
-		CompactUnevictableAllowed: newPInt64(1),
+		CompactUnevictableAllowed: new(int64(1)),
 		DirtyBackgroundBytes:      zeroPointer,
-		DirtyBackgroundRatio:      newPInt64(10),
+		DirtyBackgroundRatio:      new(int64(10)),
 		DirtyBytes:                zeroPointer,
-		DirtyExpireCentisecs:      newPInt64(3000),
-		DirtyRatio:                newPInt64(20),
-		DirtytimeExpireSeconds:    newPInt64(43200),
-		DirtyWritebackCentisecs:   newPInt64(500),
+		DirtyExpireCentisecs:      new(int64(3000)),
+		DirtyRatio:                new(int64(20)),
+		DirtytimeExpireSeconds:    new(int64(43200)),
+		DirtyWritebackCentisecs:   new(int64(500)),
 		DropCaches:                zeroPointer,
-		ExtfragThreshold:          newPInt64(500),
+		ExtfragThreshold:          new(int64(500)),
 		HugetlbShmGroup:           zeroPointer,
-		LaptopMode:                newPInt64(5),
+		LaptopMode:                new(int64(5)),
 		LegacyVaLayout:            zeroPointer,
 		LowmemReserveRatio:        lowmemreserveratio,
-		MaxMapCount:               newPInt64(65530),
+		MaxMapCount:               new(int64(65530)),
 		MemoryFailureEarlyKill:    zeroPointer,
-		MemoryFailureRecovery:     newPInt64(1),
-		MinFreeKbytes:             newPInt64(67584),
-		MinSlabRatio:              newPInt64(5),
-		MinUnmappedRatio:          newPInt64(1),
-		MmapMinAddr:               newPInt64(65536),
-		NumaStat:                  newPInt64(1),
+		MemoryFailureRecovery:     new(int64(1)),
+		MinFreeKbytes:             new(int64(67584)),
+		MinSlabRatio:              new(int64(5)),
+		MinUnmappedRatio:          new(int64(1)),
+		MmapMinAddr:               new(int64(65536)),
+		NumaStat:                  new(int64(1)),
 		NumaZonelistOrder:         "Node",
 		NrHugepages:               zeroPointer,
 		NrHugepagesMempolicy:      zeroPointer,
 		NrOvercommitHugepages:     zeroPointer,
-		OomDumpTasks:              newPInt64(1),
+		OomDumpTasks:              new(int64(1)),
 		OomKillAllocatingTask:     zeroPointer,
 		OvercommitKbytes:          zeroPointer,
 		OvercommitMemory:          zeroPointer,
-		OvercommitRatio:           newPInt64(50),
-		PageCluster:               newPInt64(3),
+		OvercommitRatio:           new(int64(50)),
+		PageCluster:               new(int64(3)),
 		PanicOnOom:                zeroPointer,
 		PercpuPagelistFraction:    zeroPointer,
-		StatInterval:              newPInt64(1),
-		Swappiness:                newPInt64(60),
-		UserReserveKbytes:         newPInt64(131072),
-		VfsCachePressure:          newPInt64(100),
-		WatermarkBoostFactor:      newPInt64(15000),
-		WatermarkScaleFactor:      newPInt64(10),
+		StatInterval:              new(int64(1)),
+		Swappiness:                new(int64(60)),
+		UserReserveKbytes:         new(int64(131072)),
+		VfsCachePressure:          new(int64(100)),
+		WatermarkBoostFactor:      new(int64(15000)),
+		WatermarkScaleFactor:      new(int64(10)),
 		ZoneReclaimMode:           zeroPointer,
 	}
 	if diff := cmp.Diff(want, got); diff != "" {

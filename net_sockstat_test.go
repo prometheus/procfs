@@ -124,20 +124,20 @@ FRAG: inuse 0 memory 0
 			`,
 			ok: true,
 			stat: &NetSockstat{
-				Used: intp(1591),
+				Used: new(1591),
 				Protocols: []NetSockstatProtocol{
 					{
 						Protocol: "TCP",
 						InUse:    32,
-						Orphan:   intp(0),
-						TW:       intp(0),
-						Alloc:    intp(58),
-						Mem:      intp(13),
+						Orphan:   new(0),
+						TW:       new(0),
+						Alloc:    new(58),
+						Mem:      new(13),
 					},
 					{
 						Protocol: "UDP",
 						InUse:    8,
-						Mem:      intp(115),
+						Mem:      new(115),
 					},
 					{
 						Protocol: "UDPLITE",
@@ -147,7 +147,7 @@ FRAG: inuse 0 memory 0
 					},
 					{
 						Protocol: "FRAG",
-						Memory:   intp(0),
+						Memory:   new(0),
 					},
 				},
 			},
@@ -181,7 +181,7 @@ FRAG6: inuse 0 memory 0
 					},
 					{
 						Protocol: "FRAG6",
-						Memory:   intp(0),
+						Memory:   new(0),
 					},
 				},
 			},
@@ -209,5 +209,3 @@ FRAG6: inuse 0 memory 0
 		})
 	}
 }
-
-func intp(i int) *int { return &i }

@@ -48,5 +48,4 @@ func TestProcSnmp(t *testing.T) {
 			t.Errorf("want %s %f, have %f", test.name, test.want, test.have)
 		}
 	}
-
 }

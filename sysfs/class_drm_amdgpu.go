@@ -17,7 +17,6 @@ package sysfs
 
 import (
 	"errors"
-	"fmt"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -94,7 +93,7 @@ func parseClassDRMAMDGPUCard(card string) (ClassDRMCardAMDGPUStats, error) {
 		return ClassDRMCardAMDGPUStats{}, err
 	}
 
-	match, err := regexp.MatchString(fmt.Sprintf("DRIVER=%s", deviceDriverAMDGPU), uevent)
+	match, err := regexp.MatchString("DRIVER="+deviceDriverAMDGPU, uevent)
 	if err != nil {
 		return ClassDRMCardAMDGPUStats{}, err
 	}

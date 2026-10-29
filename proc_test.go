@@ -221,7 +221,7 @@ func TestFileDescriptorTargets(t *testing.T) {
 		t.Fatal(err)
 	}
 	sort.Strings(fds)
-	var want = []string{
+	want := []string{
 		"../../symlinktargets/abc",
 		"../../symlinktargets/def",
 		"../../symlinktargets/ghi",
@@ -257,7 +257,7 @@ func TestFileDescriptorsInfo(t *testing.T) {
 		t.Fatal(err)
 	}
 	sort.Sort(fdinfos)
-	var want = ProcFDInfos{
+	want := ProcFDInfos{
 		ProcFDInfo{FD: "0", Pos: "0", Flags: "02004000", MntID: "13", InotifyInfos: []InotifyInfo{
 			{WD: "3", Ino: "1", Sdev: "34", Mask: "fce"},
 			{WD: "2", Ino: "1300016", Sdev: "fd00002", Mask: "fce"},

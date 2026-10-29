@@ -33,7 +33,8 @@ func TestNewNFSdServerRPCStats(t *testing.T) {
 			name:    "invalid file",
 			content: "invalid",
 			invalid: true,
-		}, {
+		},
+		{
 			name: "good file, proc4ops 72",
 			content: `rc 0 6 18622
 fh 0 0 0 0 0
@@ -179,7 +180,8 @@ wdeleg_getattr 16
 				},
 				WdelegGetattr: 16,
 			},
-		}, {
+		},
+		{
 			name: "good file, proc4ops 40",
 			content: `rc 0 25020854 19157796
 fh 276 0 0 0 0
@@ -471,7 +473,8 @@ wdeleg_getattr 10`,
 				},
 				WdelegGetattr: 10,
 			},
-		}, {
+		},
+		{
 			name: "good file, proc4ops 39",
 			content: `rc 0 25020854 19157796
 fh 276 0 0 0 0

@@ -21,7 +21,7 @@ import (
 )
 
 func TestParseNetRoute(t *testing.T) {
-	var netRoute = []byte(`Iface            Destination  Gateway   Flags  RefCnt  Use  Metric  Mask      MTU  Window  IRTT
+	netRoute := []byte(`Iface            Destination  Gateway   Flags  RefCnt  Use  Metric  Mask      MTU  Window  IRTT
 eno16780032      00000000     9503A8C0  0003   0       0    100     00000000  0    0       0
 eno16780032      0000A8C0     00000000  0001   0       0    100     0000FFFF  0    0       0`)
 

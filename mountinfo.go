@@ -88,8 +88,8 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 
 	mount := &MountInfo{
 		MajorMinorVer:  mountInfo[2],
-		Root:           mountInfo[3],
-		MountPoint:     mountInfo[4],
+		Root:           unescapeMountString(mountInfo[3]),
+		MountPoint:     unescapeMountString(mountInfo[4]),
 		Options:        mountOptionsParser(mountInfo[5]),
 		OptionalFields: map[string]string{},
 	}
@@ -117,8 +117,8 @@ func parseMountInfoString(mountString string) (*MountInfo, error) {
 		return nil, fmt.Errorf("%w: Too few fields after separator: %s", ErrFileParse, mountString)
 	}
 
-	mount.FSType = mountInfo[0]
-	mount.Source = mountInfo[1]
+	mount.FSType = unescapeMountString(mountInfo[0])
+	mount.Source = unescapeMountString(mountInfo[1])
 	mount.SuperOptions = mountOptionsParser(mountInfo[2])
 
 	return mount, nil
@@ -165,6 +165,34 @@ func mountOptionsParser(mountOptions string) map[string]string {
 		}
 	}
 	return opts
+}
+
+// unescapeMountString decodes the octal escapes ("\ooo") the kernel emits in
+// mountinfo for characters like space, tab, newline, backslash and '#'.
+// See mangle() and show_mountinfo() in
+// https://github.com/torvalds/linux/blob/master/fs/proc_namespace.c
+func unescapeMountString(s string) string {
+	if !strings.Contains(s, "\\") {
+		return s
+	}
+	var b strings.Builder
+	b.Grow(len(s))
+	for i := 0; i < len(s); i++ {
+		if s[i] == '\\' && i+3 < len(s) && isOctalByte(s[i+1:i+4]) {
+			b.WriteByte((s[i+1]-'0')<<6 | (s[i+2]-'0')<<3 | (s[i+3] - '0'))
+			i += 3
+			continue
+		}
+		b.WriteByte(s[i])
+	}
+	return b.String()
+}
+
+// isOctalByte reports whether s is three octal digits encoding a value <= 0377.
+func isOctalByte(s string) bool {
+	return s[0] >= '0' && s[0] <= '3' &&
+		s[1] >= '0' && s[1] <= '7' &&
+		s[2] >= '0' && s[2] <= '7'
 }
 
 // readMountInfo reads a full mountinfo file (no 1 MiB cap, unlike parsers.ReadFileNoStat).

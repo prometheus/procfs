@@ -208,7 +208,7 @@ func TestMountInfo(t *testing.T) {
 				Options:        map[string]string{"rw": "", "noatime": ""},
 				OptionalFields: map[string]string{},
 				FSType:         "9p",
-				Source:         `C:\134Program\040Files\134Docker\134Docker\134resources`,
+				Source:         `C:\Program Files\Docker\Docker\resources`,
 				SuperOptions: map[string]string{
 					"rw":     "",
 					"aname":  `drvfs;path=C:\Program Files\Docker\Docker\resources;symlinkroot=/mnt/`,
@@ -221,6 +221,22 @@ func TestMountInfo(t *testing.T) {
 				},
 			},
 			invalid: false,
+		},
+		{
+			name: "octal escapes",
+			s:    `42 1 0:50 /dir\040a\011b /mnt/x\134y\012z\043 rw - fuse.my\040fs dev\043ice rw`,
+			mount: &MountInfo{
+				MountID:        42,
+				ParentID:       1,
+				MajorMinorVer:  "0:50",
+				Root:           "/dir a\tb",
+				MountPoint:     "/mnt/x\\y\nz#",
+				Options:        map[string]string{"rw": ""},
+				OptionalFields: map[string]string{},
+				FSType:         "fuse.my fs",
+				Source:         "dev#ice",
+				SuperOptions:   map[string]string{"rw": ""},
+			},
 		},
 	}
 

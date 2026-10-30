@@ -59,3 +59,42 @@ eno16780032      0000A8C0     00000000  0001   0       0    100     0000FFFF  0 
 		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
 	}
 }
+
+func TestNetRoute(t *testing.T) {
+	fs := getProcFixtures(t)
+
+	parsed, err := fs.NetRoute()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := []NetRouteLine{
+		{
+			Iface:       "eth0",
+			Destination: 0,
+			Gateway:     16951488,
+			Flags:       0x3,
+			Metric:      100,
+			Mask:        0,
+		},
+		{
+			Iface:       "eth0",
+			Destination: 174272,
+			Gateway:     0,
+			Flags:       0x1,
+			Metric:      100,
+			Mask:        16777215,
+		},
+		{
+			Iface:       "blackhole",
+			Destination: 10,
+			Gateway:     0,
+			Flags:       0x201,
+			Metric:      0,
+			Mask:        255,
+		},
+	}
+	if diff := cmp.Diff(want, parsed); diff != "" {
+		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
+	}
+}

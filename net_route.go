@@ -94,7 +94,7 @@ func parseNetRouteLine(fields []string) (*NetRouteLine, error) {
 	if err != nil {
 		return nil, err
 	}
-	flags, err := strconv.ParseUint(fields[3], 10, 32)
+	flags, err := strconv.ParseUint(fields[3], 16, 32)
 	if err != nil {
 		return nil, err
 	}

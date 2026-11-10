@@ -18671,6 +18671,11 @@ Mode: 755
 Directory: fixtures/sys/devices/system/node/node1
 Mode: 755
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/node/node1/cpulist
+Lines: 1
+0-3,8,10-11
+Mode: 444
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/node/node1/vmstat
 Lines: 6
 nr_free_pages 1
@@ -18683,6 +18688,11 @@ Mode: 644
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Directory: fixtures/sys/devices/system/node/node2
 Mode: 755
+# ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Path: fixtures/sys/devices/system/node/node2/cpulist
+Lines: 1
+
+Mode: 444
 # ttar - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Path: fixtures/sys/devices/system/node/node2/vmstat
 Lines: 6

@@ -58,7 +58,6 @@ func TestNVMeClass(t *testing.T) {
 					LogicalBlockSize: 4096,
 					ANAState:         "optimized",
 					SizeBytes:        2000000000000,
-					CapacityBytes:    2000000000000,
 				},
 			},
 		},
@@ -81,7 +80,6 @@ func TestNVMeClass(t *testing.T) {
 					LogicalBlockSize: 4096,
 					ANAState:         "non-optimized",
 					SizeBytes:        2000000000000,
-					CapacityBytes:    2000000000000,
 				},
 			},
 		},
@@ -103,7 +101,6 @@ func TestNVMeClass(t *testing.T) {
 					LogicalBlockSize: 4096,
 					ANAState:         "unknown",
 					SizeBytes:        2000000000000,
-					CapacityBytes:    2000000000000,
 				},
 			},
 		},
@@ -315,7 +312,6 @@ func TestNVMeNamespaceParsingWithMockData(t *testing.T) {
 		LogicalBlockSize: 512,
 		ANAState:         "optimized",
 		SizeBytes:        1000215216 * 512,
-		CapacityBytes:    1000215216 * 512,
 	}
 
 	if diff := cmp.Diff(expectedNamespace, namespace); diff != "" {
@@ -446,7 +442,6 @@ findNamespaces:
 		LogicalBlockSize: 4096,
 		ANAState:         "optimized",
 		SizeBytes:        2000000000 * 512, // size is in 512-byte sectors even on 4K namespaces
-		CapacityBytes:    2000000000 * 512,
 	}
 
 	if diff := cmp.Diff(expectedNS1, *ns1); diff != "" {
@@ -462,7 +457,6 @@ findNamespaces:
 		LogicalBlockSize: 512,
 		ANAState:         "active",
 		SizeBytes:        1000000000 * 512,
-		CapacityBytes:    1000000000 * 512,
 	}
 
 	if diff := cmp.Diff(expectedNS2, *ns2); diff != "" {

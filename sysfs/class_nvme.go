@@ -48,7 +48,6 @@ type NVMeNamespace struct {
 	LogicalBlockSize uint64 // from queue/logical_block_size file
 	ANAState         string // from ana_state file
 	SizeBytes        uint64 // calculated: SizeBlocks * 512
-	CapacityBytes    uint64 // calculated: SizeBlocks * 512
 }
 
 // NVMeNamespaceDiag holds the diagnostic counters of a namespace block device
@@ -198,7 +197,6 @@ func (fs FS) parseNVMeDevice(name string) (*NVMeDevice, error) {
 		// Calculate derived values. The block layer always reports size in
 		// 512-byte sectors, independent of the namespace's logical block size.
 		namespace.SizeBytes = namespace.SizeBlocks * blockSectorSize
-		namespace.CapacityBytes = namespace.SizeBlocks * blockSectorSize
 
 		namespaces = append(namespaces, namespace)
 	}

@@ -130,6 +130,11 @@ type V3Stats struct {
 }
 
 // ClientV4Stats models the nfs "proc4" line.
+//
+// The kernel emits one counter per NFSPROC4_CLNT_* value in enum order,
+// including the operations it does not implement, so the fields below must
+// follow the order of that enum in include/linux/nfs4.h. Operations the running
+// kernel does not emit a counter for are reported as zero.
 type ClientV4Stats struct {
 	Null               uint64
 	Read               uint64
@@ -190,6 +195,16 @@ type ClientV4Stats struct {
 	DeAllocate         uint64
 	LayoutStats        uint64
 	Clone              uint64
+	Copy               uint64
+	OffloadCancel      uint64
+	Lookupp            uint64
+	LayoutError        uint64
+	CopyNotify         uint64
+	GetXattr           uint64
+	SetXattr           uint64
+	ListXattrs         uint64
+	RemoveXattr        uint64
+	ReadPlus           uint64
 }
 
 // ServerV4Stats models the nfsd "proc4" line.
@@ -206,7 +221,13 @@ type ServerV4Stats struct {
 //   - nfs >= v2.6.x 39 field : https://elixir.bootlin.com/linux/v2.6.39.4/source/include/linux/nfs4.h#L233
 //
 // - v4.1 https://tools.ietf.org/html/rfc5661 (58 operations)
-// - v4.2 https://tools.ietf.org/html/draft-ietf-nfsv4-minorversion2-41 (71 operations)
+// - v4.2 https://tools.ietf.org/html/rfc7862 (71 operations)
+// - xattr https://tools.ietf.org/html/rfc8276 (75 operations)
+//
+// The kernel emits one counter per operation number, including the unused
+// numbers 0 to 2, so the fields below must follow the order of enum nfs_opnum4
+// in include/linux/nfs4.h. Operations the running kernel does not emit a counter
+// for are reported as zero.
 //
 //nolint:godot
 type V4Ops struct {
@@ -251,6 +272,48 @@ type V4Ops struct {
 	Verify             uint64
 	Write              uint64
 	RelLockOwner       uint64
+
+	// NFSv4.1 operations
+	BackchannelCtl    uint64
+	BindConnToSession uint64
+	ExchangeID        uint64
+	CreateSession     uint64
+	DestroySession    uint64
+	FreeStateID       uint64
+	GetDirDelegation  uint64
+	GetDeviceInfo     uint64
+	GetDeviceList     uint64
+	LayoutCommit      uint64
+	LayoutGet         uint64
+	LayoutReturn      uint64
+	SecInfoNoName     uint64
+	Sequence          uint64
+	SetSSV            uint64
+	TestStateID       uint64
+	WantDelegation    uint64
+	DestroyClientID   uint64
+	ReclaimComplete   uint64
+
+	// NFSv4.2 operations
+	Allocate      uint64
+	Copy          uint64
+	CopyNotify    uint64
+	DeAllocate    uint64
+	IOAdvise      uint64
+	LayoutError   uint64
+	LayoutStats   uint64
+	OffloadCancel uint64
+	OffloadStatus uint64
+	ReadPlus      uint64
+	Seek          uint64
+	WriteSame     uint64
+	Clone         uint64
+
+	// NFSv4.2 xattr operations, RFC 8276
+	GetXattr    uint64
+	SetXattr    uint64
+	ListXattrs  uint64
+	RemoveXattr uint64
 }
 
 // ClientRPCStats models all stats from /proc/net/rpc/nfs.

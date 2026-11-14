@@ -14,6 +14,7 @@
 package nfs_test
 
 import (
+	"strconv"
 	"strings"
 	"testing"
 
@@ -142,8 +143,8 @@ proc4 48 98 51 54 83 85 23 24 1 28 73 68 83 12 84 39 68 59 58 88 29 74 69 96 21 
 					Sequence:           13,
 					GetLeaseTime:       28,
 					ReclaimComplete:    35,
-					GetDeviceInfo:      1,
-					LayoutGet:          90,
+					LayoutGet:          1,
+					GetDeviceInfo:      90,
 					LayoutCommit:       26,
 					LayoutReturn:       1337,
 					SecinfoNoName:      0,
@@ -303,5 +304,62 @@ proc4 61 1 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 				t.Fatalf("unexpected NFS stats (-want +got):\n%s", diff)
 			}
 		})
+	}
+}
+
+// clientV4StatsLine builds a "proc4" line carrying 69 counters, where the
+// counter for the operation with NFSPROC4_CLNT_* value n is n+1.
+func clientV4StatsLine() string {
+	const nfsv4ClientOps = 69
+
+	values := make([]string, nfsv4ClientOps+1)
+	values[0] = strconv.Itoa(nfsv4ClientOps)
+	for i := 1; i <= nfsv4ClientOps; i++ {
+		values[i] = strconv.Itoa(i)
+	}
+
+	return "proc4 " + strings.Join(values, " ") + "\n"
+}
+
+// TestParseClientV4StatsOpOrder checks that each counter on the "proc4" line is
+// attributed to the operation the Linux kernel emitted it for. The kernel emits
+// one counter per NFSPROC4_CLNT_* value in enum order, including a counter for
+// the unused indexes, so the value at position n of the line belongs to the
+// operation with enum value n-1. Kernels up to v6.12 emit 69 counters.
+func TestParseClientV4StatsOpOrder(t *testing.T) {
+	stats, err := nfs.ParseClientRPCStats(strings.NewReader(clientV4StatsLine()))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	for _, tt := range []struct {
+		op   string
+		got  uint64
+		want uint64
+	}{
+		{"Read", stats.ClientV4Stats.Read, 2},
+		{"LayoutGet", stats.ClientV4Stats.LayoutGet, 45},
+		{"GetDeviceInfo", stats.ClientV4Stats.GetDeviceInfo, 46},
+		{"LayoutCommit", stats.ClientV4Stats.LayoutCommit, 47},
+		{"LayoutReturn", stats.ClientV4Stats.LayoutReturn, 48},
+		{"Seek", stats.ClientV4Stats.Seek, 55},
+		{"Allocate", stats.ClientV4Stats.Allocate, 56},
+		{"DeAllocate", stats.ClientV4Stats.DeAllocate, 57},
+		{"LayoutStats", stats.ClientV4Stats.LayoutStats, 58},
+		{"Clone", stats.ClientV4Stats.Clone, 59},
+		{"Copy", stats.ClientV4Stats.Copy, 60},
+		{"OffloadCancel", stats.ClientV4Stats.OffloadCancel, 61},
+		{"Lookupp", stats.ClientV4Stats.Lookupp, 62},
+		{"LayoutError", stats.ClientV4Stats.LayoutError, 63},
+		{"CopyNotify", stats.ClientV4Stats.CopyNotify, 64},
+		{"GetXattr", stats.ClientV4Stats.GetXattr, 65},
+		{"SetXattr", stats.ClientV4Stats.SetXattr, 66},
+		{"ListXattrs", stats.ClientV4Stats.ListXattrs, 67},
+		{"RemoveXattr", stats.ClientV4Stats.RemoveXattr, 68},
+		{"ReadPlus", stats.ClientV4Stats.ReadPlus, 69},
+	} {
+		if tt.got != tt.want {
+			t.Errorf("%s: got %d, want %d", tt.op, tt.got, tt.want)
+		}
 	}
 }

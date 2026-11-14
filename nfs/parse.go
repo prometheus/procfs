@@ -182,11 +182,11 @@ func parseClientV4Stats(v []uint64) (ClientV4Stats, error) {
 		return ClientV4Stats{}, fmt.Errorf("invalid ClientV4Stats line %v", v)
 	}
 
-	// This function currently supports mapping 59 NFS v4 client stats.  Older
+	// This function currently supports mapping 69 NFS v4 client stats.  Older
 	// kernels may emit fewer stats, so we must detect this and pad out the
 	// values to match the expected slice size.
-	if values < 59 {
-		newValues := make([]uint64, 60)
+	if values < 69 {
+		newValues := make([]uint64, 70)
 		copy(newValues, v)
 		v = newValues
 	}
@@ -236,8 +236,8 @@ func parseClientV4Stats(v []uint64) (ClientV4Stats, error) {
 		Sequence:           v[42],
 		GetLeaseTime:       v[43],
 		ReclaimComplete:    v[44],
-		GetDeviceInfo:      v[45],
-		LayoutGet:          v[46],
+		LayoutGet:          v[45],
+		GetDeviceInfo:      v[46],
 		LayoutCommit:       v[47],
 		LayoutReturn:       v[48],
 		SecinfoNoName:      v[49],
@@ -251,6 +251,16 @@ func parseClientV4Stats(v []uint64) (ClientV4Stats, error) {
 		DeAllocate:         v[57],
 		LayoutStats:        v[58],
 		Clone:              v[59],
+		Copy:               v[60],
+		OffloadCancel:      v[61],
+		Lookupp:            v[62],
+		LayoutError:        v[63],
+		CopyNotify:         v[64],
+		GetXattr:           v[65],
+		SetXattr:           v[66],
+		ListXattrs:         v[67],
+		RemoveXattr:        v[68],
+		ReadPlus:           v[69],
 	}, nil
 }
 
@@ -272,10 +282,15 @@ func parseV4Ops(v []uint64) (V4Ops, error) {
 		return V4Ops{}, fmt.Errorf("invalid V4Ops line %v", v)
 	}
 
-	// nfs v2.5.x 39field and >=v2.6.x 40 field;
-	v40 := uint64(0)
-	if values > 39 {
-		v40 = v[40]
+	// This function currently supports mapping 76 NFS v4 server operations.
+	// Older kernels emit fewer operations, so we must detect this and pad out the
+	// values to match the expected slice size: nfs v2.5.x emits 39, v2.6.x 40,
+	// and newer kernels 59 or 72 depending on which NFS v4 minor versions they
+	// support.
+	if values < 76 {
+		newValues := make([]uint64, 77)
+		copy(newValues, v)
+		v = newValues
 	}
 
 	stats := V4Ops{
@@ -318,7 +333,43 @@ func parseV4Ops(v []uint64) (V4Ops, error) {
 		SetClientIDConfirm: v[37],
 		Verify:             v[38],
 		Write:              v[39],
-		RelLockOwner:       v40,
+		RelLockOwner:       v[40],
+		BackchannelCtl:     v[41],
+		BindConnToSession:  v[42],
+		ExchangeID:         v[43],
+		CreateSession:      v[44],
+		DestroySession:     v[45],
+		FreeStateID:        v[46],
+		GetDirDelegation:   v[47],
+		GetDeviceInfo:      v[48],
+		GetDeviceList:      v[49],
+		LayoutCommit:       v[50],
+		LayoutGet:          v[51],
+		LayoutReturn:       v[52],
+		SecInfoNoName:      v[53],
+		Sequence:           v[54],
+		SetSSV:             v[55],
+		TestStateID:        v[56],
+		WantDelegation:     v[57],
+		DestroyClientID:    v[58],
+		ReclaimComplete:    v[59],
+		Allocate:           v[60],
+		Copy:               v[61],
+		CopyNotify:         v[62],
+		DeAllocate:         v[63],
+		IOAdvise:           v[64],
+		LayoutError:        v[65],
+		LayoutStats:        v[66],
+		OffloadCancel:      v[67],
+		OffloadStatus:      v[68],
+		ReadPlus:           v[69],
+		Seek:               v[70],
+		WriteSame:          v[71],
+		Clone:              v[72],
+		GetXattr:           v[73],
+		SetXattr:           v[74],
+		ListXattrs:         v[75],
+		RemoveXattr:        v[76],
 	}
 
 	return stats, nil

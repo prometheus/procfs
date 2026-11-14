@@ -14,6 +14,7 @@
 package nfs_test
 
 import (
+	"strconv"
 	"strings"
 	"testing"
 
@@ -637,5 +638,82 @@ wdeleg_getattr 765432`,
 				t.Fatalf("unexpected NFS stats (-want +got):\n%s", diff)
 			}
 		})
+	}
+}
+
+// serverV4OpsLine builds a "proc4ops" line carrying 76 counters, where the
+// counter for the operation with nfs_opnum4 value n is n+1.
+func serverV4OpsLine() string {
+	const nfsv4ServerOps = 76
+
+	values := make([]string, nfsv4ServerOps+1)
+	values[0] = strconv.Itoa(nfsv4ServerOps)
+	for i := 1; i <= nfsv4ServerOps; i++ {
+		values[i] = strconv.Itoa(i)
+	}
+
+	return "proc4ops " + strings.Join(values, " ") + "\n"
+}
+
+// TestParseV4OpsOpOrder checks that each counter on the "proc4ops" line is
+// attributed to the operation the Linux kernel emitted it for. The kernel emits
+// one counter per operation number, including the unused numbers 0 to 2, so the
+// value at position n of the line belongs to the operation with number n-1. The
+// highest operation number is OP_REMOVEXATTR (75), which gives 76 counters.
+func TestParseV4OpsOpOrder(t *testing.T) {
+	stats, err := nfs.ParseServerRPCStats(strings.NewReader(serverV4OpsLine()))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	for _, tt := range []struct {
+		op   string
+		got  uint64
+		want uint64
+	}{
+		{"Op0Unused", stats.V4Ops.Op0Unused, 1},
+		{"Access", stats.V4Ops.Access, 4},
+		{"Write", stats.V4Ops.Write, 39},
+		{"RelLockOwner", stats.V4Ops.RelLockOwner, 40},
+		{"BackchannelCtl", stats.V4Ops.BackchannelCtl, 41},
+		{"BindConnToSession", stats.V4Ops.BindConnToSession, 42},
+		{"ExchangeID", stats.V4Ops.ExchangeID, 43},
+		{"CreateSession", stats.V4Ops.CreateSession, 44},
+		{"DestroySession", stats.V4Ops.DestroySession, 45},
+		{"FreeStateID", stats.V4Ops.FreeStateID, 46},
+		{"GetDirDelegation", stats.V4Ops.GetDirDelegation, 47},
+		{"GetDeviceInfo", stats.V4Ops.GetDeviceInfo, 48},
+		{"GetDeviceList", stats.V4Ops.GetDeviceList, 49},
+		{"LayoutCommit", stats.V4Ops.LayoutCommit, 50},
+		{"LayoutGet", stats.V4Ops.LayoutGet, 51},
+		{"LayoutReturn", stats.V4Ops.LayoutReturn, 52},
+		{"SecInfoNoName", stats.V4Ops.SecInfoNoName, 53},
+		{"Sequence", stats.V4Ops.Sequence, 54},
+		{"SetSSV", stats.V4Ops.SetSSV, 55},
+		{"TestStateID", stats.V4Ops.TestStateID, 56},
+		{"WantDelegation", stats.V4Ops.WantDelegation, 57},
+		{"DestroyClientID", stats.V4Ops.DestroyClientID, 58},
+		{"ReclaimComplete", stats.V4Ops.ReclaimComplete, 59},
+		{"Allocate", stats.V4Ops.Allocate, 60},
+		{"Copy", stats.V4Ops.Copy, 61},
+		{"CopyNotify", stats.V4Ops.CopyNotify, 62},
+		{"DeAllocate", stats.V4Ops.DeAllocate, 63},
+		{"IOAdvise", stats.V4Ops.IOAdvise, 64},
+		{"LayoutError", stats.V4Ops.LayoutError, 65},
+		{"LayoutStats", stats.V4Ops.LayoutStats, 66},
+		{"OffloadCancel", stats.V4Ops.OffloadCancel, 67},
+		{"OffloadStatus", stats.V4Ops.OffloadStatus, 68},
+		{"ReadPlus", stats.V4Ops.ReadPlus, 69},
+		{"Seek", stats.V4Ops.Seek, 70},
+		{"WriteSame", stats.V4Ops.WriteSame, 71},
+		{"Clone", stats.V4Ops.Clone, 72},
+		{"GetXattr", stats.V4Ops.GetXattr, 73},
+		{"SetXattr", stats.V4Ops.SetXattr, 74},
+		{"ListXattrs", stats.V4Ops.ListXattrs, 75},
+		{"RemoveXattr", stats.V4Ops.RemoveXattr, 76},
+	} {
+		if tt.got != tt.want {
+			t.Errorf("%s: got %d, want %d", tt.op, tt.got, tt.want)
+		}
 	}
 }

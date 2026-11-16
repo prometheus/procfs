@@ -71,36 +71,38 @@ type InfiniBandCounters struct {
 // /sys/class/infiniband/<Name>/ports/<Port>/hw_counters
 // for a single port of one InfiniBand device.
 type InfiniBandHwCounters struct {
-	DuplicateRequest        *uint64 // hw_counters/duplicate_request
-	ImpliedNakSeqErr        *uint64 // hw_counters/implied_nak_seq_err
-	Lifespan                *uint64 // hw_counters/lifespan
-	LocalAckTimeoutErr      *uint64 // hw_counters/local_ack_timeout_err
-	NpCnpSent               *uint64 // hw_counters/np_cnp_sent
-	NpEcnMarkedRocePackets  *uint64 // hw_counters/np_ecn_marked_roce_packets
-	OutOfBuffer             *uint64 // hw_counters/out_of_buffer
-	OutOfSequence           *uint64 // hw_counters/out_of_sequence
-	PacketSeqErr            *uint64 // hw_counters/packet_seq_err
-	ReqCqeError             *uint64 // hw_counters/req_cqe_error
-	ReqCqeFlushError        *uint64 // hw_counters/req_cqe_flush_error
-	ReqRemoteAccessErrors   *uint64 // hw_counters/req_remote_access_errors
-	ReqRemoteInvalidRequest *uint64 // hw_counters/req_remote_invalid_request
-	RespCqeError            *uint64 // hw_counters/resp_cqe_error
-	RespCqeFlushError       *uint64 // hw_counters/resp_cqe_flush_error
-	RespLocalLengthError    *uint64 // hw_counters/resp_local_length_error
-	RespRemoteAccessErrors  *uint64 // hw_counters/resp_remote_access_errors
-	RnrNakRetryErr          *uint64 // hw_counters/rnr_nak_retry_err
-	RoceAdpRetrans          *uint64 // hw_counters/roce_adp_retrans
-	RoceAdpRetransTo        *uint64 // hw_counters/roce_adp_retrans_to
-	RoceSlowRestart         *uint64 // hw_counters/roce_slow_restart
-	RoceSlowRestartCnps     *uint64 // hw_counters/roce_slow_restart_cnps
-	RoceSlowRestartTrans    *uint64 // hw_counters/roce_slow_restart_trans
-	RpCnpHandled            *uint64 // hw_counters/rp_cnp_handled
-	RpCnpIgnored            *uint64 // hw_counters/rp_cnp_ignored
-	RxAtomicRequests        *uint64 // hw_counters/rx_atomic_requests
-	RxDctConnect            *uint64 // hw_counters/rx_dct_connect
-	RxIcrcEncapsulated      *uint64 // hw_counters/rx_icrc_encapsulated
-	RxReadRequests          *uint64 // hw_counters/rx_read_requests
-	RxWriteRequests         *uint64 // hw_counters/rx_write_requests
+	DuplicateRequest            *uint64 // hw_counters/duplicate_request
+	ImpliedNakSeqErr            *uint64 // hw_counters/implied_nak_seq_err
+	Lifespan                    *uint64 // hw_counters/lifespan
+	LocalAckTimeoutErr          *uint64 // hw_counters/local_ack_timeout_err
+	NpCnpSent                   *uint64 // hw_counters/np_cnp_sent
+	NpEcnMarkedRocePackets      *uint64 // hw_counters/np_ecn_marked_roce_packets
+	OutOfBuffer                 *uint64 // hw_counters/out_of_buffer
+	OutOfSequence               *uint64 // hw_counters/out_of_sequence
+	PacketSeqErr                *uint64 // hw_counters/packet_seq_err
+	ReqCqeError                 *uint64 // hw_counters/req_cqe_error
+	ReqCqeFlushError            *uint64 // hw_counters/req_cqe_flush_error
+	ReqRemoteAccessErrors       *uint64 // hw_counters/req_remote_access_errors
+	ReqRemoteInvalidRequest     *uint64 // hw_counters/req_remote_invalid_request
+	ReqRnrRetriesExceeded       *uint64 // hw_counters/req_rnr_retries_exceeded
+	ReqTransportRetriesExceeded *uint64 // hw_counters/req_transport_retries_exceeded
+	RespCqeError                *uint64 // hw_counters/resp_cqe_error
+	RespCqeFlushError           *uint64 // hw_counters/resp_cqe_flush_error
+	RespLocalLengthError        *uint64 // hw_counters/resp_local_length_error
+	RespRemoteAccessErrors      *uint64 // hw_counters/resp_remote_access_errors
+	RnrNakRetryErr              *uint64 // hw_counters/rnr_nak_retry_err
+	RoceAdpRetrans              *uint64 // hw_counters/roce_adp_retrans
+	RoceAdpRetransTo            *uint64 // hw_counters/roce_adp_retrans_to
+	RoceSlowRestart             *uint64 // hw_counters/roce_slow_restart
+	RoceSlowRestartCnps         *uint64 // hw_counters/roce_slow_restart_cnps
+	RoceSlowRestartTrans        *uint64 // hw_counters/roce_slow_restart_trans
+	RpCnpHandled                *uint64 // hw_counters/rp_cnp_handled
+	RpCnpIgnored                *uint64 // hw_counters/rp_cnp_ignored
+	RxAtomicRequests            *uint64 // hw_counters/rx_atomic_requests
+	RxDctConnect                *uint64 // hw_counters/rx_dct_connect
+	RxIcrcEncapsulated          *uint64 // hw_counters/rx_icrc_encapsulated
+	RxReadRequests              *uint64 // hw_counters/rx_read_requests
+	RxWriteRequests             *uint64 // hw_counters/rx_write_requests
 }
 
 // InfiniBandPort contains info from files in
@@ -553,6 +555,10 @@ func parseInfiniBandHwCounters(portPath string) (*InfiniBandHwCounters, error) {
 			hwCounters.ReqRemoteAccessErrors = vp.PUInt64()
 		case "req_remote_invalid_request":
 			hwCounters.ReqRemoteInvalidRequest = vp.PUInt64()
+		case "req_rnr_retries_exceeded":
+			hwCounters.ReqRnrRetriesExceeded = vp.PUInt64()
+		case "req_transport_retries_exceeded":
+			hwCounters.ReqTransportRetriesExceeded = vp.PUInt64()
 		case "resp_cqe_error":
 			hwCounters.RespCqeError = vp.PUInt64()
 		case "resp_cqe_flush_error":

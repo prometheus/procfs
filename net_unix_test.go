@@ -14,6 +14,10 @@
 package procfs
 
 import (
+	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -51,6 +55,74 @@ func TestNetUnixNoInode(t *testing.T) {
 	}
 
 	testNetUNIX(t, noCheckInode, got)
+}
+
+func TestNetUnixPath(t *testing.T) {
+	for _, hasInode := range []bool{true, false} {
+		t.Run(fmt.Sprintf("inode=%t", hasInode), func(t *testing.T) {
+			for _, path := range []string{
+				"",
+				"/tmp/socket",
+				"/tmp/socket directory/socket name",
+				"/tmp/socket  name ",
+				"/tmp/socket\tname",
+				"/tmp/socket\u2003name",
+				" socket ",
+				"  ",
+				"00000002 0001",
+				"@abstract socket  name\t",
+			} {
+				t.Run(fmt.Sprintf("%q", path), func(t *testing.T) {
+					header := "Num RefCount Protocol Flags Type St"
+					line := "0000000000000000: 00000002 00000000 00010000 0001 01"
+					if hasInode {
+						header += " Inode"
+						line += " 10061"
+					}
+					if path != "" {
+						line += " " + path
+					}
+
+					got, err := parseNetUNIX(strings.NewReader(header + " Path\n" + line + "\n"))
+					if err != nil {
+						t.Fatalf("failed to parse UNIX socket data: %v", err)
+					}
+					if len(got.Rows) != 1 {
+						t.Fatalf("expected one UNIX socket, got %d", len(got.Rows))
+					}
+					if diff := cmp.Diff(path, got.Rows[0].Path); diff != "" {
+						t.Fatalf("unexpected UNIX socket path (-want +got):\n%s", diff)
+					}
+				})
+			}
+		})
+	}
+}
+
+func TestNetUnixPathFromFS(t *testing.T) {
+	root := t.TempDir()
+	if err := os.Mkdir(filepath.Join(root, "net"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	data := "Num RefCount Protocol Flags Type St Inode Path\n" +
+		"0000000000000000: 00000002 00000000 00010000 0001 01 10061 /tmp/socket  name\t \n"
+	if err := os.WriteFile(filepath.Join(root, "net", "unix"), []byte(data), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	fs, err := NewFS(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+	got, err := fs.NetUNIX()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got.Rows) != 1 {
+		t.Fatalf("expected one UNIX socket, got %d", len(got.Rows))
+	}
+	if diff := cmp.Diff("/tmp/socket  name\t ", got.Rows[0].Path); diff != "" {
+		t.Fatalf("unexpected UNIX socket path (-want +got):\n%s", diff)
+	}
 }
 
 func testNetUNIX(t *testing.T, testInode bool, got *NetUNIX) {

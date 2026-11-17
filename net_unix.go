@@ -171,16 +171,13 @@ func (u *NetUNIX) parseLine(line string, hasInode bool, minFields int) (*NetUNIX
 		Inode:     inode,
 	}
 
-	// Path field is optional.
-	if l > minFields {
-		// Path occurs at either index 6 or 7 depending on whether inode is
-		// already present.
-		pathIdx := 7
-		if !hasInode {
-			pathIdx--
-		}
-
-		n.Path = fields[pathIdx]
+	// The kernel separates the optional path from the numeric fields with one
+	// space. Preserve any whitespace within the path itself.
+	for _, field := range fields[:minFields] {
+		_, line, _ = strings.Cut(line, field)
+	}
+	if line != "" {
+		n.Path = line[1:]
 	}
 
 	return n, nil

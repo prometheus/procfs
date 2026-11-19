@@ -14,6 +14,8 @@
 package procfs
 
 import (
+	"fmt"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -102,5 +104,42 @@ IpExt: 12`
 	}
 	if pn.TCPPrequeued != nil {
 		t.Error("TCPPrequeued should be nil when the kernel does not report it")
+	}
+}
+
+// TestParseProcNetstatAllFields makes sure every field modelled in TcpExt and
+// IpExt is filled by the parser. A field added to a struct without a matching
+// case in parseProcNetstat would otherwise silently stay nil.
+func TestParseProcNetstatAllFields(t *testing.T) {
+	var payload strings.Builder
+	for _, s := range []any{TcpExt{}, IpExt{}} {
+		typ := reflect.TypeOf(s)
+		names, values := []string{typ.Name() + ":"}, []string{typ.Name() + ":"}
+		for i := 0; i < typ.NumField(); i++ {
+			names = append(names, typ.Field(i).Name)
+			values = append(values, fmt.Sprint(i+1))
+		}
+		fmt.Fprintf(&payload, "%s\n%s\n", strings.Join(names, " "), strings.Join(values, " "))
+	}
+
+	procNetstat, err := parseProcNetstat(strings.NewReader(payload.String()), "net/netstat")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, s := range []any{procNetstat.TcpExt, procNetstat.IpExt} {
+		v := reflect.ValueOf(s)
+		for i := 0; i < v.NumField(); i++ {
+			name := v.Type().Name() + ":" + v.Type().Field(i).Name
+			f, ok := v.Field(i).Interface().(*float64)
+			switch {
+			case !ok:
+				t.Errorf("%s: unexpected field type %s", name, v.Field(i).Type())
+			case f == nil:
+				t.Errorf("%s: not parsed", name)
+			case *f != float64(i+1):
+				t.Errorf("%s: want %d, have %f", name, i+1, *f)
+			}
+		}
 	}
 }

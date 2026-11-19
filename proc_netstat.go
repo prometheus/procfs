@@ -324,6 +324,44 @@ func parseProcNetstat(r io.Reader, fileName string) (ProcNetstat, error) {
 					procNetstat.TCPAbortOnData = &value
 				case "TCPAbortOnClose":
 					procNetstat.TCPAbortOnClose = &value
+				case "TCPAbortOnMemory":
+					procNetstat.TCPAbortOnMemory = &value
+				case "TCPAbortOnTimeout":
+					procNetstat.TCPAbortOnTimeout = &value
+				case "TCPAbortOnLinger":
+					procNetstat.TCPAbortOnLinger = &value
+				case "TCPAbortFailed":
+					procNetstat.TCPAbortFailed = &value
+				case "TCPMemoryPressures":
+					procNetstat.TCPMemoryPressures = &value
+				case "TCPMemoryPressuresChrono":
+					procNetstat.TCPMemoryPressuresChrono = &value
+				case "TCPSACKDiscard":
+					procNetstat.TCPSACKDiscard = &value
+				case "TCPDSACKIgnoredOld":
+					procNetstat.TCPDSACKIgnoredOld = &value
+				case "TCPDSACKIgnoredNoUndo":
+					procNetstat.TCPDSACKIgnoredNoUndo = &value
+				case "TCPSpuriousRTOs":
+					procNetstat.TCPSpuriousRTOs = &value
+				case "TCPMD5NotFound":
+					procNetstat.TCPMD5NotFound = &value
+				case "TCPMD5Unexpected":
+					procNetstat.TCPMD5Unexpected = &value
+				case "TCPMD5Failure":
+					procNetstat.TCPMD5Failure = &value
+				case "TCPSackShifted":
+					procNetstat.TCPSackShifted = &value
+				case "TCPSackMerged":
+					procNetstat.TCPSackMerged = &value
+				case "TCPSackShiftFallback":
+					procNetstat.TCPSackShiftFallback = &value
+				case "TCPBacklogDrop":
+					procNetstat.TCPBacklogDrop = &value
+				case "PFMemallocDrop":
+					procNetstat.PFMemallocDrop = &value
+				case "TCPMinTTLDrop":
+					procNetstat.TCPMinTTLDrop = &value
 				case "TCPDeferAcceptDrop":
 					procNetstat.TCPDeferAcceptDrop = &value
 				case "IPReversePathFilter":

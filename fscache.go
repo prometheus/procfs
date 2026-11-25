@@ -267,6 +267,13 @@ func parseFscacheinfo(r io.Reader) (*Fscacheinfo, error) {
 		}
 
 		switch fields[0] {
+		case "Allocs", "Stores", "Ops":
+			if len(fields) < 3 {
+				return nil, fmt.Errorf("%w: malformed Fscacheinfo line: %q", ErrFileParse, s.Text())
+			}
+		}
+
+		switch fields[0] {
 		case "Cookies:":
 			err := setFSCacheFields(fields[1:], &m.IndexCookiesAllocated, &m.DataStorageCookiesAllocated,
 				&m.SpecialCookiesAllocated)

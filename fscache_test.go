@@ -14,6 +14,7 @@
 package procfs
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -131,5 +132,19 @@ func TestFscacheinfo(t *testing.T) {
 
 	if diff := cmp.Diff(have, expected); diff != "" {
 		t.Fatalf("unexpected diff (-want +got):\n%s", diff)
+	}
+}
+
+func TestFscacheinfoShortLine(t *testing.T) {
+	for _, line := range []string{
+		"Allocs n=1",
+		"Stores n=1",
+		"Ops    pend=1",
+	} {
+		t.Run(line, func(t *testing.T) {
+			if _, err := parseFscacheinfo(strings.NewReader(line)); err == nil {
+				t.Errorf("expected an error for %q", line)
+			}
+		})
 	}
 }

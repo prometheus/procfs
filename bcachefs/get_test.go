@@ -29,6 +29,10 @@ func TestParseHumanReadableBytes(t *testing.T) {
 		{"1.5G", 1610612736},
 		{"112k", 114688},
 		{"405", 405},
+		{"452 MiB", 473956352},
+		{"1.5 GiB", 1610612736},
+		{"112KiB", 114688},
+		{"512 B", 512},
 	}
 
 	for _, tt := range tests {

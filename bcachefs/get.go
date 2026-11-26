@@ -178,6 +178,15 @@ func parseHumanReadableBytes(s string) (uint64, error) {
 		return 0, errors.New("empty string")
 	}
 
+	// The kernel also prints IEC suffixes, for example "452 MiB". Reduce them to
+	// the unit letter handled below.
+	if trimmed, ok := strings.CutSuffix(s, "B"); ok {
+		s = strings.TrimSuffix(trimmed, "i")
+	}
+	if s == "" {
+		return 0, errors.New("missing value")
+	}
+
 	multiplier := float64(1)
 	lastChar := s[len(s)-1]
 	switch lastChar {
